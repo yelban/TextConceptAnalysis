@@ -200,7 +200,8 @@
         </div>
 
         <div class="tabs">
-            <button class="tab active" data-tab="overview">系統架構總覽</button>
+            <button class="tab active" data-tab="business-flow">訪客通報系統</button>
+            <button class="tab" data-tab="overview">系統架構總覽</button>
             <button class="tab" data-tab="group-creation">建群流程</button>
             <button class="tab" data-tab="message-flow">訊息流程</button>
             <button class="tab" data-tab="decision-tree">回覆決策樹</button>
@@ -209,8 +210,383 @@
         </div>
 
         <div class="content">
+            <!-- 訪客通報系統 -->
+            <div id="business-flow" class="diagram-container active">
+                <h2 class="diagram-title">訪客通報系統：完整業務流程</h2>
+                <div class="diagram-description">
+                    <strong>實際應用場景：</strong>從訪客預約、自動建群、抵達通報、Owner 接待互動，到參訪結束的完整流程。
+                </div>
+
+                <svg viewBox="0 0 1400 2400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead-business" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#666" />
+                        </marker>
+                        <linearGradient id="stage-grad-1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:0.2" />
+                            <stop offset="100%" style="stop-color:#4CAF50;stop-opacity:0.05" />
+                        </linearGradient>
+                        <linearGradient id="stage-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#2196F3;stop-opacity:0.2" />
+                            <stop offset="100%" style="stop-color:#2196F3;stop-opacity:0.05" />
+                        </linearGradient>
+                        <linearGradient id="stage-grad-3" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#FF9800;stop-opacity:0.2" />
+                            <stop offset="100%" style="stop-color:#FF9800;stop-opacity:0.05" />
+                        </linearGradient>
+                        <linearGradient id="stage-grad-4" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#9C27B0;stop-opacity:0.2" />
+                            <stop offset="100%" style="stop-color:#9C27B0;stop-opacity:0.05" />
+                        </linearGradient>
+                        <linearGradient id="stage-grad-5" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#F44336;stop-opacity:0.2" />
+                            <stop offset="100%" style="stop-color:#F44336;stop-opacity:0.05" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- 階段 1：預約階段 -->
+                    <rect x="50" y="50" width="1300" height="480" rx="10" fill="url(#stage-grad-1)" stroke="#4CAF50" stroke-width="3"/>
+                    <text x="100" y="90" fill="#2E7D32" font-size="22" font-weight="bold">階段 1：訪客預約與建群（預約前 1-7 天）</text>
+
+                    <!-- 訪客填寫預約表單 -->
+                    <rect x="100" y="120" width="350" height="100" rx="10" fill="#4CAF50" class="node-rect"/>
+                    <text x="275" y="155" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👤 訪客填寫預約表單</text>
+                    <text x="275" y="178" text-anchor="middle" fill="white" font-size="12">方式 A：網頁表單（含 LINE Login）</text>
+                    <text x="275" y="195" text-anchor="middle" fill="white" font-size="12">方式 B：直接加 LINE 官方帳號</text>
+                    <text x="275" y="212" text-anchor="middle" fill="white" font-size="11">填寫：姓名、公司、預約時間、目的</text>
+
+                    <path d="M 450 170 L 550 170" class="arrow" marker-end="url(#arrowhead-business)"/>
+                    <text x="490" y="165" class="arrow-label">提交</text>
+
+                    <!-- 系統接收並處理 -->
+                    <rect x="550" y="120" width="350" height="100" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="725" y="155" text-anchor="middle" fill="white" font-size="16" font-weight="bold">⚙️ 系統接收並處理</text>
+                    <text x="725" y="178" text-anchor="middle" fill="white" font-size="12">• 儲存預約資訊到資料庫</text>
+                    <text x="725" y="195" text-anchor="middle" fill="white" font-size="12">• 產生預約編號</text>
+                    <text x="725" y="212" text-anchor="middle" fill="white" font-size="12">• 記錄訪客 LINE userId</text>
+
+                    <path d="M 900 170 L 1000 170" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 自動建立三方群組 -->
+                    <rect x="1000" y="120" width="300" height="100" rx="10" fill="#FF9800" class="node-rect"/>
+                    <text x="1150" y="155" text-anchor="middle" fill="white" font-size="16" font-weight="bold">🤖 RPA 自動建立群組</text>
+                    <text x="1150" y="178" text-anchor="middle" fill="white" font-size="12">建立三方群組：</text>
+                    <text x="1150" y="195" text-anchor="middle" fill="white" font-size="11">訪客 + 官方帳號 y + 個人帳號 x</text>
+                    <text x="1150" y="210" text-anchor="middle" fill="white" font-size="11">系統記錄 groupId</text>
+
+                    <path d="M 1150 220 L 1150 280" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 發送詳細確認訊息 -->
+                    <rect x="1000" y="280" width="300" height="140" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="1150" y="310" text-anchor="middle" fill="white" font-size="16" font-weight="bold">📨 群組內發送確認訊息</text>
+                    <text x="1150" y="333" text-anchor="middle" fill="white" font-size="12">官方帳號 y 發送完整資訊：</text>
+                    <text x="1150" y="350" text-anchor="middle" fill="white" font-size="11">「預約成功！編號 #12345」</text>
+                    <text x="1150" y="365" text-anchor="middle" fill="white" font-size="11">「預約時間：2025/10/10 14:00」</text>
+                    <text x="1150" y="380" text-anchor="middle" fill="white" font-size="11">「地點：台北市信義區○○路○號」</text>
+                    <text x="1150" y="395" text-anchor="middle" fill="white" font-size="11">「聯絡人：王先生 (02)1234-5678」</text>
+                    <text x="1150" y="410" text-anchor="middle" fill="white" font-size="11">+ Rich Menu（我已抵達、常見問題）</text>
+
+                    <!-- 通知內部人員 -->
+                    <rect x="550" y="280" width="350" height="100" rx="10" fill="#2196F3" class="node-rect"/>
+                    <text x="725" y="315" text-anchor="middle" fill="white" font-size="16" font-weight="bold">📢 通知 Owner</text>
+                    <text x="725" y="338" text-anchor="middle" fill="white" font-size="12">• LINE 訊息通知接待人員</text>
+                    <text x="725" y="355" text-anchor="middle" fill="white" font-size="12">• 寫入 Google Calendar</text>
+                    <text x="725" y="372" text-anchor="middle" fill="white" font-size="11">• Slack 頻道通知（optional）</text>
+
+                    <path d="M 725 220 L 725 280" class="arrow" marker-end="url(#arrowhead-business)"/>
+                    <path d="M 900 330 L 1000 330" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 時間標註 -->
+                    <rect x="100" y="300" width="140" height="60" rx="5" fill="#C8E6C9" stroke="#4CAF50" stroke-width="2"/>
+                    <text x="170" y="325" text-anchor="middle" fill="#2E7D32" font-size="11" font-weight="bold">⏱️ 約 10-20 秒</text>
+                    <text x="170" y="343" text-anchor="middle" fill="#2E7D32" font-size="10">包含 RPA 建群</text>
+                    <text x="170" y="358" text-anchor="middle" fill="#2E7D32" font-size="10">全自動處理</text>
+
+                    <!-- 群組建立成功標記 -->
+                    <rect x="100" y="440" width="1200" height="60" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
+                    <text x="700" y="465" text-anchor="middle" fill="#2E7D32" font-size="14" font-weight="bold">✅ 三方群組建立完成，訪客已收到完整預約資訊與地點</text>
+                    <text x="700" y="485" text-anchor="middle" fill="#333" font-size="11">訪客可在群組內隨時查看 Rich Menu，參訪當天點擊「我已抵達」按鈕通知 Owner</text>
+
+                    <!-- 階段 2：抵達通報 -->
+                    <rect x="50" y="570" width="1300" height="420" rx="10" fill="url(#stage-grad-2)" stroke="#2196F3" stroke-width="3"/>
+                    <text x="100" y="610" fill="#1565C0" font-size="22" font-weight="bold">階段 2：訪客抵達通報（D-Day 當天）</text>
+
+                    <!-- 訪客抵達 -->
+                    <rect x="100" y="640" width="350" height="120" rx="10" fill="#4CAF50" class="node-rect"/>
+                    <text x="275" y="680" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👤 訪客抵達公司門口</text>
+                    <text x="275" y="703" text-anchor="middle" fill="white" font-size="12">訪客開啟 LINE 群組</text>
+                    <text x="275" y="720" text-anchor="middle" fill="white" font-size="12">點擊 Rich Menu 按鈕：</text>
+                    <text x="275" y="737" text-anchor="middle" fill="white" font-size="14" font-weight="bold">「我已抵達」</text>
+                    <text x="275" y="752" text-anchor="middle" fill="white" font-size="11">（點擊後觸發 postback event）</text>
+
+                    <path d="M 450 700 L 550 700" class="arrow" marker-end="url(#arrowhead-business)"/>
+                    <text x="490" y="695" class="arrow-label">點擊</text>
+
+                    <!-- 系統接收通知 -->
+                    <rect x="550" y="640" width="350" height="120" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="725" y="680" text-anchor="middle" fill="white" font-size="16" font-weight="bold">⚙️ 系統接收 postback</text>
+                    <text x="725" y="703" text-anchor="middle" fill="white" font-size="12">• webhook 接收「已抵達」事件</text>
+                    <text x="725" y="720" text-anchor="middle" fill="white" font-size="12">• 查詢預約資訊</text>
+                    <text x="725" y="737" text-anchor="middle" fill="white" font-size="12">• 更新資料庫狀態：arrived</text>
+                    <text x="725" y="752" text-anchor="middle" fill="white" font-size="11">• 記錄抵達時間</text>
+
+                    <path d="M 900 700 L 1000 700" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 通知 Owner -->
+                    <rect x="1000" y="640" width="300" height="120" rx="10" fill="#2196F3" class="node-rect"/>
+                    <text x="1150" y="680" text-anchor="middle" fill="white" font-size="16" font-weight="bold">📢 通知 Owner</text>
+                    <text x="1150" y="703" text-anchor="middle" fill="white" font-size="12">個人帳號 x 自動發送：</text>
+                    <text x="1150" y="720" text-anchor="middle" fill="white" font-size="11">「訪客 XXX 已抵達門口」</text>
+                    <text x="1150" y="735" text-anchor="middle" fill="white" font-size="11">「預約時間：14:00（準時）」</text>
+                    <text x="1150" y="750" text-anchor="middle" fill="white" font-size="11">+ LINE 推播通知（震動提醒）</text>
+
+                    <!-- 官方帳號回覆訪客 -->
+                    <rect x="550" y="800" width="350" height="100" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="725" y="835" text-anchor="middle" fill="white" font-size="16" font-weight="bold">🤖 官方帳號回覆訪客</text>
+                    <text x="725" y="858" text-anchor="middle" fill="white" font-size="12">在群組自動發送：</text>
+                    <text x="725" y="875" text-anchor="middle" fill="white" font-size="11">「已收到！接待人員將馬上下樓」</text>
+                    <text x="725" y="890" text-anchor="middle" fill="white" font-size="11">「請在門口稍候片刻」</text>
+
+                    <path d="M 725 760 L 725 800" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 時間標註 -->
+                    <rect x="100" y="800" width="140" height="60" rx="5" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+                    <text x="170" y="825" text-anchor="middle" fill="#1565C0" font-size="11" font-weight="bold">⏱️ 即時通知</text>
+                    <text x="170" y="843" text-anchor="middle" fill="#1565C0" font-size="10">約 1-2 秒</text>
+                    <text x="170" y="858" text-anchor="middle" fill="#1565C0" font-size="10">Owner 立即收到</text>
+
+                    <!-- 階段完成標記 -->
+                    <rect x="100" y="930" width="1200" height="50" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+                    <text x="700" y="960" text-anchor="middle" fill="#1565C0" font-size="14" font-weight="bold">✅ Owner 已收到通知，準備下樓開門接待訪客</text>
+
+                    <!-- 階段 3：接待與互動 -->
+                    <rect x="50" y="1030" width="1300" height="620" rx="10" fill="url(#stage-grad-3)" stroke="#FF9800" stroke-width="3"/>
+                    <text x="100" y="1070" fill="#E65100" font-size="22" font-weight="bold">階段 3：Owner 接待與參訪互動（1-2 小時）</text>
+
+                    <!-- Owner 下樓 -->
+                    <rect x="100" y="1100" width="350" height="100" rx="10" fill="#2196F3" class="node-rect"/>
+                    <text x="275" y="1135" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👨‍💼 Owner 下樓開門</text>
+                    <text x="275" y="1158" text-anchor="middle" fill="white" font-size="12">接待人員收到通知後</text>
+                    <text x="275" y="1175" text-anchor="middle" fill="white" font-size="12">立即前往門口</text>
+                    <text x="275" y="1192" text-anchor="middle" fill="white" font-size="11">迎接訪客並開門</text>
+
+                    <path d="M 450 1150 L 550 1150" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- Owner 打招呼 -->
+                    <rect x="550" y="1100" width="350" height="100" rx="10" fill="#2196F3" class="node-rect"/>
+                    <text x="725" y="1135" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👨‍💼 個人帳號 x 發送</text>
+                    <text x="725" y="1158" text-anchor="middle" fill="white" font-size="12">（透過 RPA 在群組發送）</text>
+                    <text x="725" y="1175" text-anchor="middle" fill="white" font-size="11">「您好，我是 Owner 小明」</text>
+                    <text x="725" y="1192" text-anchor="middle" fill="white" font-size="11">「現在帶您參觀公司」</text>
+
+                    <path d="M 900 1150 L 1000 1150" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 開始參訪 -->
+                    <rect x="1000" y="1100" width="300" height="100" rx="10" fill="#4CAF50" class="node-rect"/>
+                    <text x="1150" y="1135" text-anchor="middle" fill="white" font-size="16" font-weight="bold">🏢 開始參訪行程</text>
+                    <text x="1150" y="1158" text-anchor="middle" fill="white" font-size="12">Owner 帶領訪客</text>
+                    <text x="1150" y="1175" text-anchor="middle" fill="white" font-size="12">參觀公司環境</text>
+                    <text x="1150" y="1192" text-anchor="middle" fill="white" font-size="11">進行業務洽談</text>
+
+                    <path d="M 1150 1200 L 1150 1260" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 互動情境 -->
+                    <rect x="550" y="1260" width="700" height="360" rx="10" fill="#FFF3E0" stroke="#FF9800" stroke-width="2"/>
+                    <text x="900" y="1295" text-anchor="middle" fill="#E65100" font-size="16" font-weight="bold">💬 參訪期間的群組互動場景</text>
+
+                    <!-- 場景 1 -->
+                    <rect x="580" y="1315" width="300" height="80" rx="8" fill="#FFB74D" class="node-rect"/>
+                    <text x="730" y="1343" text-anchor="middle" fill="white" font-size="13" font-weight="bold">場景 1：訪客詢問 WiFi</text>
+                    <text x="730" y="1363" text-anchor="middle" fill="white" font-size="11">訪客：「請問 WiFi 密碼？」</text>
+                    <text x="730" y="1380" text-anchor="middle" fill="white" font-size="11">→ 官方帳號自動回覆（FAQ）</text>
+
+                    <!-- 場景 2 -->
+                    <rect x="920" y="1315" width="300" height="80" rx="8" fill="#FFB74D" class="node-rect"/>
+                    <text x="1070" y="1343" text-anchor="middle" fill="white" font-size="13" font-weight="bold">場景 2：需要更多資料</text>
+                    <text x="1070" y="1363" text-anchor="middle" fill="white" font-size="11">訪客：「可以給我產品規格書嗎？」</text>
+                    <text x="1070" y="1380" text-anchor="middle" fill="white" font-size="11">→ Owner 用個人帳號 x 回覆</text>
+
+                    <!-- 場景 3 -->
+                    <rect x="580" y="1415" width="300" height="80" rx="8" fill="#FFB74D" class="node-rect"/>
+                    <text x="730" y="1443" text-anchor="middle" fill="white" font-size="13" font-weight="bold">場景 3：臨時需求</text>
+                    <text x="730" y="1463" text-anchor="middle" fill="white" font-size="11">訪客：「想延長參訪 30 分鐘」</text>
+                    <text x="730" y="1480" text-anchor="middle" fill="white" font-size="11">→ Owner 個人帳號確認</text>
+
+                    <!-- 場景 4 -->
+                    <rect x="920" y="1415" width="300" height="80" rx="8" fill="#FFB74D" class="node-rect"/>
+                    <text x="1070" y="1443" text-anchor="middle" fill="white" font-size="13" font-weight="bold">場景 4：互動功能</text>
+                    <text x="1070" y="1463" text-anchor="middle" fill="white" font-size="11">訪客點擊 Rich Menu「預約試用」</text>
+                    <text x="1070" y="1480" text-anchor="middle" fill="white" font-size="11">→ 官方帳號發送表單</text>
+
+                    <!-- 訊息頻率標註 -->
+                    <rect x="580" y="1510" width="640" height="80" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
+                    <text x="900" y="1540" text-anchor="middle" fill="#2E7D32" font-size="13" font-weight="bold">📊 預期訊息頻率（低頻發送）</text>
+                    <text x="900" y="1560" text-anchor="middle" fill="#333" font-size="11">參訪期間 1-2 小時，預期總訊息數：3-8 則</text>
+                    <text x="900" y="1577" text-anchor="middle" fill="#333" font-size="11">每群每小時 &lt; 5 則，符合低頻場景設計</text>
+
+                    <!-- 時間標註 -->
+                    <rect x="100" y="1400" width="140" height="60" rx="5" fill="#FFE0B2" stroke="#FF9800" stroke-width="2"/>
+                    <text x="170" y="1425" text-anchor="middle" fill="#E65100" font-size="11" font-weight="bold">⏱️ 1-2 小時</text>
+                    <text x="170" y="1443" text-anchor="middle" fill="#E65100" font-size="10">完整參訪</text>
+                    <text x="170" y="1458" text-anchor="middle" fill="#E65100" font-size="10">低頻互動</text>
+
+                    <!-- 階段 4：參訪結束 -->
+                    <rect x="50" y="1690" width="1300" height="380" rx="10" fill="url(#stage-grad-4)" stroke="#9C27B0" stroke-width="3"/>
+                    <text x="100" y="1730" fill="#6A1B9A" font-size="22" font-weight="bold">階段 4：參訪結束與後續追蹤</text>
+
+                    <!-- 訪客離開 -->
+                    <rect x="100" y="1760" width="300" height="80" rx="10" fill="#4CAF50" class="node-rect"/>
+                    <text x="250" y="1790" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👋 訪客離開</text>
+                    <text x="250" y="1813" text-anchor="middle" fill="white" font-size="12">Owner 送訪客離開</text>
+                    <text x="250" y="1830" text-anchor="middle" fill="white" font-size="11">或訪客自行離開後告知</text>
+
+                    <path d="M 400 1800 L 500 1800" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 系統標記結束 -->
+                    <rect x="500" y="1760" width="300" height="80" rx="10" fill="#9C27B0" class="node-rect"/>
+                    <text x="650" y="1790" text-anchor="middle" fill="white" font-size="16" font-weight="bold">⚙️ 系統標記結束</text>
+                    <text x="650" y="1813" text-anchor="middle" fill="white" font-size="12">• 更新資料庫狀態</text>
+                    <text x="650" y="1830" text-anchor="middle" fill="white" font-size="11">visit_status: completed</text>
+
+                    <path d="M 800 1800 L 900 1800" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 自動發送感謝訊息 -->
+                    <rect x="900" y="1760" width="350" height="80" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="1075" y="1790" text-anchor="middle" fill="white" font-size="16" font-weight="bold">📨 自動發送感謝訊息</text>
+                    <text x="1075" y="1813" text-anchor="middle" fill="white" font-size="12">官方帳號在群組發送：</text>
+                    <text x="1075" y="1830" text-anchor="middle" fill="white" font-size="11">「感謝您的來訪！」+ 滿意度調查</text>
+
+                    <!-- 判斷：是否需要追蹤 -->
+                    <polygon points="650,1870 770,1930 650,1990 530,1930" fill="#FF9800" class="decision-diamond"/>
+                    <text x="650" y="1925" text-anchor="middle" fill="white" font-size="14" font-weight="bold">需要</text>
+                    <text x="650" y="1945" text-anchor="middle" fill="white" font-size="14" font-weight="bold">追蹤？</text>
+
+                    <path d="M 650 1870 L 650 1800" class="arrow" marker-end="url(#arrowhead-business)"/>
+
+                    <!-- 是：後續追蹤 -->
+                    <path d="M 770 1930 L 900 1930" class="arrow" marker-end="url(#arrowhead-business)"/>
+                    <text x="820" y="1925" class="arrow-label">是</text>
+
+                    <rect x="900" y="1890" width="350" height="100" rx="10" fill="#2196F3" class="node-rect"/>
+                    <text x="1075" y="1925" text-anchor="middle" fill="white" font-size="15" font-weight="bold">📅 安排後續追蹤</text>
+                    <text x="1075" y="1948" text-anchor="middle" fill="white" font-size="12">• 3 天後發送 follow-up 訊息</text>
+                    <text x="1075" y="1965" text-anchor="middle" fill="white" font-size="12">• 業務人員接手聯繫</text>
+                    <text x="1075" y="1982" text-anchor="middle" fill="white" font-size="11">• 記錄到 CRM 系統</text>
+
+                    <!-- 否：歸檔 -->
+                    <path d="M 530 1930 L 350 1930" class="arrow" marker-end="url(#arrowhead-business)"/>
+                    <text x="420" y="1925" class="arrow-label">否</text>
+
+                    <rect x="100" y="1890" width="250" height="100" rx="10" fill="#607D8B" class="node-rect"/>
+                    <text x="225" y="1925" text-anchor="middle" fill="white" font-size="15" font-weight="bold">📦 歸檔處理</text>
+                    <text x="225" y="1948" text-anchor="middle" fill="white" font-size="12">• 群組設為「已結束」</text>
+                    <text x="225" y="1965" text-anchor="middle" fill="white" font-size="12">• 對話記錄保存</text>
+                    <text x="225" y="1982" text-anchor="middle" fill="white" font-size="11">• 可供日後查詢</text>
+
+                    <!-- 保留群組說明 -->
+                    <rect x="100" y="2020" width="1150" height="50" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
+                    <text x="675" y="2050" text-anchor="middle" fill="#2E7D32" font-size="12" font-weight="bold">
+                        💡 群組保留策略：重要客戶保留群組（方便日後聯繫）｜一次性訪客可讓訪客離開群組（降低管理成本）
+                    </text>
+
+                    <!-- 階段 5：長期維護 -->
+                    <rect x="50" y="2110" width="1300" height="280" rx="10" fill="url(#stage-grad-5)" stroke="#F44336" stroke-width="3"/>
+                    <text x="100" y="2150" fill="#C62828" font-size="22" font-weight="bold">階段 5：系統監控與維護（持續運作）</text>
+
+                    <!-- 監控項目 -->
+                    <rect x="100" y="2180" width="380" height="180" rx="10" fill="#F44336" class="node-rect"/>
+                    <text x="290" y="2215" text-anchor="middle" fill="white" font-size="16" font-weight="bold">📊 關鍵監控指標</text>
+                    <text x="290" y="2240" text-anchor="middle" fill="white" font-size="12">每 5 分鐘自動檢查：</text>
+                    <text x="150" y="2270" fill="white" font-size="11">
+                        <tspan x="150" dy="0">• RPA 成功率（目標 > 70%）</tspan>
+                        <tspan x="150" dy="20">• 群組建立成功率</tspan>
+                        <tspan x="150" dy="20">• 訊息發送失敗數</tspan>
+                        <tspan x="150" dy="20">• API 回應時間</tspan>
+                        <tspan x="150" dy="20">• 資料庫連線狀態</tspan>
+                    </text>
+
+                    <!-- 告警機制 -->
+                    <rect x="520" y="2180" width="380" height="180" rx="10" fill="#FF5722" class="node-rect"/>
+                    <text x="710" y="2215" text-anchor="middle" fill="white" font-size="16" font-weight="bold">🚨 自動告警機制</text>
+                    <text x="710" y="2240" text-anchor="middle" fill="white" font-size="12">觸發告警條件：</text>
+                    <text x="570" y="2270" fill="white" font-size="11">
+                        <tspan x="570" dy="0">• RPA 成功率 &lt; 50%（10 分鐘內）</tspan>
+                        <tspan x="570" dy="20">• 連續 3 次建群失敗</tspan>
+                        <tspan x="570" dy="20">• API 錯誤率 > 10%</tspan>
+                        <tspan x="570" dy="20">• 訪客「已抵達」通知未送達</tspan>
+                        <tspan x="570" dy="20">• LINE 帳號登入狀態異常</tspan>
+                    </text>
+
+                    <!-- 人工介入 -->
+                    <rect x="940" y="2180" width="360" height="180" rx="10" fill="#9C27B0" class="node-rect"/>
+                    <text x="1120" y="2215" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👨‍🔧 人工介入時機</text>
+                    <text x="990" y="2245" fill="white" font-size="11">
+                        <tspan x="990" dy="0">• 系統告警後 5 分鐘未恢復</tspan>
+                        <tspan x="990" dy="20">• 重要訪客（VIP）抵達</tspan>
+                        <tspan x="990" dy="20">• 建群失敗需要手動處理</tspan>
+                        <tspan x="990" dy="20">• 訪客反映系統問題</tspan>
+                        <tspan x="990" dy="20">• RPA 連續失敗需要重啟</tspan>
+                        <tspan x="990" dy="20">• Owner 未收到抵達通知</tspan>
+                    </text>
+
+                    <!-- 整體時間軸 -->
+                    <rect x="50" y="2420" width="1300" height="30" rx="5" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+                    <text x="700" y="2442" text-anchor="middle" fill="#1565C0" font-size="13" font-weight="bold">
+                        ⏱️ 完整流程時間軸：預約（D-7 至 D-1）→ 抵達（D-Day, 1-2 秒）→ Owner 接待（即時）→ 參訪（1-2 小時）→ 結束（即時）→ 追蹤（D+3）
+                    </text>
+                </svg>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #4CAF50;"></div>
+                        <span>訪客操作</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #2196F3;"></div>
+                        <span>Owner 操作</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #00B900;"></div>
+                        <span>官方帳號自動化</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #FF9800;"></div>
+                        <span>系統處理 / RPA</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #F44336;"></div>
+                        <span>監控與告警</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #9C27B0;"></div>
+                        <span>後續處理</span>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <strong>🎯 訪客通報系統關鍵特色：</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li><strong>預約時自動建群：</strong>訪客填表單後，RPA 自動建立三方群組（訪客 + 官方帳號 y + 個人帳號 x）</li>
+                        <li><strong>訪客自助通報：</strong>抵達門口後，訪客自己點擊 Rich Menu「我已抵達」按鈕</li>
+                        <li><strong>即時通知 Owner：</strong>系統立即通知接待人員，Owner 下樓開門</li>
+                        <li><strong>低頻互動設計：</strong>參訪期間 1-2 小時，預期總訊息數 3-8 則，每群每小時 < 5 則</li>
+                        <li><strong>混合發送策略：</strong>官方帳號提供互動功能，個人帳號增加人味對話</li>
+                    </ul>
+                </div>
+
+                <div class="note" style="background: #E8F5E9; border-color: #4CAF50; margin-top: 20px;">
+                    <strong style="color: #2E7D32;">✅ 系統優勢總結</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px; color: #2E7D32;">
+                        <li>完全自動化：從預約到建群到通知，無需人工介入</li>
+                        <li>訪客體驗佳：自助式通報，不需要在門口等櫃台</li>
+                        <li>Owner 即時收到通知：不會錯過任何訪客</li>
+                        <li>三方群組保留完整對話記錄，方便日後查詢</li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- 系統架構總覽 -->
-            <div id="overview" class="diagram-container active">
+            <div id="overview" class="diagram-container">
                 <h2 class="diagram-title">系統架構總覽</h2>
                 <div class="diagram-description">
                     <strong>核心概念：</strong>結合 LINE 官方帳號（互動功能）+ 個人帳號（人味對話）+ RPA 自動化，打造三方群組通報系統。
@@ -549,7 +925,7 @@
                     <strong>核心邏輯：</strong>訪客在群組發訊息後，系統自動判斷該用哪個帳號回覆（官方帳號 y 或個人帳號 x），並執行對應的發送流程。
                 </div>
 
-                <svg viewBox="0 0 1100 1600" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 1300 1600" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <marker id="arrowhead3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
                             <polygon points="0 0, 10 3, 0 6" fill="#666" />
