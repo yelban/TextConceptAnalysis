@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE 訪客通報系統 - 完整架構與流程圖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00B900 0%, #00D300 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 3px solid #00B900;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -3px;
+        }
+
+        .tab:hover {
+            background: #e8e8e8;
+            color: #00B900;
+        }
+
+        .tab.active {
+            color: #00B900;
+            background: white;
+            border-bottom-color: #00B900;
+        }
+
+        .content {
+            padding: 30px;
+            min-height: 800px;
+        }
+
+        .diagram-container {
+            display: none;
+        }
+
+        .diagram-container.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .diagram-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00B900;
+        }
+
+        .diagram-description {
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #00B900;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-box {
+            width: 30px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .note {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .note strong {
+            color: #856404;
+        }
+
+        /* SVG 樣式 */
+        .node-rect {
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .node-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .arrow {
+            stroke: #666;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        .arrow-label {
+            font-size: 12px;
+            fill: #666;
+        }
+
+        .decision-diamond {
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .tab {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            .content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 LINE 訊息通報系統完整架構</h1>
+            <p>三方群組模式 | 低頻發送場景（每群每小時 < 5 則）</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="overview">系統架構總覽</button>
+            <button class="tab" data-tab="group-creation">建群流程</button>
+            <button class="tab" data-tab="message-flow">訊息流程</button>
+            <button class="tab" data-tab="decision-tree">回覆決策樹</button>
+            <button class="tab" data-tab="rpa-flow">RPA 執行流程</button>
+            <button class="tab" data-tab="tech-stack">技術堆疊</button>
+        </div>
+
+        <div class="content">
+            <!-- 系統架構總覽 -->
+            <div id="overview" class="diagram-container active">
+                <h2 class="diagram-title">系統架構總覽</h2>
+                <div class="diagram-description">
+                    <strong>核心概念：</strong>結合 LINE 官方帳號（互動功能）+ 個人帳號（人味對話）+ RPA 自動化，打造三方群組通報系統。
+                </div>
+
+                <svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#666" />
+                        </marker>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00B900;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00D300;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- 訪客層 -->
+                    <g id="visitor-layer">
+                        <rect x="50" y="50" width="200" height="100" rx="10" fill="#4CAF50" class="node-rect"/>
+                        <text x="150" y="95" text-anchor="middle" fill="white" class="node-text">👤 訪客</text>
+                        <text x="150" y="115" text-anchor="middle" fill="white" font-size="12">LINE 一般用戶</text>
+                    </g>
+
+                    <!-- LINE 平台層 -->
+                    <g id="line-platform">
+                        <rect x="350" y="30" width="500" height="140" rx="10" fill="url(#grad2)" opacity="0.1" stroke="#00B900" stroke-width="2"/>
+                        <text x="600" y="55" text-anchor="middle" fill="#00B900" font-size="16" font-weight="bold">LINE 平台</text>
+                        
+                        <!-- 三方群組 -->
+                        <rect x="400" y="80" width="400" height="70" rx="8" fill="white" stroke="#00B900" stroke-width="2" class="node-rect"/>
+                        <text x="600" y="110" text-anchor="middle" fill="#333" class="node-text">三方群組聊天室</text>
+                        <text x="600" y="130" text-anchor="middle" fill="#666" font-size="11">訪客 + 官方帳號 y + 個人帳號 x</text>
+                    </g>
+
+                    <!-- 箭頭：訪客 -> 群組 -->
+                    <path d="M 250 100 L 400 115" class="arrow"/>
+                    <text x="310" y="100" class="arrow-label">加入群組</text>
+
+                    <!-- 官方帳號 y -->
+                    <g id="official-account">
+                        <rect x="370" y="220" width="180" height="80" rx="10" fill="#00B900" class="node-rect"/>
+                        <text x="460" y="250" text-anchor="middle" fill="white" class="node-text">🏢 LINE 官方帳號 y</text>
+                        <text x="460" y="270" text-anchor="middle" fill="white" font-size="11">Message API</text>
+                        <text x="460" y="285" text-anchor="middle" fill="white" font-size="11">Webhook 接收</text>
+                    </g>
+
+                    <!-- 箭頭：群組 <-> 官方帳號 -->
+                    <path d="M 550 150 L 500 220" class="arrow"/>
+                    <path d="M 480 220 L 530 150" class="arrow"/>
+                    <text x="510" y="185" class="arrow-label">webhook</text>
+
+                    <!-- 個人帳號 x -->
+                    <g id="personal-account">
+                        <rect x="670" y="220" width="180" height="80" rx="10" fill="#2196F3" class="node-rect"/>
+                        <text x="760" y="250" text-anchor="middle" fill="white" class="node-text">👨‍💼 個人帳號 x</text>
+                        <text x="760" y="270" text-anchor="middle" fill="white" font-size="11">透過 RPA 控制</text>
+                        <text x="760" y="285" text-anchor="middle" fill="white" font-size="11">LINE 桌面版</text>
+                    </g>
+
+                    <!-- 箭頭：群組 <-> 個人帳號 -->
+                    <path d="M 650 150 L 720 220" class="arrow"/>
+                    <path d="M 740 220 L 670 150" class="arrow"/>
+                    <text x="680" y="185" class="arrow-label">RPA 發訊</text>
+
+                    <!-- n8n 工作流程引擎 -->
+                    <g id="n8n-engine">
+                        <rect x="50" y="350" width="250" height="100" rx="10" fill="#EA4B71" class="node-rect"/>
+                        <text x="175" y="390" text-anchor="middle" fill="white" font-size="18" font-weight="bold">n8n 工作流程</text>
+                        <text x="175" y="410" text-anchor="middle" fill="white" font-size="12">自動化編排引擎</text>
+                        <text x="175" y="430" text-anchor="middle" fill="white" font-size="11">• Webhook 接收</text>
+                    </g>
+
+                    <!-- 箭頭：官方帳號 -> n8n -->
+                    <path d="M 400 280 L 250 360" class="arrow"/>
+                    <text x="310" y="310" class="arrow-label">webhook events</text>
+
+                    <!-- 後端 API -->
+                    <g id="backend-api">
+                        <rect x="350" y="350" width="250" height="100" rx="10" fill="#9C27B0" class="node-rect"/>
+                        <text x="475" y="390" text-anchor="middle" fill="white" font-size="18" font-weight="bold">後端 API</text>
+                        <text x="475" y="410" text-anchor="middle" fill="white" font-size="12">Node.js / Python</text>
+                        <text x="475" y="430" text-anchor="middle" fill="white" font-size="11">• 業務邏輯處理</text>
+                    </g>
+
+                    <!-- 箭頭：n8n <-> 後端 -->
+                    <path d="M 300 400 L 350 400" class="arrow"/>
+                    <path d="M 350 410 L 300 410" class="arrow"/>
+
+                    <!-- RPA 控制器 -->
+                    <g id="rpa-controller">
+                        <rect x="650" y="350" width="250" height="100" rx="10" fill="#FF9800" class="node-rect"/>
+                        <text x="775" y="390" text-anchor="middle" fill="white" font-size="18" font-weight="bold">RPA 控制器</text>
+                        <text x="775" y="410" text-anchor="middle" fill="white" font-size="12">UiPath / AutoHotkey</text>
+                        <text x="775" y="430" text-anchor="middle" fill="white" font-size="11">• 控制 LINE 桌面版</text>
+                    </g>
+
+                    <!-- 箭頭：個人帳號 <-> RPA -->
+                    <path d="M 760 300 L 760 350" class="arrow"/>
+                    <path d="M 770 350 L 770 300" class="arrow"/>
+
+                    <!-- 箭頭：後端 -> RPA -->
+                    <path d="M 600 380 L 650 380" class="arrow"/>
+                    <text x="620" y="375" class="arrow-label">trigger</text>
+
+                    <!-- 資料庫 -->
+                    <g id="database">
+                        <rect x="50" y="500" width="250" height="120" rx="10" fill="#607D8B" class="node-rect"/>
+                        <text x="175" y="540" text-anchor="middle" fill="white" font-size="18" font-weight="bold">📊 PostgreSQL</text>
+                        <text x="175" y="565" text-anchor="middle" fill="white" font-size="11">• 訪客資訊</text>
+                        <text x="175" y="582" text-anchor="middle" fill="white" font-size="11">• 群組記錄 (groupId)</text>
+                        <text x="175" y="599" text-anchor="middle" fill="white" font-size="11">• 對話歷史</text>
+                    </g>
+
+                    <!-- 箭頭：n8n <-> 資料庫 -->
+                    <path d="M 175 450 L 175 500" class="arrow"/>
+                    <path d="M 185 500 L 185 450" class="arrow"/>
+
+                    <!-- 箭頭：後端 <-> 資料庫 -->
+                    <path d="M 350 420 L 270 510" class="arrow"/>
+                    <path d="M 280 520 L 360 430" class="arrow"/>
+
+                    <!-- 客服後台 -->
+                    <g id="admin-panel">
+                        <rect x="350" y="500" width="250" height="120" rx="10" fill="#3F51B5" class="node-rect"/>
+                        <text x="475" y="540" text-anchor="middle" fill="white" font-size="18" font-weight="bold">👨‍💻 客服後台</text>
+                        <text x="475" y="565" text-anchor="middle" fill="white" font-size="11">• 查看對話</text>
+                        <text x="475" y="582" text-anchor="middle" fill="white" font-size="11">• 手動回覆</text>
+                        <text x="475" y="599" text-anchor="middle" fill="white" font-size="11">• 監控狀態</text>
+                    </g>
+
+                    <!-- 箭頭：後端 <-> 客服後台 -->
+                    <path d="M 475 450 L 475 500" class="arrow"/>
+                    <path d="M 485 500 L 485 450" class="arrow"/>
+
+                    <!-- 監控系統 -->
+                    <g id="monitoring">
+                        <rect x="650" y="500" width="250" height="120" rx="10" fill="#F44336" class="node-rect"/>
+                        <text x="775" y="540" text-anchor="middle" fill="white" font-size="18" font-weight="bold">📈 監控與告警</text>
+                        <text x="775" y="565" text-anchor="middle" fill="white" font-size="11">• RPA 成功率</text>
+                        <text x="775" y="582" text-anchor="middle" fill="white" font-size="11">• 訊息發送狀態</text>
+                        <text x="775" y="599" text-anchor="middle" fill="white" font-size="11">• 成本追蹤</text>
+                    </g>
+
+                    <!-- 箭頭：RPA -> 監控 -->
+                    <path d="M 775 450 L 775 500" class="arrow"/>
+
+                    <!-- 箭頭：後端 -> 監控 -->
+                    <path d="M 600 440 L 700 510" class="arrow"/>
+
+                    <!-- 外部服務 -->
+                    <g id="external-services">
+                        <rect x="950" y="350" width="200" height="270" rx="10" fill="#f5f5f5" stroke="#999" stroke-width="2" class="node-rect"/>
+                        <text x="1050" y="380" text-anchor="middle" fill="#333" font-size="16" font-weight="bold">外部服務</text>
+                        
+                        <rect x="970" y="400" width="160" height="50" rx="5" fill="#00897B"/>
+                        <text x="1050" y="430" text-anchor="middle" fill="white" font-size="13">Email / Slack</text>
+                        
+                        <rect x="970" y="465" width="160" height="50" rx="5" fill="#7CB342"/>
+                        <text x="1050" y="495" text-anchor="middle" fill="white" font-size="13">Google Sheets</text>
+                        
+                        <rect x="970" y="530" width="160" height="50" rx="5" fill="#FB8C00"/>
+                        <text x="1050" y="560" text-anchor="middle" fill="white" font-size="13">其他 API</text>
+                    </g>
+
+                    <!-- 箭頭：n8n -> 外部服務 -->
+                    <path d="M 300 380 Q 625 300 950 425" class="arrow" stroke-dasharray="5,5"/>
+                    <text x="600" y="310" class="arrow-label">通知</text>
+
+                    <!-- 關鍵指標標註 -->
+                    <g id="metrics">
+                        <rect x="50" y="700" width="1100" height="150" rx="10" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="600" y="730" text-anchor="middle" fill="#2E7D32" font-size="16" font-weight="bold">⚡ 關鍵技術指標</text>
+                        
+                        <text x="100" y="765" fill="#333" font-size="13">
+                            <tspan x="100" dy="0">• 發送頻率：每群每小時 &lt; 5 則</tspan>
+                            <tspan x="100" dy="20">• RPA 預期成功率：70-80%</tspan>
+                            <tspan x="100" dy="20">• 訊息延遲：RPA 發送約 10-15 秒</tspan>
+                        </text>
+                        
+                        <text x="550" y="765" fill="#333" font-size="13">
+                            <tspan x="550" dy="0">• 群組計費：3 人 × 訊息數</tspan>
+                            <tspan x="550" dy="20">• Fallback 機制：RPA 失敗自動切換官方帳號</tspan>
+                            <tspan x="550" dy="20">• 監控頻率：每 5 分鐘檢查一次</tspan>
+                        </text>
+                    </g>
+                </svg>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #00B900;"></div>
+                        <span>LINE 官方帳號</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #2196F3;"></div>
+                        <span>LINE 個人帳號</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #EA4B71;"></div>
+                        <span>n8n 自動化</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #FF9800;"></div>
+                        <span>RPA 控制</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #607D8B;"></div>
+                        <span>資料儲存</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 建群流程 -->
+            <div id="group-creation" class="diagram-container">
+                <h2 class="diagram-title">建群流程（假設自動建群問題已解決）</h2>
+                <div class="diagram-description">
+                    <strong>關鍵假設：</strong>此流程圖假設「自動建群機制」已經實現。實際上 LINE API 不支援，需要找到替代方案。
+                </div>
+
+                <svg viewBox="0 0 900 1400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#666" />
+                        </marker>
+                    </defs>
+
+                    <!-- 步驟 1 -->
+                    <rect x="250" y="50" width="400" height="80" rx="10" fill="#4CAF50" class="node-rect"/>
+                    <text x="450" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 1：訪客加好友</text>
+                    <text x="450" y="108" text-anchor="middle" fill="white" font-size="13">訪客掃描 QR Code 或搜尋</text>
+                    <text x="450" y="125" text-anchor="middle" fill="white" font-size="13">加入 LINE 官方帳號 y</text>
+
+                    <path d="M 450 130 L 450 180" class="arrow" marker-end="url(#arrowhead2)"/>
+
+                    <!-- 步驟 2 -->
+                    <rect x="250" y="180" width="400" height="80" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="450" y="215" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 2：webhook 觸發</text>
+                    <text x="450" y="238" text-anchor="middle" fill="white" font-size="13">LINE 發送 follow event 到 n8n</text>
+                    <text x="450" y="255" text-anchor="middle" fill="white" font-size="13">包含訪客的 userId</text>
+
+                    <path d="M 450 260 L 450 310" class="arrow" marker-end="url(#arrowhead2)"/>
+
+                    <!-- 步驟 3 -->
+                    <rect x="250" y="310" width="400" height="100" rx="10" fill="#2196F3" class="node-rect"/>
+                    <text x="450" y="345" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 3：取得訪客資料</text>
+                    <text x="450" y="368" text-anchor="middle" fill="white" font-size="13">n8n 調用 LINE API</text>
+                    <text x="450" y="385" text-anchor="middle" fill="white" font-size="13">GET /v2/bot/profile/{userId}</text>
+                    <text x="450" y="402" text-anchor="middle" fill="white" font-size="13">取得 displayName, pictureUrl 等</text>
+
+                    <path d="M 450 410 L 450 460" class="arrow" marker-end="url(#arrowhead2)"/>
+
+                    <!-- 步驟 4 -->
+                    <rect x="250" y="460" width="400" height="100" rx="10" fill="#9C27B0" class="node-rect"/>
+                    <text x="450" y="495" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 4：儲存訪客資訊</text>
+                    <text x="450" y="518" text-anchor="middle" fill="white" font-size="13">寫入 PostgreSQL</text>
+                    <text x="450" y="535" text-anchor="middle" fill="white" font-size="13">visitors 表格</text>
+                    <text x="450" y="552" text-anchor="middle" fill="white" font-size="11">(user_id, name, picture, created_at)</text>
+
+                    <path d="M 450 560 L 450 610" class="arrow" marker-end="url(#arrowhead2)"/>
+
+                    <!-- 步驟 5 - 關鍵步驟 -->
+                    <rect x="200" y="610" width="500" height="120" rx="10" fill="#FF5722" class="node-rect" stroke="#D32F2F" stroke-width="3"/>
+                    <text x="450" y="645" text-anchor="middle" fill="white" font-size="16" font-weight="bold">⚠️ 步驟 5：自動建立群組（關鍵）</text>
+                    <text x="450" y="668" text-anchor="middle" fill="white" font-size="13">【此處需要解決方案】</text>
+                    <text x="450" y="688" text-anchor="middle" fill="white" font-size="12">建立包含以下成員的群組：</text>
+                    <text x="450" y="705" text-anchor="middle" fill="white" font-size="12">• 訪客 (userId)</text>
+                    <text x="450" y="720" text-anchor="middle" fill="white" font-size="12">• 官方帳號 y • 個人帳號 x</text>
+
+                    <path d="M 450 730 L 450 780" class="arrow" marker-end="url(#arrowhead2)" stroke="#FF5722" stroke-width="3"/>
+
+                    <!-- 步驟 6 -->
+                    <rect x="250" y="780" width="400" height="100" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="450" y="815" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 6：官方帳號接收 join event</text>
+                    <text x="450" y="838" text-anchor="middle" fill="white" font-size="13">webhook 收到加入群組通知</text>
+                    <text x="450" y="855" text-anchor="middle" fill="white" font-size="13">取得 groupId</text>
+                    <text x="450" y="872" text-anchor="middle" fill="white" font-size="11">(用於後續發送訊息)</text>
+
+                    <path d="M 450 880 L 450 930" class="arrow" marker-end="url(#arrowhead2)"/>
+
+                    <!-- 步驟 7 -->
+                    <rect x="250" y="930" width="400" height="100" rx="10" fill="#607D8B" class="node-rect"/>
+                    <text x="450" y="965" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 7：記錄群組資訊</text>
+                    <text x="450" y="988" text-anchor="middle" fill="white" font-size="13">寫入 chat_groups 表格</text>
+                    <text x="450" y="1005" text-anchor="middle" fill="white" font-size="11">(group_id, visitor_user_id,</text>
+                    <text x="450" y="1022" text-anchor="middle" fill="white" font-size="11">status, created_at)</text>
+
+                    <path d="M 450 1030 L 450 1080" class="arrow" marker-end="url(#arrowhead2)"/>
+
+                    <!-- 步驟 8 -->
+                    <rect x="250" y="1080" width="400" height="100" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="450" y="1115" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 8：發送歡迎訊息</text>
+                    <text x="450" y="1138" text-anchor="middle" fill="white" font-size="13">官方帳號 y 在群組中發送：</text>
+                    <text x="450" y="1155" text-anchor="middle" fill="white" font-size="13">• 歡迎文字</text>
+                    <text x="450" y="1172" text-anchor="middle" fill="white" font-size="13">• Rich Menu（互動選單）</text>
+
+                    <path d="M 450 1180 L 450 1230" class="arrow" marker-end="url(#arrowhead2)"/>
+
+                    <!-- 步驟 9 -->
+                    <rect x="250" y="1230" width="400" height="100" rx="10" fill="#4CAF50" class="node-rect"/>
+                    <text x="450" y="1265" text-anchor="middle" fill="white" font-size="16" font-weight="bold">✅ 建群完成</text>
+                    <text x="450" y="1288" text-anchor="middle" fill="white" font-size="13">三方群組成功建立</text>
+                    <text x="450" y="1305" text-anchor="middle" fill="white" font-size="13">系統進入正常運作模式</text>
+                    <text x="450" y="1322" text-anchor="middle" fill="white" font-size="11">(接收訊息 → 判斷 → 回覆)</text>
+
+                    <!-- 側邊標註 -->
+                    <g id="side-notes">
+                        <rect x="20" y="610" width="150" height="120" rx="8" fill="#FFF3CD" stroke="#FFC107" stroke-width="2"/>
+                        <text x="95" y="640" text-anchor="middle" fill="#856404" font-size="12" font-weight="bold">⚠️ 最大難題</text>
+                        <text x="95" y="665" text-anchor="middle" fill="#856404" font-size="10">LINE API</text>
+                        <text x="95" y="680" text-anchor="middle" fill="#856404" font-size="10">不支援自動建群</text>
+                        <text x="95" y="700" text-anchor="middle" fill="#856404" font-size="10">需要替代方案：</text>
+                        <text x="95" y="715" text-anchor="middle" fill="#856404" font-size="9">• 第三方工具</text>
+                    </g>
+
+                    <!-- 時間估計 -->
+                    <g id="timing">
+                        <rect x="730" y="50" width="150" height="80" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+                        <text x="805" y="80" text-anchor="middle" fill="#1976D2" font-size="11" font-weight="bold">⏱️ 總時間</text>
+                        <text x="805" y="100" text-anchor="middle" fill="#1976D2" font-size="10">步驟 1-4: 1-2 秒</text>
+                        <text x="805" y="115" text-anchor="middle" fill="#1976D2" font-size="10">步驟 5: 未知</text>
+                    </g>
+                </svg>
+
+                <div class="note">
+                    <strong>⚠️ 重要提醒：</strong>步驟 5「自動建群」目前 LINE 官方 API 不支援。這個流程圖假設此問題已解決。實際部署前必須先確認建群方案的可行性。
+                </div>
+            </div>
+
+            <!-- 訊息流程 -->
+            <div id="message-flow" class="diagram-container">
+                <h2 class="diagram-title">訊息接收與回覆流程</h2>
+                <div class="diagram-description">
+                    <strong>核心邏輯：</strong>訪客在群組發訊息後，系統自動判斷該用哪個帳號回覆（官方帳號 y 或個人帳號 x），並執行對應的發送流程。
+                </div>
+
+                <svg viewBox="0 0 1300 1600" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#666" />
+                        </marker>
+                    </defs>
+
+                    <!-- 起點 -->
+                    <circle cx="550" cy="50" r="30" fill="#4CAF50" class="node-rect"/>
+                    <text x="550" y="58" text-anchor="middle" fill="white" font-size="16" font-weight="bold">開始</text>
+
+                    <path d="M 550 80 L 550 130" class="arrow" marker-end="url(#arrowhead3)"/>
+
+                    <!-- 訪客發訊息 -->
+                    <rect x="350" y="130" width="400" height="80" rx="10" fill="#4CAF50" class="node-rect"/>
+                    <text x="550" y="165" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👤 訪客在群組發送訊息</text>
+                    <text x="550" y="188" text-anchor="middle" fill="white" font-size="13">可能是文字、圖片、貼圖等</text>
+
+                    <path d="M 550 210 L 550 260" class="arrow" marker-end="url(#arrowhead3)"/>
+
+                    <!-- LINE webhook -->
+                    <rect x="350" y="260" width="400" height="80" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="550" y="295" text-anchor="middle" fill="white" font-size="16" font-weight="bold">📨 LINE 發送 webhook</text>
+                    <text x="550" y="318" text-anchor="middle" fill="white" font-size="13">message event → n8n</text>
+                    <text x="550" y="335" text-anchor="middle" fill="white" font-size="11">(包含 groupId, userId, text, replyToken)</text>
+
+                    <path d="M 550 340 L 550 390" class="arrow" marker-end="url(#arrowhead3)"/>
+
+                    <!-- n8n 處理 -->
+                    <rect x="350" y="390" width="400" height="100" rx="10" fill="#EA4B71" class="node-rect"/>
+                    <text x="550" y="425" text-anchor="middle" fill="white" font-size="16" font-weight="bold">⚙️ n8n 工作流程處理</text>
+                    <text x="550" y="448" text-anchor="middle" fill="white" font-size="13">1. 解析訊息內容</text>
+                    <text x="550" y="465" text-anchor="middle" fill="white" font-size="13">2. 查詢資料庫（群組資訊、歷史對話）</text>
+                    <text x="550" y="482" text-anchor="middle" fill="white" font-size="13">3. 儲存訊息到 group_messages</text>
+
+                    <path d="M 550 490 L 550 540" class="arrow" marker-end="url(#arrowhead3)"/>
+
+                    <!-- 決策點 -->
+                    <polygon points="550,540 700,610 550,680 400,610" fill="#FF9800" class="decision-diamond"/>
+                    <text x="550" y="605" text-anchor="middle" fill="white" font-size="14" font-weight="bold">判斷回覆類型</text>
+                    <text x="550" y="625" text-anchor="middle" fill="white" font-size="11">(見決策樹)</text>
+
+                    <!-- 分支 A：自動回覆 -->
+                    <path d="M 400 610 L 250 610 L 250 730" class="arrow" marker-end="url(#arrowhead3)"/>
+                    <text x="310" y="605" class="arrow-label">自動回覆</text>
+
+                    <rect x="50" y="730" width="400" height="100" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="250" y="765" text-anchor="middle" fill="white" font-size="16" font-weight="bold">🤖 官方帳號 y 自動回覆</text>
+                    <text x="250" y="788" text-anchor="middle" fill="white" font-size="13">使用 Reply Message API</text>
+                    <text x="250" y="805" text-anchor="middle" fill="white" font-size="13">可發送：文字、Rich Menu、</text>
+                    <text x="250" y="822" text-anchor="middle" fill="white" font-size="13">Quick Reply、Flex Message</text>
+
+                    <path d="M 250 830 L 250 1470 L 550 1470 L 550 1520" class="arrow" marker-end="url(#arrowhead3)"/>
+
+                    <!-- 分支 B：需要客服 -->
+                    <path d="M 700 610 L 850 610 L 850 730" class="arrow" marker-end="url(#arrowhead3)"/>
+                    <text x="790" y="605" class="arrow-label">需要客服</text>
+
+                    <rect x="650" y="730" width="400" height="100" rx="10" fill="#3F51B5" class="node-rect"/>
+                    <text x="850" y="765" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👨‍💻 通知客服後台</text>
+                    <text x="850" y="788" text-anchor="middle" fill="white" font-size="13">發送 webhook 到後台系統</text>
+                    <text x="850" y="805" text-anchor="middle" fill="white" font-size="13">顯示訪客訊息與對話歷史</text>
+                    <text x="850" y="822" text-anchor="middle" fill="white" font-size="13">等待客服人員回覆</text>
+
+                    <path d="M 850 830 L 850 900" class="arrow" marker-end="url(#arrowhead3)"/>
+
+                    <!-- 客服決策 -->
+                    <polygon points="850,900 970,960 850,1020 730,960" fill="#9C27B0" class="decision-diamond"/>
+                    <text x="850" y="955" text-anchor="middle" fill="white" font-size="14" font-weight="bold">客服選擇</text>
+                    <text x="850" y="975" text-anchor="middle" fill="white" font-size="11">回覆方式</text>
+
+                    <!-- 客服分支 1：用官方帳號 -->
+                    <path d="M 730 960 L 620 960 L 620 1080" class="arrow" marker-end="url(#arrowhead3)"/>
+                    <text x="660 970" class="arrow-label">官方帳號</text>
+
+                    <rect x="450" y="1080" width="340" height="80" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="620" y="1115" text-anchor="middle" fill="white" font-size="15" font-weight="bold">用官方帳號 y 回覆</text>
+                    <text x="620" y="1135" text-anchor="middle" fill="white" font-size="12">Push Message API</text>
+                    <text x="620" y="1152" text-anchor="middle" fill="white" font-size="11">(計入訊息數：3 則)</text>
+
+                    <path d="M 620 1160 L 550 1470 L 550 1520" class="arrow" marker-end="url(#arrowhead3)"/>
+
+                    <!-- 客服分支 2：用個人帳號 -->
+                    <path d="M 970 960 L 1050 960 L 1050 1080" class="arrow" marker-end="url(#arrowhead3)"/>
+                    <text x="1000" y="970" class="arrow-label">個人帳號</text>
+
+                    <rect x="880" y="1080" width="340" height="80" rx="10" fill="#2196F3" class="node-rect"/>
+                    <text x="1050" y="1115" text-anchor="middle" fill="white" font-size="15" font-weight="bold">用個人帳號 x 回覆</text>
+                    <text x="1050" y="1135" text-anchor="middle" fill="white" font-size="12">觸發 RPA 流程</text>
+                    <text x="1050" y="1152" text-anchor="middle" fill="white" font-size="11">(不計入訊息數)</text>
+
+                    <path d="M 1050 1160 L 1050 1230" class="arrow" marker-end="url(#arrowhead3)"/>
+
+                    <!-- RPA 流程 -->
+                    <rect x="880" y="1230" width="340" height="100" rx="10" fill="#FF9800" class="node-rect"/>
+                    <text x="1050" y="1265" text-anchor="middle" fill="white" font-size="15" font-weight="bold">🤖 RPA 執行</text>
+                    <text x="1050" y="1285" text-anchor="middle" fill="white" font-size="12">1. 開啟 LINE 桌面版</text>
+                    <text x="1050" y="1302" text-anchor="middle" fill="white" font-size="12">2. 切換到該群組</text>
+                    <text x="1050" y="1319" text-anchor="middle" fill="white" font-size="12">3. 輸入並發送訊息</text>
+
+                    <path d="M 1050 1330 L 1050 1380" class="arrow" marker-end="url(#arrowhead3)"/>
+
+                    <!-- RPA 結果判斷 -->
+                    <polygon points="1050,1380 1140,1420 1050,1460 960,1420" fill="#FF5722" class="decision-diamond"/>
+                    <text x="1050" y="1420" text-anchor="middle" fill="white" font-size="13" font-weight="bold">成功？</text>
+
+                    <!-- RPA 成功 -->
+                    <path d="M 1140 1420 L 1200 1420 L 1200 1470 L 550 1470 L 550 1520" class="arrow" marker-end="url(#arrowhead3)"/>
+                    <text x="1160" y="1415" class="arrow-label">是</text>
+
+                    <!-- RPA 失敗 fallback -->
+                    <path d="M 960 1420 L 800 1420 L 800 1300 L 620 1300" class="arrow" marker-end="url(#arrowhead3)" stroke="#FF5722" stroke-dasharray="5,5"/>
+                    <text x="900" y="1415" class="arrow-label" fill="#FF5722">失敗</text>
+                    <text x="700" y="1295" class="arrow-label" fill="#FF5722">fallback</text>
+
+                    <!-- 終點 -->
+                    <rect x="350" y="1520" width="400" height="80" rx="10" fill="#4CAF50" class="node-rect"/>
+                    <text x="550" y="1555" text-anchor="middle" fill="white" font-size="16" font-weight="bold">✅ 訊息已回覆</text>
+                    <text x="550" y="1578" text-anchor="middle" fill="white" font-size="13">記錄到資料庫 & 訪客收到訊息</text>
+
+                    <!-- 側邊時間標註 -->
+                    <g id="timing-notes">
+                        <rect x="20" y="260" width="140" height="80" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+                        <text x="90" y="290" text-anchor="middle" fill="#1976D2" font-size="11" font-weight="bold">⏱️ 約 1-2 秒</text>
+                        <text x="90" y="310" text-anchor="middle" fill="#1976D2" font-size="10">webhook 到</text>
+                        <text x="90" y="325" text-anchor="middle" fill="#1976D2" font-size="10">判斷完成</text>
+
+                        <rect x="20" y="730" width="140" height="80" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+                        <text x="90" y="760" text-anchor="middle" fill="#1976D2" font-size="11" font-weight="bold">⏱️ 即時回覆</text>
+                        <text x="90" y="780" text-anchor="middle" fill="#1976D2" font-size="10">約 0.5 秒</text>
+                        <text x="90" y="795" text-anchor="middle" fill="#1976D2" font-size="10">(使用 reply token)</text>
+                    </g>
+                </svg>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #4CAF50;"></div>
+                        <span>訪客操作</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #00B900;"></div>
+                        <span>官方帳號回覆</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #2196F3;"></div>
+                        <span>個人帳號回覆</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #FF9800;"></div>
+                        <span>RPA 執行</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #FF5722;"></div>
+                        <span>錯誤處理</span>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <strong>💡 重點提醒：</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>官方帳號發送計費：3 人群組發 1 則 = 計費 3 則</li>
+                        <li>個人帳號發送不計費，但需要 RPA（成功率 70-80%）</li>
+                        <li>RPA 失敗會自動 fallback 到官方帳號（確保訊息送達）</li>
+                        <li>低頻發送（每群每小時 < 5 則）可降低 RPA 失敗風險</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 決策樹 -->
+            <div id="decision-tree" class="diagram-container">
+                <h2 class="diagram-title">回覆方式決策樹</h2>
+                <div class="diagram-description">
+                    <strong>目標：</strong>根據訊息內容和業務邏輯，智能判斷該用官方帳號（功能性）還是個人帳號（人味）回覆。
+                </div>
+
+                <svg viewBox="0 0 1200 1000" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#666" />
+                        </marker>
+                    </defs>
+
+                    <!-- 根節點 -->
+                    <circle cx="600" cy="80" r="35" fill="#4CAF50" class="node-rect"/>
+                    <text x="600" y="88" text-anchor="middle" fill="white" font-size="14" font-weight="bold">訊息</text>
+
+                    <path d="M 600 115 L 600 180" class="arrow" marker-end="url(#arrowhead4)"/>
+
+                    <!-- 第一層判斷 -->
+                    <polygon points="600,180 750,250 600,320 450,250" fill="#FF9800" class="decision-diamond"/>
+                    <text x="600" y="245" text-anchor="middle" fill="white" font-size="13" font-weight="bold">是否為</text>
+                    <text x="600" y="265" text-anchor="middle" fill="white" font-size="13" font-weight="bold">關鍵字觸發？</text>
+
+                    <!-- 分支：是 - 自動回覆 -->
+                    <path d="M 450 250 L 300 250 L 300 380" class="arrow" marker-end="url(#arrowhead4)"/>
+                    <text x="360" y="245" class="arrow-label">是</text>
+
+                    <rect x="150" y="380" width="300" height="100" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="300" y="415" text-anchor="middle" fill="white" font-size="15" font-weight="bold">官方帳號自動回覆</text>
+                    <text x="300" y="438" text-anchor="middle" fill="white" font-size="12">觸發情境：</text>
+                    <text x="300" y="455" text-anchor="middle" fill="white" font-size="11">• FAQ（「營業時間」「價格」等）</text>
+                    <text x="300" y="470" text-anchor="middle" fill="white" font-size="11">• 服務選單（Quick Reply）</text>
+
+                    <!-- 分支：否 - 繼續判斷 -->
+                    <path d="M 750 250 L 900 250 L 900 350" class="arrow" marker-end="url(#arrowhead4)"/>
+                    <text x="840" y="245" class="arrow-label">否</text>
+
+                    <!-- 第二層判斷 -->
+                    <polygon points="900,350 1020,410 900,470 780,410" fill="#FF9800" class="decision-diamond"/>
+                    <text x="900" y="405" text-anchor="middle" fill="white" font-size="13" font-weight="bold">需要</text>
+                    <text x="900" y="425" text-anchor="middle" fill="white" font-size="13" font-weight="bold">互動功能？</text>
+
+                    <!-- 分支：是 - 官方帳號 -->
+                    <path d="M 900 470 L 900 560" class="arrow" marker-end="url(#arrowhead4)"/>
+                    <text x="910" y="520" class="arrow-label">是</text>
+
+                    <rect x="750" y="560" width="300" height="120" rx="10" fill="#00B900" class="node-rect"/>
+                    <text x="900" y="595" text-anchor="middle" fill="white" font-size="15" font-weight="bold">官方帳號功能回覆</text>
+                    <text x="900" y="618" text-anchor="middle" fill="white" font-size="12">使用場景：</text>
+                    <text x="900" y="635" text-anchor="middle" fill="white" font-size="11">• Rich Menu（圖文選單）</text>
+                    <text x="900" y="650" text-anchor="middle" fill="white" font-size="11">• Flex Message（卡片式訊息）</text>
+                    <text x="900" y="665" text-anchor="middle" fill="white" font-size="11">• Quick Reply（快速回覆按鈕）</text>
+
+                    <!-- 分支：否 - 繼續判斷 -->
+                    <path d="M 780 410 L 650 410 L 650 500" class="arrow" marker-end="url(#arrowhead4)"/>
+                    <text x="700" y="405" class="arrow-label">否</text>
+
+                    <!-- 第三層判斷 -->
+                    <polygon points="650,500 750,560 650,620 550,560" fill="#FF9800" class="decision-diamond"/>
+                    <text x="650" y="555" text-anchor="middle" fill="white" font-size="13" font-weight="bold">客服</text>
+                    <text x="650" y="575" text-anchor="middle" fill="white" font-size="13" font-weight="bold">在線？</text>
+
+                    <!-- 分支：是 - 個人帳號 -->
+                    <path d="M 650 620 L 650 730" class="arrow" marker-end="url(#arrowhead4)"/>
+                    <text x="660" y="680" class="arrow-label">是</text>
+
+                    <rect x="500" y="730" width="300" height="120" rx="10" fill="#2196F3" class="node-rect"/>
+                    <text x="650" y="765" text-anchor="middle" fill="white" font-size="15" font-weight="bold">個人帳號客服回覆</text>
+                    <text x="650" y="788" text-anchor="middle" fill="white" font-size="12">使用場景：</text>
+                    <text x="650" y="805" text-anchor="middle" fill="white" font-size="11">• 複雜問題需要人工解答</text>
+                    <text x="650" y="820" text-anchor="middle" fill="white" font-size="11">• 需要情感交流（安撫、致歉）</text>
+                    <text x="650" y="835" text-anchor="middle" fill="white" font-size="11">• 一般閒聊對話</text>
+
+                    <!-- 分支：否 - 留言 -->
+                    <path d="M 550 560 L 350 560 L 350 730" class="arrow" marker-end="url(#arrowhead4)"/>
+                    <text x="440" y="555" class="arrow-label">否</text>
+
+                    <rect x="200" y="730" width="300" height="120" rx="10" fill="#9C27B0" class="node-rect"/>
+                    <text x="350" y="765" text-anchor="middle" fill="white" font-size="15" font-weight="bold">官方帳號留言回覆</text>
+                    <text x="350" y="788" text-anchor="middle" fill="white" font-size="12">回覆內容：</text>
+                    <text x="350" y="805" text-anchor="middle" fill="white" font-size="11">「您好，目前非客服時間」</text>
+                    <text x="350" y="820" text-anchor="middle" fill="white" font-size="11">「我們會盡快回覆您」</text>
+                    <text x="350" y="835" text-anchor="middle" fill="white" font-size="11">+ 留下聯絡表單 (Flex Message)</text>
+
+                    <!-- 成本標註 -->
+                    <g id="cost-notes">
+                        <rect x="50" y="380" width="80" height="50" rx="5" fill="#C8E6C9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="90" y="400" text-anchor="middle" fill="#2E7D32" font-size="10" font-weight="bold">💰 成本</text>
+                        <text x="90" y="418" text-anchor="middle" fill="#2E7D32" font-size="9">3 則/訊息</text>
+
+                        <rect x="1060" y="560" width="80" height="50" rx="5" fill="#C8E6C9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="1100" y="580" text-anchor="middle" fill="#2E7D32" font-size="10" font-weight="bold">💰 成本</text>
+                        <text x="1100" y="598" text-anchor="middle" fill="#2E7D32" font-size="9">3 則/訊息</text>
+
+                        <rect x="810" y="730" width="80" height="50" rx="5" fill="#BBDEFB" stroke="#2196F3" stroke-width="2"/>
+                        <text x="850" y="750" text-anchor="middle" fill="#1565C0" font-size="10" font-weight="bold">💰 成本</text>
+                        <text x="850" y="768" text-anchor="middle" fill="#1565C0" font-size="9">0 則</text>
+
+                        <rect x="50" y="730" width="80" height="50" rx="5" fill="#C8E6C9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="90" y="750" text-anchor="middle" fill="#2E7D32" font-size="10" font-weight="bold">💰 成本</text>
+                        <text x="90" y="768" text-anchor="middle" fill="#2E7D32" font-size="9">3 則/訊息</text>
+                    </g>
+
+                    <!-- 建議標註 -->
+                    <g id="recommendations">
+                        <rect x="50" y="900" width="1100" height="80" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="600" y="925" text-anchor="middle" fill="#2E7D32" font-size="14" font-weight="bold">💡 優化策略建議</text>
+                        <text x="600" y="950" text-anchor="middle" fill="#333" font-size="12">
+                            <tspan x="100" dy="0">• 80% 訊息用關鍵字自動回覆（節省成本）</tspan>
+                            <tspan x="100" dy="18">• 15% 需要客服時優先用個人帳號（省成本、增人味）</tspan>
+                            <tspan x="650" dy="-18">• 5% 複雜功能用官方帳號（如表單、付款）</tspan>
+                            <tspan x="650" dy="18">• 非上班時間一律自動回覆（避免等待）</tspan>
+                        </text>
+                    </g>
+                </svg>
+
+                <div class="note">
+                    <strong>⚖️ 成本控制關鍵：</strong>盡量用「關鍵字自動回覆」和「個人帳號」減少官方帳號發送次數。官方帳號只在需要互動功能時使用。
+                </div>
+            </div>
+
+            <!-- RPA 流程 -->
+            <div id="rpa-flow" class="diagram-container">
+                <h2 class="diagram-title">RPA 控制 LINE 桌面版詳細流程</h2>
+                <div class="diagram-description">
+                    <strong>預期成功率：70-80%</strong> | 單次執行時間：10-15 秒 | 失敗後自動 fallback
+                </div>
+
+                <svg viewBox="0 0 1000 1400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#666" />
+                        </marker>
+                    </defs>
+
+                    <!-- 觸發 -->
+                    <rect x="300" y="50" width="400" height="80" rx="10" fill="#9C27B0" class="node-rect"/>
+                    <text x="500" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="bold">🎯 後端觸發 RPA</text>
+                    <text x="500" y="108" text-anchor="middle" fill="white" font-size="13">傳送：groupId + 訊息內容</text>
+
+                    <path d="M 500 130 L 500 180" class="arrow" marker-end="url(#arrowhead5)"/>
+
+                    <!-- 步驟 1 -->
+                    <rect x="300" y="180" width="400" height="80" rx="10" fill="#FF9800" class="node-rect"/>
+                    <text x="500" y="215" text-anchor="middle" fill="white" font-size="15" font-weight="bold">步驟 1：檢查 LINE 狀態</text>
+                    <text x="500" y="238" text-anchor="middle" fill="white" font-size="12">• 確認 LINE 桌面版已開啟</text>
+                    <text x="500" y="255" text-anchor="middle" fill="white" font-size="12">• 確認已登入個人帳號 x</text>
+
+                    <path d="M 500 260 L 500 310" class="arrow" marker-end="url(#arrowhead5)"/>
+
+                    <!-- 判斷 1 -->
+                    <polygon points="500,310 620,360 500,410 380,360" fill="#FF5722" class="decision-diamond"/>
+                    <text x="500" y="360" text-anchor="middle" fill="white" font-size="13" font-weight="bold">LINE 正常？</text>
+
+                    <!-- 失敗分支 -->
+                    <path d="M 380 360 L 200 360 L 200 1150 L 500 1150 L 500 1200" class="arrow" marker-end="url(#arrowhead5)" stroke="#FF5722" stroke-dasharray="5,5"/>
+                    <text x="270" y="355" class="arrow-label" fill="#FF5722">否 → 失敗</text>
+
+                    <!-- 成功繼續 -->
+                    <path d="M 620 360 L 750 360 L 750 460 L 500 460" class="arrow" marker-end="url(#arrowhead5)"/>
+                    <text x="670" y="355" class="arrow-label">是</text>
+
+                    <!-- 步驟 2 -->
+                    <rect x="300" y="460" width="400" height="80" rx="10" fill="#FF9800" class="node-rect"/>
+                    <text x="500" y="495" text-anchor="middle" fill="white" font-size="15" font-weight="bold">步驟 2：查詢群組</text>
+                    <text x="500" y="518" text-anchor="middle" fill="white" font-size="12">• 從資料庫取得群組名稱</text>
+                    <text x="500" y="535" text-anchor="middle" fill="white" font-size="12">• 或直接用 groupId 搜尋</text>
+
+                    <path d="M 500 540 L 500 590" class="arrow" marker-end="url(#arrowhead5)"/>
+
+                    <!-- 步驟 3 -->
+                    <rect x="300" y="590" width="400" height="100" rx="10" fill="#FF9800" class="node-rect"/>
+                    <text x="500" y="625" text-anchor="middle" fill="white" font-size="15" font-weight="bold">步驟 3：切換到目標群組</text>
+                    <text x="500" y="648" text-anchor="middle" fill="white" font-size="12">• 點擊搜尋框（圖像識別）</text>
+                    <text x="500" y="665" text-anchor="middle" fill="white" font-size="12">• 輸入群組名稱</text>
+                    <text x="500" y="682" text-anchor="middle" fill="white" font-size="12">• 點擊搜尋結果</text>
+
+                    <path d="M 500 690 L 500 740" class="arrow" marker-end="url(#arrowhead5)"/>
+
+                    <!-- 判斷 2 -->
+                    <polygon points="500,740 620,790 500,840 380,790" fill="#FF5722" class="decision-diamond"/>
+                    <text x="500" y="785" text-anchor="middle" fill="white" font-size="13" font-weight="bold">找到群組？</text>
+                    <text x="500" y="802" text-anchor="middle" fill="white" font-size="10">(3 秒內)</text>
+
+                    <!-- 失敗分支 -->
+                    <path d="M 380 790 L 200 790 L 200 1150" class="arrow" marker-end="url(#arrowhead5)" stroke="#FF5722" stroke-dasharray="5,5"/>
+                    <text x="270" y="785" class="arrow-label" fill="#FF5722">否 → 失敗</text>
+
+                    <!-- 成功繼續 -->
+                    <path d="M 620 790 L 750 790 L 750 890 L 500 890" class="arrow" marker-end="url(#arrowhead5)"/>
+                    <text x="670" y="785" class="arrow-label">是</text>
+
+                    <!-- 步驟 4 -->
+                    <rect x="300" y="890" width="400" height="100" rx="10" fill="#FF9800" class="node-rect"/>
+                    <text x="500" y="925" text-anchor="middle" fill="white" font-size="15" font-weight="bold">步驟 4：發送訊息</text>
+                    <text x="500" y="948" text-anchor="middle" fill="white" font-size="12">• 點擊訊息輸入框</text>
+                    <text x="500" y="965" text-anchor="middle" fill="white" font-size="12">• 輸入訊息內容</text>
+                    <text x="500" y="982" text-anchor="middle" fill="white" font-size="12">• 按下 Enter 或點擊發送按鈕</text>
+
+                    <path d="M 500 990 L 500 1040" class="arrow" marker-end="url(#arrowhead5)"/>
+
+                    <!-- 判斷 3 -->
+                    <polygon points="500,1040 620,1090 500,1140 380,1090" fill="#FF5722" class="decision-diamond"/>
+                    <text x="500" y="1085" text-anchor="middle" fill="white" font-size="13" font-weight="bold">發送成功？</text>
+                    <text x="500" y="1102" text-anchor="middle" fill="white" font-size="10">(確認訊息顯示)</text>
+
+                    <!-- 失敗分支 -->
+                    <path d="M 380 1090 L 200 1090 L 200 1150" class="arrow" marker-end="url(#arrowhead5)" stroke="#FF5722" stroke-dasharray="5,5"/>
+                    <text x="270" y="1085" class="arrow-label" fill="#FF5722">否 → 失敗</text>
+
+                    <!-- 成功 -->
+                    <path d="M 620 1090 L 750 1090 L 750 1250 L 650 1250" class="arrow" marker-end="url(#arrowhead5)"/>
+                    <text x="670" y="1085" class="arrow-label">是</text>
+
+                    <rect x="450" y="1250" width="200" height="70" rx="10" fill="#4CAF50" class="node-rect"/>
+                    <text x="550" y="1280" text-anchor="middle" fill="white" font-size="15" font-weight="bold">✅ 成功</text>
+                    <text x="550" y="1303" text-anchor="middle" fill="white" font-size="12">記錄成功狀態</text>
+
+                    <!-- 失敗處理 -->
+                    <rect x="100" y="1200" width="300" height="100" rx="10" fill="#F44336" class="node-rect"/>
+                    <text x="250" y="1235" text-anchor="middle" fill="white" font-size="15" font-weight="bold">❌ RPA 失敗</text>
+                    <text x="250" y="1258" text-anchor="middle" fill="white" font-size="12">觸發 Fallback 機制</text>
+                    <text x="250" y="1275" text-anchor="middle" fill="white" font-size="12">→ 改用官方帳號 y 發送</text>
+                    <text x="250" y="1292" text-anchor="middle" fill="white" font-size="11">(Push Message API)</text>
+
+                    <!-- 時間標註 -->
+                    <g id="timing-labels">
+                        <rect x="730" y="180" width="100" height="50" rx="5" fill="#FFE0B2" stroke="#FF9800" stroke-width="2"/>
+                        <text x="780" y="202" text-anchor="middle" fill="#E65100" font-size="10" font-weight="bold">⏱️ 1 秒</text>
+                        <text x="780" y="218" text-anchor="middle" fill="#E65100" font-size="9">檢查狀態</text>
+
+                        <rect x="730" y="590" width="100" height="50" rx="5" fill="#FFE0B2" stroke="#FF9800" stroke-width="2"/>
+                        <text x="780" y="612" text-anchor="middle" fill="#E65100" font-size="10" font-weight="bold">⏱️ 5-8 秒</text>
+                        <text x="780" y="628" text-anchor="middle" fill="#E65100" font-size="9">切換群組</text>
+
+                        <rect x="730" y="890" width="100" height="50" rx="5" fill="#FFE0B2" stroke="#FF9800" stroke-width="2"/>
+                        <text x="780" y="912" text-anchor="middle" fill="#E65100" font-size="10" font-weight="bold">⏱️ 2-4 秒</text>
+                        <text x="780" y="928" text-anchor="middle" fill="#E65100" font-size="9">輸入發送</text>
+                    </g>
+
+                    <!-- 失敗原因 -->
+                    <g id="failure-reasons">
+                        <rect x="50" y="50" width="200" height="150" rx="8" fill="#FFEBEE" stroke="#F44336" stroke-width="2"/>
+                        <text x="150" y="75" text-anchor="middle" fill="#C62828" font-size="12" font-weight="bold">常見失敗原因</text>
+                        <text x="150" y="95" text-anchor="middle" fill="#333" font-size="10">
+                            <tspan x="150" dy="0">• LINE 未開啟</tspan>
+                            <tspan x="150" dy="15">• 網路斷線</tspan>
+                            <tspan x="150" dy="15">• 群組名稱變更</tspan>
+                            <tspan x="150" dy="15">• UI 元素位置改變</tspan>
+                            <tspan x="150" dy="15">• 系統資源不足</tspan>
+                            <tspan x="150" dy="15">• 視窗被遮擋</tspan>
+                        </text>
+                    </g>
+                </svg>
+
+                <div class="note">
+                    <strong>🔧 優化建議：</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>使用專用電腦運行 RPA，避免其他程式干擾</li>
+                        <li>固定 LINE 視窗位置和大小，提高圖像識別準確率</li>
+                        <li>每次執行前先檢查 LINE 登入狀態</li>
+                        <li>設定每 5 分鐘監控一次 RPA 成功率，低於 50% 立即告警</li>
+                        <li>保留最近 100 次執行的截圖，用於除錯</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 技術堆疊 -->
+            <div id="tech-stack" class="diagram-container">
+                <h2 class="diagram-title">完整技術堆疊與工具選擇</h2>
+                <div class="diagram-description">
+                    <strong>成本估算：</strong>100 個群組每月約 5,000-8,000 TWD（含訊息費、伺服器、RPA 工具）
+                </div>
+
+                <svg viewBox="0 0 1200 1000" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 前端層 -->
+                    <g id="frontend-layer">
+                        <rect x="50" y="50" width="1100" height="150" rx="10" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+                        <text x="600" y="85" text-anchor="middle" fill="#1976D2" font-size="18" font-weight="bold">前端層（客服後台）</text>
+                        
+                        <rect x="100" y="110" width="200" height="70" rx="8" fill="#2196F3" class="node-rect"/>
+                        <text x="200" y="140" text-anchor="middle" fill="white" font-size="14" font-weight="bold">React / Vue.js</text>
+                        <text x="200" y="160" text-anchor="middle" fill="white" font-size="11">客服管理介面</text>
+
+                        <rect x="350" y="110" width="200" height="70" rx="8" fill="#2196F3" class="node-rect"/>
+                        <text x="450" y="140" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Tailwind CSS</text>
+                        <text x="450" y="160" text-anchor="middle" fill="white" font-size="11">UI 設計框架</text>
+
+                        <rect x="600" y="110" width="200" height="70" rx="8" fill="#2196F3" class="node-rect"/>
+                        <text x="700" y="140" text-anchor="middle" fill="white" font-size="14" font-weight="bold">WebSocket</text>
+                        <text x="700" y="160" text-anchor="middle" fill="white" font-size="11">即時訊息推送</text>
+
+                        <rect x="850" y="110" width="200" height="70" rx="8" fill="#2196F3" class="node-rect"/>
+                        <text x="950" y="140" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Vercel / Netlify</text>
+                        <text x="950" y="160" text-anchor="middle" fill="white" font-size="11">前端部署</text>
+                    </g>
+
+                    <!-- 後端層 -->
+                    <g id="backend-layer">
+                        <rect x="50" y="230" width="1100" height="150" rx="10" fill="#F3E5F5" stroke="#9C27B0" stroke-width="2"/>
+                        <text x="600" y="265" text-anchor="middle" fill="#6A1B9A" font-size="18" font-weight="bold">後端層（API 服務）</text>
+                        
+                        <rect x="100" y="290" width="200" height="70" rx="8" fill="#9C27B0" class="node-rect"/>
+                        <text x="200" y="320" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Node.js / Python</text>
+                        <text x="200" y="340" text-anchor="middle" fill="white" font-size="11">Express / FastAPI</text>
+
+                        <rect x="350" y="290" width="200" height="70" rx="8" fill="#9C27B0" class="node-rect"/>
+                        <text x="450" y="320" text-anchor="middle" fill="white" font-size="14" font-weight="bold">JWT 認證</text>
+                        <text x="450" y="340" text-anchor="middle" fill="white" font-size="11">客服登入權限</text>
+
+                        <rect x="600" y="290" width="200" height="70" rx="8" fill="#9C27B0" class="node-rect"/>
+                        <text x="700" y="320" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Redis</text>
+                        <text x="700" y="340" text-anchor="middle" fill="white" font-size="11">快取 & 佇列</text>
+
+                        <rect x="850" y="290" width="200" height="70" rx="8" fill="#9C27B0" class="node-rect"/>
+                        <text x="950" y="320" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Cloud Run / Heroku</text>
+                        <text x="950" y="340" text-anchor="middle" fill="white" font-size="11">後端部署</text>
+                    </g>
+
+                    <!-- 自動化層 -->
+                    <g id="automation-layer">
+                        <rect x="50" y="410" width="1100" height="150" rx="10" fill="#FCE4EC" stroke="#EA4B71" stroke-width="2"/>
+                        <text x="600" y="445" text-anchor="middle" fill="#C2185B" font-size="18" font-weight="bold">自動化層（工作流程）</text>
+                        
+                        <rect x="100" y="470" width="200" height="70" rx="8" fill="#EA4B71" class="node-rect"/>
+                        <text x="200" y="500" text-anchor="middle" fill="white" font-size="14" font-weight="bold">n8n</text>
+                        <text x="200" y="520" text-anchor="middle" fill="white" font-size="11">工作流程引擎</text>
+
+                        <rect x="350" y="470" width="200" height="70" rx="8" fill="#EA4B71" class="node-rect"/>
+                        <text x="450" y="500" text-anchor="middle" fill="white" font-size="14" font-weight="bold">LINE Webhook</text>
+                        <text x="450" y="520" text-anchor="middle" fill="white" font-size="11">接收 events</text>
+
+                        <rect x="600" y="470" width="200" height="70" rx="8" fill="#EA4B71" class="node-rect"/>
+                        <text x="700" y="500" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Cron Jobs</text>
+                        <text x="700" y="520" text-anchor="middle" fill="white" font-size="11">定時任務</text>
+
+                        <rect x="850" y="470" width="200" height="70" rx="8" fill="#EA4B71" class="node-rect"/>
+                        <text x="950" y="500" text-anchor="middle" fill="white" font-size="14" font-weight="bold">LINE SDK</text>
+                        <text x="950" y="520" text-anchor="middle" fill="white" font-size="11">官方 API 調用</text>
+                    </g>
+
+                    <!-- RPA 層 -->
+                    <g id="rpa-layer">
+                        <rect x="50" y="590" width="1100" height="150" rx="10" fill="#FFF3E0" stroke="#FF9800" stroke-width="2"/>
+                        <text x="600" y="625" text-anchor="middle" fill="#E65100" font-size="18" font-weight="bold">RPA 層（桌面自動化）</text>
+                        
+                        <rect x="100" y="650" width="200" height="70" rx="8" fill="#FF9800" class="node-rect"/>
+                        <text x="200" y="675" text-anchor="middle" fill="white" font-size="14" font-weight="bold">UiPath</text>
+                        <text x="200" y="695" text-anchor="middle" fill="white" font-size="11">企業級（貴）</text>
+                        <text x="200" y="710" text-anchor="middle" fill="white" font-size="10">💰 $450+/月</text>
+
+                        <rect x="350" y="650" width="200" height="70" rx="8" fill="#FF9800" class="node-rect"/>
+                        <text x="450" y="675" text-anchor="middle" fill="white" font-size="14" font-weight="bold">AutoHotkey</text>
+                        <text x="450" y="695" text-anchor="middle" fill="white" font-size="11">開源免費</text>
+                        <text x="450" y="710" text-anchor="middle" fill="white" font-size="10">✅ 推薦</text>
+
+                        <rect x="600" y="650" width="200" height="70" rx="8" fill="#FF9800" class="node-rect"/>
+                        <text x="700" y="675" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Power Automate</text>
+                        <text x="700" y="695" text-anchor="middle" fill="white" font-size="11">微軟生態</text>
+                        <text x="700" y="710" text-anchor="middle" fill="white" font-size="10">💰 $15-40/月</text>
+
+                        <rect x="850" y="650" width="200" height="70" rx="8" fill="#FF9800" class="node-rect"/>
+                        <text x="950" y="675" text-anchor="middle" fill="white" font-size="14" font-weight="bold">LINE 桌面版</text>
+                        <text x="950" y="695" text-anchor="middle" fill="white" font-size="11">Windows/Mac</text>
+                    </g>
+
+                    <!-- 資料層 -->
+                    <g id="data-layer">
+                        <rect x="50" y="770" width="1100" height="150" rx="10" fill="#ECEFF1" stroke="#607D8B" stroke-width="2"/>
+                        <text x="600" y="805" text-anchor="middle" fill="#37474F" font-size="18" font-weight="bold">資料層（儲存 & 監控）</text>
+                        
+                        <rect x="100" y="830" width="200" height="70" rx="8" fill="#607D8B" class="node-rect"/>
+                        <text x="200" y="860" text-anchor="middle" fill="white" font-size="14" font-weight="bold">PostgreSQL</text>
+                        <text x="200" y="880" text-anchor="middle" fill="white" font-size="11">主資料庫</text>
+
+                        <rect x="350" y="830" width="200" height="70" rx="8" fill="#607D8B" class="node-rect"/>
+                        <text x="450" y="860" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Grafana</text>
+                        <text x="450" y="880" text-anchor="middle" fill="white" font-size="11">監控儀表板</text>
+
+                        <rect x="600" y="830" width="200" height="70" rx="8" fill="#607D8B" class="node-rect"/>
+                        <text x="700" y="860" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Slack / Email</text>
+                        <text x="700" y="880" text-anchor="middle" fill="white" font-size="11">告警通知</text>
+
+                        <rect x="850" y="830" width="200" height="70" rx="8" fill="#607D8B" class="node-rect"/>
+                        <text x="950" y="860" text-anchor="middle" fill="white" font-size="14" font-weight="bold">GCS / S3</text>
+                        <text x="950" y="880" text-anchor="middle" fill="white" font-size="11">檔案儲存</text>
+                    </g>
+
+                    <!-- 成本估算 -->
+                    <g id="cost-estimate">
+                        <rect x="50" y="950" width="1100" height="40" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="100" y="975" fill="#2E7D32" font-size="14" font-weight="bold">💰 100 個群組月成本估算：</text>
+                        <text x="350" y="975" fill="#333" font-size="13">LINE 官方帳號 4,000-8,000 TWD</text>
+                        <text x="620" y="975" fill="#333" font-size="13">+ 伺服器 1,000 TWD</text>
+                        <text x="830" y="975" fill="#333" font-size="13">+ RPA 0-1,500 TWD</text>
+                        <text x="1030" y="975" fill="#4CAF50" font-size="14" font-weight="bold">≈ 5,000-10,000 TWD</text>
+                    </g>
+                </svg>
+
+                <div class="note">
+                    <strong>🎯 技術選型建議：</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li><strong>預算有限：</strong>後端用 Node.js + PostgreSQL + AutoHotkey（免費），部署在 Cloud Run（低流量幾乎免費）</li>
+                        <li><strong>快速上線：</strong>直接用 n8n cloud（$20/月起），省去 server 管理，2 週內可上線</li>
+                        <li><strong>企業級：</strong>後端用 FastAPI + PostgreSQL + UiPath，完整監控和 HA 架構</li>
+                        <li><strong>最小可行方案（MVP）：</strong>n8n + PostgreSQL + AutoHotkey，總成本 < 2,000 TWD/月</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab 切換功能
+        const tabs = document.querySelectorAll('.tab');
+        const diagrams = document.querySelectorAll('.diagram-container');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.getAttribute('data-tab');
+                
+                // 移除所有 active 狀態
+                tabs.forEach(t => t.classList.remove('active'));
+                diagrams.forEach(d => d.classList.remove('active'));
+                
+                // 添加 active 到當前選中的
+                tab.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
