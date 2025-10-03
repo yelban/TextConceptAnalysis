@@ -213,7 +213,7 @@
             <div id="overview" class="diagram-container active">
                 <h2 class="diagram-title">系統架構總覽</h2>
                 <div class="diagram-description">
-                    <strong>核心概念：</strong>結合 LINE 官方帳號（互動功能）+ 個人帳號（人味對話）+ RPA 自動化，打造三方群組通報系統。
+                    <strong>核心概念：</strong>結合 LINE 官方帳號（互動功能）+ 個人帳號（人味對話）+ RPA 自動化，打造三方群組訊息平台。
                 </div>
 
                 <svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
@@ -231,10 +231,10 @@
                         </linearGradient>
                     </defs>
 
-                    <!-- 訪客層 -->
+                    <!-- 客戶層 -->
                     <g id="visitor-layer">
                         <rect x="50" y="50" width="200" height="100" rx="10" fill="#4CAF50" class="node-rect"/>
-                        <text x="150" y="95" text-anchor="middle" fill="white" class="node-text">👤 訪客</text>
+                        <text x="150" y="95" text-anchor="middle" fill="white" class="node-text">👤 客戶</text>
                         <text x="150" y="115" text-anchor="middle" fill="white" font-size="12">LINE 一般用戶</text>
                     </g>
 
@@ -246,10 +246,10 @@
                         <!-- 三方群組 -->
                         <rect x="400" y="80" width="400" height="70" rx="8" fill="white" stroke="#00B900" stroke-width="2" class="node-rect"/>
                         <text x="600" y="110" text-anchor="middle" fill="#333" class="node-text">三方群組聊天室</text>
-                        <text x="600" y="130" text-anchor="middle" fill="#666" font-size="11">訪客 + 官方帳號 y + 個人帳號 x</text>
+                        <text x="600" y="130" text-anchor="middle" fill="#666" font-size="11">客戶 + 官方帳號 y + 個人帳號 x</text>
                     </g>
 
-                    <!-- 箭頭：訪客 -> 群組 -->
+                    <!-- 箭頭：客戶 -> 群組 -->
                     <path d="M 250 100 L 400 115" class="arrow"/>
                     <text x="310" y="100" class="arrow-label">加入群組</text>
 
@@ -323,7 +323,7 @@
                     <g id="database">
                         <rect x="50" y="500" width="250" height="120" rx="10" fill="#607D8B" class="node-rect"/>
                         <text x="175" y="540" text-anchor="middle" fill="white" font-size="18" font-weight="bold">📊 PostgreSQL</text>
-                        <text x="175" y="565" text-anchor="middle" fill="white" font-size="11">• 訪客資訊</text>
+                        <text x="175" y="565" text-anchor="middle" fill="white" font-size="11">• 客戶資訊</text>
                         <text x="175" y="582" text-anchor="middle" fill="white" font-size="11">• 群組記錄 (groupId)</text>
                         <text x="175" y="599" text-anchor="middle" fill="white" font-size="11">• 對話歷史</text>
                     </g>
@@ -390,7 +390,7 @@
                         
                         <text x="100" y="765" fill="#333" font-size="13">
                             <tspan x="100" dy="0">• 發送頻率：每群每小時 &lt; 5 則</tspan>
-                            <tspan x="100" dy="20">• RPA 預期成功率：70-80%</tspan>
+                            <tspan x="100" dy="20">• RPA 預期成功率：90-95%</tspan>
                             <tspan x="100" dy="20">• 訊息延遲：RPA 發送約 10-15 秒</tspan>
                         </text>
                         
@@ -442,8 +442,8 @@
 
                     <!-- 步驟 1 -->
                     <rect x="250" y="50" width="400" height="80" rx="10" fill="#4CAF50" class="node-rect"/>
-                    <text x="450" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 1：訪客加好友</text>
-                    <text x="450" y="108" text-anchor="middle" fill="white" font-size="13">訪客掃描 QR Code 或搜尋</text>
+                    <text x="450" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 1：客戶加好友</text>
+                    <text x="450" y="108" text-anchor="middle" fill="white" font-size="13">客戶掃描 QR Code 或搜尋</text>
                     <text x="450" y="125" text-anchor="middle" fill="white" font-size="13">加入 LINE 官方帳號 y</text>
 
                     <path d="M 450 130 L 450 180" class="arrow" marker-end="url(#arrowhead2)"/>
@@ -452,13 +452,13 @@
                     <rect x="250" y="180" width="400" height="80" rx="10" fill="#00B900" class="node-rect"/>
                     <text x="450" y="215" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 2：webhook 觸發</text>
                     <text x="450" y="238" text-anchor="middle" fill="white" font-size="13">LINE 發送 follow event 到 n8n</text>
-                    <text x="450" y="255" text-anchor="middle" fill="white" font-size="13">包含訪客的 userId</text>
+                    <text x="450" y="255" text-anchor="middle" fill="white" font-size="13">包含客戶的 userId</text>
 
                     <path d="M 450 260 L 450 310" class="arrow" marker-end="url(#arrowhead2)"/>
 
                     <!-- 步驟 3 -->
                     <rect x="250" y="310" width="400" height="100" rx="10" fill="#2196F3" class="node-rect"/>
-                    <text x="450" y="345" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 3：取得訪客資料</text>
+                    <text x="450" y="345" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 3：取得客戶資料</text>
                     <text x="450" y="368" text-anchor="middle" fill="white" font-size="13">n8n 調用 LINE API</text>
                     <text x="450" y="385" text-anchor="middle" fill="white" font-size="13">GET /v2/bot/profile/{userId}</text>
                     <text x="450" y="402" text-anchor="middle" fill="white" font-size="13">取得 displayName, pictureUrl 等</text>
@@ -467,7 +467,7 @@
 
                     <!-- 步驟 4 -->
                     <rect x="250" y="460" width="400" height="100" rx="10" fill="#9C27B0" class="node-rect"/>
-                    <text x="450" y="495" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 4：儲存訪客資訊</text>
+                    <text x="450" y="495" text-anchor="middle" fill="white" font-size="16" font-weight="bold">步驟 4：儲存客戶資訊</text>
                     <text x="450" y="518" text-anchor="middle" fill="white" font-size="13">寫入 PostgreSQL</text>
                     <text x="450" y="535" text-anchor="middle" fill="white" font-size="13">visitors 表格</text>
                     <text x="450" y="552" text-anchor="middle" fill="white" font-size="11">(user_id, name, picture, created_at)</text>
@@ -479,7 +479,7 @@
                     <text x="450" y="645" text-anchor="middle" fill="white" font-size="16" font-weight="bold">⚠️ 步驟 5：自動建立群組（關鍵）</text>
                     <text x="450" y="668" text-anchor="middle" fill="white" font-size="13">【此處需要解決方案】</text>
                     <text x="450" y="688" text-anchor="middle" fill="white" font-size="12">建立包含以下成員的群組：</text>
-                    <text x="450" y="705" text-anchor="middle" fill="white" font-size="12">• 訪客 (userId)</text>
+                    <text x="450" y="705" text-anchor="middle" fill="white" font-size="12">• 客戶 (userId)</text>
                     <text x="450" y="720" text-anchor="middle" fill="white" font-size="12">• 官方帳號 y • 個人帳號 x</text>
 
                     <path d="M 450 730 L 450 780" class="arrow" marker-end="url(#arrowhead2)" stroke="#FF5722" stroke-width="3"/>
@@ -538,7 +538,7 @@
                 </svg>
 
                 <div class="note">
-                    <strong>⚠️ 重要提醒：</strong>步驟 5「自動建群」目前 LINE 官方 API 不支援。這個流程圖假設此問題已解決。實際部署前必須先確認建群方案的可行性。
+                    <strong>⚠️ 重要提醒：</strong>步驟 5「自動建群」目前 LINE 官方 API 不支援。實際部署需確認 RPA 的可靠性。
                 </div>
             </div>
 
@@ -546,7 +546,7 @@
             <div id="message-flow" class="diagram-container">
                 <h2 class="diagram-title">訊息接收與回覆流程</h2>
                 <div class="diagram-description">
-                    <strong>核心邏輯：</strong>訪客在群組發訊息後，系統自動判斷該用哪個帳號回覆（官方帳號 y 或個人帳號 x），並執行對應的發送流程。
+                    <strong>核心邏輯：</strong>客戶在群組發訊息後，系統自動判斷該用哪個帳號回覆（官方帳號 y 或個人帳號 x），並執行對應的發送流程。
                 </div>
 
                 <svg viewBox="0 0 1300 1600" xmlns="http://www.w3.org/2000/svg">
@@ -562,9 +562,9 @@
 
                     <path d="M 550 80 L 550 130" class="arrow" marker-end="url(#arrowhead3)"/>
 
-                    <!-- 訪客發訊息 -->
+                    <!-- 客戶發訊息 -->
                     <rect x="350" y="130" width="400" height="80" rx="10" fill="#4CAF50" class="node-rect"/>
-                    <text x="550" y="165" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👤 訪客在群組發送訊息</text>
+                    <text x="550" y="165" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👤 客戶在群組發送訊息</text>
                     <text x="550" y="188" text-anchor="middle" fill="white" font-size="13">可能是文字、圖片、貼圖等</text>
 
                     <path d="M 550 210 L 550 260" class="arrow" marker-end="url(#arrowhead3)"/>
@@ -610,7 +610,7 @@
                     <rect x="650" y="730" width="400" height="100" rx="10" fill="#3F51B5" class="node-rect"/>
                     <text x="850" y="765" text-anchor="middle" fill="white" font-size="16" font-weight="bold">👨‍💻 通知客服後台</text>
                     <text x="850" y="788" text-anchor="middle" fill="white" font-size="13">發送 webhook 到後台系統</text>
-                    <text x="850" y="805" text-anchor="middle" fill="white" font-size="13">顯示訪客訊息與對話歷史</text>
+                    <text x="850" y="805" text-anchor="middle" fill="white" font-size="13">顯示客戶訊息與對話歷史</text>
                     <text x="850" y="822" text-anchor="middle" fill="white" font-size="13">等待客服人員回覆</text>
 
                     <path d="M 850 830 L 850 900" class="arrow" marker-end="url(#arrowhead3)"/>
@@ -667,7 +667,7 @@
                     <!-- 終點 -->
                     <rect x="350" y="1520" width="400" height="80" rx="10" fill="#4CAF50" class="node-rect"/>
                     <text x="550" y="1555" text-anchor="middle" fill="white" font-size="16" font-weight="bold">✅ 訊息已回覆</text>
-                    <text x="550" y="1578" text-anchor="middle" fill="white" font-size="13">記錄到資料庫 & 訪客收到訊息</text>
+                    <text x="550" y="1578" text-anchor="middle" fill="white" font-size="13">記錄到資料庫 & 客戶收到訊息</text>
 
                     <!-- 側邊時間標註 -->
                     <g id="timing-notes">
@@ -686,7 +686,7 @@
                 <div class="legend">
                     <div class="legend-item">
                         <div class="legend-box" style="background: #4CAF50;"></div>
-                        <span>訪客操作</span>
+                        <span>客戶操作</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-box" style="background: #00B900;"></div>
@@ -721,7 +721,7 @@
             <div id="decision-tree" class="diagram-container">
                 <h2 class="diagram-title">回覆方式決策樹</h2>
                 <div class="diagram-description">
-                    <strong>目標：</strong>根據訊息內容和業務邏輯，智能判斷該用官方帳號（功能性）還是個人帳號（人味）回覆。
+                    <strong>目標：</strong>根據訊息內容和業務邏輯，智能判斷該用官方帳號（功能性）還是個人帳號（仿真人對話）回覆。
                 </div>
 
                 <svg viewBox="0 0 1200 1000" xmlns="http://www.w3.org/2000/svg">
@@ -990,7 +990,7 @@
             <div id="tech-stack" class="diagram-container">
                 <h2 class="diagram-title">完整技術堆疊與工具選擇</h2>
                 <div class="diagram-description">
-                    <strong>成本估算：</strong>100 個群組每月約 5,000-8,000 TWD（含訊息費、伺服器、RPA 工具）
+                    <strong>成本估算：</strong>100 個群組每月約 2,000-5,000 TWD（含訊息費、伺服器、RPA 工具）
                 </div>
 
                 <svg viewBox="0 0 1200 1000" xmlns="http://www.w3.org/2000/svg">
@@ -1111,7 +1111,7 @@
                     <g id="cost-estimate">
                         <rect x="50" y="950" width="1100" height="40" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
                         <text x="100" y="975" fill="#2E7D32" font-size="14" font-weight="bold">💰 100 個群組月成本估算：</text>
-                        <text x="350" y="975" fill="#333" font-size="13">LINE 官方帳號 4,000-8,000 TWD</text>
+                        <text x="350" y="975" fill="#333" font-size="13">LINE 官方帳號 2,000-5,000 TWD</text>
                         <text x="620" y="975" fill="#333" font-size="13">+ 伺服器 1,000 TWD</text>
                         <text x="830" y="975" fill="#333" font-size="13">+ RPA 0-1,500 TWD</text>
                         <text x="1030" y="975" fill="#4CAF50" font-size="14" font-weight="bold">≈ 5,000-10,000 TWD</text>
