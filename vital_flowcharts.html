@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vital CRM 與 BizForm 同步架構流程圖</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1976d2;
+            border-bottom: 3px solid #1976d2;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #424242;
+            margin-top: 30px;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .description {
+            background: #e3f2fd;
+            padding: 15px;
+            border-left: 4px solid #1976d2;
+            margin: 10px 0 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vital CRM 與 BizForm 客戶資料同步至 PostgreSQL 流程圖</h1>
+    
+    <div class="diagram-container">
+        <h2>1️⃣ 系統架構總覽</h2>
+        <div class="description">
+            <strong>說明：</strong>展示 BizForm、Vital CRM 與 PostgreSQL 資料平台的整體架構關係，包含資料流向與同步機制。
+        </div>
+        <div class="mermaid">
+graph LR
+    subgraph "前端系統"
+        direction TB
+        BF[Vital BizForm<br/>📋 表單系統]
+        CRM[Vital CRM<br/>👥 客戶管理]
+        BF -->|API 串接<br/>一鍵匯入| CRM
+    end
+    
+    subgraph "同步機制"
+        direction TB
+        WH[Webhook<br/>🔔 即時通知]
+        API[API 介面<br/>🔌 資料存取]
+        N8N[n8n<br/>⚙️ 自動化]
+        
+        WH --> N8N
+        N8N <--> API
+    end
+    
+    subgraph "後端平台"
+        PG[(PostgreSQL<br/>🗄️ 資料平台)]
+    end
+    
+    CRM -->|新增/更新觸發| WH
+    N8N -->|寫入資料| PG
+    PG -.雙向同步.-> N8N
+    
+    style BF fill:#e3f2fd
+    style CRM fill:#fff3e0
+    style PG fill:#e8f5e9
+    style WH fill:#fce4ec
+    style API fill:#f3e5f5
+    style N8N fill:#fff9c4
+        </div>
+    </div>
+
+    <div class="diagram-container">
+        <h2>2️⃣ 完整系統架構圖</h2>
+        <div class="description">
+            <strong>說明：</strong>詳細展示初始資料整合（批次匯出）與即時同步機制，包含可選的雙向同步路徑。
+        </div>
+        <div class="mermaid">
+graph TB
+    subgraph "資料來源"
+        BF[Vital BizForm<br/>供應商申請表單]
+        CRM[Vital CRM<br/>客戶資料庫]
+    end
+    
+    subgraph "中介層"
+        API[CRM API 介面]
+        WH[Webhook 通知機制]
+        N8N[n8n 整合工具<br/>可選]
+    end
+    
+    subgraph "目標平台"
+        PG[(PostgreSQL<br/>資料平台)]
+    end
+    
+    %% 初始資料整合
+    BF -.批次匯出.-> EXCEL[Excel 檔案]
+    CRM -.批次匯出.-> EXCEL
+    EXCEL -.資料清洗整併.-> PG
+    
+    %% BizForm → CRM → PostgreSQL
+    BF -->|表單提交<br/>一鍵匯入| CRM
+    
+    %% CRM → PostgreSQL 即時同步
+    CRM -->|新增/更新客戶| WH
+    WH -->|觸發通知| N8N
+    N8N -->|取得客戶資料| API
+    API -->|寫入資料| PG
+    
+    %% 雙向同步（虛線表示選用）
+    PG -.更新資料.-> API
+    API -.寫回 CRM.-> CRM
+    
+    style BF fill:#e1f5ff
+    style CRM fill:#fff4e1
+    style PG fill:#e8f5e9
+    style N8N fill:#f3e5f5
+    style EXCEL fill:#fce4ec
+        </div>
+    </div>
+
+    <div class="diagram-container">
+        <h2>3️⃣ 實施步驟流程</h2>
+        <div class="description">
+            <strong>說明：</strong>從初始資料整合到上線運行的完整實施步驟，包含兩種 BizForm 同步方式的選擇分支。
+        </div>
+        <div class="mermaid">
+graph TD
+    START([開始實施]) --> STEP1[步驟 1：初始資料整合]
+    
+    STEP1 --> S1A[匯出 CRM 既有客戶資料]
+    STEP1 --> S1B[匯出 BizForm 表單資料]
+    S1A --> S1C[資料清洗與整併]
+    S1B --> S1C
+    S1C --> S1D[導入 PostgreSQL 標準客戶資料表]
+    
+    S1D --> STEP2[步驟 2：設定 CRM → 資料平台同步]
+    
+    STEP2 --> S2A[啟用 CRM 自動化中心]
+    S2A --> S2B[設定 Webhook 觸發條件<br/>新增/更新客戶時]
+    S2B --> S2C[部署外部 API 端點<br/>或 n8n Webhook]
+    S2C --> S2D[測試即時同步機制]
+    
+    S2D --> STEP3[步驟 3：設定 BizForm → 資料平台同步]
+    
+    STEP3 --> DECISION{選擇方式}
+    
+    DECISION -->|方式 A| S3A[經由 CRM 間接同步]
+    S3A --> S3A1[設定 BizForm 與 CRM API 串接]
+    S3A1 --> S3A2[表單完成後一鍵匯入 CRM]
+    S3A2 --> S3A3[透過 CRM Webhook 同步至平台]
+    
+    DECISION -->|方式 B| S3B[直接呼叫外部 API]
+    S3B --> S3B1[設定 BizForm Webhook 觸發]
+    S3B1 --> S3B2[直接發送資料至平台 API]
+    
+    S3A3 --> STEP4[步驟 4：評估雙向同步需求]
+    S3B2 --> STEP4
+    
+    STEP4 --> DECISION2{需要雙向同步?}
+    
+    DECISION2 -->|是| S4A[開發平台 → CRM 回寫機制]
+    S4A --> S4B[使用 CRM API 更新客戶資料]
+    S4B --> S4C[CRM 同步回 BizForm]
+    
+    DECISION2 -->|否| S4D[維持單向同步即可]
+    
+    S4C --> STEP5[步驟 5：部署整合工具]
+    S4D --> STEP5
+    
+    STEP5 --> S5A[使用 n8n 建立工作流程]
+    S5A --> S5B[設定監聽與資料轉換邏輯]
+    S5B --> S5C[測試所有同步路徑]
+    S5C --> S5D[上線運行與監控]
+    
+    S5D --> END([完成實施])
+    
+    style START fill:#4caf50,color:#fff
+    style END fill:#4caf50,color:#fff
+    style STEP1 fill:#2196f3,color:#fff
+    style STEP2 fill:#2196f3,color:#fff
+    style STEP3 fill:#2196f3,color:#fff
+    style STEP4 fill:#2196f3,color:#fff
+    style STEP5 fill:#2196f3,color:#fff
+    style DECISION fill:#ff9800,color:#fff
+    style DECISION2 fill:#ff9800,color:#fff
+        </div>
+    </div>
+
+    <div class="diagram-container">
+        <h2>4️⃣ 即時資料同步時序圖</h2>
+        <div class="description">
+            <strong>說明：</strong>展示四種同步情境的詳細互動流程：BizForm 新表單、CRM 直接新增、CRM 更新客戶、以及雙向同步機制。
+        </div>
+        <div class="mermaid">
+sequenceDiagram
+    participant BF as Vital BizForm
+    participant CRM as Vital CRM
+    participant WH as Webhook
+    participant N8N as n8n/外部服務
+    participant API as CRM API
+    participant PG as PostgreSQL
+
+    Note over BF,PG: 情境 1：BizForm 新表單提交
+    
+    BF->>BF: 供應商填寫申請表單
+    BF->>BF: 表單流程完成
+    BF->>CRM: 管理者點擊一鍵匯入
+    CRM->>CRM: 建立新客戶紀錄
+    CRM->>WH: 觸發 Webhook 事件
+    WH->>N8N: POST 通知：新客戶建立
+    N8N->>API: GET 請求取得客戶詳細資料
+    API-->>N8N: 回傳客戶 JSON 資料
+    N8N->>PG: INSERT 客戶資料
+    PG-->>N8N: 確認寫入成功
+    
+    Note over BF,PG: 情境 2：CRM 直接新增客戶
+    
+    CRM->>CRM: 業務人員新增客戶
+    CRM->>WH: 觸發 Webhook 事件
+    WH->>N8N: POST 通知：新客戶建立
+    N8N->>API: GET 請求取得客戶詳細資料
+    API-->>N8N: 回傳客戶 JSON 資料
+    N8N->>PG: INSERT 客戶資料
+    PG-->>N8N: 確認寫入成功
+    
+    Note over BF,PG: 情境 3：CRM 更新既有客戶
+    
+    CRM->>CRM: 更新客戶資訊
+    CRM->>WH: 觸發 Webhook 事件
+    WH->>N8N: POST 通知：客戶更新
+    N8N->>API: GET 請求取得最新資料
+    API-->>N8N: 回傳更新後的資料
+    N8N->>PG: UPDATE 客戶資料
+    PG-->>N8N: 確認更新成功
+    
+    Note over BF,PG: 情境 4：雙向同步（選用）
+    
+    PG->>PG: 資料平台更新客戶資料
+    PG->>N8N: 觸發更新事件
+    N8N->>API: PUT/PATCH 更新 CRM 客戶
+    API->>CRM: 寫入更新
+    CRM-->>API: 確認更新
+    API-->>N8N: 回傳成功
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            sequence: {
+                useMaxWidth: true,
+                wrap: true
+            }
+        });
+    </script>
+</body>
+</html>
