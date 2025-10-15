@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 流程自動化主機選型視覺化分析</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft JhengHei', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .canvas-container {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        canvas {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: white;
+        }
+        
+        
+        .insight-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .case-study {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .metric-card {
+            display: inline-block;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 10px;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .metric-label {
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            gap: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 AI 流程自動化主機選型策略</h1>
+        <p class="subtitle">從成本黑洞到效率引擎的轉型之路</p>
+        
+        <!-- 總覽：商業痛點 -->
+        <div class="section">
+            <h2>📊 一、企業現況診斷</h2>
+            
+            <div class="insight-box">
+                <h3>💡 關鍵洞察</h3>
+                <p>93% 的台灣中小企業在 AI 導入初期因「基礎建設成本」而卻步</p>
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="painChart" width="600" height="400"></canvas>
+                <canvas id="problemMap" width="800" height="400"></canvas>
+            </div>
+        </div>
+        
+        <!-- 解決方案對比 -->
+        <div class="section">
+            <h2>💰 二、成本結構革命</h2>
+            
+            <div class="canvas-container">
+                <canvas id="costComparison" width="800" height="400"></canvas>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-value">91.7%</div>
+                <div class="metric-label">年度成本節省</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-value">1小時</div>
+                <div class="metric-label">部署時間</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-value">$120</div>
+                <div class="metric-label">年度總成本</div>
+            </div>
+        </div>
+        
+        <!-- VPS 供應商比較 -->
+        <div class="section">
+            <h2>🏆 三、市場競爭格局</h2>
+            
+            <div class="canvas-container">
+                <canvas id="vendorRadar" width="500" height="500"></canvas>
+                <canvas id="priceBar" width="700" height="400"></canvas>
+            </div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #FF6384;"></div>
+                    <span>AWS</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #36A2EB;"></div>
+                    <span>Azure</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #FFCE56;"></div>
+                    <span>GCP</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #4BC0C0;"></div>
+                    <span>Vultr</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #9966FF;"></div>
+                    <span>Hostinger</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 技術架構 -->
+        <div class="section">
+            <h2>🔧 四、AI 工作流程架構</h2>
+            
+            <div class="canvas-container">
+                <canvas id="workflowDiagram" width="900" height="600"></canvas>
+                <canvas id="architectureFlow" width="900" height="500"></canvas>
+            </div>
+        </div>
+        
+        <!-- 實際案例 -->
+        <div class="section">
+            <h2>📈 五、實戰案例：電商客服自動化</h2>
+            
+            <div class="case-study">
+                <h3>🏢 背景：某台灣電商月處理 5,000 筆客服</h3>
+                <h4>Before：</h4>
+                <ul>
+                    <li>客服團隊：5 人</li>
+                    <li>平均響應時間：2 小時</li>
+                    <li>月度成本：25 萬台幣</li>
+                </ul>
+                
+                <h4>After（導入 Hostinger + n8n）：</h4>
+                <ul>
+                    <li>客服團隊：2 人（處理複雜案件）</li>
+                    <li>平均響應時間：30 秒</li>
+                    <li>月度成本：8 萬台幣（含 AI API 費用）</li>
+                </ul>
+                
+                <div class="metric-card" style="background: #d4edda;">
+                    <div class="metric-value" style="color: #28a745;">68%</div>
+                    <div class="metric-label">成本降低</div>
+                </div>
+                
+                <div class="metric-card" style="background: #cce5ff;">
+                    <div class="metric-value" style="color: #004085;">96%</div>
+                    <div class="metric-label">響應加速</div>
+                </div>
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="roiChart" width="700" height="400"></canvas>
+            </div>
+        </div>
+        
+        <!-- 決策矩陣 -->
+        <div class="section">
+            <h2>🎯 六、策略決策指南</h2>
+            
+            <div class="canvas-container">
+                <canvas id="decisionMatrix" width="800" height="600"></canvas>
+                <canvas id="decisionFlow" width="700" height="500"></canvas>
+            </div>
+        </div>
+        
+        <!-- 總結建議 -->
+        <div class="section">
+            <h2>✅ 七、行動方案</h2>
+            
+            <div class="insight-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <h3>🚀 立即行動三步驟</h3>
+                <ol style="margin-left: 20px; margin-top: 15px;">
+                    <li style="margin-bottom: 10px;">註冊 Hostinger，選擇 KVM4 方案（首年 $9.99/月）</li>
+                    <li style="margin-bottom: 10px;">使用 Docker Compose 一鍵部署 n8n</li>
+                    <li style="margin-bottom: 10px;">導入第一個 AI 自動化流程（建議從客服開始）</li>
+                </ol>
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="timelineChart" width="900" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 現況問題地圖（新增）
+        function drawProblemMap() {
+            const canvas = document.getElementById('problemMap');
+            const ctx = canvas.getContext('2d');
+            
+            // 標題
+            ctx.font = 'bold 18px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('企業 AI 轉型決策困境', 400, 30);
+            
+            // 繪製兩個選擇路徑
+            // 左側：自建機房
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(100, 80, 250, 200);
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 16px Microsoft JhengHei';
+            ctx.textAlign = 'center';
+            ctx.fillText('自建機房', 225, 110);
+            
+            ctx.font = '14px Microsoft JhengHei';
+            ctx.fillText('初期投資：30萬', 225, 150);
+            ctx.fillText('維護人力：1人', 225, 180);
+            ctx.fillText('擴充困難 ⚠️', 225, 210);
+            
+            // 右側：雲端方案
+            ctx.fillStyle = '#3498db';
+            ctx.fillRect(450, 80, 250, 200);
+            ctx.fillStyle = 'white';
+            ctx.fillText('雲端方案', 575, 110);
+            
+            ctx.fillText('月租：1.2萬', 575, 150);
+            ctx.fillText('隱藏成本高', 575, 180);
+            ctx.fillText('大廠綁架 ⚠️', 575, 210);
+            
+            // 中間 VS
+            ctx.fillStyle = '#34495e';
+            ctx.font = 'bold 24px Microsoft JhengHei';
+            ctx.fillText('VS', 400, 180);
+            
+            // 箭頭指向困境
+            ctx.strokeStyle = '#34495e';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(225, 280);
+            ctx.lineTo(225, 320);
+            ctx.lineTo(400, 340);
+            ctx.moveTo(575, 280);
+            ctx.lineTo(575, 320);
+            ctx.lineTo(400, 340);
+            ctx.stroke();
+            
+            // 困境框
+            ctx.fillStyle = '#f39c12';
+            ctx.fillRect(250, 340, 300, 50);
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 16px Microsoft JhengHei';
+            ctx.textAlign = 'center';
+            ctx.fillText('兩難：要馬太貴，要馬太複雜', 400, 370);
+        }
+        
+        // AI 工作流程圖（新增）
+        function drawWorkflowDiagram() {
+            const canvas = document.getElementById('workflowDiagram');
+            const ctx = canvas.getContext('2d');
+            
+            // 標題
+            ctx.font = 'bold 18px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('AI 自動化流程三層架構', 450, 30);
+            
+            // 第一層：客戶端觸發層
+            ctx.fillStyle = '#3498db';
+            ctx.globalAlpha = 0.2;
+            ctx.fillRect(50, 60, 800, 120);
+            ctx.globalAlpha = 1;
+            
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(50, 60, 800, 120);
+            
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = 'bold 14px Microsoft JhengHei';
+            ctx.textAlign = 'left';
+            ctx.fillText('客戶端觸發層', 70, 85);
+            
+            // 觸發源
+            const triggers = ['網頁表單', 'Line Bot', 'Email', 'API'];
+            triggers.forEach((trigger, i) => {
+                const x = 150 + i * 180;
+                ctx.fillStyle = '#3498db';
+                ctx.fillRect(x, 110, 140, 40);
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'center';
+                ctx.font = '13px Microsoft JhengHei';
+                ctx.fillText(trigger, x + 70, 135);
+            });
+            
+            // 第二層：n8n 工作流程引擎
+            ctx.fillStyle = '#9b59b6';
+            ctx.globalAlpha = 0.2;
+            ctx.fillRect(50, 220, 800, 180);
+            ctx.globalAlpha = 1;
+            
+            ctx.strokeStyle = '#9b59b6';
+            ctx.strokeRect(50, 220, 800, 180);
+            
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = 'bold 14px Microsoft JhengHei';
+            ctx.textAlign = 'left';
+            ctx.fillText('n8n 工作流程引擎', 70, 245);
+            
+            // 處理組件
+            const components = [
+                { name: 'Webhook\n接收器', x: 120, y: 280 },
+                { name: 'AI 處理\nChatGPT', x: 320, y: 280 },
+                { name: '資料儲存\nPostgreSQL', x: 520, y: 280 },
+                { name: 'Redis\n快取', x: 720, y: 280 },
+                { name: '業務邏輯判斷 & 分流', x: 320, y: 350 }
+            ];
+            
+            components.forEach(comp => {
+                ctx.fillStyle = '#9b59b6';
+                const width = comp.name.includes('業務') ? 280 : 120;
+                const xPos = comp.name.includes('業務') ? comp.x : comp.x;
+                ctx.fillRect(xPos, comp.y, width, 40);
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'center';
+                ctx.font = '12px Microsoft JhengHei';
+                const lines = comp.name.split('\n');
+                lines.forEach((line, i) => {
+                    ctx.fillText(line, xPos + width/2, comp.y + 18 + i * 16);
+                });
+            });
+            
+            // 第三層：執行層
+            ctx.fillStyle = '#27ae60';
+            ctx.globalAlpha = 0.2;
+            ctx.fillRect(50, 440, 800, 120);
+            ctx.globalAlpha = 1;
+            
+            ctx.strokeStyle = '#27ae60';
+            ctx.strokeRect(50, 440, 800, 120);
+            
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = 'bold 14px Microsoft JhengHei';
+            ctx.textAlign = 'left';
+            ctx.fillText('執行層', 70, 465);
+            
+            // 執行動作
+            const actions = ['發送郵件', '更新 CRM', '生成報表', '通知團隊'];
+            actions.forEach((action, i) => {
+                const x = 150 + i * 180;
+                ctx.fillStyle = '#27ae60';
+                ctx.fillRect(x, 490, 140, 40);
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'center';
+                ctx.font = '13px Microsoft JhengHei';
+                ctx.fillText(action, x + 70, 515);
+            });
+            
+            // 繪製流向箭頭
+            ctx.strokeStyle = '#7f8c8d';
+            ctx.lineWidth = 2;
+            
+            // 層間箭頭
+            for (let i = 0; i < 3; i++) {
+                const x = 250 + i * 200;
+                drawArrow(ctx, x, 180, x, 220);
+                if (i < 2) {
+                    drawArrow(ctx, x + 100, 400, x + 100, 440);
+                }
+            }
+        }
+        
+        // 決策流程圖（新增）
+        function drawDecisionFlow() {
+            const canvas = document.getElementById('decisionFlow');
+            const ctx = canvas.getContext('2d');
+            
+            // 標題
+            ctx.font = 'bold 18px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('VPS 供應商選擇決策流程', 350, 30);
+            
+            // 繪製決策節點
+            function drawNode(x, y, width, height, text, color, type = 'rect') {
+                if (type === 'diamond') {
+                    // 菱形（決策點）
+                    ctx.fillStyle = color;
+                    ctx.beginPath();
+                    ctx.moveTo(x + width/2, y);
+                    ctx.lineTo(x + width, y + height/2);
+                    ctx.lineTo(x + width/2, y + height);
+                    ctx.lineTo(x, y + height/2);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = '#2c3e50';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                } else {
+                    // 矩形（流程）
+                    ctx.fillStyle = color;
+                    ctx.fillRect(x, y, width, height);
+                    ctx.strokeStyle = '#2c3e50';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x, y, width, height);
+                }
+                
+                // 文字
+                ctx.fillStyle = type === 'diamond' ? '#2c3e50' : 'white';
+                ctx.font = '14px Microsoft JhengHei';
+                ctx.textAlign = 'center';
+                ctx.fillText(text, x + width/2, y + height/2 + 5);
+            }
+            
+            // 起始節點
+            drawNode(275, 60, 150, 40, '預算評估', '#34495e');
+            
+            // 第一個決策點
+            drawNode(250, 130, 200, 80, '月預算 < 5000?', '#f39c12', 'diamond');
+            
+            // 兩個分支
+            drawNode(100, 250, 130, 40, 'Hostinger KVM4', '#27ae60');
+            drawNode(470, 250, 130, 40, '考慮 AWS/GCP', '#e74c3c');
+            
+            // 技術評估（Hostinger 路徑）
+            drawNode(115, 320, 100, 40, '技術評估', '#34495e');
+            
+            // 第二個決策點
+            drawNode(90, 380, 150, 60, '需要 K8s?', '#f39c12', 'diamond');
+            
+            // 最終決策
+            drawNode(50, 460, 100, 40, '繼續\nHostinger', '#27ae60');
+            drawNode(250, 460, 100, 40, '考慮 GCP', '#3498db');
+            
+            // 繪製連線和標籤
+            ctx.strokeStyle = '#7f8c8d';
+            ctx.lineWidth = 2;
+            
+            // 預算評估到決策點
+            drawArrow(ctx, 350, 100, 350, 130);
+            
+            // 決策點分支
+            ctx.beginPath();
+            ctx.moveTo(250, 170);
+            ctx.lineTo(165, 170);
+            ctx.lineTo(165, 250);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(450, 170);
+            ctx.lineTo(535, 170);
+            ctx.lineTo(535, 250);
+            ctx.stroke();
+            
+            // 標籤
+            ctx.fillStyle = '#27ae60';
+            ctx.font = 'bold 12px Microsoft JhengHei';
+            ctx.fillText('是', 200, 165);
+            
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillText('否', 500, 165);
+            
+            // Hostinger 路徑繼續
+            drawArrow(ctx, 165, 290, 165, 320);
+            drawArrow(ctx, 165, 360, 165, 380);
+            
+            // K8s 決策分支
+            ctx.strokeStyle = '#7f8c8d';
+            ctx.beginPath();
+            ctx.moveTo(90, 410);
+            ctx.lineTo(70, 410);
+            ctx.lineTo(70, 440);
+            ctx.lineTo(100, 440);
+            ctx.lineTo(100, 460);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(240, 410);
+            ctx.lineTo(300, 410);
+            ctx.lineTo(300, 460);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#27ae60';
+            ctx.fillText('否', 65, 425);
+            
+            ctx.fillStyle = '#3498db';
+            ctx.fillText('是', 265, 425);
+            
+            // 成功標記
+            const successX = 50;
+            const successY = 500;
+            ctx.fillStyle = '#27ae60';
+            ctx.font = 'bold 20px Microsoft JhengHei';
+            ctx.fillText('🎉', successX + 50, successY + 20);
+        }
+        
+        // 輔助函數：繪製箭頭
+        function drawArrow(ctx, fromX, fromY, toX, toY) {
+            const headlen = 10;
+            const angle = Math.atan2(toY - fromY, toX - fromX);
+            
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI/6), toY - headlen * Math.sin(angle - Math.PI/6));
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI/6), toY - headlen * Math.sin(angle + Math.PI/6));
+            ctx.stroke();
+        }
+        
+        // 痛點分析圖
+        function drawPainChart() {
+            const canvas = document.getElementById('painChart');
+            const ctx = canvas.getContext('2d');
+            
+            // 繪製標題
+            ctx.font = 'bold 18px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('企業 AI 導入痛點分析', 300, 30);
+            
+            // 痛點數據
+            const pains = [
+                { name: '初期投資過高', value: 85, color: '#FF6384' },
+                { name: '技術門檻', value: 72, color: '#36A2EB' },
+                { name: '維護成本', value: 68, color: '#FFCE56' },
+                { name: '擴充彈性', value: 61, color: '#4BC0C0' },
+                { name: '供應商綁定', value: 78, color: '#9966FF' }
+            ];
+            
+            // 繪製柱狀圖
+            const barWidth = 80;
+            const startX = 50;
+            const maxHeight = 250;
+            
+            pains.forEach((pain, index) => {
+                const x = startX + index * (barWidth + 20);
+                const height = (pain.value / 100) * maxHeight;
+                const y = 350 - height;
+                
+                // 繪製柱子
+                ctx.fillStyle = pain.color;
+                ctx.fillRect(x, y, barWidth, height);
+                
+                // 繪製數值
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 16px Microsoft JhengHei';
+                ctx.textAlign = 'center';
+                ctx.fillText(pain.value + '%', x + barWidth/2, y - 10);
+                
+                // 繪製標籤
+                ctx.font = '12px Microsoft JhengHei';
+                ctx.fillText(pain.name, x + barWidth/2, 370);
+            });
+            
+            // 繪製基準線
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(30, 350);
+            ctx.lineTo(570, 350);
+            ctx.stroke();
+        }
+        
+        // 成本比較圖
+        function drawCostComparison() {
+            const canvas = document.getElementById('costComparison');
+            const ctx = canvas.getContext('2d');
+            
+            // 標題
+            ctx.font = 'bold 18px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('三年總持有成本比較（TCO）', 400, 30);
+            
+            // 數據
+            const solutions = [
+                { name: '自建機房', year1: 300000, year2: 50000, year3: 50000, color: '#FF6384' },
+                { name: 'AWS/Azure', year1: 18000, year2: 18000, year3: 18000, color: '#36A2EB' },
+                { name: 'Hostinger', year1: 3600, year2: 7500, year3: 7500, color: '#9966FF' }
+            ];
+            
+            const startX = 100;
+            const barWidth = 180;
+            const gap = 50;
+            
+            solutions.forEach((solution, index) => {
+                const x = startX + index * (barWidth + gap);
+                const total = solution.year1 + solution.year2 + solution.year3;
+                const scaledTotal = total / 1500;
+                
+                // 繪製堆疊柱狀圖
+                const y1Height = solution.year1 / 1500;
+                const y2Height = solution.year2 / 1500;
+                const y3Height = solution.year3 / 1500;
+                
+                // 第一年
+                ctx.fillStyle = solution.color;
+                ctx.globalAlpha = 1;
+                ctx.fillRect(x, 320 - y1Height, barWidth, y1Height);
+                
+                // 第二年
+                ctx.globalAlpha = 0.7;
+                ctx.fillRect(x, 320 - y1Height - y2Height, barWidth, y2Height);
+                
+                // 第三年
+                ctx.globalAlpha = 0.4;
+                ctx.fillRect(x, 320 - y1Height - y2Height - y3Height, barWidth, y3Height);
+                
+                ctx.globalAlpha = 1;
+                
+                // 標籤
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 14px Microsoft JhengHei';
+                ctx.textAlign = 'center';
+                ctx.fillText(solution.name, x + barWidth/2, 350);
+                
+                // 總成本
+                ctx.font = 'bold 16px Microsoft JhengHei';
+                ctx.fillText('NT$ ' + total.toLocaleString(), x + barWidth/2, 370);
+            });
+            
+            // 圖例
+            ctx.font = '12px Microsoft JhengHei';
+            ctx.fillStyle = '#7f8c8d';
+            ctx.textAlign = 'left';
+            ctx.fillText('█ 第一年  ░ 第二年  ░ 第三年', 550, 100);
+        }
+        
+        // 供應商雷達圖
+        function drawVendorRadar() {
+            const canvas = document.getElementById('vendorRadar');
+            const ctx = canvas.getContext('2d');
+            const centerX = 250;
+            const centerY = 250;
+            const radius = 150;
+            
+            // 標題
+            ctx.font = 'bold 16px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('供應商綜合評分', centerX, 30);
+            
+            // 評分維度
+            const dimensions = ['價格競爭力', '效能表現', '服務穩定', '技術支援', '擴充彈性'];
+            const vendors = [
+                { name: 'Hostinger', scores: [95, 85, 80, 75, 90], color: '#9966FF' },
+                { name: 'AWS', scores: [40, 95, 95, 90, 95], color: '#FF6384' },
+                { name: 'Vultr', scores: [60, 80, 85, 70, 85], color: '#4BC0C0' }
+            ];
+            
+            // 繪製網格
+            for (let i = 1; i <= 5; i++) {
+                ctx.beginPath();
+                ctx.strokeStyle = '#e0e0e0';
+                ctx.lineWidth = 1;
+                
+                for (let j = 0; j < 5; j++) {
+                    const angle = (j * 72 - 90) * Math.PI / 180;
+                    const x = centerX + Math.cos(angle) * radius * i / 5;
+                    const y = centerY + Math.sin(angle) * radius * i / 5;
+                    
+                    if (j === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.closePath();
+                ctx.stroke();
+            }
+            
+            // 繪製軸線和標籤
+            dimensions.forEach((dim, index) => {
+                const angle = (index * 72 - 90) * Math.PI / 180;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = '#e0e0e0';
+                ctx.stroke();
+                
+                // 標籤
+                const labelX = centerX + Math.cos(angle) * (radius + 30);
+                const labelY = centerY + Math.sin(angle) * (radius + 30);
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = '12px Microsoft JhengHei';
+                ctx.textAlign = 'center';
+                ctx.fillText(dim, labelX, labelY);
+            });
+            
+            // 繪製供應商數據
+            vendors.forEach(vendor => {
+                ctx.beginPath();
+                ctx.strokeStyle = vendor.color;
+                ctx.fillStyle = vendor.color;
+                ctx.lineWidth = 2;
+                ctx.globalAlpha = 0.2;
+                
+                vendor.scores.forEach((score, index) => {
+                    const angle = (index * 72 - 90) * Math.PI / 180;
+                    const x = centerX + Math.cos(angle) * radius * score / 100;
+                    const y = centerY + Math.sin(angle) * radius * score / 100;
+                    
+                    if (index === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+                
+                ctx.closePath();
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                ctx.stroke();
+            });
+        }
+        
+        // 價格對比柱狀圖
+        function drawPriceBar() {
+            const canvas = document.getElementById('priceBar');
+            const ctx = canvas.getContext('2d');
+            
+            // 標題
+            ctx.font = 'bold 16px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('同規格月租費用對比（美金）', 350, 30);
+            
+            const vendors = [
+                { name: 'AWS', price: 120, color: '#FF6384' },
+                { name: 'Azure', price: 140, color: '#36A2EB' },
+                { name: 'GCP', price: 130, color: '#FFCE56' },
+                { name: 'Vultr', price: 120, color: '#4BC0C0' },
+                { name: 'Hostinger', price: 9.99, color: '#9966FF' }
+            ];
+            
+            const maxPrice = 150;
+            const barHeight = 40;
+            const startY = 70;
+            
+            vendors.forEach((vendor, index) => {
+                const y = startY + index * (barHeight + 20);
+                const barWidth = (vendor.price / maxPrice) * 500;
+                
+                // 供應商名稱
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = '14px Microsoft JhengHei';
+                ctx.textAlign = 'right';
+                ctx.fillText(vendor.name, 120, y + barHeight/2 + 5);
+                
+                // 價格條
+                ctx.fillStyle = vendor.color;
+                ctx.fillRect(130, y, barWidth, barHeight);
+                
+                // 價格數值
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 14px Microsoft JhengHei';
+                ctx.textAlign = 'left';
+                ctx.fillText('$' + vendor.price, 140 + barWidth + 10, y + barHeight/2 + 5);
+                
+                // Hostinger 特別標註
+                if (vendor.name === 'Hostinger') {
+                    ctx.fillStyle = '#e74c3c';
+                    ctx.font = 'bold 12px Microsoft JhengHei';
+                    ctx.fillText('最佳選擇！', 140 + barWidth + 80, y + barHeight/2 + 5);
+                }
+            });
+        }
+        
+        // 架構流程圖
+        function drawArchitectureFlow() {
+            const canvas = document.getElementById('architectureFlow');
+            const ctx = canvas.getContext('2d');
+            
+            // 標題
+            ctx.font = 'bold 18px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('n8n AI 工作流程執行架構', 450, 30);
+            
+            // 繪製流程節點
+            const nodes = [
+                { x: 150, y: 100, width: 120, height: 60, text: '觸發事件', color: '#3498db' },
+                { x: 350, y: 100, width: 120, height: 60, text: 'AI 處理', color: '#9b59b6' },
+                { x: 550, y: 100, width: 120, height: 60, text: '資料轉換', color: '#e67e22' },
+                { x: 750, y: 100, width: 120, height: 60, text: '結果輸出', color: '#27ae60' },
+                
+                { x: 250, y: 250, width: 150, height: 80, text: 'PostgreSQL\n資料庫', color: '#34495e' },
+                { x: 450, y: 250, width: 150, height: 80, text: 'Redis\n快取', color: '#e74c3c' },
+                { x: 650, y: 250, width: 150, height: 80, text: 'File Storage\n檔案儲存', color: '#f39c12' },
+                
+                { x: 350, y: 400, width: 200, height: 60, text: 'Nginx 反向代理', color: '#2ecc71' }
+            ];
+            
+            // 繪製節點
+            nodes.forEach(node => {
+                // 陰影
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.fillRect(node.x + 3, node.y + 3, node.width, node.height);
+                
+                // 節點矩形
+                ctx.fillStyle = node.color;
+                ctx.fillRect(node.x, node.y, node.width, node.height);
+                
+                // 文字
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 14px Microsoft JhengHei';
+                ctx.textAlign = 'center';
+                const lines = node.text.split('\n');
+                lines.forEach((line, i) => {
+                    ctx.fillText(line, node.x + node.width/2, node.y + node.height/2 - 8 + i * 20);
+                });
+            });
+            
+            // 繪製連接線
+            ctx.strokeStyle = '#95a5a6';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            
+            // 水平連線
+            ctx.beginPath();
+            ctx.moveTo(270, 130);
+            ctx.lineTo(350, 130);
+            ctx.moveTo(470, 130);
+            ctx.lineTo(550, 130);
+            ctx.moveTo(670, 130);
+            ctx.lineTo(750, 130);
+            ctx.stroke();
+            
+            // 垂直連線
+            ctx.beginPath();
+            ctx.moveTo(410, 160);
+            ctx.lineTo(410, 250);
+            ctx.moveTo(610, 160);
+            ctx.lineTo(610, 250);
+            ctx.stroke();
+            
+            ctx.setLineDash([]);
+        }
+        
+        // ROI 回報圖
+        function drawROIChart() {
+            const canvas = document.getElementById('roiChart');
+            const ctx = canvas.getContext('2d');
+            
+            // 標題
+            ctx.font = 'bold 16px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('投資回報時間軸（ROI Timeline）', 350, 30);
+            
+            // 座標軸
+            ctx.strokeStyle = '#2c3e50';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(80, 60);
+            ctx.lineTo(80, 320);
+            ctx.lineTo(650, 320);
+            ctx.stroke();
+            
+            // Y軸標籤（萬元台幣）
+            ctx.font = '12px Microsoft JhengHei';
+            ctx.fillStyle = '#7f8c8d';
+            ctx.textAlign = 'right';
+            for (let i = 0; i <= 5; i++) {
+                const y = 320 - i * 50;
+                ctx.fillText((i * 5) + '萬', 70, y + 5);
+                
+                // 網格線
+                if (i > 0) {
+                    ctx.strokeStyle = '#e0e0e0';
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(80, y);
+                    ctx.lineTo(650, y);
+                    ctx.stroke();
+                }
+            }
+            
+            // X軸標籤（月份）
+            ctx.textAlign = 'center';
+            const months = ['第1月', '第2月', '第3月', '第6月', '第9月', '第12月'];
+            const xPositions = [130, 200, 270, 410, 510, 610];
+            
+            months.forEach((month, i) => {
+                ctx.fillText(month, xPositions[i], 340);
+            });
+            
+            // 繪製成本曲線
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(80, 320);
+            ctx.lineTo(130, 310);
+            ctx.lineTo(200, 300);
+            ctx.lineTo(270, 290);
+            ctx.lineTo(410, 260);
+            ctx.lineTo(510, 240);
+            ctx.lineTo(610, 220);
+            ctx.stroke();
+            
+            // 繪製收益曲線
+            ctx.strokeStyle = '#27ae60';
+            ctx.beginPath();
+            ctx.moveTo(80, 320);
+            ctx.lineTo(130, 290);
+            ctx.lineTo(200, 250);
+            ctx.lineTo(270, 200);
+            ctx.lineTo(410, 120);
+            ctx.lineTo(510, 80);
+            ctx.lineTo(610, 60);
+            ctx.stroke();
+            
+            // 損益平衡點
+            ctx.fillStyle = '#f39c12';
+            ctx.beginPath();
+            ctx.arc(235, 245, 8, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            ctx.font = 'bold 14px Microsoft JhengHei';
+            ctx.fillText('損益平衡點', 235, 225);
+            ctx.fillText('2.5 個月', 235, 210);
+            
+            // 圖例
+            ctx.font = '12px Microsoft JhengHei';
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillText('━ 營運成本', 100, 380);
+            ctx.fillStyle = '#27ae60';
+            ctx.fillText('━ 效益累積', 200, 380);
+        }
+        
+        // 決策矩陣圖
+        function drawDecisionMatrix() {
+            const canvas = document.getElementById('decisionMatrix');
+            const ctx = canvas.getContext('2d');
+            
+            // 標題
+            ctx.font = 'bold 18px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('供應商選擇決策矩陣', 400, 30);
+            
+            // 座標軸
+            ctx.strokeStyle = '#2c3e50';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(100, 500);
+            ctx.lineTo(100, 80);
+            ctx.moveTo(100, 500);
+            ctx.lineTo(700, 500);
+            ctx.stroke();
+            
+            // 軸標籤
+            ctx.font = '14px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('價格競爭力 →', 400, 540);
+            
+            ctx.save();
+            ctx.translate(40, 290);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText('技術成熟度 →', 0, 0);
+            ctx.restore();
+            
+            // 四象限背景
+            ctx.globalAlpha = 0.1;
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(100, 80, 300, 210);
+            ctx.fillStyle = '#27ae60';
+            ctx.fillRect(400, 80, 300, 210);
+            ctx.fillStyle = '#f39c12';
+            ctx.fillRect(100, 290, 300, 210);
+            ctx.fillStyle = '#3498db';
+            ctx.fillRect(400, 290, 300, 210);
+            ctx.globalAlpha = 1;
+            
+            // 象限標籤
+            ctx.font = 'bold 12px Microsoft JhengHei';
+            ctx.fillStyle = '#7f8c8d';
+            ctx.fillText('高技術/高價格', 550, 110);
+            ctx.fillText('高技術/低價格', 250, 110);
+            ctx.fillText('低技術/高價格', 550, 470);
+            ctx.fillText('低技術/低價格', 250, 470);
+            
+            // 供應商點位
+            const vendors = [
+                { name: 'AWS', x: 600, y: 150, color: '#FF6384', size: 15 },
+                { name: 'Azure', x: 620, y: 170, color: '#36A2EB', size: 15 },
+                { name: 'GCP', x: 580, y: 160, color: '#FFCE56', size: 15 },
+                { name: 'Vultr', x: 450, y: 280, color: '#4BC0C0', size: 12 },
+                { name: 'Hostinger', x: 220, y: 200, color: '#9966FF', size: 18 }
+            ];
+            
+            vendors.forEach(vendor => {
+                // 圓點
+                ctx.fillStyle = vendor.color;
+                ctx.beginPath();
+                ctx.arc(vendor.x, vendor.y, vendor.size, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // 標籤
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 12px Microsoft JhengHei';
+                ctx.textAlign = 'center';
+                ctx.fillText(vendor.name, vendor.x, vendor.y - vendor.size - 5);
+            });
+            
+            // 最佳選擇區域
+            ctx.strokeStyle = '#27ae60';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([10, 5]);
+            ctx.beginPath();
+            ctx.rect(150, 150, 150, 150);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            ctx.fillStyle = '#27ae60';
+            ctx.font = 'bold 14px Microsoft JhengHei';
+            ctx.fillText('最佳選擇區', 225, 140);
+        }
+        
+        // 時間軸圖表
+        function drawTimelineChart() {
+            const canvas = document.getElementById('timelineChart');
+            const ctx = canvas.getContext('2d');
+            
+            // 標題
+            ctx.font = 'bold 18px Microsoft JhengHei';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            ctx.fillText('實施時程規劃', 450, 30);
+            
+            // 時間軸主線
+            ctx.strokeStyle = '#34495e';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(50, 150);
+            ctx.lineTo(850, 150);
+            ctx.stroke();
+            
+            // 里程碑
+            const milestones = [
+                { x: 150, title: 'Day 0', desc: '註冊帳號', color: '#3498db', time: '5分鐘' },
+                { x: 300, title: 'Day 1', desc: '環境部署', color: '#9b59b6', time: '1小時' },
+                { x: 450, title: 'Week 1', desc: '首個流程', color: '#e67e22', time: '3天' },
+                { x: 600, title: 'Month 1', desc: '團隊培訓', color: '#f39c12', time: '2週' },
+                { x: 750, title: 'Month 3', desc: '全面運行', color: '#27ae60', time: '持續優化' }
+            ];
+            
+            milestones.forEach((milestone, index) => {
+                // 圓點
+                ctx.fillStyle = milestone.color;
+                ctx.beginPath();
+                ctx.arc(milestone.x, 150, 12, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // 上方標籤
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 14px Microsoft JhengHei';
+                ctx.textAlign = 'center';
+                ctx.fillText(milestone.title, milestone.x, 110);
+                
+                // 描述
+                ctx.font = '12px Microsoft JhengHei';
+                ctx.fillText(milestone.desc, milestone.x, 130);
+                
+                // 時間
+                ctx.fillStyle = '#7f8c8d';
+                ctx.font = '11px Microsoft JhengHei';
+                ctx.fillText(milestone.time, milestone.x, 190);
+                
+                // 進度條
+                if (index < milestones.length - 1) {
+                    const nextX = milestones[index + 1].x;
+                    const progress = index < 2 ? 1 : 0.5;
+                    
+                    ctx.strokeStyle = milestone.color;
+                    ctx.lineWidth = 8;
+                    ctx.globalAlpha = 0.3;
+                    ctx.beginPath();
+                    ctx.moveTo(milestone.x + 15, 150);
+                    ctx.lineTo(milestone.x + 15 + (nextX - milestone.x - 30) * progress, 150);
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+            });
+            
+            // 當前位置指示
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.moveTo(400, 210);
+            ctx.lineTo(390, 230);
+            ctx.lineTo(410, 230);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.font = 'bold 12px Microsoft JhengHei';
+            ctx.textAlign = 'center';
+            ctx.fillText('您在這裡', 400, 250);
+        }
+        
+        // 初始化所有圖表
+        window.onload = function() {
+            drawPainChart();
+            drawProblemMap();
+            drawCostComparison();
+            drawVendorRadar();
+            drawPriceBar();
+            drawWorkflowDiagram();
+            drawArchitectureFlow();
+            drawROIChart();
+            drawDecisionMatrix();
+            drawDecisionFlow();
+            drawTimelineChart();
+        };
+    </script>
+</body>
+</html>
