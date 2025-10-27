@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>舞雲智網 - AI 驅動能源優化方案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: white;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .solution-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+        }
+
+        .solution-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .solution-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-right: 20px;
+            color: white;
+        }
+
+        .solution-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-content {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            padding: 8px 0 8px 30px;
+            position: relative;
+            color: #555;
+        }
+
+        .features-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .scenarios {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .scenarios ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .scenarios li {
+            padding: 10px 0;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .scenarios li::before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            color: white;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .solution-card {
+                padding: 30px;
+            }
+
+            .solution-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">DANCING CLOUD</div>
+            <h1>AI 驅動能源優化方案</h1>
+            <div class="subtitle">精準診斷 × 智能分析 × 實戰落地</div>
+        </header>
+
+        <div class="solutions-grid">
+            <!-- PowerBill AI -->
+            <div class="solution-card">
+                <div class="solution-header">
+                    <div class="solution-icon">📋</div>
+                    <h2 class="solution-title">PowerBill AI</h2>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">流程簡介</h3>
+                    <div class="section-content">
+                        在 LINE 上傳電費單，系統自動讀取欄位與計算（日均、月估、夏月），比對近12期歷史，生成雲端報告並回傳連結。支援同一帳單多輪對話，後續提問保留上下文，回覆更精準。
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">獨特與創新</h3>
+                    <ul class="features-list">
+                        <li>拍電費單就好，秒出專業報告</li>
+                        <li>雙AI分工：Gemini看圖擷取，OpenAI精準回覆</li>
+                        <li>台灣電費規則內建：夏月、民國年轉西元、功率因數、契約容量</li>
+                        <li>直接算你能省多少：低壓電力 vs 表燈營業用跨方案試算</li>
+                        <li>關鍵指標自動算：基本費占比、契約容量利用率、功率因數紅黃燈</li>
+                        <li>手機友善：單檔HTML上雲，LINE 直接給連結卡片</li>
+                        <li>趨勢一眼懂：近12期歷史比對，異常即出現</li>
+                        <li>資料乾淨：同帳期自動覆蓋更新，分析與明細分表存檔</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">應用場景</h3>
+                    <div class="scenarios">
+                        <ul>
+                            <li>中小企業每月帳單自動診斷與節電建議</li>
+                            <li>連鎖門市多據點用電稽核與橫向比較</li>
+                            <li>契約容量與費率方案調整前的快速評估</li>
+                            <li>客服/銷售助理：上傳帳單即得重點拆解與ROI訊息</li>
+                            <li>例行管理：夏月前推播風險、功率因數異常警示</li>
+                            <li>專案追蹤：分析紀錄沉澱，支援月/季KPI與審計報告</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EnergyConsultant AI -->
+            <div class="solution-card">
+                <div class="solution-header">
+                    <div class="solution-icon">💡</div>
+                    <h2 class="solution-title">EnergyConsultant AI</h2>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">流程簡介</h3>
+                    <div class="section-content">
+                        在 LINE 輸入你的用電情境，系統按供應／傳輸／需求三段定位問題，套用節能、儲能、智能、創能四招，整理成診斷與可執行清單，對話可連續延伸且不超過訊息長度限制。
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">獨特與創新</h3>
+                    <ul class="features-list">
+                        <li>丟一句描述就給「診斷＋行動清單」</li>
+                        <li>三段切題：供應／傳輸／需求，直接對位痛點</li>
+                        <li>四招直接用：節能、儲能、智能、創能，各給一步就能做</li>
+                        <li>五步提問補齊關鍵資訊，聚焦決策，自動追問，把模糊變可執行</li>
+                        <li>對話記憶保留，同一使用者越聊越準，不用重複交代</li>
+                        <li>關鍵字啟動：LINE@應用選單「開始／說明／案例」按一下就上手</li>
+                        <li>長訊息自動分段送達，內容不被截斷</li>
+                        <li>雙引擎模型分工清楚：對話代理控流程，OpenAI生內容</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">應用場景</h3>
+                    <div class="scenarios">
+                        <ul>
+                            <li>空壓機/冷卻水塔/空調用電優化，當下就列出可做的三件事</li>
+                            <li>辦公室與門市的營業時段節能 SOP 快速生成</li>
+                            <li>產線開關機與尖離峰移轉，先用文字描述就能拿到排程建議</li>
+                            <li>新設備採購前的「先問顧問」可行性評估與注意事項</li>
+                            <li>ESG/內稽稽核前，快速蒐集「改善證據點」與追蹤指標</li>
+                            <li>客服/業務前線當腳本：先用關鍵字回應，再交給顧問流程深挖</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BaselineAI -->
+            <div class="solution-card">
+                <div class="solution-header">
+                    <div class="solution-icon">📊</div>
+                    <h2 class="solution-title">BaselineAI</h2>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">流程簡介</h3>
+                    <div class="section-content">
+                        在網頁表單上傳能源績效CSV，檔案直送基線引擎分析，立即跑回歸，回傳含指標與圖表的單檔HTML給瀏覽器。
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">獨特與創新</h3>
+                    <ul class="features-list">
+                        <li>一鍵上傳，秒出基線與圖表</li>
+                        <li>雙流程接力：表單門面＋分析引擎，免自建前端</li>
+                        <li>指標到位：R²、RMSE、CV(RMSE)、NMBE、最大誤差一頁看</li>
+                        <li>可解釋模型：自動列出迴歸係數與顯著性（t、p）</li>
+                        <li>圖表內嵌：實際vs預測、誤差分布，離線也能看</li>
+                        <li>檔案不落地：Webhook直通分析API，降低資料殘留風險</li>
+                        <li>模組化：分析服務API化，換模型不改流程</li>
+                        <li>即時HTML回應：不用Excel、不用Python環境</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">應用場景</h3>
+                    <div class="scenarios">
+                        <ul>
+                            <li>工廠／大樓M&V前置基線建立與驗證</li>
+                            <li>月度能耗異常比對與追蹤KPI</li>
+                            <li>節能專案前後績效評估與投標審查附件</li>
+                            <li>氣象／產量等因子影響度判讀，鎖定主因</li>
+                            <li>管理會議快速出圖與決策簡報</li>
+                            <li>教學／PoC示範：用CSV立即得到標準基線指標</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-brand">舞雲智網 DANCING CLOUD</div>
+                <div class="footer-tagline">以 AI 技術驅動能源管理智能化轉型</div>
+                <div class="footer-copyright">
+                    © 2025 舞雲智網科技有限公司 Dancing Cloud Technologies Co., Ltd.
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
