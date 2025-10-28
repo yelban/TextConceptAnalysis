@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧流程引擎 - 常見問答</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+            font-size: 17px;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: #f8f9fa;
+            padding: 20px 16px;
+        }
+        
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 32px 24px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.5em;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 0.95em;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        main {
+            padding: 28px 24px 40px;
+        }
+        
+        .section {
+            margin-bottom: 36px;
+        }
+        
+        .section-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .qa-item {
+            margin-bottom: 28px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 18px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .question {
+            font-size: 1.05em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .question::before {
+            content: "Q: ";
+            color: #667eea;
+            font-weight: 800;
+        }
+        
+        .answer {
+            color: #495057;
+            line-height: 1.75;
+        }
+        
+        .answer::before {
+            content: "A: ";
+            color: #764ba2;
+            font-weight: 700;
+        }
+        
+        .highlight {
+            background: linear-gradient(transparent 60%, #ffd70080 60%);
+            font-weight: 600;
+            padding: 0 2px;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+        
+        @media (min-width: 768px) {
+            body {
+                padding: 40px 24px;
+            }
+            
+            h1 {
+                font-size: 1.75em;
+            }
+            
+            main {
+                padding: 36px 32px 48px;
+            }
+            
+            .qa-item {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>智慧流程生成引擎</h1>
+            <div class="subtitle">能源業者最關心的 25 個問題</div>
+        </header>
+
+        <main>
+            <!-- 第一部分 -->
+            <section class="section">
+                <h2 class="section-title">第一部分：關於「你是誰？」（基礎理解）</h2>
+                
+                <div class="qa-item">
+                    <div class="question">你們這套「智慧流程生成引擎」，說白了到底是什麼？</div>
+                    <div class="answer">簡單說，它就像一個<span class="highlight">「AI 超級外掛」</span>。您不用找 IT 寫程式，公司裡懂業務的「麻瓜」（比如您的能源管理師、行政人員），<span class="highlight">只要用『說人話』的方式下指令</span>，就能自己『拼』出一個 AI 工具來用，就像拼樂高一樣。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">「麻瓜」都能用？聽起來有點懸。我公司的能源管理師只懂設備，不懂 AI 啊。</div>
+                    <div class="answer">這就是重點！他不需要懂 AI。他只需要懂「他想要什麼」。比如，他可以說：「我需要一個工具，能自動抓取 A 廠區的即時電表資料，只要超過 500kW 就立刻發 LINE 通知我。」<span class="highlight">我們的引擎會去『聽懂』他的需求，然後『自動』把背後的流程搭建起來。</span></div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">這跟我們現在用的 ChatGPT 有什麼不一樣？</div>
+                    <div class="answer">差很多。ChatGPT 只能「聊天」，您叫它幫您關掉一台變壓器，它只能跟您說「我辦不到」。我們的引擎是「行動派」，它<span class="highlight">真的能連上您的系統</span>，拿到即時資料，然後<span class="highlight">真的去執行您交辦的任務</span>，比如發出那個 LINE 警報。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">你們的標題說 AI 有「眼睛」、「知識庫」、「海馬迴」，這聽起來很玄，能說人話嗎？</div>
+                    <div class="answer">哈哈，這只是比喻啦！<br><br>
+                    • <span class="highlight">「眼睛」</span>：就是它能<span class="highlight">即時「看見」</span>您公司內部的系統長什麼樣。您系統升級了，它也會立刻看到新版本，不會像其他 AI 拿舊資料胡說八道。<br><br>
+                    • <span class="highlight">「知識庫」</span>：就是一本<span class="highlight">「活字典」</span>。您公司的新規定、台電的新電價，都能放進去，AI 會隨時查閱最新資料來回答。<br><br>
+                    • <span class="highlight">「海馬迴」</span>：就是<span class="highlight">「記憶力」</span>。您跟它聊了半天，它不會突然「失憶」，會記得上下文，像那個「節能導師」一樣，能跟您深入聊下去。</div>
+                </div>
+            </section>
+
+            <!-- 第二部分 -->
+            <section class="section">
+                <h2 class="section-title">第二部分：關於「安全與成本」（SaaS vs. 私有化）</h2>
+                
+                <div class="qa-item">
+                    <div class="question">這聽起來很棒，但我的能源資料、工廠資料非常敏感，我可不想上傳到你們的平台！</div>
+                    <div class="answer">這是最關鍵的問題！我們<span class="highlight">完全同意</span>。所以我們這套引擎是<span class="highlight">「反 SaaS」</span>的。它<span class="highlight">不是</span>一個您要上傳資料的「雲端平台」，而是<span class="highlight">一套「安裝在您家」的軟體</span>。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">「安裝在您家」？什麼意思？</div>
+                    <div class="answer">意思就是，您可以把這套引擎<span class="highlight">安裝在您公司自己的內網伺服器</span>裡。您的所有資料，從頭到尾都<span class="highlight">不需要離開您的防火牆</span>，100% 確保安全和「數位主權」。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">你們提到「反 SaaS 革命」和「人頭費」，這對我的成本有什麼影響？</div>
+                    <div class="answer">影響可大了。現在很多 SaaS 軟體，都是收「人頭費」（按使用人數算錢）和「流程費」（按使用次數算錢）。您公司 10 個人用，付 10 個人的錢；100 個人用，付 100 個人的錢。<br><br><span class="highlight">我們是一次性部署</span>，您買下這套「引擎」後，<span class="highlight">您公司 1000 個人用，搭建 100 個 AI 應用，我們都不會再多收「人頭費」</span>。您是在「租用」自動化，還是真正「擁有」自動化，這差很多。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">部署在我們自己家，那 AI 模型的算力怎麼辦？會不會很貴？</div>
+                    <div class="answer">好問題。這個引擎本身是「駕駛員」，您可以自由選擇要開什麼「車」（AI 模型）。您可以選擇串接外部的 ChatGPT，也可以選擇使用安裝在您內網的私有 AI 模型。<span class="highlight">控制權和成本結構完全掌握在您手上</span>。</div>
+                </div>
+            </section>
+
+            <!-- 第三部分 -->
+            <section class="section">
+                <h2 class="section-title">第三部分：關於「能源案例」（實際應用）</h2>
+                
+                <div class="qa-item">
+                    <div class="question">案例一的「PowerBill AI 電費單分析」，它真的看得懂台電複雜的電費單嗎？</div>
+                    <div class="answer">問對人了。它一開始也看不懂。但您只要把台電的電價結構、尖離峰時段規則，放進它的「動態知識庫」一次，它就「學會」了。它會自動抓取您電費單上的資料，<span class="highlight">對照那些規則</span>，找出哪裡用電不合理，甚至幫您模擬不同契約容量下的電費，<span class="highlight">這比人工核對快上百倍</span>。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">我上傳電費單 PDF 檔，它就能讀？</div>
+                    <div class="answer">沒錯。您上傳 PDF 或照片，它會自己讀取、解析、抓重點。這就是它「眼睛」的功能之一。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">案例二的「節能導師」，聽起來像個聊天機器人？它怎麼保證不會「失憶」或亂講？</div>
+                    <div class="answer">這就是「海馬迴」（可追溯記憶圖譜）的功勞。當您在 LINE 上跟它對話，它會<span class="highlight">記住上下文</span>。您跟它說「我是 A 廠區的」，它下一步就會圍繞 A 廠區的設備提問，<span class="highlight">不會鬼打牆</span>。而且它的答案都來自您事先餵給它的「知識庫」（那套節能理論），保證專業、不亂掰。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">這個「節能導師」會不會取代我公司的能源專家？</div>
+                    <div class="answer">不會，它是<span class="highlight">專家的「分身」</span>。您想，您公司最懂節能的那位專家，是不是很忙？這個 AI 導師，就是把專家的 80% 基礎知識「複製」出來，<span class="highlight">去處理那 80% 的重複性問題</span>，讓真正的專家能專心處理那 20% 最複雜的挑戰。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">案例三的「能源基線 (Baseline)」，我們自己用 Excel 也在做，你們的有什麼不同？</div>
+                    <div class="answer">Excel 做的是「靜態」基線。我們的「BaselineAI」做的是<span class="highlight">「動態」基線</span>。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">什麼叫「動態」基線？</div>
+                    <div class="answer">意思是，它不只看歷史用電，它還會<span class="highlight">自動串接「即時天氣資料」、「工廠排程」</span>。比如，它知道「下週是滿載生產，而且有寒流」，它就會<span class="highlight">自動預測</span>一個更精準的「合理用電基線」。當實際用電一偏離，<span class="highlight">系統會立刻告警</span>，告訴您「出問題了」，而不是等月底收到電費單才知道。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">這些工具（電費單、節能導師、基線平台），是我跟你們買的「App」嗎？</div>
+                    <div class="answer">不。<span class="highlight">我們賣的是「引擎」（那個黑箱），而這些 App 是您公司的人，用我們的引擎「自己搭建出來」的。</span>您甚至可以搭建案例四、案例五...</div>
+                </div>
+            </section>
+
+            <!-- 第四部分 -->
+            <section class="section">
+                <h2 class="section-title">第四部分：關於「落地與整合」（我該怎麼做？）</h2>
+                
+                <div class="qa-item">
+                    <div class="question">我公司有很多舊系統，比如 SCADA 或 EMS，你們的引擎能接嗎？</div>
+                    <div class="answer">這正是我們的強項。我們的「連接器中樞」（就是 AI 的「眼睛」）就是一個<span class="highlight">「萬用插座」</span>。只要您的舊系統能提供 API 介面，或者能讀取資料庫，它就能去串接。<span class="highlight">它存在的目的，就是打通這些系統孤島。</span></div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">你們的圖二「AI 大腦」，看起來能連接所有系統，真的嗎？</div>
+                    <div class="answer">是的，這就是它的核心價值。您公司的 EMS、ERP、CRM、甚至 LINE，以前都是各管各的。這個引擎就像一個「AI 神經中樞」，能<span class="highlight">同時指揮</span>它們，搭建出以前做不到的<span class="highlight">「跨系統自動化流程」</span>。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">聽起來很棒，但我怎麼開始？感覺要搞很久？</div>
+                    <div class="answer">我們建議<span class="highlight">「由小開始」</span>。您不需要一口氣自動化所有事。<span class="highlight">先挑一個您最痛的點</span>，比如「每個月分析電費單很煩」，那我們就先用引擎搭建「PowerBill AI」這個應用。<span class="highlight">您花 1 週時間看到成效，就會知道下一個要做什麼了。</span></div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">如果我的「麻瓜」員工在搭建流程時卡住了，AI 會幫他嗎？</div>
+                    <div class="answer">會。這就是「AI Agent 工作流」的精髓。您的員工用自然語言說出需求，AI 會「反過來」指導他，甚至<span class="highlight">自動生成 80% 的流程</span>，員工只需要檢查和微調就好。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">搭建一個像「電費單分析」這樣的工具，大概要多久？</div>
+                    <div class="answer">如果是傳統 IT 開發，可能要幾個月。用我們的引擎，<span class="highlight">如果您已經有資料（電價表），可能只需要幾天甚至幾小時</span>，就能讓您的「麻瓜」員工搭建出原型開始測試。</div>
+                </div>
+            </section>
+
+            <!-- 第五部分 -->
+            <section class="section">
+                <h2 class="section-title">第五部分：關於「未來與總結」（我為什麼要買單？）</h2>
+                
+                <div class="qa-item">
+                    <div class="question">你們的圖三「從混亂到有序」，我很有感。這能幫我省多少錢？</div>
+                    <div class="answer">省錢有兩方面：<br><br>
+                    1. <span class="highlight">直接省錢</span>：像「電費單分析」能幫您找到節能點，這是<span class="highlight">省能源費</span>。<br><br>
+                    2. <span class="highlight">間接省錢</span>：<span class="highlight">省下大量的「人力成本」和「時間成本」</span>。過去要 IT 團隊開發 3 個月，現在業務團隊自己 3 天搞定，這中間的效率提升就是省下來的錢。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">為什麼我需要「擁有」自動化？我現在用 SaaS 租用也好好的？</div>
+                    <div class="answer">在能源這個行業，「資料主權」至關重要。您「租用」SaaS，您的資料、流程、甚至客戶資料，都放在別人手上。當您「擁有」這個引擎，您是<span class="highlight">在自己的地盤上，建立一個專屬於您的、100% 安全可控的「AI 資產」</span>。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">這套引擎，會不會很快就被 AI 的發展淘汰掉？</div>
+                    <div class="answer">不會。因為我們是「駕馭」AI 的引擎，不是 AI 本身。<span class="highlight">我們是「方向盤」，AI 模型是「引擎」</span>。明天就算 ChatGPT-10 出來了，您只需要把「方向盤」接上那個新引擎，整套系統的能力就立刻升級了，您之前搭建的所有流程都還能繼續用。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">所以，對我這個能源業者來說，你們最大的價值是什麼？</div>
+                    <div class="answer">最大的價值是<span class="highlight">「賦權」</span>。我們把「創造 AI 工具」的權力，從昂貴的 IT 專家手上，<span class="highlight">交還給第一線、最懂業務的能源管理師</span>。<span class="highlight">讓他們能用 AI 把自己的專業知識「變現」</span>，快速解決業務痛點。</div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="question">好，我有點興趣了。你們在展場有實際 DEMO 嗎？我想看看那個「電費單分析」怎麼動的。</div>
+                    <div class="answer">當然！很高興您問到。我們的 Demo 區就在這邊，您可以<span class="highlight">立刻拿出您的手機，加入我們的 LINE 官方帳號</span>，親自體驗看看「節能導師」和「電費單分析」。</div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            © 2025 智慧流程生成引擎 | 讓能源管理師成為 AI 創造者
+        </footer>
+    </div>
+</body>
+</html>
