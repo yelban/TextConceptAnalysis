@@ -218,6 +218,12 @@
            這裡的設定會覆蓋上面的樣式，確保列印輸出乾淨
            ========================================= */
         @media print {
+            /* 修正：強制將全域文字顏色變數改為純黑 #000000 */
+            /* 這樣所有使用 var(--text-color) 的標題與內文都會變成純黑 */
+            :root {
+                --text-color: #000000 !important;
+            }
+
             /* 混合策略：上方使用物理邊距，其他方向歸零 */
             @page {
                 size: A4;
@@ -235,6 +241,8 @@
                 background: none;
                 margin: 0;
                 padding: 0;
+                /* 確保 body 也是純黑 */
+                color: #000000 !important;
             }
             
             .page {
@@ -243,33 +251,37 @@
                 margin: 0;
                 
                 /* 這裡設定內容的內距 */
-                /* 上：0 (因為 @page 已經給了 20mm，這裡不需要再加，不然第一頁會太低) */
+                /* 上：0 (因為 @page 已經給了 20mm) */
                 /* 左右：15mm (維持您覺得不錯的寬度) */
-                /* 下：25mm (預留空間給頁尾，防止內文蓋到頁尾) */
+                /* 下：25mm (預留空間給頁尾) */
                 padding: 0 15mm 25mm 15mm; 
                 
                 box-shadow: none;
                 border: none;
                 border-radius: 0;
                 background-color: transparent !important;
-                color: #000 !important;
+                /* 強制容器內所有文字純黑 */
+                color: #000000 !important;
             }
 
             h1 {
                 /* 因為上方已經有 20mm 的 @page 留白，標題不需要額外上邊距 */
                 margin-top: 0;
                 padding-top: 10px; 
+                /* 確保標題純黑 */
+                color: #000000 !important;
             }
 
             .content > p:first-of-type::first-letter {
-                color: #000 !important;
+                color: #000000 !important;
             }
 
             .meta-info {
-                border-bottom: 1px solid #000;
+                border-bottom: 1px solid #000000;
+                color: #000000 !important;
             }
 
-            /* 頁尾設定維持不變 */
+            /* 頁尾設定維持不變，但確保顏色純黑 */
             .print-footer {
                 display: block !important;
                 position: fixed;
@@ -280,7 +292,8 @@
                 text-align: center;
                 font-size: 9pt; 
                 font-family: var(--font-main);
-                color: #555;
+                /* 頁尾改為純黑，或維持 #555 深灰看您喜好，這裡我改為純黑以求一致 */
+                color: #000000 !important; 
                 background-color: transparent;
                 z-index: 9999;
             }
@@ -289,6 +302,7 @@
             * {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+                text-shadow: none !important; /* 去除任何可能的文字陰影 */
             }
         }
 
@@ -427,3 +441,4 @@
     </script>
 </body>
 </html>
+
