@@ -218,6 +218,14 @@
            這裡的設定會覆蓋上面的樣式，確保列印輸出乾淨
            ========================================= */
         @media print {
+            /* 混合策略：上方使用物理邊距，其他方向歸零 */
+            @page {
+                size: A4;
+                /* 關鍵修改：上方給予 20mm 的物理留白，保證每一頁開頭都有呼吸空間 */
+                /* 其他方向設為 0，讓我們保留控制權 */
+                margin: 20mm 0 0 0; 
+            }
+
             /* 隱藏螢幕專用元素 */
             .toolbar, #progress-bar {
                 display: none !important;
@@ -233,15 +241,26 @@
                 width: 100%;
                 height: auto;
                 margin: 0;
-                padding: 0; /* 讓列印機決定邊界，或設為 20mm */
+                
+                /* 這裡設定內容的內距 */
+                /* 上：0 (因為 @page 已經給了 20mm，這裡不需要再加，不然第一頁會太低) */
+                /* 左右：15mm (維持您覺得不錯的寬度) */
+                /* 下：25mm (預留空間給頁尾，防止內文蓋到頁尾) */
+                padding: 0 15mm 25mm 15mm; 
+                
                 box-shadow: none;
                 border: none;
                 border-radius: 0;
-                background-color: #fff !important; /* 強制白底 */
-                color: #000 !important; /* 強制黑字 */
+                background-color: transparent !important;
+                color: #000 !important;
             }
 
-            /* 確保列印時首字下沉依然好看，但顏色為黑 */
+            h1 {
+                /* 因為上方已經有 20mm 的 @page 留白，標題不需要額外上邊距 */
+                margin-top: 0;
+                padding-top: 10px; 
+            }
+
             .content > p:first-of-type::first-letter {
                 color: #000 !important;
             }
@@ -250,11 +269,32 @@
                 border-bottom: 1px solid #000;
             }
 
+            /* 頁尾設定維持不變 */
+            .print-footer {
+                display: block !important;
+                position: fixed;
+                /* 距離紙張最底部的距離 */
+                bottom: 8mm; 
+                left: 0;
+                right: 0;
+                text-align: center;
+                font-size: 9pt; 
+                font-family: var(--font-main);
+                color: #555;
+                background-color: transparent;
+                z-index: 9999;
+            }
+
             /* 強制背景列印設定 */
             * {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+        }
+
+        /* 螢幕上隱藏這個列印頁尾 */
+        .print-footer {
+            display: none;
         }
     </style>
 </head>
@@ -276,6 +316,11 @@
         <!-- 將圖示改為「復原」箭頭 (Undo/Return)，更符合撤銷變更的概念 -->
         <button onclick="resetDefaults()" title="恢復預設值" style="font-size: 18px;">↩</button>
         <button onclick="window.print()" title="列印本文" style="font-size: 18px;">🖨️</button>
+    </div>
+
+    <!-- 新增：列印時會出現在每一頁下方的書名 -->
+    <div class="print-footer">
+        — 昆蟲奇遇記 —
     </div>
 
     <div class="page">
