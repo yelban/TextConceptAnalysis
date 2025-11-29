@@ -273,6 +273,8 @@
         <button onclick="setTheme('sepia')" title="羊皮紙護眼" style="background-color: #fbf0d9; border: 1px solid #e0d0b0; width: 20px; height: 20px;"></button>
         <button onclick="setTheme('dark')" title="暗黑模式" style="background-color: #1e1e1e; border: 1px solid #444; width: 20px; height: 20px;"></button>
         <div class="divider"></div>
+        <!-- 將圖示改為「復原」箭頭 (Undo/Return)，更符合撤銷變更的概念 -->
+        <button onclick="resetDefaults()" title="恢復預設值" style="font-size: 18px;">↩</button>
         <button onclick="window.print()" title="列印本文" style="font-size: 18px;">🖨️</button>
     </div>
 
@@ -367,6 +369,16 @@
             const scrolled = (scrollTop / scrollHeight) * 100;
             document.getElementById('progress-bar').style.width = scrolled + '%';
         });
+
+        // 4. 恢復預設值
+        function resetDefaults() {
+            // 重置字體大小
+            currentFontSize = 14;
+            document.documentElement.style.setProperty('--font-size-base', currentFontSize + 'pt');
+            
+            // 重置主題 (移除 data-theme 屬性即回到預設)
+            document.body.removeAttribute('data-theme');
+        }
     </script>
 </body>
 </html>
