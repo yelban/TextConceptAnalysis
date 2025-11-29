@@ -219,7 +219,6 @@
            ========================================= */
         @media print {
             /* 修正：強制將全域文字顏色變數改為純黑 #000000 */
-            /* 這樣所有使用 var(--text-color) 的標題與內文都會變成純黑 */
             :root {
                 --text-color: #000000 !important;
             }
@@ -227,8 +226,7 @@
             /* 混合策略：上方使用物理邊距，其他方向歸零 */
             @page {
                 size: A4;
-                /* 關鍵修改：上方給予 20mm 的物理留白，保證每一頁開頭都有呼吸空間 */
-                /* 其他方向設為 0，讓我們保留控制權 */
+                /* 上方給予 20mm 的物理留白，保證每一頁開頭都有呼吸空間 */
                 margin: 20mm 0 0 0; 
             }
 
@@ -238,10 +236,10 @@
             }
 
             body {
-                background: none;
+                /* 修正：背景改為純白，比 none 更安全，防止透出螢幕的深色背景 */
+                background-color: #ffffff !important;
                 margin: 0;
                 padding: 0;
-                /* 確保 body 也是純黑 */
                 color: #000000 !important;
             }
             
@@ -259,16 +257,19 @@
                 box-shadow: none;
                 border: none;
                 border-radius: 0;
-                background-color: transparent !important;
+                
+                /* 修正：背景改為純白 #ffffff */
+                /* 這是最安全的設定，確保列印出來底色乾淨 */
+                /* 由於下方的 footer 有 z-index: 9999，所以不會被這個白色背景蓋住 */
+                background-color: #ffffff !important;
+                
                 /* 強制容器內所有文字純黑 */
                 color: #000000 !important;
             }
 
             h1 {
-                /* 因為上方已經有 20mm 的 @page 留白，標題不需要額外上邊距 */
                 margin-top: 0;
                 padding-top: 10px; 
-                /* 確保標題純黑 */
                 color: #000000 !important;
             }
 
@@ -281,20 +282,19 @@
                 color: #000000 !important;
             }
 
-            /* 頁尾設定維持不變，但確保顏色純黑 */
+            /* 頁尾設定 */
             .print-footer {
                 display: block !important;
                 position: fixed;
-                /* 距離紙張最底部的距離 */
                 bottom: 8mm; 
                 left: 0;
                 right: 0;
                 text-align: center;
                 font-size: 9pt; 
                 font-family: var(--font-main);
-                /* 頁尾改為純黑，或維持 #555 深灰看您喜好，這裡我改為純黑以求一致 */
                 color: #000000 !important; 
                 background-color: transparent;
+                /* 關鍵：最高的層級，確保它浮在白色背景之上 */
                 z-index: 9999;
             }
 
@@ -302,7 +302,7 @@
             * {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                text-shadow: none !important; /* 去除任何可能的文字陰影 */
+                text-shadow: none !important;
             }
         }
 
