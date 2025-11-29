@@ -3,278 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>昆蟲奇遇記 - 排版閱讀頁面</title>
-    
-    <!-- 引入 Google Fonts Noto Serif TC 以確保美觀的宋體顯示 -->
+    <title>昆蟲奇遇記</title>
+    <!-- 引入 Google Fonts Noto Serif TC 以確保印刷時有漂亮的襯線字體 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
-
+    
     <style>
+        /* 全局設定 */
         :root {
-            --bg-color: #f4f1ea; /* 柔和的米色背景，模擬紙張 */
+            --font-main: 'Noto Serif TC', 'Songti TC', 'PMingLiU', 'MingLiU', serif;
+            --text-color: #1a1a1a;
+            --bg-color: #f5f5f5; /* 螢幕預覽時的背景色 */
             --paper-color: #ffffff;
-            --text-color: #2c2c2c; /* 深灰色，比純黑柔和 */
-            --accent-color: #5d7c58; /* 自然的綠色裝飾 */
-            --font-main: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-main);
             margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            line-height: 1.8; /* 黃金閱讀行距 */
+            padding: 20px;
+            background-color: var(--bg-color);
+            font-family: var(--font-main);
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 模擬紙張的容器 */
-        .page-container {
+        /* 模擬 A4 紙張的容器 */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 25mm; /* 上下左右留白 */
+            margin: 0 auto;
             background-color: var(--paper-color);
-            width: 100%;
-            max-width: 800px; /* A4 寬度適配 */
-            padding: 60px 80px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
             position: relative;
-            box-sizing: border-box;
         }
 
-        /* 裝飾性邊框 */
-        .content-border {
-            border: 3px double var(--accent-color);
-            padding: 40px;
-            height: 100%;
-            box-sizing: border-box;
-        }
-
+        /* 標題樣式 */
         h1 {
             text-align: center;
-            font-size: 2.2em;
-            margin-bottom: 15px; /* 縮減間距以容納作者資訊 */
-            color: #1a1a1a;
+            font-size: 24pt;
             font-weight: 700;
-            letter-spacing: 0.2em;
-            border-bottom: 1px solid var(--accent-color);
-            padding-bottom: 20px;
+            margin-bottom: 0.5em;
+            letter-spacing: 2px;
         }
 
-        /* 新增：作者與日期樣式 */
-        .metadata {
+        /* 作者與日期資訊樣式 */
+        .meta-info {
             text-align: center;
-            color: #555;
-            margin-bottom: 40px;
-            font-size: 1rem;
-            letter-spacing: 0.05em;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+            margin-bottom: 2em;
+            font-size: 12pt;
         }
 
-        .metadata span {
-            display: inline-block;
+        .meta-info p {
+            text-indent: 0; /* 取消首行縮排 */
+            padding-bottom: 0.2em;
         }
 
-        /* 文章內文設定 */
-        .story-content p {
-            font-size: 18px; /* 適合閱讀的大小 */
-            margin-bottom: 24px;
+        /* 內文排版核心 */
+        .content {
+            font-size: 12pt; /* 標準印刷字級 */
+            line-height: 1.8; /* 舒適的行高 */
             text-align: justify; /* 左右對齊 */
+            text-justify: inter-ideograph;
+        }
+
+        /* 段落樣式 */
+        p {
+            margin-bottom: 0; /* 取消預設下邊距 */
+            margin-top: 0;
+            padding-bottom: 1em; /* 段落間距 */
             text-indent: 2em; /* 首行縮排兩字 */
         }
 
-        /* 對話段落的特殊處理，讓閱讀更有層次 */
-        .dialogue {
-            color: #4a4a4a;
-            font-weight: 500;
-        }
-
-        /* 強調文字 */
-        strong {
-            color: #000;
-        }
-
-        /* 頁尾 */
-        .footer {
-            margin-top: 50px;
-            text-align: center;
-            font-size: 0.8em;
-            color: #888;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-        }
-
-        /* 按鈕樣式 (列印時會隱藏) */
-        .print-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: sans-serif;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: background 0.3s;
-            z-index: 100;
-        }
-
-        .print-btn:hover {
-            background-color: #4a6346;
-        }
-
-        /* 章節分隔符號 */
-        .divider {
-            text-align: center;
-            margin: 30px 0;
-            color: var(--accent-color);
-            font-size: 1.5em;
-        }
-
-        /* ----------- 列印專用樣式 (Print CSS) ----------- */
+        /* 對話或引號內容，若有特殊需求可調整，這裡保持統一縮排 */
+        
+        /* 列印專用樣式 (@media print) */
         @media print {
-            @page {
-                size: A4;
-                margin: 2cm; /* 設定 A4 邊距 */
-            }
-
             body {
-                background-color: white;
-                padding: 0;
+                background: none;
                 margin: 0;
-            }
-
-            .page-container {
-                box-shadow: none;
-                width: 100%;
-                max-width: 100%;
                 padding: 0;
-                margin: 0;
-            }
-
-            .content-border {
-                border: none; /* 列印時移除裝飾框以保持乾淨，或保留視喜好而定 */
-                padding: 0;
-            }
-
-            .print-btn {
-                display: none; /* 隱藏按鈕 */
-            }
-
-            p {
-                color: #000; /* 確保文字全黑 */
-                font-size: 12pt; /* 列印標準字級 */
-            }
-
-            h1 {
-                font-size: 24pt;
             }
             
-            .metadata {
-                color: #000;
+            .page {
+                width: 100%;
+                height: auto;
+                margin: 0;
+                padding: 20mm; /* 列印時的安全邊距 */
+                box-shadow: none;
+                border: none;
             }
-        }
-        
-        /* 手機版適配 */
-        @media screen and (max-width: 600px) {
-            .page-container {
-                padding: 20px;
-            }
-            .content-border {
-                padding: 15px;
-                border: 1px solid var(--accent-color);
-            }
-            .story-content p {
-                font-size: 16px;
-                text-indent: 0; /* 手機版通常取消縮排增加閱讀空間 */
-                margin-bottom: 15px;
+
+            /* 強制背景列印設定（雖然這裡是白底黑字，但以防萬一） */
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
         }
     </style>
 </head>
 <body>
 
-    <button class="print-btn" onclick="window.print()">🖨️ 列印本文</button>
+    <div class="page">
+        <h1>昆蟲奇遇記</h1>
+        
+        <div class="meta-info">
+            <p>作者：許哲安</p>
+            <p>日期：2025/11/29</p>
+        </div>
 
-    <div class="page-container">
-        <div class="content-border">
-            <header>
-                <h1>昆蟲奇遇記</h1>
-                <div class="metadata">
-                    <span>作者：許哲安</span>
-                    <span>2025/11/29</span>
-                </div>
-            </header>
+        <div class="content">
+            <p>維金斯是一隻全身像彩色的鑽石一樣閃閃發光，十分耀眼的彩虹鍬形蟲，他的夢想是從不知名的喜劇演員變成帥氣的昆蟲間諜，打敗壞蟲，拯救受害的昆蟲，雖然維金斯的觀察力敏銳，而且很有責任感，但他就是缺乏自信。</p>
 
-            <article class="story-content">
-                <p>維金斯是一隻全身像彩色的鑽石一樣閃閃發光，十分耀眼的彩虹鍬形蟲，他的夢想是從不知名的喜劇演員變成帥氣的昆蟲間諜，打敗壞蟲，拯救受害的昆蟲。雖然維金斯的觀察力敏銳，而且很有責任感，但他就是缺乏自信。</p>
-
-                <p>有一天，維金斯在一家大飯店的劇院表演完後，突然聽見背後傳來一陣低沈的聲音：</p>
-
-                <p class="dialogue">「這位先生您好，我是昆蟲間諜聯盟的枯葉螽斯詹姆士，請問您是否有意願成為昆蟲間諜呢？我們正在四處找人，我看得出來您非常有潛力。」</p>
-
-                <p>詹姆士看起來很有經驗，也很厲害，傳聞他曾經打敗了許多惡劣的壞蟲，像是力氣大的獨角仙強盜馬修和傑夫，還有瘋狂的螳螂殺蟲魔蓋瑞。維金斯愣了一下，說道：</p>
-
-                <p class="dialogue">「昆⋯⋯昆蟲間諜？當⋯⋯當然可以，但請問我的潛力是什麼？」</p>
-
-                <p class="dialogue">詹姆士微笑：「等等你就會知道了。」</p>
-
-                <p>雖然維金斯答應了，但他還是沒有自信。這時，維金斯注意到觀眾席在他們談話的途中少了三位觀眾，他趕緊叫住詹姆士，並告訴詹姆士他的發現。他們討論並調閱了現場監視器後，維金斯鼓起勇氣斷定，是那位穿著優雅純黑色禮服、還帶著像貓一樣柔軟鮮紅色圍巾的美麗螢火蟲小姐，被兩隻像石墨一樣黑的兇悍大獨角仙帶走了，必須立刻去救她。</p>
-
-                <div class="divider">❦</div>
-
-                <p>他們經過努力追查，終於找到螢火蟲小姐的去向。在挑戰了很多像是在考驗體能極限的關卡後，他們終於找到了螢火蟲小姐，但螢火蟲小姐卻不高興地噘起嘴巴：</p>
-
-                <p class="dialogue">「我才不是被綁架！我是和我的朋友在玩密室逃脫遊戲而已！」</p>
-
-                <p>維金斯微微張開嘴巴：<span class="dialogue">「啊，原來是這樣，真的很抱歉！」</span></p>
-
-                <p>雖然詹姆士不斷地安慰他，但維金斯因為這件事，又失去了許多自信。</p>
-
-                <p>幾天後，維金斯的朋友告訴他，詹姆士和螢火蟲小姐在公園清澈的池塘附近被抓走了，只知道兇手是兩隻披著深灰色披風的高大昆蟲，而且是往那天那家密室逃脫店面的方向走。維金斯為了救詹姆士與螢火蟲小姐，飛到了目前被警方封鎖的密室逃脫店面附近。</p>
-
-                <p>當維金斯剛剛進入被封鎖的區域，小心翼翼地躲進最近的灌木叢，準備露出雙眼偷看時，他聽見了低沉但興奮的說話聲：</p>
-
-                <p class="dialogue">「哈！那個叫維金斯的真的被我騙了，而且我們順利得到龐大的財產啦！太棒了！」</p>
-
-                <p>沒想到，之前那兩隻大獨角仙正和正在竊笑的詹姆士高興地打開了一座地下室，嘲笑被關在裡面的螢火蟲小姐。維金斯實在是太驚訝，不小心大叫出聲：</p>
-
-                <p class="dialogue">「詹⋯⋯詹姆士？你怎麼⋯⋯」</p>
-
-                <p>詹姆士詭異地笑了笑，迅速用他長得像枯葉的雙手撥開草叢，叫兩隻獨角仙把維金斯壓住，並用巨大的棕色膠帶將他捆起來，丟進了螢火蟲小姐所在的狹小地下室。</p>
-
-                <p>接著，詹姆士和另外兩隻獨角仙沿著樹枝梯子一個個爬下來，並告訴維金斯和螢火蟲小姐：</p>
-
-                <p class="dialogue">「我們是因為想要得到螢火蟲小姐龐大的財產。因為我們發現了維金斯的敏銳觀察力對我們的計劃會有影響，所以我假扮成昆蟲間諜，騙維金斯去解決螢火蟲小姐的綁架案，讓維金斯的自信又減少，好讓兩隻獨角仙能順利地執行計劃。我們沒想到維金斯失去的自信會那麼快地變回來，但現在我們還是贏定啦！」</p>
-
-                <p>下一秒，其中一隻比較黑、也比較高大的獨角仙把螢火蟲小姐抱出地下室，詹姆士和另一隻獨角仙也跟在後面。維金斯扯著喉嚨大聲道：</p>
-
-                <p class="dialogue">「我才不會讓壞蟲得逞！」</p>
-
-                <div class="divider">❦</div>
-
-                <p>維金斯再也無法忍受詹姆士是冒牌貨，甚至還用這種騙局將他綁起來。他想要努力打敗這些可惡的壞蟲，於是他吃力地用兩隻沒被膠帶捆著的腳爬到梯子邊，想要用大顎把他們撞下來，但他們用翅膀飛了起來。</p>
-
-                <p>正當維金斯想要放棄時，那兩隻獨角仙其中一隻飛到維金斯身邊，幫他把身上的膠帶用角割開，讓維金斯的身體獲得自由。</p>
-
-                <p>隨後，另一隻獨角仙衝到維金斯面前，並用他的角一再用力地撞向詹姆士。一隻叫馬修的獨角仙邊戰鬥邊告訴維金斯，他們就是被詹姆士關進監獄的那兩隻「強盜」獨角仙，前幾天才被放出來。但真正的強盜其實是詹姆士，是詹姆士誣賴他們，讓他們兩個背黑鍋。</p>
-
-                <p>維金斯知道真相後，馬上轉身背對詹姆士，試著用身上如鑽石般刺眼的反光干擾詹姆士。維金斯試了很多次不同的角度，但不是只照到詹姆士的腳，就是照到牆壁或梯子。</p>
-
-                <p>但維金斯沒有放棄，他不斷試了好幾個角度，終於，在詹姆士要砍斷另一隻叫傑夫的獨角仙的腳前一秒，維金斯成功用刺眼的反光照到了詹姆士的雙眼！</p>
-
-                <p class="dialogue">詹姆士「啊！」的大叫一聲，摀著眼睛倒在地板上。</p>
-                
-                <p>傑夫和馬修趕緊衝過去，把詹姆士壓制住。最後，馬修和傑夫幫忙把詹姆士抬到警局，詹姆士被關進監獄。維金斯幫助螢火蟲小姐解開膠帶後，馬修、傑夫，還有維金斯被正式邀請成為昆蟲間諜，成為了在昆蟲間諜界最知名的昆蟲間諜搭檔。</p>
-            </article>
-
-            <footer class="footer">
-                <p>— 完 —</p>
-            </footer>
+            <p>有一天，維金斯在一家大飯店的劇院表演完後，突然聽見背後突然傳來一陣低沈的聲音：</p>
+            
+            <p>「這位先生您好，我是昆蟲間諜聯盟的枯葉螽斯詹姆士，請問您是否有意願成為昆蟲間諜呢？我們正在四處找人，我看得出來您非常有潛力。」</p>
+            
+            <p>詹姆士很有經驗，也很厲害，曾經打敗了許多惡劣的壞蟲，像是力氣大的獨角仙強盜馬修和傑夫，還有瘋狂的螳螂殺蟲魔蓋瑞。</p>
+            
+            <p>維金斯愣了一下，並說：</p>
+            
+            <p>「昆⋯⋯昆蟲間諜？當⋯⋯當然可以，但請問我的潛力是什麼？」</p>
+            
+            <p>詹姆士微笑：</p>
+            
+            <p>「等等你就會知道了。」</p>
+            
+            <p>雖然維金斯答應了，但他還是沒有自信，這時，維金斯注意到觀眾席在他們談話的途中少了三位觀眾，他趕緊叫住詹姆士，並告訴詹姆士他的發現，他們討論，並調了現場監視器後，維金斯鼓起勇氣斷定是那位穿著優雅純黑色禮服，還帶著像貓一樣柔軟的鮮紅色圍巾的美麗螢火蟲被兩隻像石墨一樣黑的兇悍大獨角仙帶走，必須去救她。</p>
+            
+            <p>他們經過努力找到螢火蟲小姐的去向，並挑戰了很多像在挑戰自己體能極限的關卡後找到了螢火蟲小姐，但螢火蟲小姐卻不高興的噘起嘴 巴：</p>
+            
+            <p>「我才不是被綁架！我是和我的朋友在玩密室逃脫遊戲而已！」</p>
+            
+            <p>維金斯微微張開嘴巴：</p>
+            
+            <p>「啊，原來是這樣，真的很抱歉！」</p>
+            
+            <p>雖然詹姆士不斷地安慰他，但維金斯因為這件事，又失去了許多自信。</p>
+            
+            <p>幾天後，維金斯的朋友告訴他詹姆士和螢火蟲小姐在公園清澈的池塘附近被抓走了，只知道兇手是兩隻披著深灰色披風的高大昆蟲，而且是往那天那家密室逃脫店面的方向走，維金斯為了救詹姆士與螢火蟲小姐，飛到了目前被警方封鎖的密室逃脫店面附近。</p>
+            
+            <p>當維金斯剛剛進入被封鎖的區域，小心翼翼地躲進了最近的灌木叢，準備露出雙眼偷看，這時他聽見了低沉但興奮說話聲：</p>
+            
+            <p>「哈！那個叫維金斯的真的被我騙了，而且我們順利得到龐大的財產啦！太棒了！」</p>
+            
+            <p>沒想到之前那兩隻大獨角仙正和正在竊笑的詹姆士高興的打開了一座地下室，嘲笑被關在裡面的螢火蟲小姐，維金斯實在是太驚訝，不小心大叫出聲：</p>
+            
+            <p>「詹⋯⋯詹姆士？你怎麼⋯⋯」</p>
+            
+            <p>詹姆士詭異的笑了笑，迅速用他長得像枯葉的雙手撥開草叢，叫兩隻獨角仙把維金斯斯壓住，並用巨大的棕色膠帶捆起來，丟進了螢火蟲小姐所在的狹小地下室。</p>
+            
+            <p>接著詹姆士和另外兩隻獨角仙沿著樹枝梯子一個個爬下來，並告訴維金斯和螢火蟲小姐：</p>
+            
+            <p>「我們是因為想要得到螢火蟲小姐龐大的財產，因為我們發現了維金斯的敏銳觀察力，對我們的計劃會有影響，所以我假扮成昆蟲間諜，騙維金斯去解決螢火蟲小姐的綁架案，讓維金斯的自信又減少，好讓兩隻獨角仙能順利地執行計劃，我們沒想到維金斯失去的自信會那麼快的變回來，但現在我們還是贏定啦！」</p>
+            
+            <p>下一秒，其中一隻比較黑，也比較高大的獨角仙把螢火蟲小姐抱出地下室，詹姆士和另一隻獨角仙也跟在後面。</p>
+            
+            <p>維金斯扯著喉嚨大聲道：</p>
+            
+            <p>「我才不會讓壞蟲得逞！」</p>
+            
+            <p>維金斯再也無法忍受詹姆士是冒牌貨，甚至還把它用綁起來這個騙局，想要努力打敗這些可惡的壞蟲，於是，他吃力的用兩隻沒被膠帶捆著的腳爬到梯子邊，想要用大鄂把他們撞下來，但他們用翅膀飛了起來，正當維金斯想要放棄時，那兩隻獨角仙一隻飛到維金斯身邊，幫他把身上的膠帶用角割開，讓維金斯了身體獲得自由。</p>
+            
+            <p>隨後，另一隻獨角仙衝到維金斯面前，並用他的角一再用力的撞詹姆士，一隻叫馬修的獨角仙邊戰鬥邊告訴維金斯他們就是被詹姆士關進監獄的那兩隻強盜獨角仙，前幾天才被放出來，但真正的強盜是詹姆士，詹姆士誣賴他們，讓他們兩個背黑鍋，維金斯知道後馬上轉身背對詹姆士，試著用刺眼的反光干擾詹姆士，維金斯試了很多次不同的角落，但不是照到詹姆士的腳，就是照的牆壁或梯子，但維金斯沒有放棄，他不段是了好幾個角度，終於，在詹姆士要砍斷另一隻叫傑夫的獨角仙的腳前一秒，維金斯成功用刺眼的反光照到了詹姆士的雙眼，詹姆士「啊！」的大叫一聲，摀著眼睛倒在地板上，傑夫和馬修趕緊衝過去，把詹姆士壓制住，最後，馬修和傑夫幫忙把詹姆士抬到警局，詹姆士被關進監獄，維金斯幫助螢火蟲小姐解開膠帶後，馬修、傑夫，還有維金斯被正式邀請成為昆蟲間諜，成為了在昆蟲間諜界最知名的昆蟲間諜搭檔。</p>
         </div>
     </div>
 
