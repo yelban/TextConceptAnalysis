@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI SBT 證書平台 - 技術規劃書 v1.6</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Palette Definition */
+            --bg-primary: #050508;
+            --bg-secondary: #0f0f16;
+            --bg-tertiary: #181824;
+            
+            --accent-blue: #2563eb;    /* Base Network / Tech */
+            --accent-cyan: #06b6d4;    /* Frontend / Read Flow */
+            --accent-purple: #9333ea;  /* Storage / Upload Flow */
+            --accent-red: #ef4444;     /* Security / Relayer */
+            --accent-gold: #fbbf24;    /* Value / Contract */
+            --accent-green: #10b981;   /* AI Generation */
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #475569;
+            --border-color: #334155;
+            
+            --gradient-base: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+            --gradient-ai: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Header */
+        header {
+            padding: 60px 0 40px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Tech Stack Pills */
+        .tech-stack {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tech-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tech-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .tech-pill.base .dot { background: var(--accent-blue); }
+        .tech-pill.arweave .dot { background: var(--accent-purple); }
+        .tech-pill.security .dot { background: var(--accent-red); }
+        .tech-pill.ai .dot { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+
+        /* Section */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header { margin-bottom: 50px; }
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-green);
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+        h2 { font-size: 32px; font-weight: 600; margin-bottom: 12px; }
+        .section-desc { color: var(--text-secondary); font-size: 16px; margin-bottom: 8px; }
+
+        /* Canvas Wrapper */
+        .canvas-wrapper {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            border: 2px solid var(--border-color);
+            padding: 20px;
+            margin-bottom: 40px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(16, 185, 129, 0.1);
+        }
+
+        canvas { display: block; margin: 0 auto; max-width: 100%; }
+
+        /* AI Feature Highlight */
+        .ai-feature {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .ai-icon {
+            font-size: 40px;
+            background: rgba(16, 185, 129, 0.1);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+        .ai-content h3 { color: var(--accent-green); margin-bottom: 8px; font-size: 20px; }
+        .ai-content p { font-size: 15px; color: var(--text-secondary); }
+
+        /* SBT Explainer Styles */
+        .sbt-explainer { margin-top: 60px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 16px; padding: 32px; position: relative; overflow: hidden; }
+        .sbt-explainer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-gold)); }
+        .sbt-header { margin-bottom: 30px; }
+        .sbt-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--accent-gold); background: rgba(251, 191, 36, 0.15); padding: 6px 12px; border-radius: 4px; border: 1px solid rgba(251, 191, 36, 0.3); margin-bottom: 12px; }
+        .sbt-content { display: flex; flex-direction: column; gap: 40px; }
+        
+        .sbt-hierarchy { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 40px 20px; background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid var(--border-color); }
+        .hierarchy-item { text-align: center; padding: 24px; border-radius: 12px; min-width: 220px; border: 2px solid transparent; transition: transform 0.3s ease; }
+        .hierarchy-item:hover { transform: translateY(-5px); }
+        .hierarchy-item.erc721 { background: rgba(37, 99, 235, 0.1); border-color: var(--accent-blue); }
+        .hierarchy-item.nft { background: rgba(147, 51, 234, 0.1); border-color: var(--accent-purple); }
+        .hierarchy-item.sbt { background: rgba(251, 191, 36, 0.1); border-color: var(--accent-gold); box-shadow: 0 0 20px rgba(251, 191, 36, 0.1); }
+        
+        .hierarchy-label { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        .hierarchy-item.erc721 .hierarchy-label { color: var(--accent-blue); }
+        .hierarchy-item.nft .hierarchy-label { color: var(--accent-purple); }
+        .hierarchy-item.sbt .hierarchy-label { color: var(--accent-gold); }
+        .hierarchy-desc { font-size: 15px; color: var(--text-primary); margin-bottom: 8px; font-weight: 600; }
+        .hierarchy-detail { font-size: 13px; color: var(--text-secondary); }
+        .hierarchy-connector { font-size: 32px; color: var(--text-muted); font-weight: 300; }
+        
+        .sbt-reasons { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .reason-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 32px; text-align: center; transition: all 0.3s ease; }
+        .reason-card:hover { border-color: var(--accent-gold); transform: translateY(-5px); }
+        .reason-icon { font-size: 36px; margin-bottom: 20px; }
+        .reason-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); }
+        .reason-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Cost Cards */
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .cost-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cost-card::top { content: ''; height: 4px; width: 100%; position: absolute; top:0; left:0; }
+        .cost-card.storage { border-top: 4px solid var(--accent-purple); }
+        .cost-card.gas { border-top: 4px solid var(--accent-blue); }
+        .cost-card.opex { border-top: 4px solid var(--accent-red); }
+        .cost-card.ai { border-top: 4px solid var(--accent-green); }
+
+        .cost-label { font-size: 14px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px; }
+        .cost-value { font-family: 'JetBrains Mono'; font-size: 32px; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); }
+        .cost-detail { font-size: 13px; color: var(--text-muted); font-family: 'JetBrains Mono'; }
+
+        /* Warning Notes */
+        .note-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .note-box.warning {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--accent-red);
+            color: #fca5a5;
+        }
+        .note-box.info {
+            background: rgba(6, 182, 212, 0.1);
+            border-left: 4px solid var(--accent-cyan);
+            color: #a5f3fc;
+        }
+        .note-box strong { display: block; margin-bottom: 8px; font-weight: 700; }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 40px; margin-top: 40px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px;
+            background: var(--border-color);
+        }
+        .timeline-item { position: relative; padding-bottom: 60px; }
+        .timeline-marker {
+            position: absolute; left: -40px; top: 5px; width: 18px; height: 18px;
+            border-radius: 50%; background: var(--bg-primary); border: 3px solid var(--accent-blue);
+            z-index: 1;
+        }
+        .timeline-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); }
+        .timeline-content {
+            background: var(--bg-tertiary); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 24px;
+        }
+        .task-list { list-style: none; }
+        .task-list li {
+            padding: 8px 0 8px 24px; position: relative; color: var(--text-secondary);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .task-list li:last-child { border-bottom: none; }
+        .task-list li::before {
+            content: '›'; position: absolute; left: 5px; color: var(--accent-cyan); font-weight: bold;
+        }
+
+        /* Footer */
+        footer { padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 13px; }
+
+        @media (max-width: 900px) {
+            .sbt-hierarchy { flex-direction: column; }
+            .hierarchy-connector { transform: rotate(90deg); }
+            .cost-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="tag">Technical Specification v1.6</div>
+            <h1>AI SBT 證書平台架構規劃</h1>
+            <p class="subtitle">Base L2 · Arweave · OpenZeppelin · <strong>Z-Image-Turbo GenAI</strong></p>
+            
+            <div class="tech-stack">
+                <div class="tech-pill base"><span class="dot"></span>Base Network</div>
+                <div class="tech-pill arweave"><span class="dot"></span>Arweave (Irys)</div>
+                <div class="tech-pill ai"><span class="dot"></span>Tongyi-MAI/Z-Image-Turbo</div>
+                <div class="tech-pill security"><span class="dot"></span>OpenZeppelin Defender</div>
+                <div class="tech-pill"><span class="dot" style="background:var(--text-primary)"></span>Next.js 14</div>
+            </div>
+        </header>
+
+        <section>
+            <div class="section-header">
+                <div class="section-number">01 / ARCHITECTURE</div>
+                <h2>系統架構邏輯</h2>
+                <p class="section-desc">三層式架構：前端應用層 → 區塊鏈層 → 永久存儲層 (含 AI 生成服務)</p>
+                <p class="section-desc">整合 Hugging Face Inference Endpoint 運行 Z-Image-Turbo，實現即時證書生成。</p>
+            </div>
+
+            <div class="ai-feature">
+                <div class="ai-icon">🎨</div>
+                <div class="ai-content">
+                    <h3>整合 Z-Image-Turbo (Tongyi-MAI)</h3>
+                    <p>
+                        本平台採用阿里通義實驗室最新的 <strong>Z-Image-Turbo</strong> 模型。該模型具備 6B 參數量，
+                        專精於<strong>中英雙語文本渲染 (Text Rendering)</strong>，解決了傳統 AI 繪圖無法準確生成證書文字的痛點。
+                        配合 Hugging Face Dedicated Endpoint，實現 < 1秒 的極速生成體驗。
+                    </p>
+                </div>
+            </div>
+
+            <div class="canvas-wrapper">
+                <canvas id="archCanvas" width="1200" height="850"></canvas>
+            </div>
+            
+            <p style="text-align: center; color: var(--text-secondary); font-size: 14px; margin-top: -20px;">
+                *圖例：<span style="color:var(--accent-cyan)">■ 前端/API</span> &nbsp; <span style="color:var(--accent-green)">■ AI 生成 (HF)</span> &nbsp; <span style="color:var(--accent-red)">■ 安全中繼 (OZ)</span> &nbsp; <span style="color:var(--accent-blue)">■ 區塊鏈 (Base)</span> &nbsp; <span style="color:var(--accent-purple)">■ 存儲 (Arweave)</span>
+            </p>
+
+            <div class="sbt-explainer">
+                <div class="sbt-header">
+                    <div class="sbt-badge">SOULBOUND TOKEN</div>
+                    <h3>為什麼使用 SBT 靈魂綁定代幣？</h3>
+                </div>
+                <div class="sbt-content">
+                    <div class="sbt-hierarchy">
+                        <div class="hierarchy-item erc721">
+                            <div class="hierarchy-label">ERC-721</div>
+                            <div class="hierarchy-desc">技術標準 (介面規範)</div>
+                            <div class="hierarchy-detail">定義 NFT 的基本介面：ownerOf、transferFrom、tokenURI 等</div>
+                        </div>
+                        <div class="hierarchy-connector">⊃</div>
+                        <div class="hierarchy-item nft">
+                            <div class="hierarchy-label">NFT</div>
+                            <div class="hierarchy-desc">非同質化代幣</div>
+                            <div class="hierarchy-detail">基於 ERC-721 的代幣實作，可自由轉移交易</div>
+                        </div>
+                        <div class="hierarchy-connector">⊃</div>
+                        <div class="hierarchy-item sbt">
+                            <div class="hierarchy-label">SBT</div>
+                            <div class="hierarchy-desc">靈魂綁定代幣</div>
+                            <div class="hierarchy-detail">禁用 transfer，與持有者身份永久綁定</div>
+                        </div>
+                    </div>
+                    <div class="sbt-reasons">
+                        <div class="reason-card">
+                            <div class="reason-icon">🎓</div>
+                            <div class="reason-title">證書不應被交易</div>
+                            <div class="reason-desc">學歷、資格證書代表個人成就，轉讓無意義，必須確保其歸屬性。</div>
+                        </div>
+                        <div class="reason-card">
+                            <div class="reason-icon">🛡️</div>
+                            <div class="reason-title">防止偽造與冒用</div>
+                            <div class="reason-desc">綁定特定錢包地址，無法被他人購買後冒充持有者。</div>
+                        </div>
+                        <div class="reason-card">
+                            <div class="reason-icon">✅</div>
+                            <div class="reason-title">簡化驗證邏輯</div>
+                            <div class="reason-desc">驗證方只需確認「此錢包地址是否持有此合約發行的 Token」即可。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <div class="section-number">02 / COST & OPERATIONS</div>
+                <h2>成本與運維評估</h2>
+                <p class="section-desc">包含區塊鏈 Gas、永久存儲與 AI GPU 推理成本。</p>
+            </div>
+
+            <div class="cost-grid">
+                <div class="cost-card gas">
+                    <div class="cost-label">Base Gas Fee</div>
+                    <div class="cost-value">~$0.005 / 張</div>
+                    <div class="cost-detail">Mint 交易費 (浮動)</div>
+                </div>
+                <div class="cost-card ai">
+                    <div class="cost-label">AI GPU 推理</div>
+                    <div class="cost-value">~$0.02 / 張</div>
+                    <div class="cost-detail">基於 HF Endpoint A10G 估算</div>
+                </div>
+                <div class="cost-card storage">
+                    <div class="cost-label">Arweave 存儲</div>
+                    <div class="cost-value">~$0.004 / 張</div>
+                    <div class="cost-detail">500KB 圖檔 + JSON</div>
+                </div>
+                <div class="cost-card opex">
+                    <div class="cost-label">Relayer 運維</div>
+                    <div class="cost-value">$0 - $500 / 月</div>
+                    <div class="cost-detail">免費版 vs 專業版</div>
+                </div>
+            </div>
+
+            <div class="note-box info">
+                <strong>💡 AI 成本優化策略</strong>
+                Z-Image-Turbo 效率極高（<1秒）。初期可使用 <strong>Hugging Face Inference API (Serverless)</strong> 按量付費。若需求量大，建議租用 <strong>Dedicated Endpoint (單張 A10G GPU 約 $1.5/hr)</strong>，每小時可生成數千張圖片，單張成本可降至 $0.001 以下。
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <div class="section-number">03 / IMPLEMENTATION PLAN</div>
+                <h2>實施計劃 (含 AI 整合)</h2>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-title">Phase 1: 智能合約與基礎設施</div>
+                    <div class="timeline-content">
+                        <ul class="task-list">
+                            <li>開發 Soulbound ERC-721 合約 (禁止轉移)</li>
+                            <li>設置 OpenZeppelin Defender Relayer</li>
+                            <li>部署合約至 Base Sepolia</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker" style="border-color: var(--accent-green)"></div>
+                    <div class="timeline-title">Phase 2: AI 生成服務部署 (Z-Image-Turbo)</div>
+                    <div class="timeline-content">
+                        <ul class="task-list">
+                            <li><strong>部署模型：</strong> 在 Hugging Face Inference Endpoint 部署 `Tongyi-MAI/Z-Image-Turbo`。</li>
+                            <li><strong>Prompt Engineering：</strong> 設計證書專用 Prompt 模板（例如："Certificate of achievement, golden border, text: '${userName}'..."）。</li>
+                            <li><strong>API 整合：</strong> 開發 Next.js 後端函式，呼叫 HF Endpoint 獲取圖片。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker" style="border-color: var(--accent-purple)"></div>
+                    <div class="timeline-title">Phase 3: 存儲與發放流程</div>
+                    <div class="timeline-content">
+                        <ul class="task-list">
+                            <li>整合 Irys SDK 上傳 AI 生成的圖片至 Arweave。</li>
+                            <li>構建 Metadata JSON。</li>
+                            <li>串接 `/api/issue`：前端觸發 -> AI 生成 -> 上傳 -> Relayer 鑄造。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker" style="border-color: var(--accent-cyan)"></div>
+                    <div class="timeline-title">Phase 4: 上線與監控</div>
+                    <div class="timeline-content">
+                        <ul class="task-list">
+                            <li>部署至 Base Mainnet。</li>
+                            <li>監控 GPU 推理延遲與成功率。</li>
+                            <li>端到端測試發證流程。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>SBT Certificate Platform Tech Spec v1.6</p>
+            <p>Designed for AI Director Context · 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // ==========================================
+        // 架構圖繪製邏輯 v1.6 (Layout Fix & De-clutter)
+        // 修正：重新佈局節點座標，減少遮擋，優化連線路徑
+        // ==========================================
+        const canvas = document.getElementById('archCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const colors = {
+            bg: '#0f0f16',
+            nodeBgTransparent: 'rgba(15, 15, 22, 0.85)',
+            cardBg: '#1e1e2e',
+            border: '#334155',
+            blue: '#3b82f6',    // Base
+            purple: '#a855f7',  // Arweave
+            cyan: '#06b6d4',    // Frontend
+            red: '#ef4444',     // Relayer
+            gold: '#fbbf24',    // Contract
+            green: '#10b981',   // AI
+            text: '#f1f5f9',
+            textSub: '#94a3b8'
+        };
+
+        function drawCard(ctx, x, y, w, h, color, title, subtitle) {
+            ctx.beginPath();
+            ctx.roundRect(x, y, w, h, 12);
+            ctx.fillStyle = colors.cardBg;
+            ctx.fill();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 10;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            ctx.roundRect(x, y, w, 4, {upperLeft:12, upperRight:12});
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.fillStyle = colors.text;
+            ctx.font = 'bold 16px "Noto Sans TC"';
+            ctx.textAlign = 'center';
+            ctx.fillText(title, x + w/2, y + 40);
+            if (subtitle) {
+                ctx.fillStyle = colors.textSub;
+                ctx.font = '12px "JetBrains Mono"';
+                ctx.fillText(subtitle, x + w/2, y + 60);
+            }
+        }
+
+        function drawZone(ctx, x, y, w, h, bgColor, borderColor, label) {
+            ctx.beginPath();
+            ctx.roundRect(x, y, w, h, 16);
+            ctx.fillStyle = bgColor;
+            ctx.fill();
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = borderColor;
+            ctx.font = 'bold 14px "Noto Sans TC"';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, x + w/2, y + 30);
+        }
+
+        function drawHex(ctx, x, y, size, color, label) {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                ctx.lineTo(x + size * Math.cos(Math.PI/3 * i), y + size * Math.sin(Math.PI/3 * i));
+            }
+            ctx.closePath();
+            ctx.fillStyle = colors.nodeBgTransparent;
+            ctx.fill();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = colors.text;
+            ctx.font = '12px "JetBrains Mono"';
+            ctx.textAlign = 'center';
+            const lines = label.split('\n');
+            lines.forEach((line, i) => {
+                ctx.fillText(line, x, y - ((lines.length-1)*10) + 5 + (i * 15));
+            });
+        }
+
+        function drawLink(ctx, x1, y1, x2, y2, color, label, dashed = false) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            const cp1x = x1 + (x2 - x1) / 2;
+            const cp2x = x1 + (x2 - x1) / 2;
+            ctx.bezierCurveTo(cp1x, y1, cp2x, y2, x2, y2);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            if (dashed) ctx.setLineDash([8, 8]);
+            else ctx.setLineDash([]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.beginPath();
+            ctx.arc(x2, y2, 4, 0, Math.PI*2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            if (label) {
+                const mx = (x1 + x2) / 2;
+                const my = (y1 + y2) / 2;
+                ctx.fillStyle = colors.bg;
+                const textW = ctx.measureText(label).width + 10;
+                ctx.fillRect(mx - textW/2, my - 10, textW, 20);
+                ctx.fillStyle = color;
+                ctx.font = 'bold 11px "JetBrains Mono"';
+                ctx.textAlign = 'center';
+                ctx.fillText(label, mx, my + 4);
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, 1200, 850);
+            
+            // 1. Grid
+            ctx.strokeStyle = '#1e1e2e';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            for(let i=0; i<1200; i+=40) { ctx.moveTo(i,0); ctx.lineTo(i,850); }
+            for(let i=0; i<850; i+=40) { ctx.moveTo(0,i); ctx.lineTo(1200,i); }
+            ctx.stroke();
+
+            // 2. Zones (Background layers)
+            // Adjusted positions to match new node layout
+            drawZone(ctx, 250, 400, 500, 200, 'rgba(59, 130, 246, 0.05)', colors.blue, "Base Network");
+            drawZone(ctx, 250, 660, 500, 160, 'rgba(168, 85, 247, 0.05)', colors.purple, "Arweave Permaweb");
+
+            // Labels
+            ctx.fillStyle = colors.textSub;
+            ctx.font = 'bold 14px "JetBrains Mono"';
+            ctx.textAlign = 'left';
+            ctx.fillText("LAYER 1: FRONTEND & AI", 50, 50);
+            ctx.fillText("SECURITY BRIDGE", 950, 50);
+            ctx.fillText("LAYER 2: BLOCKCHAIN", 50, 420);
+            ctx.fillText("LAYER 3: STORAGE", 50, 680);
+
+            // ================= NEW COORDINATES (v1.6) =================
+            // Spreading out Layer 1 horizontally
+            const adminX = 100, adminY = 150;
+            const aiX = 450, aiY = 50; // Moved AI up
+            const apiX = 450, apiY = 180; // Central Hub
+            const publicX = 750, publicY = 180; // Moved right
+
+            const relayerX = 1000, relayerY = 280; // Moved right and down
+            
+            // Adjusted Layer 2 & 3 to align centrally
+            const rpcX = 320, rpcY = 500;
+            const contractX = 600, contractY = 500;
+            const gatewayX = 320, gatewayY = 740;
+            const storageX = 650, storageY = 740;
+
+
+            // ================= 3. LINKS (Drawn before nodes) =================
+            // 1. AI Flow: Admin -> API -> AI -> API
+            drawLink(ctx, adminX + 180, adminY + 40, apiX - 25, apiY + 40, colors.cyan, "Req");
+            drawLink(ctx, apiX + 25, apiY, aiX, aiY + 70, colors.green, "Generate", true);
+            
+            // 2. Upload: API -> Gateway -> Storage
+            // Adjusted path to be cleaner
+            drawLink(ctx, apiX + 25, apiY + 80, gatewayX, gatewayY - 40, colors.purple, "Upload", false);
+            drawLink(ctx, gatewayX + 50, gatewayY, storageX - 80, storageY, colors.purple, "Pin");
+
+            // 3. Mint: API -> Relayer -> RPC -> Contract
+            // Path is now much clearer
+            drawLink(ctx, apiX + 50, apiY + 40, relayerX, relayerY - 45, colors.red, "Secure Mint");
+            drawLink(ctx, relayerX, relayerY + 45, rpcX + 50, rpcY - 40, colors.red, "Signed Tx");
+            drawLink(ctx, rpcX + 70, rpcY, contractX - 35, contractY, colors.blue, "Exec");
+
+            // 4. TokenURI
+            drawLink(ctx, contractX, contractY + 35, storageX, storageY - 40, colors.gold, "tokenURI", true);
+
+            // 5. Verify
+            drawLink(ctx, publicX + 90, publicY + 80, contractX + 35, contractY - 35, colors.cyan, "Read Owner");
+
+
+            // ================= 4. NODES (Drawn last, on top) =================
+            drawCard(ctx, adminX, adminY, 180, 80, colors.cyan, "Admin Input", "Name & Prompt");
+            drawHex(ctx, apiX + 25, apiY + 40, 50, colors.cyan, "API Route\n/api/issue");
+            drawCard(ctx, publicX, publicY, 180, 80, colors.cyan, "Public Verify", "Next.js");
+
+            // AI Node
+            drawCard(ctx, aiX - 90, aiY, 180, 70, colors.green, "🤖 Z-Image-Turbo", "Hugging Face");
+
+            drawCard(ctx, relayerX - 50, relayerY, 200, 90, colors.red, "🛡️ OZ Defender", "Relayer & HSM");
+
+            drawCard(ctx, rpcX, rpcY - 30, 140, 60, colors.blue, "RPC Node", "Infura");
+            drawHex(ctx, contractX, contractY, 70, colors.gold, "SBT Contract\nERC-721\n(No Transfer)");
+
+            drawHex(ctx, gatewayX, gatewayY, 50, colors.purple, "Irys\nGateway");
+            drawCard(ctx, storageX, storageY - 35, 160, 70, colors.purple, "Data Blocks", "Image & JSON");
+        }
+
+        draw();
+        
+        window.addEventListener('resize', () => {
+             const wrapper = document.querySelector('.canvas-wrapper');
+             const scale = Math.min(1, (wrapper.offsetWidth - 40) / 1200);
+             canvas.style.transform = `scale(${scale})`;
+             canvas.style.transformOrigin = 'top left';
+             wrapper.style.height = (850 * scale + 40) + 'px';
+        });
+        window.dispatchEvent(new Event('resize'));
+    </script>
+</body>
+</html>

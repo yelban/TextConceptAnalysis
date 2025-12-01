@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>月會報告：AI 轉型大學平台與自動化專案進度匯報</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .section-icon {
+            background-color: #eff6ff;
+            color: #2563eb;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="py-10 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        
+        <!-- Header -->
+        <header class="bg-white shadow-sm rounded-xl p-8 border-l-4 border-blue-600">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">月會報告：AI 轉型大學平台與自動化專案進度匯報</h1>
+                    <p class="mt-2 text-gray-500">針對大學官網平台架構、自動化工具更新及生成式 AI 應用之進度說明</p>
+                </div>
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-medium text-gray-500">報告日期</p>
+                    <p class="text-lg font-bold text-gray-900">2025/12/01</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Item 1: Infrastructure -->
+            <section class="bg-white shadow-sm rounded-xl p-6 transition hover:shadow-md">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="section-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">1. AI 轉型大學官網平台建置</h2>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">平台架構定案</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                            <li>核心系統採用 <strong>Drupal 11.2.8</strong>。</li>
+                            <li>資料庫已從 MySQL 遷移至 <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded">PostgreSQL</span>，優化效能與擴充性。</li>
+                            <li>完成 Docker 容器化部署 (docker-compose.yml/Dockerfile) 並通過測試。</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">功能模組規劃</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                            <li><strong>點數系統：</strong>確認使用 Drupal ECA + Entities 模組實現自動化邏輯。</li>
+                            <li><strong>流量分析：</strong>正在整合 <strong>Umami</strong> 分析平台至容器堆疊，確保數據自主可控。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Item 2: Automation (n8n) -->
+            <section class="bg-white shadow-sm rounded-xl p-6 transition hover:shadow-md">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="section-icon text-orange-600 bg-orange-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">2. 自動化平台 (n8n) 版本更新</h2>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-100">
+                        <span class="text-sm text-gray-600">版本升級</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-gray-200 text-gray-600 text-xs px-2 py-1 rounded">v1.120.1</span>
+                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded font-bold">v1.121.3</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">重大修正 (Fixes)</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                            <li>修復 Git Node 路徑阻擋錯誤。</li>
+                            <li>修復子工作流 (Subworkflow) ID 遺失問題。</li>
+                            <li>解決專案切換時的 UI 閃爍異常。</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">新功能 (Features)</h3>
+                        <p class="text-sm text-gray-700">引入 <strong>MCP 連接支援 (Beta)</strong>，增強 AI Agent 與外部數據交互能力。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Item 3: GenAI Application -->
+            <section class="bg-white shadow-sm rounded-xl p-6 transition hover:shadow-md">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="section-icon text-purple-600 bg-purple-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">3. 生成式 AI 應用研究</h2>
+                </div>
+                <div class="space-y-4">
+                    <div class="border-l-2 border-purple-200 pl-3">
+                        <h3 class="text-base font-medium text-gray-900">PPT 自動生成方案</h3>
+                        <p class="text-sm text-gray-600 mt-1">正進行 <strong>Google Gemini 3 + Nono Banana Pro</strong> 整合測試，目標建立可編輯的 PPT 自動化產出流程。</p>
+                    </div>
+                    <div class="border-l-2 border-purple-200 pl-3">
+                        <h3 class="text-base font-medium text-gray-900">NFT AI 課程證書</h3>
+                        <p class="text-sm text-gray-600 mt-1">已完成技術可行性評估，確認區塊鏈證書發放與 AI 課程完成度之勾稽架構。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Item 4: DevOps -->
+            <section class="bg-white shadow-sm rounded-xl p-6 transition hover:shadow-md">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="section-icon text-teal-600 bg-teal-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">4. 前端極速部署方案</h2>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-sm text-gray-700 leading-relaxed">
+                        針對 Google AI Studio 等平台生成的純前端程式碼，建立「一鍵部署」至 Web 的標準作業程序 (SOP)。
+                    </p>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">研究範圍</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded border border-gray-200">Chrome Extension 打包</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded border border-gray-200">PWA / WebAPP 託管</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Item 5: AI Demo Day Judging Workflow -->
+            <section class="bg-white shadow-sm rounded-xl p-6 transition hover:shadow-md md:col-span-2">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="section-icon text-pink-600 bg-pink-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">5. AI Demo Day 評審工作流</h2>
+                </div>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                             <p class="text-sm text-gray-700 leading-relaxed">
+                                針對即將到來的 Demo Day 活動，設計 AI 輔助評審機制，以提升評分效率與客觀性。
+                            </p>
+                            <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 mt-2">
+                                <li><strong>自動化評分：</strong>利用 LLM 針對專案內容進行初步分析與權重給分。</li>
+                                <li><strong>評語生成：</strong>自動產出針對性的優化建議與評語，供人類評審參考。</li>
+                            </ul>
+                        </div>
+                        <div class="bg-pink-50 rounded-lg p-3 border border-pink-100 flex flex-col justify-center">
+                            <h3 class="text-sm font-semibold text-pink-800 mb-2">預期目標</h3>
+                            <div class="flex items-center space-x-2 text-sm text-pink-700">
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                <span>大幅縮短評審閱卷時間</span>
+                            </div>
+                            <div class="flex items-center space-x-2 text-sm text-pink-700 mt-1">
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                <span>提供多維度的 AI 觀點反饋</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+
+        <!-- Next Steps -->
+        <footer class="bg-slate-800 text-white shadow-lg rounded-xl p-6 mt-6">
+            <h2 class="text-lg font-bold mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                待辦事項與下一步 (Next Steps)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex items-start bg-slate-700/50 p-3 rounded-lg">
+                    <div class="mt-0.5 mr-3 flex-shrink-0">
+                        <span class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">1</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-white">平台整合</p>
+                        <p class="text-xs text-slate-300 mt-1">完成 Umami 與 Drupal 在同一 Docker Network 下的通訊配置。</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-slate-700/50 p-3 rounded-lg">
+                    <div class="mt-0.5 mr-3 flex-shrink-0">
+                        <span class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">2</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-white">自動化測試</p>
+                        <p class="text-xs text-slate-300 mt-1">執行 n8n v1.121.3 升級後的既有 Workflow 回歸測試 (Regression Test)。</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-slate-700/50 p-3 rounded-lg">
+                    <div class="mt-0.5 mr-3 flex-shrink-0">
+                        <span class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">3</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-white">POC 測試</p>
+                        <p class="text-xs text-slate-300 mt-1"><strong>下週測試 AI 評審工作流</strong>，驗證自動評分與回饋生成的流程順暢度。</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
