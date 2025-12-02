@@ -1,0 +1,434 @@
+[INFO] [runner.py:579:main] cmd=/usr/bin/python3 -u -m phisonlib.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMiwgMywgNCwgNV19 --master_addr=127.0.0.1 --master_port=8299 /home/root/aiDAPTIV2/text-generation/train.py --model_name_or_path /models/Qwen2.5-32B-Instruct --optimizer_path  --max_seq_len 16000 --nvme_path /mnt --beta1 0.9 --beta2 0.95 --eps 1e-08 --weight_decay 0.01 --precision_mode 1 --learning_rate 1e-05 --num_train_epochs 5 --max_iter -1 --lr_scheduler_mode 1 --train_dataset_config_path /data/users/service_digizero@digizerocarbon.com/jobs/15f23d3d-d21b-4943-8b8e-e6e6da9d3c5e/dataset_config.yaml --per_device_train_batch_size 4 --gradient_accumulation_steps 1 --triton --num_of_iteration_to_save_model 2 --max_num_of_saved_model_on_epoch_end -1 --max_num_of_saved_model_on_iteration 2 --output_dir /data/users/service_digizero@digizerocarbon.com/jobs/15f23d3d-d21b-4943-8b8e-e6e6da9d3c5e
+nnodes=1, num_local_procs=4, node_rank=0
+global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3]})
+dist_world_size=4
+Setting CUDA_VISIBLE_DEVICES=2,3,4,5
+#### ======== [INITIALIZE Tokenizer] ======== ####
+#### ======== [INITIALIZE Dataloader] ======== ####
+[INFO] get dataset name:  /data/users/service_digizero@digizerocarbon.com/dataset/s1.json  training_strategy:  QA
+#### ======== [INITIALIZE Model] ======== ####
+[INFO] [create_hf_model] init from pretrained
+[INFO] You are loading [Qwen2ForCausalLM] with FlashAttention2
+[INFO] You are setting [Qwen2ForCausalLM] with Gradient Checkpointing
+[INFO] create current swap data path: /mnt/phison_58
+[INFO] You are accelerating [Qwen2ForCausalLM] with FusedEmbedding kernel
+[INFO] You are accelerating [Qwen2ForCausalLM] with FusedGateMLP kernel
+[INFO] You are accelerating [Qwen2ForCausalLM] with FusedQKVOLinear kernel
+[INFO] You are accelerating [Qwen2ForCausalLM] with FusedRMSNorm kernel
+[INFO] You are accelerating [Qwen2ForCausalLM] with FusedRoPE kernel
+[INFO] You are accelerating [Qwen2ForCausalLM] with FusedLinearXentropy kernel
+[2025-12-02 14:37:08.608880] [INFO] Enable Early-stopping: False
+[INFO] The current training schedule consists of 5 epochs with 63 iterations each.
+[INFO] The accumulated time is set to 1 so the training will be updated 63 times during each epoch.
+[INFO] If the trained model does not show significant improvement, you may consider increasing the number of update cycles.
+[INFO] If the trained model shows signs of overfitting, you should decrease the number of update cycles.
+[2025-12-02 14:37:08.609013] [INFO] Beginning of Epoch 1/5, Total Micro Batches 63
+[2025-12-02 14:37:08.738575] [PHISON START] Epoch: 0, Iteration: 0
+[2025-12-02 14:37:08.738896] [Forward][start]
+[2025-12-02 14:38:06.295252] [Forward][time spent]:57.55633616447449
+[2025-12-02 14:38:10.001117] [Loss]:0.43593859672546387
+[2025-12-02 14:38:10.001198] [Backward][start]
+[2025-12-02 14:40:23.696037] [Backward][time spent]:133.69481801986694
+[2025-12-02 14:40:23.696127] [Update][Start]
+using avx512bf16
+max_compute_thread = 11
+using avx512bf16
+max_compute_thread = 11
+using avx512bf16
+max_compute_thread = 11
+using avx512bf16
+max_compute_thread = 11
+[2025-12-02 14:41:33.436229] [Update][time spent]:69.74008655548096
+[2025-12-02 14:41:33.436331] [PHISON END] Iteration: 0
+
+[2025-12-02 14:41:33.436357] [INFO] Training efficiency: 966.6672507376938 (tokens/s)
+
+[2025-12-02 14:41:34.134336] [PHISON START] Epoch: 0, Iteration: 1
+[2025-12-02 14:41:34.134599] [Forward][start]
+[2025-12-02 14:42:13.213165] [Forward][time spent]:39.07853603363037
+[2025-12-02 14:42:17.036369] [Loss]:0.3512803614139557
+[2025-12-02 14:42:17.036454] [Backward][start]
+[2025-12-02 14:44:15.088727] [Backward][time spent]:118.0522289276123
+[2025-12-02 14:44:15.088948] [Update][Start]
+[2025-12-02 14:45:30.806046] [Update][time spent]:75.71707439422607
+[2025-12-02 14:45:30.806157] [PHISON END] Iteration: 1
+
+[2025-12-02 14:45:30.806183] [INFO] Training efficiency: 1078.4859131310893 (tokens/s)
+
+[2025-12-02 14:45:30.887359] [PHISON START] Epoch: 0, Iteration: 2
+[2025-12-02 14:45:30.889953] [Forward][start]
+[2025-12-02 14:46:10.307507] [Forward][time spent]:39.41752529144287
+[2025-12-02 14:46:14.147555] [Loss]:0.34147655963897705
+[2025-12-02 14:46:14.147652] [Backward][start]
+[2025-12-02 14:48:14.072358] [Backward][time spent]:119.92463541030884
+[2025-12-02 14:48:14.072636] [Update][Start]
+[2025-12-02 14:49:30.304011] [Update][time spent]:76.23133873939514
+[2025-12-02 14:49:30.304116] [PHISON END] Iteration: 2
+
+[2025-12-02 14:49:30.304138] [INFO] Training efficiency: 1068.9027186104854 (tokens/s)
+
+[2025-12-02 14:49:30.804439] [PHISON START] Epoch: 0, Iteration: 3
+[2025-12-02 14:49:30.804798] [Forward][start]
+[2025-12-02 14:50:10.679492] [Forward][time spent]:39.8746657371521
+[2025-12-02 14:50:14.515338] [Loss]:0.29852381348609924
+[2025-12-02 14:50:14.515417] [Backward][start]
+[2025-12-02 14:52:17.683699] [Backward][time spent]:123.16825675964355
+[2025-12-02 14:52:17.683801] [Update][Start]
+[2025-12-02 14:53:33.417774] [Update][time spent]:75.73396134376526
+[2025-12-02 14:53:33.417877] [PHISON END] Iteration: 3
+
+[2025-12-02 14:53:33.417904] [INFO] Training efficiency: 1053.005013124617 (tokens/s)
+
+[2025-12-02 14:53:34.232179] [PHISON START] Epoch: 0, Iteration: 4
+[2025-12-02 14:53:34.232484] [Forward][start]
+[2025-12-02 14:54:13.755988] [Forward][time spent]:39.523476362228394
+[2025-12-02 14:54:17.631477] [Loss]:0.31112736463546753
+[2025-12-02 14:54:17.631577] [Backward][start]
+[2025-12-02 14:56:19.243880] [Backward][time spent]:121.61227107048035
+[2025-12-02 14:56:19.244080] [Update][Start]
+[2025-12-02 14:57:34.888577] [Update][time spent]:75.64445972442627
+[2025-12-02 14:57:34.888697] [PHISON END] Iteration: 4
+
+[2025-12-02 14:57:34.888727] [INFO] Training efficiency: 1060.1695587529146 (tokens/s)
+
+[2025-12-02 14:57:35.575477] [PHISON START] Epoch: 0, Iteration: 5
+[2025-12-02 14:57:35.575789] [Forward][start]
+[2025-12-02 14:58:14.765245] [Forward][time spent]:39.18941402435303
+[2025-12-02 14:58:18.594498] [Loss]:0.2911660671234131
+[2025-12-02 14:58:18.594616] [Backward][start]
+[2025-12-02 15:00:18.075710] [Backward][time spent]:119.48102927207947
+[2025-12-02 15:00:18.075927] [Update][Start]
+[2025-12-02 15:01:34.506892] [Update][time spent]:76.43093061447144
+[2025-12-02 15:01:34.507010] [PHISON END] Iteration: 5
+
+[2025-12-02 15:01:34.507036] [INFO] Training efficiency: 1068.3658306442464 (tokens/s)
+
+[2025-12-02 15:01:34.635651] [PHISON START] Epoch: 0, Iteration: 6
+[2025-12-02 15:01:34.638604] [Forward][start]
+[2025-12-02 15:02:13.987948] [Forward][time spent]:39.349204301834106
+[2025-12-02 15:02:17.816697] [Loss]:0.3332470655441284
+[2025-12-02 15:02:17.816780] [Backward][start]
+[2025-12-02 15:04:18.219672] [Backward][time spent]:120.402836561203
+[2025-12-02 15:04:18.219949] [Update][Start]
+[2025-12-02 15:05:33.930290] [Update][time spent]:75.7103054523468
+[2025-12-02 15:05:33.930385] [PHISON END] Iteration: 6
+
+[2025-12-02 15:05:33.930412] [INFO] Training efficiency: 1069.2356692724882 (tokens/s)
+
+[2025-12-02 15:05:34.707439] [PHISON START] Epoch: 0, Iteration: 7
+[2025-12-02 15:05:34.707817] [Forward][start]
+[2025-12-02 15:06:14.542757] [Forward][time spent]:39.83490705490112
+[2025-12-02 15:06:18.358062] [Loss]:0.2860627770423889
+[2025-12-02 15:06:18.358228] [Backward][start]
+[2025-12-02 15:08:20.010176] [Backward][time spent]:121.65189409255981
+[2025-12-02 15:08:20.010322] [Update][Start]
+[2025-12-02 15:09:36.849136] [Update][time spent]:76.83880186080933
+[2025-12-02 15:09:36.849233] [PHISON END] Iteration: 7
+
+[2025-12-02 15:09:36.849270] [INFO] Training efficiency: 1053.8499022999845 (tokens/s)
+
+[2025-12-02 15:09:36.976843] [PHISON START] Epoch: 0, Iteration: 8
+[2025-12-02 15:09:36.979231] [Forward][start]
+[2025-12-02 15:10:16.279421] [Forward][time spent]:39.30015325546265
+[2025-12-02 15:10:20.080826] [Loss]:0.2888772785663605
+[2025-12-02 15:10:20.080901] [Backward][start]
+[2025-12-02 15:12:19.608653] [Backward][time spent]:119.52772736549377
+[2025-12-02 15:12:19.608759] [Update][Start]
+[2025-12-02 15:13:35.583251] [Update][time spent]:75.9744803905487
+[2025-12-02 15:13:35.583344] [PHISON END] Iteration: 8
+
+[2025-12-02 15:13:35.583373] [INFO] Training efficiency: 1072.322765668053 (tokens/s)
+
+[2025-12-02 15:13:35.688650] [PHISON START] Epoch: 0, Iteration: 9
+[2025-12-02 15:13:35.691013] [Forward][start]
+[2025-12-02 15:14:16.248716] [Forward][time spent]:40.5576753616333
+[2025-12-02 15:14:20.144718] [Loss]:0.2728646397590637
+[2025-12-02 15:14:20.144788] [Backward][start]
+[2025-12-02 15:16:22.118273] [Backward][time spent]:121.97346091270447
+[2025-12-02 15:16:22.118471] [Update][Start]
+[2025-12-02 15:17:38.226336] [Update][time spent]:76.10783457756042
+[2025-12-02 15:17:38.226417] [PHISON END] Iteration: 9
+
+[2025-12-02 15:17:38.226441] [INFO] Training efficiency: 1055.0477535886794 (tokens/s)
+
+[2025-12-02 15:17:38.435222] [PHISON START] Epoch: 0, Iteration: 10
+[2025-12-02 15:17:38.435591] [Forward][start]
+[2025-12-02 15:18:18.043333] [Forward][time spent]:39.60771894454956
+[2025-12-02 15:18:21.946899] [Loss]:0.27722734212875366
+[2025-12-02 15:18:21.946974] [Backward][start]
+[2025-12-02 15:20:24.035884] [Backward][time spent]:122.0888774394989
+[2025-12-02 15:20:24.036042] [Update][Start]
+[2025-12-02 15:21:40.378679] [Update][time spent]:76.34261775016785
+[2025-12-02 15:21:40.378792] [PHISON END] Iteration: 10
+
+[2025-12-02 15:21:40.378823] [INFO] Training efficiency: 1057.1856112149128 (tokens/s)
+
+[2025-12-02 15:21:40.494486] [PHISON START] Epoch: 0, Iteration: 11
+[2025-12-02 15:21:40.497464] [Forward][start]
+[2025-12-02 15:22:19.931884] [Forward][time spent]:39.43438267707825
+[2025-12-02 15:22:23.725214] [Loss]:0.2529265284538269
+[2025-12-02 15:22:23.725292] [Backward][start]
+[2025-12-02 15:24:24.941162] [Backward][time spent]:121.2158043384552
+[2025-12-02 15:24:24.941489] [Update][Start]
+[2025-12-02 15:25:40.875197] [Update][time spent]:75.93367028236389
+[2025-12-02 15:25:40.875341] [PHISON END] Iteration: 11
+
+[2025-12-02 15:25:40.875377] [INFO] Training efficiency: 1064.464375098994 (tokens/s)
+
+[2025-12-02 15:25:41.218383] [PHISON START] Epoch: 0, Iteration: 12
+[2025-12-02 15:25:41.218769] [Forward][start]
+[2025-12-02 15:26:20.565178] [Forward][time spent]:39.34638023376465
+[2025-12-02 15:26:24.372713] [Loss]:0.2713914215564728
+[2025-12-02 15:26:24.372839] [Backward][start]
+[2025-12-02 15:28:24.338113] [Backward][time spent]:119.96522307395935
+[2025-12-02 15:28:24.338338] [Update][Start]
+[2025-12-02 15:29:40.343806] [Update][time spent]:76.00543403625488
+[2025-12-02 15:29:40.343910] [PHISON END] Iteration: 12
+
+[2025-12-02 15:29:40.343932] [INFO] Training efficiency: 1069.0339662509634 (tokens/s)
+
+[2025-12-02 15:29:40.786806] [PHISON START] Epoch: 0, Iteration: 13
+[2025-12-02 15:29:40.787111] [Forward][start]
+[2025-12-02 15:30:20.704391] [Forward][time spent]:39.91723608970642
+[2025-12-02 15:30:24.595119] [Loss]:0.3055158257484436
+[2025-12-02 15:30:24.595181] [Backward][start]
+[2025-12-02 15:32:27.825012] [Backward][time spent]:123.22980332374573
+[2025-12-02 15:32:27.825122] [Update][Start]
+[2025-12-02 15:33:44.110215] [Update][time spent]:76.28507852554321
+[2025-12-02 15:33:44.110350] [PHISON END] Iteration: 13
+
+[2025-12-02 15:33:44.110387] [INFO] Training efficiency: 1050.1855683471279 (tokens/s)
+
+[2025-12-02 15:33:44.231809] [PHISON START] Epoch: 0, Iteration: 14
+[2025-12-02 15:33:44.234528] [Forward][start]
+[2025-12-02 15:34:23.844540] [Forward][time spent]:39.60997533798218
+[2025-12-02 15:34:27.733394] [Loss]:0.2924259901046753
+[2025-12-02 15:34:27.733467] [Backward][start]
+[2025-12-02 15:36:29.743377] [Backward][time spent]:122.00989151000977
+[2025-12-02 15:36:29.743484] [Update][Start]
+[2025-12-02 15:37:45.235625] [Update][time spent]:75.4921236038208
+[2025-12-02 15:37:45.235731] [PHISON END] Iteration: 14
+
+[2025-12-02 15:37:45.235766] [INFO] Training efficiency: 1061.6884023120515 (tokens/s)
+
+[2025-12-02 15:37:45.900235] [PHISON START] Epoch: 0, Iteration: 15
+[2025-12-02 15:37:45.900573] [Forward][start]
+[2025-12-02 15:38:25.300444] [Forward][time spent]:39.399837493896484
+[2025-12-02 15:38:29.113822] [Loss]:0.2699795961380005
+[2025-12-02 15:38:29.113894] [Backward][start]
+[2025-12-02 15:40:28.500643] [Backward][time spent]:119.3867256641388
+[2025-12-02 15:40:28.500819] [Update][Start]
+[2025-12-02 15:41:45.381568] [Update][time spent]:76.8806962966919
+[2025-12-02 15:41:45.381661] [PHISON END] Iteration: 15
+
+[2025-12-02 15:41:45.381690] [INFO] Training efficiency: 1066.0185716830663 (tokens/s)
+
+[2025-12-02 15:41:45.481660] [PHISON START] Epoch: 0, Iteration: 16
+[2025-12-02 15:41:45.485037] [Forward][start]
+[2025-12-02 15:42:25.463335] [Forward][time spent]:39.9782657623291
+[2025-12-02 15:42:29.382738] [Loss]:0.26513904333114624
+[2025-12-02 15:42:29.382800] [Backward][start]
+[2025-12-02 15:44:32.737256] [Backward][time spent]:123.3544352054596
+[2025-12-02 15:44:32.737438] [Update][Start]
+[2025-12-02 15:45:48.857003] [Update][time spent]:76.11953234672546
+[2025-12-02 15:45:48.857087] [PHISON END] Iteration: 16
+
+[2025-12-02 15:45:48.857110] [INFO] Training efficiency: 1051.4408920077453 (tokens/s)
+
+[2025-12-02 15:45:48.966462] [PHISON START] Epoch: 0, Iteration: 17
+[2025-12-02 15:45:48.968879] [Forward][start]
+[2025-12-02 15:46:29.093302] [Forward][time spent]:40.1243953704834
+[2025-12-02 15:46:32.942483] [Loss]:0.2854989767074585
+[2025-12-02 15:46:32.942559] [Backward][start]
+[2025-12-02 15:48:34.555717] [Backward][time spent]:121.61313796043396
+[2025-12-02 15:48:34.555821] [Update][Start]
+[2025-12-02 15:49:50.662566] [Update][time spent]:76.1067316532135
+[2025-12-02 15:49:50.662657] [PHISON END] Iteration: 17
+
+[2025-12-02 15:49:50.662685] [INFO] Training efficiency: 1058.7018608985964 (tokens/s)
+
+[2025-12-02 15:49:50.772454] [PHISON START] Epoch: 0, Iteration: 18
+[2025-12-02 15:49:50.774941] [Forward][start]
+[2025-12-02 15:50:30.296281] [Forward][time spent]:39.52131795883179
+[2025-12-02 15:50:34.142258] [Loss]:0.20345304906368256
+[2025-12-02 15:50:34.142337] [Backward][start]
+[2025-12-02 15:52:35.640925] [Backward][time spent]:121.49856638908386
+[2025-12-02 15:52:35.641087] [Update][Start]
+[2025-12-02 15:53:51.933042] [Update][time spent]:76.29192304611206
+[2025-12-02 15:53:51.933133] [PHISON END] Iteration: 18
+
+[2025-12-02 15:53:51.933157] [INFO] Training efficiency: 1061.049914172044 (tokens/s)
+
+[2025-12-02 15:53:52.244281] [PHISON START] Epoch: 0, Iteration: 19
+[2025-12-02 15:53:52.244590] [Forward][start]
+[2025-12-02 15:54:31.879080] [Forward][time spent]:39.634461641311646
+[2025-12-02 15:54:35.694396] [Loss]:0.22986876964569092
+[2025-12-02 15:54:35.694475] [Backward][start]
+[2025-12-02 15:56:37.907036] [Backward][time spent]:122.21254110336304
+[2025-12-02 15:56:37.907146] [Update][Start]
+[2025-12-02 15:57:53.479697] [Update][time spent]:75.57253050804138
+[2025-12-02 15:57:53.479869] [PHISON END] Iteration: 19
+
+[2025-12-02 15:57:53.479909] [INFO] Training efficiency: 1059.836293838668 (tokens/s)
+
+[2025-12-02 15:57:54.269463] [PHISON START] Epoch: 0, Iteration: 20
+[2025-12-02 15:57:54.269761] [Forward][start]
+[2025-12-02 15:58:34.074671] [Forward][time spent]:39.80489158630371
+[2025-12-02 15:58:37.923642] [Loss]:0.2214345484972
+[2025-12-02 15:58:37.923711] [Backward][start]
+[2025-12-02 16:00:40.069857] [Backward][time spent]:122.14611148834229
+[2025-12-02 16:00:40.070008] [Update][Start]
+[2025-12-02 16:01:57.740109] [Update][time spent]:77.67007899284363
+[2025-12-02 16:01:57.740197] [PHISON END] Iteration: 20
+
+[2025-12-02 16:01:57.740219] [INFO] Training efficiency: 1048.0622826512742 (tokens/s)
+
+[2025-12-02 16:01:57.833463] [PHISON START] Epoch: 0, Iteration: 21
+[2025-12-02 16:01:57.835877] [Forward][start]
+[2025-12-02 16:02:37.362971] [Forward][time spent]:39.527061223983765
+[2025-12-02 16:02:41.235971] [Loss]:0.2383885383605957
+[2025-12-02 16:02:41.236037] [Backward][start]
+[2025-12-02 16:04:42.416935] [Backward][time spent]:121.18084764480591
+[2025-12-02 16:04:42.417194] [Update][Start]
+[2025-12-02 16:05:58.688531] [Update][time spent]:76.27130341529846
+[2025-12-02 16:05:58.688632] [PHISON END] Iteration: 21
+
+[2025-12-02 16:05:58.688668] [INFO] Training efficiency: 1062.4679752521317 (tokens/s)
+
+[2025-12-02 16:05:58.793660] [PHISON START] Epoch: 0, Iteration: 22
+[2025-12-02 16:05:58.796168] [Forward][start]
+[2025-12-02 16:06:38.075901] [Forward][time spent]:39.27969431877136
+[2025-12-02 16:06:41.882419] [Loss]:0.22059854865074158
+[2025-12-02 16:06:41.882499] [Backward][start]
+[2025-12-02 16:08:40.510271] [Backward][time spent]:118.62772226333618
+[2025-12-02 16:08:40.510549] [Update][Start]
+[2025-12-02 16:09:56.778951] [Update][time spent]:76.26836585998535
+[2025-12-02 16:09:56.779050] [PHISON END] Iteration: 22
+
+[2025-12-02 16:09:56.779076] [INFO] Training efficiency: 1075.221887357163 (tokens/s)
+
+[2025-12-02 16:09:56.872223] [PHISON START] Epoch: 0, Iteration: 23
+[2025-12-02 16:09:56.875249] [Forward][start]
+[2025-12-02 16:10:36.458713] [Forward][time spent]:39.58343529701233
+[2025-12-02 16:10:40.357752] [Loss]:0.29930242896080017
+[2025-12-02 16:10:40.357821] [Backward][start]
+[2025-12-02 16:12:42.915391] [Backward][time spent]:122.55753946304321
+[2025-12-02 16:12:42.915585] [Update][Start]
+[2025-12-02 16:14:00.075794] [Update][time spent]:77.1601767539978
+[2025-12-02 16:14:00.075890] [PHISON END] Iteration: 23
+
+[2025-12-02 16:14:00.075916] [INFO] Training efficiency: 1052.2126544993366 (tokens/s)
+
+[2025-12-02 16:14:00.177913] [PHISON START] Epoch: 0, Iteration: 24
+[2025-12-02 16:14:00.180736] [Forward][start]
+[2025-12-02 16:14:40.003475] [Forward][time spent]:39.822705030441284
+[2025-12-02 16:14:43.872645] [Loss]:0.2762411832809448
+[2025-12-02 16:14:43.872718] [Backward][start]
+[2025-12-02 16:16:46.176942] [Backward][time spent]:122.30419778823853
+[2025-12-02 16:16:46.177042] [Update][Start]
+[2025-12-02 16:18:02.246552] [Update][time spent]:76.0694968700409
+[2025-12-02 16:18:02.246636] [PHISON END] Iteration: 24
+
+[2025-12-02 16:18:02.246662] [INFO] Training efficiency: 1057.1054379484135 (tokens/s)
+
+[2025-12-02 16:18:02.361466] [PHISON START] Epoch: 0, Iteration: 25
+[2025-12-02 16:18:02.368316] [Forward][start]
+[2025-12-02 16:18:41.980717] [Forward][time spent]:39.612366914749146
+[2025-12-02 16:18:45.822678] [Loss]:0.21629631519317627
+[2025-12-02 16:18:45.822759] [Backward][start]
+[2025-12-02 16:20:45.781058] [Backward][time spent]:119.95827865600586
+[2025-12-02 16:20:45.781147] [Update][Start]
+[2025-12-02 16:22:02.146952] [Update][time spent]:76.3657877445221
+[2025-12-02 16:22:02.147042] [PHISON END] Iteration: 25
+
+[2025-12-02 16:22:02.147071] [INFO] Training efficiency: 1067.1095280625145 (tokens/s)
+
+[2025-12-02 16:22:02.399921] [PHISON START] Epoch: 0, Iteration: 26
+[2025-12-02 16:22:02.400195] [Forward][start]
+[2025-12-02 16:22:41.915174] [Forward][time spent]:39.514960289001465
+[2025-12-02 16:22:45.800221] [Loss]:0.28555411100387573
+[2025-12-02 16:22:45.800276] [Backward][start]
+[2025-12-02 16:24:46.869987] [Backward][time spent]:121.06966471672058
+[2025-12-02 16:24:46.870223] [Update][Start]
+[2025-12-02 16:26:03.257163] [Update][time spent]:76.3869035243988
+[2025-12-02 16:26:03.257255] [PHISON END] Iteration: 26
+
+[2025-12-02 16:26:03.257281] [INFO] Training efficiency: 1061.755177150743 (tokens/s)
+
+[2025-12-02 16:26:03.366492] [PHISON START] Epoch: 0, Iteration: 27
+[2025-12-02 16:26:03.369101] [Forward][start]
+[2025-12-02 16:26:42.485025] [Forward][time spent]:39.115896463394165
+[2025-12-02 16:26:46.308603] [Loss]:0.25437214970588684
+[2025-12-02 16:26:46.308671] [Backward][start]
+[2025-12-02 16:28:45.336268] [Backward][time spent]:119.02754211425781
+[2025-12-02 16:28:45.336562] [Update][Start]
+[2025-12-02 16:30:00.874989] [Update][time spent]:75.53839182853699
+[2025-12-02 16:30:00.875081] [PHISON END] Iteration: 27
+
+[2025-12-02 16:30:00.875108] [INFO] Training efficiency: 1077.3602990911822 (tokens/s)
+
+[2025-12-02 16:30:01.341284] [PHISON START] Epoch: 0, Iteration: 28
+[2025-12-02 16:30:01.341617] [Forward][start]
+[2025-12-02 16:30:40.889464] [Forward][time spent]:39.54782438278198
+[2025-12-02 16:30:44.743262] [Loss]:0.26940733194351196
+[2025-12-02 16:30:44.743339] [Backward][start]
+[2025-12-02 16:32:45.367500] [Backward][time spent]:120.6241295337677
+[2025-12-02 16:32:45.367655] [Update][Start]
+[2025-12-02 16:34:01.216336] [Update][time spent]:75.84866237640381
+[2025-12-02 16:34:01.216426] [PHISON END] Iteration: 28
+
+[2025-12-02 16:34:01.216453] [INFO] Training efficiency: 1065.1517902210653 (tokens/s)
+
+[2025-12-02 16:34:01.327192] [PHISON START] Epoch: 0, Iteration: 29
+[2025-12-02 16:34:01.330495] [Forward][start]
+[2025-12-02 16:34:40.418825] [Forward][time spent]:39.08830809593201
+[2025-12-02 16:34:44.272191] [Loss]:0.3035469055175781
+[2025-12-02 16:34:44.272258] [Backward][start]
+[2025-12-02 16:36:43.834174] [Backward][time spent]:119.56186485290527
+[2025-12-02 16:36:43.834391] [Update][Start]
+[2025-12-02 16:37:58.893882] [Update][time spent]:75.05945301055908
+[2025-12-02 16:37:58.893979] [PHISON END] Iteration: 29
+
+[2025-12-02 16:37:58.894000] [INFO] Training efficiency: 1077.0896912641408 (tokens/s)
+
+[2025-12-02 16:37:59.825946] [PHISON START] Epoch: 0, Iteration: 30
+[2025-12-02 16:37:59.826281] [Forward][start]
+[2025-12-02 16:38:38.792889] [Forward][time spent]:38.96658802032471
+[2025-12-02 16:38:42.577492] [Loss]:0.301463782787323
+[2025-12-02 16:38:42.577567] [Backward][start]
+[2025-12-02 16:40:40.305703] [Backward][time spent]:117.72808623313904
+[2025-12-02 16:40:40.305951] [Update][Start]
+[2025-12-02 16:41:56.333442] [Update][time spent]:76.02745699882507
+[2025-12-02 16:41:56.333521] [PHISON END] Iteration: 30
+
+[2025-12-02 16:41:56.333545] [INFO] Training efficiency: 1078.1692289032605 (tokens/s)
+
+[2025-12-02 16:41:56.411773] [PHISON START] Epoch: 0, Iteration: 31
+[2025-12-02 16:41:56.414232] [Forward][start]
+[2025-12-02 16:42:36.274737] [Forward][time spent]:39.860482692718506
+[2025-12-02 16:42:40.154818] [Loss]:0.24839167296886444
+[2025-12-02 16:42:40.154894] [Backward][start]
+[2025-12-02 16:44:43.355048] [Backward][time spent]:123.20009684562683
+[2025-12-02 16:44:43.355295] [Update][Start]
+[2025-12-02 16:45:59.215024] [Update][time spent]:75.85964393615723
+[2025-12-02 16:45:59.215116] [PHISON END] Iteration: 31
+
+[2025-12-02 16:45:59.215141] [INFO] Training efficiency: 1054.011565434265 (tokens/s)
+
+[2025-12-02 16:45:59.735468] [PHISON START] Epoch: 0, Iteration: 32
+[2025-12-02 16:45:59.735765] [Forward][start]
+[2025-12-02 16:46:39.070390] [Forward][time spent]:39.334593534469604
+[2025-12-02 16:46:42.914794] [Loss]:0.3459763824939728
+[2025-12-02 16:46:42.914865] [Backward][start]
+[2025-12-02 16:48:42.999344] [Backward][time spent]:120.08445906639099
+[2025-12-02 16:48:42.999509] [Update][Start]
+[2025-12-02 16:49:58.278657] [Update][time spent]:75.27911424636841
+[2025-12-02 16:49:58.278752] [PHISON END] Iteration: 32
+
+[2025-12-02 16:49:58.278779] [INFO] Training efficiency: 1070.8446302941572 (tokens/s)
+
+[2025-12-02 16:49:59.200672] [PHISON START] Epoch: 0, Iteration: 33
+[2025-12-02 16:49:59.200956] [Forward][start]
+[2025-12-02 16:50:38.909186] [Forward][time spent]:39.70820736885071
+[2025-12-02 16:50:42.784391] [Loss]:0.266391396522522
+[2025-12-02 16:50:42.784460] [Backward][start]

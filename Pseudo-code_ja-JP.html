@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 邏輯引擎配置工具</title>
+    <title>LOGIC RAZOR 設定ツール</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
         
         body {
-            font-family: 'Noto Sans TC', sans-serif;
+            font-family: 'Noto Sans JP', sans-serif;
             background-color: #0f172a; /* Slate 900 */
             color: #e2e8f0; /* Slate 200 */
         }
@@ -74,11 +74,11 @@
             <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
                 LOGIC RAZOR
             </h1>
-            <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // 邏輯引擎配置核心</p>
+            <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // ロジックエンジン構成コア</p>
         </div>
         <div class="flex gap-2">
             <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v3.0 Next-Gen</span>
-            <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">zh-TW</span>
+            <span class="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs border border-red-500/20">ja-JP</span>
         </div>
     </header>
 
@@ -87,11 +87,11 @@
         
         <!-- INTRO -->
         <section class="bg-slate-800/40 rounded-xl p-6 border-l-4 border-emerald-500">
-            <h3 class="text-lg font-bold text-emerald-400 mb-2">關於此架構</h3>
+            <h3 class="text-lg font-bold text-emerald-400 mb-2">このアーキテクチャについて</h3>
             <p class="text-slate-300 text-sm leading-relaxed">
-                這是一個非常精煉且高效率的 Prompt 架構，被稱為<span class="text-white font-bold">「偽代碼（Pseudo-code）風格」</span>或<span class="text-white font-bold">「壓縮指令」</span>。
+                これは極めて洗練された高効率なプロンプト構造であり、<span class="text-white font-bold">「疑似コード（Pseudo-code）スタイル」</span>や<span class="text-white font-bold">「圧縮コマンド」</span>と呼ばれています。
                 <br><br>
-                它的核心原理是利用 LLM（大型語言模型）的自動補全與語義理解能力，將人類的囉嗦語句轉化為模型權重更高的「關鍵字」與「邏輯符號」。
+                その核心原理は、LLM（大規模言語モデル）の自動補完と意味理解能力を利用し、人間の冗長な言葉を、モデルにとって重みのある「キーワード」や「論理記号」に変換することにあります。
             </p>
         </section>
 
@@ -104,7 +104,7 @@
             <div class="relative">
                 <textarea id="promptText" class="w-full h-64 bg-[#020617] text-gray-300 font-mono text-sm p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none border border-slate-700" readonly>
 ROLE: Strategic AI Logic Engine.
-LANG: zh-TW(Taiwan) ONLY. Use local terms.
+LANG: ja-JP(Tokyo) ONLY. Use natural business/tech terminology.
 TONE: Blunt, Direct, No Filler/Greetings/Closures.
 CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.
 
@@ -112,91 +112,88 @@ CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.
 1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.
 2. RESEARCH: Auth Sources Only(No Guessing), Aggregate Info, Create Compare Table, Provide 3-5 Benchmark Cases.
 3. COPYWRITING: BLUF(Conclusion 1st) -> 3 Key Points -> Slide Structure(1 point/page). Cut Jargon 50%, Add 1 Metaphor, Auto-page #.
-4. PROMO: Identify Highlights+Pain Points. High-Conversion Words. Safety Check. X(Twitter)<200 chars.
+4. PROMO: Identify Highlights+Pain Points. High-Conversion Words. Safety Check. X(Twitter)<140 chars(JP limit).
 
 [EXECUTION]
 Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textarea>
                 
                 <button onclick="copyPrompt()" class="btn-copy absolute top-4 right-4 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transition-all">
                     <i class="fas fa-copy"></i>
-                    <span>複製提示詞</span>
+                    <span>コピーする</span>
                 </button>
             </div>
             <div id="copyFeedback" class="hidden absolute bottom-6 right-6 text-emerald-400 text-sm font-bold animate-pulse">
-                <i class="fas fa-check-circle"></i> 已複製到剪貼簿！
+                <i class="fas fa-check-circle"></i> クリップボードにコピーしました！
             </div>
         </section>
 
-        <!-- GEMINI SETUP GUIDE (UPDATED) -->
+        <!-- GEMINI SETUP GUIDE (UPDATED - FULL 4 METHODS) -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-pink-400 border-b border-slate-700 pb-4">
-                <i class="fas fa-sliders-h"></i> 如何在 Gemini 中設置？
+                <i class="fas fa-sliders-h"></i> Geminiでの設定方法
             </h2>
             <div class="grid md:grid-cols-2 gap-6">
                 
                 <!-- Method 4 (Featured) -->
                 <div class="bg-slate-800/80 p-5 rounded-lg border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.1)] relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">RECOMMENDED</div>
+                    <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">👑 推奨設定</div>
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-user-cog"></i> 方式四：全域指令 (最強推薦)
+                        <i class="fas fa-user-cog"></i> 方法：保存された情報
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 h-8">設定一次，所有新對話自動套用，無需重複貼上。</p>
+                    <p class="text-slate-400 text-xs mb-3 h-8">一度設定すれば、全ての新しい会話に自動適用されます。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>進入 <span class="text-white">Gemini 設定</span> > <span class="text-white">個人化建議</span></li>
-                        <li>找到 <span class="text-yellow-400">給 Gemini 的指令</span></li>
-                        <li>點擊「新增」並貼上代碼</li>
-                        <li><span class="text-emerald-400">從此你的 Gemini 預設就是邏輯引擎</span></li>
+                        <li><span class="text-white">設定</span> > <span class="text-white">保存された情報 (Saved info)</span></li>
+                        <li><span class="text-yellow-400">Geminiへの指示</span> にコードを貼り付け</li>
+                        <li><span class="text-emerald-400">完了！AIがロジックエンジン化します</span></li>
                     </ol>
                 </div>
 
                 <!-- Method 2 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-gem"></i> 方式二：建立 Gem (進階版)
+                        <i class="fas fa-gem"></i> 方法：Gemを作成 (上級者)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 h-8">適用於 Gemini Advanced 用戶，可建立多個分身。</p>
+                    <p class="text-slate-400 text-xs mb-3 h-8">Gemini Advancedユーザー向け。用途別に分身を作成可能。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>點擊 <span class="text-white">Gem Manager</span></li>
-                        <li>選擇 "New Gem"</li>
-                        <li>在 <span class="text-yellow-400">Instructions</span> 欄位貼上</li>
-                        <li>儲存後可隨時切換調用</li>
+                        <li><span class="text-white">Gem Manager</span>を開く</li>
+                        <li>"New Gem" を選択</li>
+                        <li><span class="text-yellow-400">Instructions</span> にコードを貼り付け</li>
                     </ol>
                 </div>
 
-                <!-- Method 1 -->
+                <!-- Method 1 (Added) -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-comment-dots"></i> 方式一：直接對話 (臨時用)
+                        <i class="fas fa-comment-dots"></i> 方法：直接対話 (一時利用)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 h-8">最快速，適用於臨時需要切換模式時。</p>
+                    <p class="text-slate-400 text-xs mb-3 h-8">最速。一時的なモード切り替えやテストに最適。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>開啟 <span class="text-white">New Chat</span></li>
-                        <li>在對話框貼上代碼</li>
-                        <li>按 Enter 發送</li>
-                        <li>看到確認回覆即生效</li>
+                        <li><span class="text-white">New Chat</span> を開く</li>
+                        <li>チャット欄にコードを貼り付け</li>
+                        <li>Enterキーで送信して適用</li>
                     </ol>
                 </div>
 
-                <!-- Method 3 -->
+                <!-- Method 3 (Added) -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-code"></i> 方式三：AI Studio (開發者)
+                        <i class="fas fa-code"></i> 方法：AI Studio (開発者)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 h-8">最強大，完全控制 System Prompt 權重。</p>
+                    <p class="text-slate-400 text-xs mb-3 h-8">最強。System Promptの重みを完全制御。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>前往 <span class="text-white">Google AI Studio</span></li>
-                        <li>找到 <span class="text-yellow-400">System Instructions</span> 區塊</li>
-                        <li>貼上代碼</li>
-                        <li>鎖定後開始測試</li>
+                        <li><span class="text-white">Google AI Studio</span> へ移動</li>
+                        <li><span class="text-yellow-400">System Instructions</span> に貼り付け</li>
+                        <li>保存してテスト開始</li>
                     </ol>
                 </div>
+
             </div>
         </section>
 
         <!-- MODULE USAGE GUIDE -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-4">
-                <i class="fas fa-terminal"></i> 實戰指南：模組指令與範例
+                <i class="fas fa-terminal"></i> 実践ガイド：モジュールコマンドと使用例
             </h2>
             
             <div class="grid md:grid-cols-2 gap-6">
@@ -207,14 +204,14 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                         <div class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center">
                             <i class="fas fa-image text-sm"></i>
                         </div>
-                        <h3 class="font-bold text-slate-200">VISUAL 視覺生成</h3>
+                        <h3 class="font-bold text-slate-200">VISUAL ビジュアル生成</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">啟動高畫質、電影光影描述模式，適合產圖前置。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">高画質、映画のようなライティング記述モード。画像生成の前準備に。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-purple-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono">
                             <span class="text-purple-400 font-bold">[VISUAL]</span>
-                            一台復古義式濃縮咖啡機，蒸氣繚繞，黑色背景，強調金屬質感。
+                            レトロなエスプレッソマシン。蒸気が立ち上る。黒背景、金属の質感を強調。
                         </div>
                     </div>
                 </div>
@@ -225,14 +222,14 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                         <div class="w-8 h-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center">
                             <i class="fas fa-search text-sm"></i>
                         </div>
-                        <h3 class="font-bold text-slate-200">RESEARCH 深度研究</h3>
+                        <h3 class="font-bold text-slate-200">RESEARCH 深層リサーチ</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">嚴格執行權威搜索，拒絕瞎猜，強制產出對比表格。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">信頼できるソースのみ検索。推測を排除し、比較表を強制出力。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-blue-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono">
                             <span class="text-blue-400 font-bold">[RESEARCH]</span>
-                            分析 Cursor 與 VS Code 在企業級開發的優劣，列出比較表。
+                            企業開発におけるCursorとVS Codeの比較分析。メリット・デメリットの表を作成して。
                         </div>
                     </div>
                 </div>
@@ -243,14 +240,14 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                         <div class="w-8 h-8 rounded bg-yellow-500/20 text-yellow-400 flex items-center justify-center">
                             <i class="fas fa-pen-nib text-sm"></i>
                         </div>
-                        <h3 class="font-bold text-slate-200">COPY 文案撰寫</h3>
+                        <h3 class="font-bold text-slate-200">COPY ライティング</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">結論先行 (BLUF)，投影片分頁結構，自動刪減廢話。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">結論先行 (BLUF)、スライド構成、専門用語を削減。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-yellow-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono">
                             <span class="text-yellow-400 font-bold">[COPY]</span>
-                            寫一份向 CEO 匯報「縮減行銷預算」的簡報大綱。
+                            CEOへの「マーケティング予算削減」に関する報告スライドのアウトラインを作成して。
                         </div>
                     </div>
                 </div>
@@ -261,14 +258,14 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                         <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center">
                             <i class="fas fa-bullhorn text-sm"></i>
                         </div>
-                        <h3 class="font-bold text-slate-200">PROMO 推廣行銷</h3>
+                        <h3 class="font-bold text-slate-200">PROMO プロモーション</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">針對社群 (X/Twitter) 優化，字數精簡，直擊用戶痛點。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">SNS(X/Twitter)向けに最適化。文字数制限内、ユーザーの悩みを直撃。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-red-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono">
                             <span class="text-red-400 font-bold">[PROMO]</span>
-                            推廣這款人體工學椅，針對長時間久坐的工程師客群。
+                            長時間座りっぱなしのエンジニア向けに、この人間工学チェアを宣伝して。
                         </div>
                     </div>
                 </div>
@@ -279,7 +276,7 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
         <!-- DEEP ANALYSIS SECTION -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-cyan-400 border-b border-slate-700 pb-4">
-                <i class="fas fa-layer-group"></i> 核心解析：為什麼這段 Prompt 有效？
+                <i class="fas fa-layer-group"></i> コア分析：なぜこのプロンプトが有効なのか？
             </h2>
             
             <div class="grid gap-6">
@@ -289,7 +286,7 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                     <div>
                         <h4 class="font-bold text-slate-200 text-sm mb-1">Strategic AI Logic Engine</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>重新定義角色。不再是「助手」或「朋友」，而是「引擎」。這會切換模型的用詞庫，使其更傾向於邏輯推演而非社交閒聊。
+                            <span class="text-cyan-400 font-bold">原理：</span>役割の再定義。「アシスタント」や「友達」ではなく「エンジン」と定義することで、AIの語彙選択が変わり、雑談ではなく論理推論に特化します。
                         </p>
                     </div>
                 </div>
@@ -298,9 +295,9 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">LANG</div>
                     <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">zh-TW(Taiwan) ONLY</h4>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">ja-JP(Tokyo) ONLY</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>強制本地化。特別強調 <span class="text-white">ONLY</span> 和 <span class="text-white">local terms</span>，是為了對抗模型訓練資料中大量的簡體中文權重，確保輸出是「影片」而不是「視頻」、「品質」而不是「質量」。
+                            <span class="text-cyan-400 font-bold">原理：</span>ローカライズの強制。<span class="text-white">ONLY</span> と指定することで、不自然な翻訳調を排除し、東京のビジネスシーンで使われる自然な日本語を強制します。
                         </p>
                     </div>
                 </div>
@@ -311,7 +308,7 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                     <div>
                         <h4 class="font-bold text-slate-200 text-sm mb-1">Precision > Emotion</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>權重排序。使用 <span class="text-white">></span> 符號比文字說明「請優先考慮精確度」更節省 Token，且邏輯層級更明確。
+                            <span class="text-cyan-400 font-bold">原理：</span>重み付けの順序。「正確さを優先してください」という文章よりも、<span class="text-white">></span> 記号を使うほうがトークンを節約でき、かつ論理的な優先順位が明確になります。
                         </p>
                     </div>
                 </div>
@@ -320,12 +317,12 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[MODULES]</div>
                     <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">模組化設計 / BLUF</h4>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">モジュール設計 / BLUF</h4>
                         <p class="text-slate-400 text-sm mb-2">
-                            <span class="text-cyan-400 font-bold">原理：</span>這是「思維鏈（Chain of Thought）」的變體。預先定義四種模式，讓模型在接收任務時，只需做「分類」動作，就能調用對應的處理邏輯，大幅降低推理錯誤率。
+                            <span class="text-cyan-400 font-bold">原理：</span>「思考の連鎖（Chain of Thought）」の応用です。4つのモードを事前定義することで、AIはタスクを分類するだけで適切な処理ロジックを呼び出せ、推論エラーを大幅に減らせます。
                         </p>
                         <div class="bg-slate-800/50 p-3 rounded text-xs border-l-2 border-yellow-500">
-                            <span class="text-yellow-400 font-bold">BLUF (Bottom Line Up Front)：</span>在文案模式中，這是一個軍事/商業溝通術語，意指「結論先行」，強迫模型改變「起承轉合」的囉唆習慣。
+                            <span class="text-yellow-400 font-bold">BLUF (Bottom Line Up Front)：</span>軍事・ビジネス用語で「結論を先に」という意味。起承転結というAIの冗長な癖を強制的に矯正します。
                         </div>
                     </div>
                 </div>
@@ -334,9 +331,9 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[EXECUTION]</div>
                     <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">執行閉環</h4>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">実行ループ</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>定義工作流。<span class="text-white font-mono">Output Essential Result Only -> Stop</span> 是為了防止模型在回答完後，又自動生成「希望這對您有幫助」這類的廢話。
+                            <span class="text-cyan-400 font-bold">原理：</span>ワークフローの定義。<span class="text-white font-mono">Output Essential Result Only -> Stop</span> により、回答後の「お役に立てれば幸いです」といった無駄話を防止します。
                         </p>
                     </div>
                 </div>
@@ -347,7 +344,7 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
     </main>
 
     <footer class="mt-12 text-slate-600 text-xs">
-        LOGIC RAZOR for Gemini / GPT-5.1 / Claude 4.5
+        LOGIC RAZOR for Gemini / GPT-5.1 / Claude 4.5 (JP Edition)
     </footer>
 
     <script>
@@ -372,7 +369,7 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
             const originalBtnContent = btn.innerHTML;
 
             feedback.classList.remove('hidden');
-            btn.innerHTML = '<i class="fas fa-check"></i> <span>已複製</span>';
+            btn.innerHTML = '<i class="fas fa-check"></i> <span>コピー完了</span>';
             btn.classList.replace('bg-emerald-600', 'bg-slate-700');
 
             setTimeout(() => {
