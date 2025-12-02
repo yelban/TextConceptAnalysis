@@ -88,7 +88,7 @@
             <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // ロジックエンジン構成コア</p>
         </div>
         <div class="flex gap-2">
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v5.4 Detailed Examples</span>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v5.6 Logical Order</span>
             <span class="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs border border-red-500/20">ja-JP</span>
         </div>
     </header>
@@ -166,12 +166,121 @@
             </div>
         </section>
 
-        <!-- GEMINI SETUP GUIDE -->
+        <!-- DEEP ANALYSIS (RESTORED for JP) -->
+        <section class="glass-panel rounded-xl p-6">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-cyan-400 border-b border-slate-700 pb-4">
+                <i class="fas fa-layer-group"></i> コア分析：なぜこのプロンプトが有効なのか？
+            </h2>
+            
+            <div class="grid gap-6">
+                <!-- Item 1: ROLE -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">ROLE</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">Strategic AI Logic Engine</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>役割の再定義。「アシスタント」や「友達」ではなく「エンジン」と定義することで、AIの語彙選択が変わり、雑談ではなく論理推論に特化します。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2: LANG -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">LANG</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">ja-JP(Tokyo) ONLY</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>ローカライズの強制。<span class="text-white">ONLY</span> と指定することで、不自然な翻訳調を排除し、東京のビジネスシーンで使われる自然な日本語を強制します。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 3: CORE -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">CORE</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">Precision > Emotion</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>重み付けの順序。「正確さを優先してください」という文章よりも、<span class="text-white">></span> 記号を使うほうがトークンを節約でき、かつ論理的な優先順位が明確になります。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 4: MODULES -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[MODULES]</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">モジュール設計 / BLUF</h4>
+                        <p class="text-slate-400 text-sm mb-2">
+                            <span class="text-cyan-400 font-bold">原理：</span>「思考の連鎖（Chain of Thought）」の応用です。4つのモードを事前定義することで、AIはタスクを分類するだけで適切な処理ロジックを呼び出せ、推論エラーを大幅に減らせます。
+                        </p>
+                        <div class="bg-slate-800/50 p-3 rounded text-xs border-l-2 border-yellow-500">
+                            <span class="text-yellow-400 font-bold">BLUF (Bottom Line Up Front)：</span>軍事・ビジネス用語で「結論を先に」という意味。起承転結というAIの冗長な癖を強制的に矯正します。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 5: EXECUTION -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[EXECUTION]</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">実行ループ</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>ワークフローの定義。<span class="text-white font-mono">Output Essential Result Only -> Stop</span> により、回答後の「お役に立てれば幸いです」といった無駄話を防止します。
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- GEMINI SETUP GUIDE (REORDERED 1-2-3-4) -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-pink-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-sliders-h"></i> Geminiでの設定方法 (推奨順)
             </h2>
             <div class="grid md:grid-cols-2 gap-6">
+                <!-- Method 1 -->
+                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
+                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
+                        <i class="fas fa-comment-dots"></i> 方法 1：直接対話 (一時利用)
+                    </div>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">最速。一時的なモード切り替えやテストに最適。新しいチャットごとに貼り付けが必要。</p>
+                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
+                        <li><span class="text-white">New Chat</span> を開く</li>
+                        <li>チャット欄に完全なコードを貼り付け</li>
+                        <li>Enterキーで送信して適用確認</li>
+                    </ol>
+                </div>
+
+                <!-- Method 2 -->
+                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
+                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
+                        <i class="fas fa-gem"></i> 方法 2：Gemを作成 (上級者)
+                    </div>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。<span class="text-emerald-400">完全版 (Full)</span>を推奨。</p>
+                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
+                        <li><span class="text-white">Gem Manager</span>を開く</li>
+                        <li>"New Gem" を選択</li>
+                        <li><span class="text-yellow-400">Instructions</span> に完全なコードを貼り付け</li>
+                        <li>保存していつでも呼び出し可能に</li>
+                    </ol>
+                </div>
+
+                <!-- Method 3 -->
+                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
+                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
+                        <i class="fas fa-code"></i> 方法 3：AI Studio (開発者)
+                    </div>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">最強。System Promptの重みを完全制御できる開発環境。プロンプトの微調整に最適。</p>
+                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
+                        <li><span class="text-white">Google AI Studio</span> へ移動</li>
+                        <li><span class="text-yellow-400">System Instructions</span> ブロックを見つける</li>
+                        <li>完全なコードを貼り付け</li>
+                        <li>ロックしてテスト開始</li>
+                    </ol>
+                </div>
+
                 <!-- Method 4 (Featured) -->
                 <div class="bg-slate-800/80 p-5 rounded-lg border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.1)] relative overflow-hidden flex flex-col">
                     <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">👑 推奨 No.1</div>
@@ -185,44 +294,6 @@
                         <li><span class="text-emerald-400">ブロック A</span> を貼り付け</li>
                         <li><span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 追加</span> ボタンをクリック</li>
                         <li><span class="text-purple-400">ブロック B</span> を貼り付け</li>
-                    </ol>
-                </div>
-                <!-- Method 2 -->
-                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
-                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-gem"></i> 方法 2：Gemを作成 (上級者)
-                    </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advancedユーザー向け。複数のペルソナを使い分けたい場合に最適。<span class="text-emerald-400">完全版</span>推奨。</p>
-                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li><span class="text-white">Gem Manager</span>を開く</li>
-                        <li>"New Gem" を選択</li>
-                        <li><span class="text-yellow-400">Instructions</span> に完全なコードを貼り付け</li>
-                        <li>保存していつでも呼び出し可能に</li>
-                    </ol>
-                </div>
-                <!-- Method 1 -->
-                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
-                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-comment-dots"></i> 方法 1：直接対話 (一時利用)
-                    </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">最速。一時的なモード切り替えやテストに最適。新しいチャットごとに貼り付けが必要。</p>
-                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li><span class="text-white">New Chat</span> を開く</li>
-                        <li>チャット欄に完全なコードを貼り付け</li>
-                        <li>Enterキーで送信して適用確認</li>
-                    </ol>
-                </div>
-                <!-- Method 3 -->
-                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
-                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-code"></i> 方法 3：AI Studio (開発者)
-                    </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">最強。System Promptの重みを完全制御できる開発環境。プロンプトの微調整に最適。</p>
-                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li><span class="text-white">Google AI Studio</span> へ移動</li>
-                        <li><span class="text-yellow-400">System Instructions</span> ブロックを見つける</li>
-                        <li>完全なコードを貼り付け</li>
-                        <li>ロックしてテスト開始</li>
                     </ol>
                 </div>
             </div>
@@ -470,8 +541,4 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
     </script>
 </body>
 </html>
-
-
-
-
 

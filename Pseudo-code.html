@@ -88,7 +88,7 @@
             <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // 邏輯引擎配置核心</p>
         </div>
         <div class="flex gap-2">
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v5.4 Detailed Examples</span>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v5.6 Logical Order</span>
             <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">zh-TW</span>
         </div>
     </header>
@@ -100,7 +100,7 @@
         <section class="bg-slate-800/40 rounded-xl p-6 border-l-4 border-emerald-500">
             <h3 class="text-lg font-bold text-emerald-400 mb-2">關於此架構</h3>
             <p class="text-slate-300 text-sm leading-relaxed">
-                這是一個非常精煉且高效率的 Prompt 架構，被稱為<span class="text-white font-bold">「偽代碼（Pseudo-code）風格」</span>。
+                這是一個非常精煉且高效率的 Prompt 架構，被稱為<span class="text-white font-bold">「偽代碼（Pseudo-code）風格」</span>或<span class="text-white font-bold">「壓縮指令」</span>。
                 針對 Gemini 網頁版的字數限制，本工具現在支援<span class="text-white font-bold">「拆分輸出」</span>，讓您能繞過限制，完整植入邏輯引擎。
             </p>
         </section>
@@ -166,41 +166,80 @@
             </div>
         </section>
 
+        <!-- DEEP ANALYSIS -->
+        <section class="glass-panel rounded-xl p-6">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-cyan-400 border-b border-slate-700 pb-4">
+                <i class="fas fa-layer-group"></i> 核心解析：為什麼這段 Prompt 有效？
+            </h2>
+            
+            <div class="grid gap-6">
+                <!-- Item 1: ROLE -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">ROLE</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">Strategic AI Logic Engine</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>重新定義角色。不再是「助手」或「朋友」，而是「引擎」。這會切換模型的用詞庫，使其更傾向於邏輯推演而非社交閒聊。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2: LANG -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">LANG</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">zh-TW(Taiwan) ONLY</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>強制本地化。特別強調 <span class="text-white">ONLY</span> 和 <span class="text-white">local terms</span>，是為了對抗模型訓練資料中大量的簡體中文權重，確保輸出是「影片」而不是「視頻」、「品質」而不是「質量」。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 3: CORE -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">CORE</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">Precision > Emotion</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>權重排序。使用 <span class="text-white">></span> 符號比文字說明「請優先考慮精確度」更節省 Token，且邏輯層級更明確。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 4: MODULES -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[MODULES]</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">模組化設計 / BLUF</h4>
+                        <p class="text-slate-400 text-sm mb-2">
+                            <span class="text-cyan-400 font-bold">原理：</span>這是「思維鏈（Chain of Thought）」的變體。預先定義四種模式，讓模型在接收任務時，只需做「分類」動作，就能調用對應的處理邏輯，大幅降低推理錯誤率。
+                        </p>
+                        <div class="bg-slate-800/50 p-3 rounded text-xs border-l-2 border-yellow-500">
+                            <span class="text-yellow-400 font-bold">BLUF (Bottom Line Up Front)：</span>在文案模式中，這是一個軍事/商業溝通術語，意指「結論先行」，強迫模型改變「起承轉合」的囉唆習慣。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 5: EXECUTION -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[EXECUTION]</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">執行閉環</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>定義工作流。<span class="text-white font-mono">Output Essential Result Only -> Stop</span> 是為了防止模型在回答完後，又自動生成「希望這對您有幫助」這類的廢話。
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <!-- GEMINI SETUP GUIDE -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-pink-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-sliders-h"></i> 如何在 Gemini 中設置？ (4種方式)
             </h2>
             <div class="grid md:grid-cols-2 gap-6">
-                <!-- Method 4 (Featured) -->
-                <div class="bg-slate-800/80 p-5 rounded-lg border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.1)] relative overflow-hidden flex flex-col">
-                    <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">👑 推薦首選</div>
-                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-user-cog"></i> 方式 4：個人化指令 (Saved Info)
-                    </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">設定一次，所有新對話自動套用。文字上限較嚴格，請用拆分版。</p>
-                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>進入 <span class="text-white">Gemini 設定</span> > <span class="text-white">個人化建議</span></li>
-                        <li>找到 <span class="text-yellow-400">給 Gemini 的指令</span></li>
-                        <li>貼上 <span class="text-emerald-400">區塊 A</span></li>
-                        <li>點擊 <span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 新增</span> 按鈕</li>
-                        <li>貼上 <span class="text-purple-400">區塊 B</span></li>
-                    </ol>
-                </div>
-                
-                <!-- Method 2 -->
-                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
-                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-gem"></i> 方式 2：建立 Gem (進階版)
-                    </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。</p>
-                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>點擊 <span class="text-white">Gem Manager</span> > "New Gem"</li>
-                        <li>在 <span class="text-yellow-400">Instructions</span> 欄位貼上完整代碼</li>
-                        <li>儲存後可隨時切換調用</li>
-                    </ol>
-                </div>
-
                 <!-- Method 1 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
@@ -211,6 +250,19 @@
                         <li>開啟 <span class="text-white">New Chat</span></li>
                         <li>在對話框貼上完整代碼</li>
                         <li>按 Enter 發送，確認回應後開始任務</li>
+                    </ol>
+                </div>
+
+                <!-- Method 2 -->
+                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
+                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
+                        <i class="fas fa-gem"></i> 方式 2：建立 Gem (進階版)
+                    </div>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。</p>
+                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
+                        <li>點擊 <span class="text-white">Gem Manager</span> > "New Gem"</li>
+                        <li>在 <span class="text-yellow-400">Instructions</span> 欄位貼上完整代碼</li>
+                        <li>儲存後可隨時切換調用</li>
                     </ol>
                 </div>
 
@@ -227,6 +279,22 @@
                         <li>鎖定後開始測試</li>
                     </ol>
                 </div>
+
+                <!-- Method 4 (Featured) -->
+                <div class="bg-slate-800/80 p-5 rounded-lg border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.1)] relative overflow-hidden flex flex-col">
+                    <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">👑 推薦首選</div>
+                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
+                        <i class="fas fa-user-cog"></i> 方式 4：個人化指令 (Saved Info)
+                    </div>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">設定一次，所有新對話自動套用。文字上限較嚴格，請用拆分版。</p>
+                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
+                        <li>進入 <span class="text-white">Gemini 設定</span> > <span class="text-white">個人化建議</span></li>
+                        <li>找到 <span class="text-yellow-400">給 Gemini 的指令</span></li>
+                        <li>貼上 <span class="text-emerald-400">區塊 A</span></li>
+                        <li>點擊 <span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 新增</span> 按鈕</li>
+                        <li>貼上 <span class="text-purple-400">區塊 B</span></li>
+                    </ol>
+                </div>
             </div>
         </section>
 
@@ -236,7 +304,6 @@
                 <i class="fas fa-terminal"></i> 實戰指南：9 大模組詳細範例
             </h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
                 <!-- VISUAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
