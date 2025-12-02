@@ -77,7 +77,7 @@
             <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // ロジックエンジン構成コア</p>
         </div>
         <div class="flex gap-2">
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v3.0 Next-Gen</span>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v4.5 Added Auto Example</span>
             <span class="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs border border-red-500/20">ja-JP</span>
         </div>
     </header>
@@ -111,8 +111,13 @@ CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.
 [MODULES]
 1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.
 2. RESEARCH: Auth Sources Only(No Guessing), Aggregate Info, Create Compare Table, Provide 3-5 Benchmark Cases.
-3. COPYWRITING: BLUF(Conclusion 1st) -> 3 Key Points -> Slide Structure(1 point/page). Cut Jargon 50%, Add 1 Metaphor, Auto-page #.
-4. PROMO: Identify Highlights+Pain Points. High-Conversion Words. Safety Check. X(Twitter)<140 chars(JP limit).
+3. COPY: BLUF(Conclusion 1st) -> 3 Key Points -> Slide Structure(1 point/page). Cut Jargon 50%, Add 1 Metaphor, Auto-page #.
+4. SOCIAL: Mode:Auto OR Specified([:Short] or [:Thread]). Short:Pain+Highlight+Safety, High-Conv Words, X<140ch(JP limit). Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.
+5. SLIDES: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.
+6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
+7. SKETCH: Mode:Infographic(16:9). Style:Auto OR Specified([:Style]). Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords.
+8. THOUGHT: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)**\n\nBody:Single plain text para, <120 words. Content:Concise progress update. Constraint:No header repeats, No instruction ref.
+9. STRATEGY: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.
 
 [EXECUTION]
 Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textarea>
@@ -127,13 +132,12 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
             </div>
         </section>
 
-        <!-- GEMINI SETUP GUIDE (UPDATED - FULL 4 METHODS) -->
+        <!-- GEMINI SETUP GUIDE -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-pink-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-sliders-h"></i> Geminiでの設定方法
             </h2>
             <div class="grid md:grid-cols-2 gap-6">
-                
                 <!-- Method 4 (Featured) -->
                 <div class="bg-slate-800/80 p-5 rounded-lg border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.1)] relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">👑 推奨設定</div>
@@ -147,7 +151,6 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                         <li><span class="text-emerald-400">完了！AIがロジックエンジン化します</span></li>
                     </ol>
                 </div>
-
                 <!-- Method 2 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
@@ -160,8 +163,7 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                         <li><span class="text-yellow-400">Instructions</span> にコードを貼り付け</li>
                     </ol>
                 </div>
-
-                <!-- Method 1 (Added) -->
+                <!-- Method 1 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-comment-dots"></i> 方法：直接対話 (一時利用)
@@ -173,8 +175,7 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                         <li>Enterキーで送信して適用</li>
                     </ol>
                 </div>
-
-                <!-- Method 3 (Added) -->
+                <!-- Method 3 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-code"></i> 方法：AI Studio (開発者)
@@ -186,7 +187,6 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                         <li>保存してテスト開始</li>
                     </ol>
                 </div>
-
             </div>
         </section>
 
@@ -196,45 +196,45 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                 <i class="fas fa-terminal"></i> 実践ガイド：モジュールコマンドと使用例
             </h2>
             
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <!-- VISUAL CARD -->
+                <!-- VISUAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center">
                             <i class="fas fa-image text-sm"></i>
                         </div>
-                        <h3 class="font-bold text-slate-200">VISUAL ビジュアル生成</h3>
+                        <h3 class="font-bold text-slate-200">VISUAL ビジュアル</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">高画質、映画のようなライティング記述モード。画像生成の前準備に。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">高画質、映画のようなライティング記述モード。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-purple-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono">
                             <span class="text-purple-400 font-bold">[VISUAL]</span>
-                            レトロなエスプレッソマシン。蒸気が立ち上る。黒背景、金属の質感を強調。
+                            レトロなエスプレッソマシン。黒背景。
                         </div>
                     </div>
                 </div>
 
-                <!-- RESEARCH CARD -->
+                <!-- RESEARCH -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center">
                             <i class="fas fa-search text-sm"></i>
                         </div>
-                        <h3 class="font-bold text-slate-200">RESEARCH 深層リサーチ</h3>
+                        <h3 class="font-bold text-slate-200">RESEARCH リサーチ</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">信頼できるソースのみ検索。推測を排除し、比較表を強制出力。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">信頼できるソースのみ検索。比較表を強制出力。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-blue-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono">
                             <span class="text-blue-400 font-bold">[RESEARCH]</span>
-                            企業開発におけるCursorとVS Codeの比較分析。メリット・デメリットの表を作成して。
+                            CursorとVS Codeの比較分析。
                         </div>
                     </div>
                 </div>
 
-                <!-- COPYWRITING CARD -->
+                <!-- COPY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-yellow-500/20 text-yellow-400 flex items-center justify-center">
@@ -242,99 +242,137 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.</textar
                         </div>
                         <h3 class="font-bold text-slate-200">COPY ライティング</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">結論先行 (BLUF)、スライド構成、専門用語を削減。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">結論先行 (BLUF)、スライド構成、専門用語削減。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-yellow-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono">
                             <span class="text-yellow-400 font-bold">[COPY]</span>
-                            CEOへの「マーケティング予算削減」に関する報告スライドのアウトラインを作成して。
+                            予算削減に関する報告のアウトライン。
                         </div>
                     </div>
                 </div>
 
-                <!-- PROMO CARD -->
+                <!-- SOCIAL (UPDATED) -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center">
-                            <i class="fas fa-bullhorn text-sm"></i>
+                            <i class="fas fa-share-alt text-sm"></i>
                         </div>
-                        <h3 class="font-bold text-slate-200">PROMO プロモーション</h3>
+                        <h3 class="font-bold text-slate-200">SOCIAL ソーシャル戦略</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">SNS(X/Twitter)向けに最適化。文字数制限内、ユーザーの悩みを直撃。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">自動判定(短文/長文)。X(Twitter)最適化、保存率重視。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-red-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono space-y-2">
+                            <div>
+                                <span class="text-red-400 font-bold">[SOCIAL]</span>
+                                この記事を元に、拡散されるポストを書いて。(自動判定)
+                            </div>
+                            <div class="border-t border-slate-700 pt-2">
+                                <span class="text-red-400 font-bold">[SOCIAL: Short]</span>
+                                新製品ローンチ (140字以内)
+                            </div>
+                            <div class="border-t border-slate-700 pt-2">
+                                <span class="text-red-400 font-bold">[SOCIAL: Thread]</span>
+                                論文深堀り解説 (スレッド形式)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- SLIDES -->
+                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                            <i class="fas fa-layer-group text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-200">SLIDES スライド</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 h-8">読むための資料。デザイン指示を含む詳細構成。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-indigo-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono">
-                            <span class="text-red-400 font-bold">[PROMO]</span>
-                            長時間座りっぱなしのエンジニア向けに、この人間工学チェアを宣伝して。
+                            <span class="text-indigo-400 font-bold">[SLIDES]</span>
+                            新規事業「AIペット」の投資家向けピッチ。
                         </div>
                     </div>
                 </div>
 
-            </div>
-        </section>
-
-        <!-- DEEP ANALYSIS SECTION -->
-        <section class="glass-panel rounded-xl p-6">
-            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-cyan-400 border-b border-slate-700 pb-4">
-                <i class="fas fa-layer-group"></i> コア分析：なぜこのプロンプトが有効なのか？
-            </h2>
-            
-            <div class="grid gap-6">
-                <!-- Item 1: ROLE -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">ROLE</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">Strategic AI Logic Engine</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>役割の再定義。「アシスタント」や「友達」ではなく「エンジン」と定義することで、AIの語彙選択が変わり、雑談ではなく論理推論に特化します。
-                        </p>
+                 <!-- WRITING -->
+                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-teal-500/20 text-teal-400 flex items-center justify-center">
+                            <i class="fas fa-feather text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-200">WRITING 帰納的思考</h3>
                     </div>
-                </div>
-
-                <!-- Item 2: LANG -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">LANG</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">ja-JP(Tokyo) ONLY</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>ローカライズの強制。<span class="text-white">ONLY</span> と指定することで、不自然な翻訳調を排除し、東京のビジネスシーンで使われる自然な日本語を強制します。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 3: CORE -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">CORE</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">Precision > Emotion</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>重み付けの順序。「正確さを優先してください」という文章よりも、<span class="text-white">></span> 記号を使うほうがトークンを節約でき、かつ論理的な優先順位が明確になります。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 4: MODULES -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[MODULES]</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">モジュール設計 / BLUF</h4>
-                        <p class="text-slate-400 text-sm mb-2">
-                            <span class="text-cyan-400 font-bold">原理：</span>「思考の連鎖（Chain of Thought）」の応用です。4つのモードを事前定義することで、AIはタスクを分類するだけで適切な処理ロジックを呼び出せ、推論エラーを大幅に減らせます。
-                        </p>
-                        <div class="bg-slate-800/50 p-3 rounded text-xs border-l-2 border-yellow-500">
-                            <span class="text-yellow-400 font-bold">BLUF (Bottom Line Up Front)：</span>軍事・ビジネス用語で「結論を先に」という意味。起承転結というAIの冗長な癖を強制的に矯正します。
+                    <p class="text-xs text-slate-400 mb-4 h-8">教えるのではなく、気づきを促す。帰納的なエッセイ。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-teal-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono">
+                            <span class="text-teal-400 font-bold">[WRITING]</span>
+                            リモートワークの「孤独」について。
                         </div>
                     </div>
                 </div>
 
-                <!-- Item 5: EXECUTION -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[EXECUTION]</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">実行ループ</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>ワークフローの定義。<span class="text-white font-mono">Output Essential Result Only -> Stop</span> により、回答後の「お役に立てれば幸いです」といった無駄話を防止します。
-                        </p>
+                <!-- SKETCH (MERGED) -->
+                <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-orange-500/20 text-orange-400 flex items-center justify-center">
+                            <i class="fas fa-pencil-alt text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-200">SKETCH 図解イラスト</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 h-8">非写実的なインフォグラフィック。スタイル指定可。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-orange-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono space-y-2">
+                            <div>
+                                <span class="text-orange-400 font-bold">[SKETCH: Blackboard]</span>
+                                量子力学 (解説向け)
+                            </div>
+                            <div class="border-t border-slate-700 pt-2">
+                                <span class="text-orange-400 font-bold">[SKETCH: Cartoon]</span>
+                                ブロックチェーン (親しみやすく)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- THOUGHT -->
+                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-gray-500/20 text-gray-400 flex items-center justify-center">
+                            <i class="fas fa-brain text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-200">THOUGHT 思考プロセス</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 h-8">思考のローリング要約。一人称で進捗を可視化。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-gray-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono">
+                            <span class="text-gray-400 font-bold">[THOUGHT]</span>
+                            (既存の思考テキスト) を要約して。
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- STRATEGY -->
+                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-rose-500/20 text-rose-400 flex items-center justify-center">
+                            <i class="fas fa-chess-knight text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-200">STRATEGY 戦略コンサル</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 h-8">もし私の立場ならどうするか？盲点を探るシミュレーション。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-rose-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono">
+                            <span class="text-rose-400 font-bold">[STRATEGY]</span>
+                            昇進するために、私が今見落としていることは？
+                        </div>
                     </div>
                 </div>
 
