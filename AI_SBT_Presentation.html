@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI SBT 證書系統 - 總裁匯報版</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent-blue: #00f3ff;
+            --accent-purple: #bc13fe;
+            --accent-gold: #ffd700;
+            --accent-green: #00ff9d;
+            --accent-red: #ff4d4d;
+            --text-main: #ffffff;
+            --text-sub: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Scroll Snap Container */
+        .presentation-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+
+        /* Slide Common Styles */
+        .slide {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+            background: radial-gradient(circle at center, #1a1a24 0%, #0a0a0f 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 20px; text-align: center; letter-spacing: 2px; }
+        h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 40px; color: var(--accent-blue); text-align: center; }
+        p { font-size: 1.2rem; line-height: 1.6; color: var(--text-sub); }
+
+        .highlight {
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Slide 1: Cover */
+        .cover-content { text-align: center; max-width: 900px; }
+        .cover-tag {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--accent-blue);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            border: 1px solid var(--accent-blue);
+        }
+
+        /* Slide 2: Workflow */
+        .workflow-container {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .step-card {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .step-card:hover { transform: translateY(-10px); border-color: var(--accent-blue); }
+        .step-num { font-size: 4rem; font-weight: 900; color: rgba(255,255,255,0.05); position: absolute; top: -10px; right: 20px; }
+        .step-icon { font-size: 3rem; margin-bottom: 20px; }
+        .step-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
+
+        /* Slide 3 & 4: Black Tech Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .tech-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            border-left: 5px solid var(--accent-blue);
+        }
+        .tech-card.pain { border-left-color: var(--accent-red); opacity: 0.8; }
+        .tech-card.solution { border-left-color: var(--accent-green); box-shadow: 0 0 20px rgba(0, 255, 157, 0.1); }
+        
+        .tech-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .bg-pain { background: rgba(255, 77, 77, 0.2); color: var(--accent-red); }
+        .bg-sol { background: rgba(0, 255, 157, 0.2); color: var(--accent-green); }
+
+        /* Slide 5: Cost Breakdown (NEW) */
+        .cost-hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .cost-big-number {
+            font-size: 6rem;
+            font-weight: 900;
+            color: var(--accent-green);
+            text-shadow: 0 0 30px rgba(0, 255, 157, 0.3);
+            line-height: 1;
+        }
+        .cost-grid-layout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .cost-item {
+            background: rgba(0, 255, 157, 0.05);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+        .cost-price { font-size: 1.8rem; font-weight: 700; color: var(--text-main); margin: 10px 0; }
+        .cost-desc { font-size: 0.9rem; color: var(--text-sub); }
+        .cost-vs-bar {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            height: 40px;
+            position: relative;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .bar-traditional {
+            width: 100%;
+            background: var(--accent-red);
+            height: 100%;
+            border-radius: 10px;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            font-weight: bold;
+            color: black;
+        }
+        .bar-ai {
+            width: 1%; /* Representing < 1% */
+            background: var(--accent-green);
+            height: 120%; /* Pop out */
+            top: -10%;
+            border-radius: 5px;
+            position: absolute;
+            left: 0;
+            box-shadow: 0 0 15px var(--accent-green);
+            z-index: 2;
+        }
+        .bar-label-ai {
+            position: absolute;
+            left: 10px;
+            color: var(--accent-green);
+            font-weight: bold;
+            top: -30px;
+        }
+
+        /* Slide 6: Comparison Table */
+        .comparison-table {
+            width: 100%;
+            max-width: 1000px;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .comparison-table th { background: rgba(0,0,0,0.3); font-size: 1.2rem; color: var(--accent-blue); }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .winner-col { background: rgba(0, 243, 255, 0.05); border-left: 2px solid var(--accent-blue); }
+        .winner-text { color: var(--accent-green); font-weight: 700; }
+        .loser-text { color: var(--text-sub); text-decoration: line-through; opacity: 0.6; }
+
+        /* Slide 7: Conclusion */
+        .final-quote {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            max-width: 800px;
+            line-height: 1.5;
+            border: 2px solid var(--accent-gold);
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(255, 215, 0, 0.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .cost-big-number { font-size: 4rem; }
+            .workflow-container, .tech-grid, .security-layout, .cost-grid-layout { flex-direction: column; }
+            .step-card, .tech-card { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+
+    <!-- Slide 1: Cover -->
+    <section class="slide">
+        <div class="cover-content">
+            <div class="cover-tag">2025 AI 數位轉型方案</div>
+            <h1>按一個鈕，<span class="highlight">1秒畫好</span><br>並刻在數位石碑上永久流傳</h1>
+            <p style="font-size: 1.5rem; margin-top: 20px;">從人工印刷到全自動數位資產鑄造的革命</p>
+        </div>
+    </section>
+
+    <!-- Slide 2: Workflow -->
+    <section class="slide">
+        <h2>它是怎麼運作的？ (三步驟流水線)</h2>
+        <div class="workflow-container">
+            <div class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-icon">🎨</div>
+                <div class="step-title">AI 畫師上工</div>
+                <p>管理員輸入「姓名」，後台黑科技 AI (Z-Image-Turbo) <strong>1 秒內</strong>現場畫出精美證書。名字直接寫入圖片，<strong>保證不寫錯字</strong>。</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-icon">🏛️</div>
+                <div class="step-title">存入永久保險箱</div>
+                <p>不存一般雲端（會過期），而是存入區塊鏈版亞歷山大圖書館 (Arweave)。付一次錢，檔案活得比公司久，<strong>保證 200 年</strong>。</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-icon">🔖</div>
+                <div class="step-title">蓋上數位鋼印</div>
+                <p>自動在鏈上發放代幣 (SBT)，像刺青一樣死死黏在員工錢包上。<strong>拿不走、賣不掉、改不了</strong>。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Black Tech 1 & 2 -->
+    <section class="slide">
+        <h2>核心黑科技解密 (1/2)</h2>
+        <div class="tech-grid">
+            <!-- Tech 1 -->
+            <div class="tech-card pain">
+                <span class="tech-badge bg-pain">痛點</span>
+                <h3>AI 不識字</h3>
+                <p>一般 AI 很會畫圖，但叫它寫名字會變成鬼畫符。</p>
+            </div>
+            <div class="tech-card solution">
+                <span class="tech-badge bg-sol">黑科技 #1</span>
+                <h3>懂中文的 AI (Z-Image-Turbo)</h3>
+                <p>使用阿里通義最新模型，它是 AI 界的<strong>識字天花板</strong>。能精準把中英文字體「渲染」在圖片上。</p>
+            </div>
+
+            <!-- Tech 2 -->
+            <div class="tech-card pain">
+                <span class="tech-badge bg-pain">痛點</span>
+                <h3>證書被轉賣</h3>
+                <p>如果是普通 NFT，員工拿到證書轉手賣掉怎麼辦？</p>
+            </div>
+            <div class="tech-card solution">
+                <span class="tech-badge bg-sol">黑科技 #2</span>
+                <h3>靈魂綁定 (SBT)</h3>
+                <p>把交易功能「閹割」了。這張證書就像<strong>刺青</strong>，綁定靈魂（帳號）。只能持有、銷毀，不能交易。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Black Tech 3 & 4 (Relayer Focus) -->
+    <section class="slide">
+        <h2>核心黑科技解密 (2/2)</h2>
+        <div class="tech-grid">
+            <!-- Tech 3 -->
+            <div class="tech-card pain">
+                <span class="tech-badge bg-pain">痛點</span>
+                <h3>404 Not Found</h3>
+                <p>公司網站沒繳費、伺服器掛了，證書連結就失效。</p>
+            </div>
+            <div class="tech-card solution">
+                <span class="tech-badge bg-sol">黑科技 #3</span>
+                <h3>數位石碑 (Arweave)</h3>
+                <p>資料一旦寫入，就分散在全球成千上萬台電腦裡，<strong>沒有人能刪除它</strong>。</p>
+            </div>
+
+            <!-- Tech 4 -->
+            <div class="tech-card pain">
+                <span class="tech-badge bg-pain">痛點：極高風險</span>
+                <h3>私鑰被偷 = 資產掏空</h3>
+                <p>一般開發把「私鑰」（公司印鑑）放在網頁伺服器。網站被駭，印鑑就被偷。</p>
+            </div>
+            <div class="tech-card solution">
+                <span class="tech-badge bg-sol">黑科技 #4：企業級關鍵</span>
+                <h3>全天候數位保全 (Relayer)</h3>
+                <p>我們只負責「出一張嘴」發號施令。真正的「蓋章動作」由保全在隔離環境執行。<strong>公司印鑑鎖在防彈金庫裡，連工程師都摸不到。</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Cost Breakdown (NEW) -->
+    <section class="slide">
+        <h2>極致成本效益解密</h2>
+        
+        <div class="cost-hero">
+            <p style="margin-bottom: 10px; color: var(--text-sub);">單張證書全包價 (含 AI 算力)</p>
+            <div class="cost-big-number">&lt; 1 <span style="font-size: 2rem;">元台幣</span></div>
+        </div>
+
+        <div class="cost-grid-layout">
+            <div class="cost-item">
+                <div style="font-size: 2rem;">🤖</div>
+                <div class="cost-price">0.60 元</div>
+                <div>AI 算力 (Z-Image)</div>
+                <div class="cost-desc">GPU 推理成本</div>
+            </div>
+            <div class="cost-item">
+                <div style="font-size: 2rem;">🔗</div>
+                <div class="cost-price">0.15 元</div>
+                <div>上鏈費 (Base L2)</div>
+                <div class="cost-desc">Gas Fee 手續費</div>
+            </div>
+            <div class="cost-item">
+                <div style="font-size: 2rem;">💾</div>
+                <div class="cost-price">0.12 元</div>
+                <div>永久存儲 (Arweave)</div>
+                <div class="cost-desc">一次付費，永久保存</div>
+            </div>
+        </div>
+
+        <div style="width: 100%; max-width: 800px;">
+            <p style="text-align: left; margin-bottom: 10px; font-weight: bold;">成本對比：</p>
+            <div class="cost-vs-bar">
+                <span class="bar-label-ai">我們 1 元</span>
+                <div class="bar-ai"></div>
+                <div class="bar-traditional">傳統紙本 (印刷+寄送) > 150 元</div>
+            </div>
+            <p style="text-align: right; margin-top: 10px; color: var(--accent-green);">成本降低 99%</p>
+        </div>
+    </section>
+
+    <!-- Slide 6: Comparison Table -->
+    <section class="slide">
+        <h2>綜合競爭力分析</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>維度</th>
+                    <th>傳統紙本 / 電子檔</th>
+                    <th class="winner-col" style="color: var(--accent-blue)">我們的 AI + 區塊鏈方案</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>效率</strong></td>
+                    <td class="loser-text">人工排版，耗時耗力</td>
+                    <td class="winner-col winner-text">1 秒生成，立等可取</td>
+                </tr>
+                <tr>
+                    <td><strong>防偽</strong></td>
+                    <td class="loser-text">容易用 PS 造假</td>
+                    <td class="winner-col winner-text">無法竄改，鏈上可查</td>
+                </tr>
+                <tr>
+                    <td><strong>保存</strong></td>
+                    <td class="loser-text">紙張會爛，硬碟會壞</td>
+                    <td class="winner-col winner-text">永久存續，資料不死</td>
+                </tr>
+                <tr>
+                    <td><strong>成本</strong></td>
+                    <td class="loser-text">印刷+寄送 > 100元</td>
+                    <td class="winner-col winner-text" style="font-size: 1.2rem;">低於 1 元台幣 (含 AI 算力)</td>
+                </tr>
+                <tr>
+                    <td><strong>觀感</strong></td>
+                    <td>普通行政流程</td>
+                    <td class="winner-col winner-text">高科技企業形象，員工願意曬圖</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Slide 7: Conclusion -->
+    <section class="slide">
+        <div class="final-quote">
+            這不只是一個證書系統，<br>
+            這是展示我們集團<br>
+            <span style="color: var(--accent-gold);">「AI 落地能力」</span>與<span style="color: var(--accent-blue);">「數位轉型決心」</span><br>
+            的最佳秀場。<br>
+            <br>
+            <span style="font-size: 1.2rem; color: var(--text-sub); font-weight: 400;">成本極低，但刷得一手好存在感。</span>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
