@@ -88,7 +88,7 @@
             <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // ロジックエンジン構成コア</p>
         </div>
         <div class="flex gap-2">
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v5.6 Logical Order</span>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v5.7 Fixed Social</span>
             <span class="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs border border-red-500/20">ja-JP</span>
         </div>
     </header>
@@ -166,7 +166,7 @@
             </div>
         </section>
 
-        <!-- DEEP ANALYSIS (RESTORED for JP) -->
+        <!-- DEEP ANALYSIS -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-cyan-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-layer-group"></i> コア分析：なぜこのプロンプトが有効なのか？
@@ -350,7 +350,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- SOCIAL -->
+                <!-- SOCIAL (MERGED) -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center"><i class="fas fa-share-alt text-sm"></i></div>
@@ -361,6 +361,10 @@
                         <div class="text-[10px] text-red-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono space-y-2">
                             <div>
+                                <span class="text-red-400 font-bold">[SOCIAL]</span>
+                                この記事を元に、拡散されるポストを書いて。(自動判定)
+                            </div>
+                            <div class="border-t border-slate-700 pt-2">
                                 <span class="text-red-400 font-bold">[SOCIAL: Short]</span>
                                 新機能「AI自動修復」のリリース発表。ワンクリックでの時短効果を興奮気味に。(140字以内)
                             </div>
@@ -541,4 +545,3 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
     </script>
 </body>
 </html>
-
