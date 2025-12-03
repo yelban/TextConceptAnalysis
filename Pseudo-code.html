@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
+<!DOCTYPE html><html lang="zh-TW"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIC RAZOR 設定工具</title>
@@ -87,8 +85,11 @@
             </h1>
             <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // 邏輯引擎配置核心</p>
         </div>
-        <div class="flex gap-2">
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v6.2 Analysis Restored</span>
+        <div class="flex gap-2 flex-wrap justify-end">
+            <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
+                <i class="fas fa-download"></i> 下載此工具
+            </button>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.1</span>
             <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">zh-TW</span>
         </div>
     </header>
@@ -109,13 +110,19 @@
         <section class="glass-panel rounded-xl p-6 relative group">
             
             <!-- Tabs -->
-            <div class="flex gap-1 mb-0 border-b border-slate-700/50">
-                <button onclick="switchTab('full')" id="tab-full" class="tab-btn active">
-                    <i class="fas fa-file-alt mr-2"></i>完整版 (Full)
-                </button>
-                <button onclick="switchTab('split')" id="tab-split" class="tab-btn inactive">
-                    <i class="fas fa-cut mr-2"></i>拆分版 (Split 3-Blocks)
-                </button>
+            <div class="flex gap-1 mb-0 border-b border-slate-700/50 justify-between items-end">
+                <div class="flex gap-1">
+                    <button onclick="switchTab('full')" id="tab-full" class="tab-btn active">
+                        <i class="fas fa-file-alt mr-2"></i>完整版 (Full)
+                    </button>
+                    <button onclick="switchTab('split')" id="tab-split" class="tab-btn inactive">
+                        <i class="fas fa-cut mr-2"></i>拆分版 (Split 3-Blocks)
+                    </button>
+                </div>
+                <!-- New Feature Alert -->
+                <div class="hidden md:block pb-2 pr-2 text-[10px] text-purple-400 font-mono animate-pulse">
+                   💡 v7.1：速查表支援本地語言與範例
+                </div>
             </div>
 
             <!-- Content Container -->
@@ -124,7 +131,7 @@
                 <!-- VIEW: FULL -->
                 <div id="view-full" class="relative">
                     <div class="absolute -top-2 right-0 text-[10px] text-slate-500 uppercase tracking-widest font-mono">One-Click Install</div>
-                    <textarea id="promptFull" class="w-full h-96 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly></textarea>
+                    <textarea id="promptFull" class="w-full h-96 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly=""></textarea>
                     
                     <button onclick="copyText('promptFull', this)" class="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transition-all btn-copy">
                         <i class="fas fa-copy"></i>
@@ -141,10 +148,10 @@
                     <!-- Block A -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-900/30 px-2 py-1 rounded">區塊 A: 核心邏輯 (Core)</span>
-                            <span class="text-[10px] text-slate-500">Role, Tone, Principles</span>
+                            <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-900/30 px-2 py-1 rounded">區塊 A: 核心系統 (Core + Commands + Execution)</span>
+                            <span class="text-[10px] text-slate-500">Role, Tone, Help, Workflow</span>
                         </div>
-                        <textarea id="promptPartA" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-emerald-500 focus:outline-none resize-none" readonly></textarea>
+                        <textarea id="promptPartA" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-emerald-500 focus:outline-none resize-none" readonly=""></textarea>
                         <button onclick="copyText('promptPartA', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-emerald-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> 複製 A
                         </button>
@@ -156,7 +163,7 @@
                             <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">區塊 B: 模組上卷 (Modules 1-5)</span>
                             <span class="text-[10px] text-slate-500">Visual, Research, Copy, Social, Slides</span>
                         </div>
-                        <textarea id="promptPartB" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly></textarea>
+                        <textarea id="promptPartB" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly=""></textarea>
                         <button onclick="copyText('promptPartB', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-purple-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> 複製 B
                         </button>
@@ -165,10 +172,10 @@
                     <!-- Block C -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">區塊 C: 模組下卷 + 執行 (Modules 6-10)</span>
+                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">區塊 C: 模組下卷 (Modules 6-10)</span>
                             <span class="text-[10px] text-slate-500">Writing, Sketch, Thought, Strategy, Tutor</span>
                         </div>
-                        <textarea id="promptPartC" class="w-full h-48 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly></textarea>
+                        <textarea id="promptPartC" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly=""></textarea>
                         <button onclick="copyText('promptPartC', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-orange-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> 複製 C
                         </button>
@@ -211,9 +218,9 @@
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">CORE</div>
                     <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">Precision > Emotion</h4>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">Precision &gt; Emotion</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>權重排序。使用 <span class="text-white">></span> 符號比文字說明「請優先考慮精確度」更節省 Token，且邏輯層級更明確。
+                            <span class="text-cyan-400 font-bold">原理：</span>權重排序。使用 <span class="text-white">&gt;</span> 符號比文字說明「請優先考慮精確度」更節省 Token，且邏輯層級更明確。
                         </p>
                     </div>
                 </div>
@@ -232,13 +239,24 @@
                     </div>
                 </div>
 
-                <!-- Item 5: EXECUTION -->
+                <!-- Item 5: COMMANDS (NEW) -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-purple-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[COMMANDS]</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">自我說明機制 (Help)</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>透過定義 <span class="text-white">/?</span> 觸發條件，讓 AI 不需要死記說明書，而是在需要時「即時生成」速查表。這大幅節省了 System Prompt 的長度，同時保持了工具的友善度。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 6: EXECUTION -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[EXECUTION]</div>
                     <div>
                         <h4 class="font-bold text-slate-200 text-sm mb-1">執行閉環</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>定義工作流。<span class="text-white font-mono">Output Essential Result Only -> Stop</span> 是為了防止模型在回答完後，又自動生成「希望這對您有幫助」這類的廢話。
+                            <span class="text-cyan-400 font-bold">原理：</span>定義工作流。<span class="text-white font-mono">Check Command -> Identify intent...</span> 確保 AI 先檢查是否為指令，再進入推理模式，避免將求助訊號誤判為任務內容。
                         </p>
                     </div>
                 </div>
@@ -246,7 +264,7 @@
             </div>
         </section>
 
-        <!-- GEMINI SETUP GUIDE -->
+        <!-- GEMINI SETUP GUIDE (REORDERED 1-2-3-4) -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-pink-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-sliders-h"></i> 如何在 Gemini 中設置？ (4種方式)
@@ -272,7 +290,7 @@
                     </div>
                     <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。<span class="text-emerald-400">完全版 (Full)</span>を推奨。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>點擊 <span class="text-white">Gem Manager</span> > "New Gem"</li>
+                        <li>點擊 <span class="text-white">Gem Manager</span> &gt; "New Gem"</li>
                         <li>在 <span class="text-yellow-400">Instructions</span> 欄位貼上完整代碼</li>
                         <li>儲存後可隨時切換調用</li>
                     </ol>
@@ -300,7 +318,7 @@
                     </div>
                     <p class="text-slate-400 text-xs mb-3 flex-grow">設定一次，所有新對話自動套用。文字上限較嚴格，請用<span class="text-emerald-400">拆分版</span>。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>進入 <span class="text-white">Gemini 設定</span> > <span class="text-white">個人化建議</span></li>
+                        <li>進入 <span class="text-white">Gemini 設定</span> &gt; <span class="text-white">個人化建議</span></li>
                         <li>找到 <span class="text-yellow-400">給 Gemini 的指令</span></li>
                         <li>貼上 <span class="text-emerald-400">區塊 A</span></li>
                         <li>點擊 <span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 新增</span> (重複 2 次)</li>
@@ -315,7 +333,8 @@
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-terminal"></i> 實戰指南：10 大模組指令與詳細範例
             </h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Modified Grid: 2 columns on medium AND large screens for better 2x5 alignment -->
+            <div class="grid md:grid-cols-2 gap-6">
                 <!-- VISUAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
@@ -380,7 +399,7 @@
                             </div>
                             <div class="border-t border-slate-700 pt-2">
                                 <span class="text-red-400 font-bold">[SOCIAL: Thread]</span>
-                                深度解析「為什麼大多數人的 AI 提示詞都無效？」，分析 3 個常見錯誤與修正邏輯。
+                                深度解析「為什麼大多數人的 AI 提示詞都無效？」，分析 3 個常見錯誤與修正邏輯。(串文形式)
                             </div>
                         </div>
                     </div>
@@ -502,7 +521,18 @@
         const promptCore = `ROLE: Strategic AI Logic Engine.
 LANG: zh-TW(Taiwan) ONLY. Use local terms.
 TONE: Blunt, Direct, No Filler/Greetings/Closures.
-CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.`;
+CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.
+
+[COMMANDS]
+/? or HELP : Display "MODULE CHEATSHEET" in [LANG].
+Table Columns: 
+1. Module (English Name)
+2. Mode/Syntax (e.g., [VISUAL])
+3. One-line Desc (In [LANG])
+4. Example Input (Demonstrate usage)
+
+[EXECUTION]
+Check Command -> If "/?" display Cheatsheet -> Else Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
 
         const promptModules1 = `[MODULES]
 1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.
@@ -511,14 +541,12 @@ CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.`;
 4. SOCIAL: Mode:Auto OR Specified([:Short] or [:Thread]). Short:Pain+Highlight+Safety, High-Conv Words, X<200ch. Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.
 5. SLIDES: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.`;
 
-        const promptModules2 = `6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
+        const promptModules2 = `[MODULES]
+6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
 7. SKETCH: Mode:Infographic(16:9). Style:Auto OR Specified([:Style]). Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords.
 8. THOUGHT: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)**\\n\\nBody:Single plain text para, <120 words. Content:Concise progress update. Constraint:No header repeats, No instruction ref.
 9. STRATEGY: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.
-10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning. Output: progressive lessons, quizzes, capstone project.
-
-[EXECUTION]
-Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
+10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning. Output: progressive lessons, quizzes, capstone project.`;
 
         // Populate Textareas on Load
         window.onload = function() {
@@ -569,7 +597,7 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
 
         function showFeedback(btn) {
             const originalContent = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> <span>已複製</span>';
+            btn.innerHTML = '<i class="fas fa-check"></i> <span>コピー完了</span>';
             btn.classList.add('bg-emerald-500', 'text-white');
             
             setTimeout(() => {
@@ -577,6 +605,18 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
                 btn.classList.remove('bg-emerald-500', 'text-white');
             }, 2000);
         }
+
+        // Download HTML Logic
+        function downloadFile() {
+            const content = "<!DOCTYPE html>" + document.documentElement.outerHTML;
+            const blob = new Blob([content], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "logic_razor_tool_tc.html";
+            a.click();
+            URL.revokeObjectURL(url);
+        }
     </script>
-</body>
-</html>
+
+</body></html>

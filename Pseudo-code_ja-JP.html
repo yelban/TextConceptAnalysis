@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
+<!DOCTYPE html><html lang="ja"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIC RAZOR 設定ツール</title>
@@ -87,8 +85,11 @@
             </h1>
             <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // ロジックエンジン構成コア</p>
         </div>
-        <div class="flex gap-2">
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v6.2 Analysis Restored</span>
+        <div class="flex gap-2 flex-wrap justify-end">
+            <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
+                <i class="fas fa-download"></i> このツールをダウンロード
+            </button>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.1</span>
             <span class="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs border border-red-500/20">ja-JP</span>
         </div>
     </header>
@@ -109,13 +110,19 @@
         <section class="glass-panel rounded-xl p-6 relative group">
             
             <!-- Tabs -->
-            <div class="flex gap-1 mb-0 border-b border-slate-700/50">
-                <button onclick="switchTab('full')" id="tab-full" class="tab-btn active">
-                    <i class="fas fa-file-alt mr-2"></i>完全版 (Full)
-                </button>
-                <button onclick="switchTab('split')" id="tab-split" class="tab-btn inactive">
-                    <i class="fas fa-cut mr-2"></i>分割版 (Split 3-Blocks)
-                </button>
+            <div class="flex gap-1 mb-0 border-b border-slate-700/50 justify-between items-end">
+                <div class="flex gap-1">
+                    <button onclick="switchTab('full')" id="tab-full" class="tab-btn active">
+                        <i class="fas fa-file-alt mr-2"></i>完全版 (Full)
+                    </button>
+                    <button onclick="switchTab('split')" id="tab-split" class="tab-btn inactive">
+                        <i class="fas fa-cut mr-2"></i>分割版 (Split 3-Blocks)
+                    </button>
+                </div>
+                <!-- New Feature Alert -->
+                <div class="hidden md:block pb-2 pr-2 text-[10px] text-purple-400 font-mono animate-pulse">
+                   💡 v7.1：チートシートのローカライズと例の強化
+                </div>
             </div>
 
             <!-- Content Container -->
@@ -124,7 +131,7 @@
                 <!-- VIEW: FULL -->
                 <div id="view-full" class="relative">
                     <div class="absolute -top-2 right-0 text-[10px] text-slate-500 uppercase tracking-widest font-mono">One-Click Install</div>
-                    <textarea id="promptFull" class="w-full h-96 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly></textarea>
+                    <textarea id="promptFull" class="w-full h-96 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly=""></textarea>
                     
                     <button onclick="copyText('promptFull', this)" class="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transition-all btn-copy">
                         <i class="fas fa-copy"></i>
@@ -144,7 +151,7 @@
                             <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-900/30 px-2 py-1 rounded">ブロック A: コア論理 (Core)</span>
                             <span class="text-[10px] text-slate-500">Role, Tone, Principles</span>
                         </div>
-                        <textarea id="promptPartA" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-emerald-500 focus:outline-none resize-none" readonly></textarea>
+                        <textarea id="promptPartA" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-emerald-500 focus:outline-none resize-none" readonly=""></textarea>
                         <button onclick="copyText('promptPartA', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-emerald-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> コピー A
                         </button>
@@ -156,7 +163,7 @@
                             <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">ブロック B: モジュール上巻 (Modules 1-5)</span>
                             <span class="text-[10px] text-slate-500">Visual, Research, Copy, Social, Slides</span>
                         </div>
-                        <textarea id="promptPartB" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly></textarea>
+                        <textarea id="promptPartB" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly=""></textarea>
                         <button onclick="copyText('promptPartB', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-purple-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> コピー B
                         </button>
@@ -168,7 +175,7 @@
                             <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">ブロック C: モジュール下巻 + 実行 (Modules 6-10)</span>
                             <span class="text-[10px] text-slate-500">Writing, Sketch, Thought, Strategy, Tutor</span>
                         </div>
-                        <textarea id="promptPartC" class="w-full h-48 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly></textarea>
+                        <textarea id="promptPartC" class="w-full h-48 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly=""></textarea>
                         <button onclick="copyText('promptPartC', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-orange-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> コピー C
                         </button>
@@ -211,9 +218,9 @@
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">CORE</div>
                     <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">Precision > Emotion</h4>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">Precision &gt; Emotion</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>重み付けの順序。「正確さを優先してください」という文章よりも、<span class="text-white">></span> 記号を使うほうがトークンを節約でき、かつ論理的な優先順位が明確になります。
+                            <span class="text-cyan-400 font-bold">原理：</span>重み付けの順序。「正確さを優先してください」という文章よりも、<span class="text-white">&gt;</span> 記号を使うほうがトークンを節約でき、かつ論理的な優先順位が明確になります。
                         </p>
                     </div>
                 </div>
@@ -232,13 +239,24 @@
                     </div>
                 </div>
 
-                <!-- Item 5: EXECUTION -->
+                <!-- Item 5: COMMANDS (NEW) -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-purple-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[COMMANDS]</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">自己説明メカニズム (Help)</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span><span class="text-white">/?</span> というトリガーを定義することで、AIに説明書を暗記させるのではなく、必要な時にだけチートシートを「生成」させます。これにより、System Promptの長さを節約しつつ、ツールの利便性を維持します。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 6: EXECUTION -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[EXECUTION]</div>
                     <div>
                         <h4 class="font-bold text-slate-200 text-sm mb-1">実行ループ</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>ワークフローの定義。<span class="text-white font-mono">Output Essential Result Only -> Stop</span> により、回答後の「お役に立てれば幸いです」といった無駄話を防止します。
+                            <span class="text-cyan-400 font-bold">原理：</span>ワークフローの定義。<span class="text-white font-mono">Check Command -> Identify intent...</span> という手順を踏ませることで、ヘルプ要求をタスクとして誤処理するのを防ぎます。
                         </p>
                     </div>
                 </div>
@@ -301,11 +319,13 @@
                     </div>
                     <p class="text-slate-400 text-xs mb-3 flex-grow">設定は一度だけ。全ての新しい会話に自動適用されます。文字数制限が厳しいため<span class="text-emerald-400">分割版</span>推奨。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li><span class="text-white">Gemini 設定</span> > <span class="text-white">保存された情報</span>へ</li>
+                        <li><span class="text-white">Gemini 設定</span> &gt; <span class="text-white">保存された情報</span>へ</li>
                         <li><span class="text-yellow-400">Geminiへの指示</span> を見つける</li>
                         <li><span class="text-emerald-400">ブロック A</span> を貼り付け</li>
                         <li><span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 追加</span> ボタンをクリック</li>
                         <li><span class="text-purple-400">ブロック B</span> を貼り付け</li>
+                        <li><span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 追加</span> ボタンをクリック</li>
+                        <li><span class="text-orange-400">ブロック C</span> を貼り付け</li>
                     </ol>
                 </div>
             </div>
@@ -316,7 +336,8 @@
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-terminal"></i> 実践ガイド：10 大モジュールコマンドと詳細使用例
             </h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Modified Grid: 2 columns on medium AND large screens for better 2x5 alignment -->
+            <div class="grid md:grid-cols-2 gap-6">
                 <!-- VISUAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
@@ -447,7 +468,7 @@
                         <div class="w-8 h-8 rounded bg-gray-500/20 text-gray-400 flex items-center justify-center"><i class="fas fa-brain text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">THOUGHT 思考プロセス</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">思考のローリング要約。一人称で進捗を可視化。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">第一人称視角，滾動更新思考進度。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-gray-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
@@ -468,7 +489,7 @@
                         <div class="text-[10px] text-rose-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-rose-400 font-bold">[STRATEGY]</span> 
-                            私はシニアエンジニアですが、プロダクトマネージャー(PM)への転身を考えています。管理経験が不足しています。面接官の視点でシミュレーションし、盲点の指摘と戦略アドバイスをください。
+                            我是資深工程師，想轉職為產品經理(PM)，但缺乏管理經驗。請模擬面試官視角，找出我的盲點並提供策略建議。
                         </div>
                     </div>
                 </div>
@@ -503,7 +524,18 @@
         const promptCore = `ROLE: Strategic AI Logic Engine.
 LANG: ja-JP(Tokyo) ONLY. Use natural business/tech terminology.
 TONE: Blunt, Direct, No Filler/Greetings/Closures.
-CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.`;
+CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.
+
+[COMMANDS]
+/? or HELP : Display "MODULE CHEATSHEET" in [LANG].
+Table Columns: 
+1. Module (English Name)
+2. Mode/Syntax (e.g., [VISUAL])
+3. One-line Desc (In [LANG])
+4. Example Input (Demonstrate usage)
+
+[EXECUTION]
+Check Command -> If "/?" display Cheatsheet -> Else Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
 
         const promptModules1 = `[MODULES]
 1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.
@@ -512,14 +544,12 @@ CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.`;
 4. SOCIAL: Mode:Auto OR Specified([:Short] or [:Thread]). Short:Pain+Highlight+Safety, High-Conv Words, X<140ch(JP limit). Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.
 5. SLIDES: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.`;
 
-        const promptModules2 = `6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
+        const promptModules2 = `[MODULES]
+6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
 7. SKETCH: Mode:Infographic(16:9). Style:Auto OR Specified([:Style]). Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords.
 8. THOUGHT: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)**\\n\\nBody:Single plain text para, <120 words. Content:Concise progress update. Constraint:No header repeats, No instruction ref.
 9. STRATEGY: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.
-10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning. Output: progressive lessons, quizzes, capstone project.
-
-[EXECUTION]
-Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
+10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning. Output: progressive lessons, quizzes, capstone project.`;
 
         // Populate Textareas on Load
         window.onload = function() {
@@ -578,6 +608,18 @@ Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
                 btn.classList.remove('bg-emerald-500', 'text-white');
             }, 2000);
         }
+
+        // Download HTML Logic
+        function downloadFile() {
+            const content = "<!DOCTYPE html>" + document.documentElement.outerHTML;
+            const blob = new Blob([content], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "logic_razor_tool_jp.html";
+            a.click();
+            URL.revokeObjectURL(url);
+        }
     </script>
-</body>
-</html>
+
+</body></html>
