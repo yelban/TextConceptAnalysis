@@ -88,7 +88,7 @@
             <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // 邏輯引擎配置核心</p>
         </div>
         <div class="flex gap-2">
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v5.7 Fixed Social</span>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v6.2 Analysis Restored</span>
             <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">zh-TW</span>
         </div>
     </header>
@@ -100,8 +100,8 @@
         <section class="bg-slate-800/40 rounded-xl p-6 border-l-4 border-emerald-500">
             <h3 class="text-lg font-bold text-emerald-400 mb-2">關於此架構</h3>
             <p class="text-slate-300 text-sm leading-relaxed">
-                這是一個非常精煉且高效率的 Prompt 架構，被稱為<span class="text-white font-bold">「偽代碼（Pseudo-code）風格」</span>或<span class="text-white font-bold">「壓縮指令」</span>。
-                針對 Gemini 網頁版的字數限制，本工具現在支援<span class="text-white font-bold">「拆分輸出」</span>，讓您能繞過限制，完整植入邏輯引擎。
+                這是一個非常精煉且高效率的 Prompt 架構，被稱為<span class="text-white font-bold">「偽代碼（Pseudo-code）風格」</span>。
+                針對 Gemini 網頁版嚴格的字數限制，本工具採用<span class="text-white font-bold">「三段式拆分」</span>策略，確保所有指令都能完整植入。
             </p>
         </section>
 
@@ -114,7 +114,7 @@
                     <i class="fas fa-file-alt mr-2"></i>完整版 (Full)
                 </button>
                 <button onclick="switchTab('split')" id="tab-split" class="tab-btn inactive">
-                    <i class="fas fa-cut mr-2"></i>拆分版 (Split)
+                    <i class="fas fa-cut mr-2"></i>拆分版 (Split 3-Blocks)
                 </button>
             </div>
 
@@ -124,7 +124,7 @@
                 <!-- VIEW: FULL -->
                 <div id="view-full" class="relative">
                     <div class="absolute -top-2 right-0 text-[10px] text-slate-500 uppercase tracking-widest font-mono">One-Click Install</div>
-                    <textarea id="promptFull" class="w-full h-80 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly></textarea>
+                    <textarea id="promptFull" class="w-full h-96 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly></textarea>
                     
                     <button onclick="copyText('promptFull', this)" class="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transition-all btn-copy">
                         <i class="fas fa-copy"></i>
@@ -132,16 +132,16 @@
                     </button>
                 </div>
 
-                <!-- VIEW: SPLIT -->
+                <!-- VIEW: SPLIT (3 BLOCKS) -->
                 <div id="view-split" class="hidden grid gap-6">
                     <div class="bg-blue-500/10 border border-blue-500/20 p-3 rounded text-xs text-blue-300 mb-2">
-                        <i class="fas fa-info-circle mr-1"></i> 提示：在 Gemini 的「給 Gemini 的指令」中，先貼上區塊 A，點擊「+ 新增」後，再貼上區塊 B。
+                        <i class="fas fa-info-circle mr-1"></i> 操作提示：在 Gemini「給 Gemini 的指令」中，依序貼上 A → 點擊「+ 新增」→ 貼上 B → 點擊「+ 新增」→ 貼上 C。
                     </div>
 
                     <!-- Block A -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-900/30 px-2 py-1 rounded">區塊 A: 核心邏輯</span>
+                            <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-900/30 px-2 py-1 rounded">區塊 A: 核心邏輯 (Core)</span>
                             <span class="text-[10px] text-slate-500">Role, Tone, Principles</span>
                         </div>
                         <textarea id="promptPartA" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-emerald-500 focus:outline-none resize-none" readonly></textarea>
@@ -153,12 +153,24 @@
                     <!-- Block B -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">區塊 B: 功能模組</span>
-                            <span class="text-[10px] text-slate-500">Modules, Execution</span>
+                            <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">區塊 B: 模組上卷 (Modules 1-5)</span>
+                            <span class="text-[10px] text-slate-500">Visual, Research, Copy, Social, Slides</span>
                         </div>
-                        <textarea id="promptPartB" class="w-full h-48 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly></textarea>
+                        <textarea id="promptPartB" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly></textarea>
                         <button onclick="copyText('promptPartB', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-purple-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> 複製 B
+                        </button>
+                    </div>
+
+                    <!-- Block C -->
+                    <div class="relative group/block">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">區塊 C: 模組下卷 + 執行 (Modules 6-10)</span>
+                            <span class="text-[10px] text-slate-500">Writing, Sketch, Thought, Strategy, Tutor</span>
+                        </div>
+                        <textarea id="promptPartC" class="w-full h-48 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly></textarea>
+                        <button onclick="copyText('promptPartC', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-orange-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
+                            <i class="fas fa-copy"></i> 複製 C
                         </button>
                     </div>
                 </div>
@@ -166,7 +178,7 @@
             </div>
         </section>
 
-        <!-- DEEP ANALYSIS -->
+        <!-- DEEP ANALYSIS (RESTORED) -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-cyan-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-layer-group"></i> 核心解析：為什麼這段 Prompt 有效？
@@ -258,7 +270,7 @@
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-gem"></i> 方式 2：建立 Gem (進階版)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。</p>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。<span class="text-emerald-400">完全版 (Full)</span>を推奨。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
                         <li>點擊 <span class="text-white">Gem Manager</span> > "New Gem"</li>
                         <li>在 <span class="text-yellow-400">Instructions</span> 欄位貼上完整代碼</li>
@@ -286,13 +298,13 @@
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-user-cog"></i> 方式 4：個人化指令 (Saved Info)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">設定一次，所有新對話自動套用。文字上限較嚴格，請用拆分版。</p>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">設定一次，所有新對話自動套用。文字上限較嚴格，請用<span class="text-emerald-400">拆分版</span>。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
                         <li>進入 <span class="text-white">Gemini 設定</span> > <span class="text-white">個人化建議</span></li>
                         <li>找到 <span class="text-yellow-400">給 Gemini 的指令</span></li>
                         <li>貼上 <span class="text-emerald-400">區塊 A</span></li>
-                        <li>點擊 <span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 新增</span> 按鈕</li>
-                        <li>貼上 <span class="text-purple-400">區塊 B</span></li>
+                        <li>點擊 <span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 新增</span> (重複 2 次)</li>
+                        <li>分別貼上 <span class="text-purple-400">區塊 B</span> 與 <span class="text-orange-400">區塊 C</span></li>
                     </ol>
                 </div>
             </div>
@@ -301,7 +313,7 @@
         <!-- MODULE USAGE GUIDE -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-4">
-                <i class="fas fa-terminal"></i> 實戰指南：9 大模組指令與詳細範例
+                <i class="fas fa-terminal"></i> 實戰指南：10 大模組指令與詳細範例
             </h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- VISUAL -->
@@ -352,7 +364,7 @@
                     </div>
                 </div>
 
-                <!-- SOCIAL (UPDATED) -->
+                <!-- SOCIAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center"><i class="fas fa-share-alt text-sm"></i></div>
@@ -363,10 +375,6 @@
                         <div class="text-[10px] text-red-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono space-y-2">
                             <div>
-                                <span class="text-red-400 font-bold">[SOCIAL]</span>
-                                針對這篇文章，寫一則推文。(自動判斷)
-                            </div>
-                            <div class="border-t border-slate-700 pt-2">
                                 <span class="text-red-400 font-bold">[SOCIAL: Short]</span>
                                 發布新功能「AI 自動修圖」，強調一鍵完成與省時，語氣興奮。
                             </div>
@@ -464,6 +472,22 @@
                     </div>
                 </div>
 
+                <!-- TUTOR (NEW) -->
+                <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-graduation-cap text-sm"></i></div>
+                        <h3 class="font-bold text-slate-200">TUTOR 互動導師</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 h-8">蘇格拉底式教學，遞迴學習，量身打造課程。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-emerald-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono leading-relaxed">
+                            <span class="text-emerald-400 font-bold">[TUTOR]</span> 
+                            我想學 Python 數據分析，我是完全新手。請幫我規劃課程並開始第一堂課。
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -480,25 +504,28 @@ LANG: zh-TW(Taiwan) ONLY. Use local terms.
 TONE: Blunt, Direct, No Filler/Greetings/Closures.
 CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.`;
 
-        const promptModules = `[MODULES]
+        const promptModules1 = `[MODULES]
 1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.
 2. RESEARCH: Auth Sources Only(No Guessing), Aggregate Info, Create Compare Table, Provide 3-5 Benchmark Cases.
 3. COPY: BLUF(Conclusion 1st) -> 3 Key Points -> Slide Structure(1 point/page). Cut Jargon 50%, Add 1 Metaphor, Auto-page #.
 4. SOCIAL: Mode:Auto OR Specified([:Short] or [:Thread]). Short:Pain+Highlight+Safety, High-Conv Words, X<200ch. Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.
-5. SLIDES: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.
-6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
+5. SLIDES: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.`;
+
+        const promptModules2 = `6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
 7. SKETCH: Mode:Infographic(16:9). Style:Auto OR Specified([:Style]). Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords.
 8. THOUGHT: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)**\\n\\nBody:Single plain text para, <120 words. Content:Concise progress update. Constraint:No header repeats, No instruction ref.
 9. STRATEGY: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.
+10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning. Output: progressive lessons, quizzes, capstone project.
 
 [EXECUTION]
 Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
 
         // Populate Textareas on Load
         window.onload = function() {
-            document.getElementById('promptFull').value = promptCore + "\n\n" + promptModules;
+            document.getElementById('promptFull').value = promptCore + "\n\n" + promptModules1 + "\n" + promptModules2;
             document.getElementById('promptPartA').value = promptCore;
-            document.getElementById('promptPartB').value = promptModules;
+            document.getElementById('promptPartB').value = promptModules1;
+            document.getElementById('promptPartC').value = promptModules2;
         };
 
         // Tab Switching Logic
