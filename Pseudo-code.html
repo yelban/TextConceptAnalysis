@@ -89,7 +89,7 @@
             <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
                 <i class="fas fa-download"></i> 下載此工具
             </button>
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.1</span>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.3</span>
             <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">zh-TW</span>
         </div>
     </header>
@@ -121,7 +121,7 @@
                 </div>
                 <!-- New Feature Alert -->
                 <div class="hidden md:block pb-2 pr-2 text-[10px] text-purple-400 font-mono animate-pulse">
-                   💡 v7.1：速查表支援本地語言與範例
+                   💡 v7.3：優化 SKETCH 語法，解決儲存問題
                 </div>
             </div>
 
@@ -453,7 +453,7 @@
                             </div>
                             <div class="border-t border-slate-700 pt-2">
                                 <span class="text-orange-400 font-bold">[SKETCH: Cartoon]</span>
-                                用手繪風格圖解「區塊鏈運作原理」，包含礦工、帳本與加密鎖的概念。
+                                用多啦A夢的任意門解釋蟲洞原理，包含摺疊空間的概念。
                             </div>
                         </div>
                     </div>
@@ -543,7 +543,7 @@ Check Command -> If "/?" display Cheatsheet -> Else Identify intent -> Apply Mod
 
         const promptModules2 = `[MODULES]
 6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
-7. SKETCH: Mode:Infographic(16:9). Style:Auto OR Specified([:Style]). Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords.
+7. SKETCH: Mode:Infographic(16:9). Style:Auto OR Specified([:Blackboard] / [:Cartoon]). Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords. Ex.: [SKETCH:Cartoon] Use Doraemon's Anywhere Door to explain wormholes.
 8. THOUGHT: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)**\\n\\nBody:Single plain text para, <120 words. Content:Concise progress update. Constraint:No header repeats, No instruction ref.
 9. STRATEGY: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.
 10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning. Output: progressive lessons, quizzes, capstone project.`;
