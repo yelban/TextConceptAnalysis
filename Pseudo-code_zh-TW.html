@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIC RAZOR v7.7 (Ultimate Final)</title>
+    <title>LOGIC RAZOR v7.10 (ZH-TW Layout Fixed)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
         
+        :root {
+            /* 縮放因子，預設 1.0 */
+            --scale: 1.0; 
+
+            /* 依據 Tailwind 預設值建立變數公式 */
+            --fs-xxs: calc(0.7rem * var(--scale));
+            --fs-xs:  calc(0.75rem * var(--scale));  /* 12px */
+            --fs-sm:  calc(0.875rem * var(--scale)); /* 14px */
+            --fs-base: calc(1rem * var(--scale));    /* 16px */
+            --fs-lg:  calc(1.125rem * var(--scale)); /* 18px */
+            --fs-xl:  calc(1.25rem * var(--scale));  /* 20px */
+            --fs-2xl: calc(1.5rem * var(--scale));   /* 24px */
+            --fs-3xl: calc(1.875rem * var(--scale)); /* 30px */
+            --fs-4xl: calc(2.25rem * var(--scale));  /* 36px */
+        }
+
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #0f172a; /* Slate 900 */
@@ -44,6 +61,11 @@
             background: rgba(30, 41, 59, 0.9);
         }
 
+        /* Copy Button Styles */
+        .btn-mini-copy {
+            @apply px-2 py-1 rounded text-xxs border border-slate-600 bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-1 leading-none h-6;
+        }
+
         /* Tab System */
         .tab-btn {
             @apply px-4 py-2 text-sm font-bold rounded-t-lg transition-colors;
@@ -54,7 +76,49 @@
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* 滑桿樣式 */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: #34d399;
+            cursor: pointer;
+            margin-top: -5px; 
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #334155;
+            border-radius: 2px;
+        }
     </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontSize: {
+                        'xxs': 'var(--fs-xxs)',
+                        'xs': 'var(--fs-xs)',
+                        'sm': 'var(--fs-sm)',
+                        'base': 'var(--fs-base)',
+                        'lg': 'var(--fs-lg)',
+                        'xl': 'var(--fs-xl)',
+                        '2xl': 'var(--fs-2xl)',
+                        '3xl': 'var(--fs-3xl)',
+                        '4xl': 'var(--fs-4xl)',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="min-h-screen p-4 md:p-8 flex flex-col items-center">
 
@@ -63,14 +127,22 @@
             <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
                 LOGIC RAZOR
             </h1>
-            <p class="text-slate-400 text-sm mt-1 tracking-wider">v7.7 ULTIMATE // 邏輯引擎配置核心</p>
+            <p class="text-slate-400 text-sm mt-1 tracking-wider">v7.10 FIXED // 邏輯引擎配置核心</p>
         </div>
-        <div class="flex gap-2 flex-wrap justify-end">
-            <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
-                <i class="fas fa-download"></i> 下載工具
-            </button>
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.7</span>
-            <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">zh-TW</span>
+        <div class="flex flex-col items-end gap-2">
+            <!-- 字體控制面板 -->
+            <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700 mb-1">
+                <span class="text-xs text-slate-400"><i class="fas fa-text-height"></i></span>
+                <input type="range" min="0.85" max="1.25" step="0.05" value="1.0" class="w-24" oninput="updateFontScale(this.value)">
+            </div>
+            
+            <div class="flex gap-2 flex-wrap justify-end">
+                <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
+                    <i class="fas fa-download"></i> 下載工具
+                </button>
+                <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.10</span>
+                <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">zh-TW</span>
+            </div>
         </div>
     </header>
 
@@ -83,7 +155,7 @@
                 你不需要學習複雜的溝通技巧（Prompt Engineering），只需要像在餐廳點餐一樣，按下對應的按鈕（例如 <code>[CODER]</code> 或 <code>[COPY]</code>），AI 就會自動切換成該領域的頂級專家。
             </p>
             <p class="text-slate-400 text-xs italic border-t border-slate-700/50 pt-2">
-                * 技術說明：針對 Gemini 網頁版限制，採用「三段式拆分」策略，確保指令能完整植入且不被過濾。
+                * 更新說明：v7.10 優化了複製按鈕的佈局，修復了文字重疊問題，確保按鈕組與內文右側完美對齊。
             </p>
         </section>
 
@@ -314,19 +386,30 @@
         </section>
 
         <section class="glass-panel rounded-xl p-6">
-            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-4">
+            <h2 class="text-xl font-bold mb-2 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-2">
                 <i class="fas fa-terminal"></i> 實戰指南：12 大模組指令與詳細範例
             </h2>
+             <p class="text-slate-400 text-xs mb-6 pl-1">
+                <i class="fas fa-info-circle mr-1"></i> 提示：將滑鼠游標移動到範例區塊，右上角將顯示「複製觸發詞」與「複製範例」按鈕。
+            </p>
+            
             <div class="grid md:grid-cols-2 gap-6">
                 
+                <!-- VISUAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center"><i class="fas fa-image text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">VISUAL 視覺生成</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">啟動高畫質、電影光影描述模式。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-purple-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                        <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-purple-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[VISUAL] ', this)" class="btn-mini-copy" title="複製觸發詞"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[VISUAL] 一台復古義式黃銅拉桿式濃縮咖啡機，特寫鏡頭，蒸氣繚繞，黑色背景，電影級光影，強調金屬質感與水蒸氣的細節。', this)" class="btn-mini-copy" title="複製範例"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-purple-400 font-bold">[VISUAL]</span> 
                             一台復古義式黃銅拉桿式濃縮咖啡機，特寫鏡頭，蒸氣繚繞，黑色背景，電影級光影，強調金屬質感與水蒸氣的細節。
@@ -334,14 +417,21 @@
                     </div>
                 </div>
 
+                <!-- RESEARCH -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center"><i class="fas fa-search text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">RESEARCH 深度研究</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">權威搜索，拒絕瞎猜，強制對比表格。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-blue-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-blue-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[RESEARCH] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[RESEARCH] 分析 Cursor 與 VS Code 在企業級開發環境中的優劣，包含安全性、擴充功能生態與 AI 整合度，並列出比較表格。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-blue-400 font-bold">[RESEARCH]</span> 
                             分析 Cursor 與 VS Code 在企業級開發環境中的優劣，包含安全性、擴充功能生態與 AI 整合度，並列出比較表格。
@@ -349,14 +439,21 @@
                     </div>
                 </div>
 
+                <!-- COPY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-yellow-500/20 text-yellow-400 flex items-center justify-center"><i class="fas fa-pen-nib text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">COPY 文案撰寫</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">結論先行 (BLUF)，投影片結構。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-yellow-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-yellow-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[COPY] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[COPY] 寫一份向 CEO 匯報「縮減 20% 行銷預算但不影響轉換率」的提案簡報大綱，強調精準投放與自動化。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-yellow-400 font-bold">[COPY]</span> 
                             寫一份向 CEO 匯報「縮減 20% 行銷預算但不影響轉換率」的提案簡報大綱，強調精準投放與自動化。
@@ -364,20 +461,43 @@
                     </div>
                 </div>
 
+                <!-- SOCIAL [Fixed Layout] -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center"><i class="fas fa-share-alt text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">SOCIAL 社群戰略</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">自動判斷短文/長文，或手動指定。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-red-400 font-mono mb-1">USER INPUT:</div>
-                        <div class="text-xs text-slate-300 font-mono space-y-2">
-                            <div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 space-y-3">
+                         <div class="text-[10px] text-red-400 font-mono mb-1">USER INPUT:</div>
+                         
+                         <!-- Part 1: Short -->
+                         <div class="group/code relative">
+                            <!-- Header Row: Label Left, Buttons Right -->
+                            <div class="flex justify-between items-center mb-2 h-6">
+                                <span class="text-[10px] text-slate-500 font-mono select-none">短文模式</span>
+                                <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                    <button onclick="copyString('[SOCIAL: Short] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                    <button onclick="copyString('[SOCIAL: Short] 發布新功能「AI 自動修圖」，強調一鍵完成與省時，語氣興奮。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                                </div>
+                            </div>
+                            <!-- Content Row -->
+                            <div class="text-xs text-slate-300 font-mono leading-relaxed">
                                 <span class="text-red-400 font-bold">[SOCIAL: Short]</span>
                                 發布新功能「AI 自動修圖」，強調一鍵完成與省時，語氣興奮。
                             </div>
-                            <div class="border-t border-slate-700 pt-2">
+                        </div>
+
+                        <!-- Part 2: Thread -->
+                        <div class="group/code relative border-t border-slate-700 pt-3">
+                            <div class="flex justify-between items-center mb-2 h-6">
+                                <span class="text-[10px] text-slate-500 font-mono select-none">討論串模式</span>
+                                <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                    <button onclick="copyString('[SOCIAL: Thread] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                    <button onclick="copyString('[SOCIAL: Thread] 深度解析「為什麼大多數人的 AI 提示詞都無效？」，分析 3 個常見錯誤與修正邏輯。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-300 font-mono leading-relaxed">
                                 <span class="text-red-400 font-bold">[SOCIAL: Thread]</span>
                                 深度解析「為什麼大多數人的 AI 提示詞都無效？」，分析 3 個常見錯誤與修正邏輯。
                             </div>
@@ -385,14 +505,21 @@
                     </div>
                 </div>
 
+                <!-- SLIDES -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center"><i class="fas fa-layer-group text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">SLIDES 簡報架構</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">閱讀型簡報。含敘事大綱與設計提示。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-indigo-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-indigo-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[SLIDES] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[SLIDES] 針對 A 輪投資人的 Pitch Deck，主題是「AI 驅動的寵物健康監測項圈」，強調市場規模、痛點解決與技術護城河。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-indigo-400 font-bold">[SLIDES]</span> 
                             針對 A 輪投資人的 Pitch Deck，主題是「AI 驅動的寵物健康監測項圈」，強調市場規模、痛點解決與技術護城河。
@@ -400,14 +527,21 @@
                     </div>
                 </div>
 
+                <!-- WRITING -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-teal-500/20 text-teal-400 flex items-center justify-center"><i class="fas fa-feather text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">WRITING 歸納寫作</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">朋友口吻分享觀察，拒絕說教。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-teal-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-teal-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[WRITING] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[WRITING] 聊聊關於「遠距工作的隱性焦慮」，從下班後無法關閉大腦的現象切入，引導讀者思考工作與生活的邊界。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-teal-400 font-bold">[WRITING]</span> 
                             聊聊關於「遠距工作的隱性焦慮」，從下班後無法關閉大腦的現象切入，引導讀者思考工作與生活的邊界。
@@ -415,20 +549,41 @@
                     </div>
                 </div>
 
+                <!-- SKETCH [Fixed Layout] -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-orange-500/20 text-orange-400 flex items-center justify-center"><i class="fas fa-pencil-alt text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">SKETCH 圖解速寫</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">非寫實資訊圖表。支援參數指定風格。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 space-y-3">
                         <div class="text-[10px] text-orange-400 font-mono mb-1">USER INPUT:</div>
-                        <div class="text-xs text-slate-300 font-mono space-y-2">
-                            <div>
+                        
+                        <!-- Part 1: Blackboard -->
+                        <div class="group/code relative">
+                            <div class="flex justify-between items-center mb-2 h-6">
+                                <span class="text-[10px] text-slate-500 font-mono select-none">黑板風格</span>
+                                <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                    <button onclick="copyString('[SKETCH: Blackboard] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                    <button onclick="copyString('[SKETCH: Blackboard] 解釋量子力學的「薛丁格的貓」，用簡單圖示呈現生/死疊加狀態。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-300 font-mono leading-relaxed">
                                 <span class="text-orange-400 font-bold">[SKETCH: Blackboard]</span>
                                 解釋量子力學的「薛丁格的貓」，用簡單圖示呈現生/死疊加狀態。
                             </div>
-                            <div class="border-t border-slate-700 pt-2">
+                        </div>
+
+                        <!-- Part 2: Cartoon -->
+                        <div class="group/code relative border-t border-slate-700 pt-3">
+                             <div class="flex justify-between items-center mb-2 h-6">
+                                <span class="text-[10px] text-slate-500 font-mono select-none">卡通風格</span>
+                                <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                    <button onclick="copyString('[SKETCH: Cartoon] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                    <button onclick="copyString('[SKETCH: Cartoon] 用多啦A夢的任意門解釋蟲洞原理，包含摺疊空間的概念。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-300 font-mono leading-relaxed">
                                 <span class="text-orange-400 font-bold">[SKETCH: Cartoon]</span>
                                 用多啦A夢的任意門解釋蟲洞原理，包含摺疊空間的概念。
                             </div>
@@ -436,14 +591,21 @@
                     </div>
                 </div>
                 
+                <!-- THOUGHT -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-gray-500/20 text-gray-400 flex items-center justify-center"><i class="fas fa-brain text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">THOUGHT 思維鏈</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">第一人稱視角，滾動更新思考進度。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-gray-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-gray-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[THOUGHT] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[THOUGHT] (貼上關於產品定價策略的初步構思文本) 幫我進行思維路徑的摘要更新，確認目前的邏輯漏洞。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-gray-400 font-bold">[THOUGHT]</span> 
                             (貼上關於產品定價策略的初步構思文本) 幫我進行思維路徑的摘要更新，確認目前的邏輯漏洞。
@@ -451,14 +613,21 @@
                     </div>
                 </div>
 
+                <!-- STRATEGY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-rose-500/20 text-rose-400 flex items-center justify-center"><i class="fas fa-chess-knight text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">STRATEGY 策略顧問</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">換位思考模擬，找出盲點。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-rose-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-rose-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[STRATEGY] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[STRATEGY] 我是一名資深工程師，想轉職為產品經理(PM)，但缺乏管理經驗。請模擬面試官視角，找出我的盲點並提供策略建議。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-rose-400 font-bold">[STRATEGY]</span> 
                             我是一名資深工程師，想轉職為產品經理(PM)，但缺乏管理經驗。請模擬面試官視角，找出我的盲點並提供策略建議。
@@ -466,14 +635,21 @@
                     </div>
                 </div>
 
+                <!-- TUTOR -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-graduation-cap text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">TUTOR 互動導師</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">蘇格拉底式教學，遞迴學習。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-emerald-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-emerald-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[TUTOR] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[TUTOR] 我想學 Python 數據分析，我是完全新手。請幫我規劃課程並開始第一堂課。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-emerald-400 font-bold">[TUTOR]</span> 
                             我想學 Python 數據分析，我是完全新手。請幫我規劃課程並開始第一堂課。
@@ -481,14 +657,21 @@
                     </div>
                 </div>
 
+                <!-- CODER -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-code text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">CODER 開發專家</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">Cursor/VSCode 專用。SOLID 原則，防禦性程式設計。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-emerald-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-emerald-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[CODER] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[CODER] 用 Python 寫一個 RAG (Retrieval-Augmented Generation) 的基礎 Class，需包含連接向量資料庫的方法。請加上詳細註解。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-emerald-400 font-bold">[CODER]</span> 
                             用 Python 寫一個 RAG (Retrieval-Augmented Generation) 的基礎 Class，需包含連接向量資料庫的方法。請加上詳細註解。
@@ -496,14 +679,21 @@
                     </div>
                 </div>
 
+                <!-- ARCHITECT -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center"><i class="fas fa-sitemap text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">ARCHITECT 系統架構</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">系統設計模式。輸出 Mermaid 圖表與 Schema。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-cyan-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-cyan-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[ARCHITECT] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[ARCHITECT] 設計一個高併發的「電商秒殺系統」。請輸出 Mermaid 序列圖展示 Redis 緩存與資料庫寫入的流程，並分析可能的瓶頸。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-cyan-400 font-bold">[ARCHITECT]</span> 
                             設計一個高併發的「電商秒殺系統」。請輸出 Mermaid 序列圖展示 Redis 緩存與資料庫寫入的流程，並分析可能的瓶頸。
@@ -517,10 +707,29 @@
     </main>
 
     <footer class="mt-12 text-center text-slate-600 text-xs">
-        LOGIC RAZOR v7.7 Ultimate / Engineered for Gemini Advanced / Cursor / Claude 3.5
+        LOGIC RAZOR v7.10 Enhanced / Engineered for Gemini Advanced / Cursor / Claude 3.5
     </footer>
 
     <script>
+        // --- UI LOGIC: Font Scaling ---
+        function updateFontScale(value) {
+            document.documentElement.style.setProperty('--scale', value);
+        }
+
+        // --- UI LOGIC: Copy String ---
+        function copyString(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalContent = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                btn.classList.add('text-emerald-400', 'border-emerald-500');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.remove('text-emerald-400', 'border-emerald-500');
+                }, 1500);
+            });
+        }
+
         // --- DATA DEFINITION (Hardened Core with Full Command Table) ---
         const corePrompt = `ROLE: Strategic AI Logic Engine.
 LANG: zh-TW(Taiwan) ONLY. Use local terms (e.g., 影片 not 視頻, 品質 not 質量).
@@ -656,7 +865,7 @@ Check Command -> If "/?" Cheatsheet -> Else Identify intent -> Enforce Anti-Lazy
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "logic_razor_v7.7_ultimate.html";
+            a.download = "logic_razor_v7.10_ultimate.html";
             a.click();
         }
 

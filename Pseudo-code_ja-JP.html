@@ -3,16 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIC RAZOR v7.7 (JP Edition)</title>
+    <title>LOGIC RAZOR v7.10 (JP Edition Fixed)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
         
+        :root {
+            --scale: 1.0; 
+            --fs-xxs: calc(0.7rem * var(--scale));
+            --fs-xs:  calc(0.75rem * var(--scale));
+            --fs-sm:  calc(0.875rem * var(--scale));
+            --fs-base: calc(1rem * var(--scale));
+            --fs-lg:  calc(1.125rem * var(--scale));
+            --fs-xl:  calc(1.25rem * var(--scale));
+            --fs-2xl: calc(1.5rem * var(--scale));
+            --fs-3xl: calc(1.875rem * var(--scale));
+            --fs-4xl: calc(2.25rem * var(--scale));
+        }
+
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            background-color: #0f172a; /* Slate 900 */
-            color: #e2e8f0; /* Slate 200 */
+            background-color: #0f172a;
+            color: #e2e8f0;
         }
         
         .font-mono { font-family: 'JetBrains Mono', monospace; }
@@ -24,7 +38,6 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        /* Checkbox Styling */
         .module-checkbox:checked + div {
             background-color: rgba(16, 185, 129, 0.2);
             border-color: #10b981;
@@ -33,7 +46,6 @@
             color: #34d399;
         }
 
-        /* Module Card for Usage Guide */
         .module-card {
             transition: all 0.3s ease;
             border: 1px solid transparent;
@@ -44,17 +56,60 @@
             background: rgba(30, 41, 59, 0.9);
         }
 
-        /* Tab System */
+        .btn-mini-copy {
+            @apply px-2 py-1 rounded text-xxs border border-slate-600 bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-1 leading-none h-6;
+        }
+
         .tab-btn {
             @apply px-4 py-2 text-sm font-bold rounded-t-lg transition-colors;
         }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: #34d399;
+            cursor: pointer;
+            margin-top: -5px; 
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #334155;
+            border-radius: 2px;
+        }
     </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontSize: {
+                        'xxs': 'var(--fs-xxs)',
+                        'xs': 'var(--fs-xs)',
+                        'sm': 'var(--fs-sm)',
+                        'base': 'var(--fs-base)',
+                        'lg': 'var(--fs-lg)',
+                        'xl': 'var(--fs-xl)',
+                        '2xl': 'var(--fs-2xl)',
+                        '3xl': 'var(--fs-3xl)',
+                        '4xl': 'var(--fs-4xl)',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="min-h-screen p-4 md:p-8 flex flex-col items-center">
 
@@ -63,14 +118,22 @@
             <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
                 LOGIC RAZOR
             </h1>
-            <p class="text-slate-400 text-sm mt-1 tracking-wider">v7.7 ULTIMATE // ロジックエンジン構成コア</p>
+            <p class="text-slate-400 text-sm mt-1 tracking-wider">v7.10 FIXED // ロジックエンジン構成コア</p>
         </div>
-        <div class="flex gap-2 flex-wrap justify-end">
-            <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
-                <i class="fas fa-download"></i> Download
-            </button>
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.7</span>
-            <span class="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs border border-red-500/20">ja-JP</span>
+        <div class="flex flex-col items-end gap-2">
+            <!-- フォントサイズ制御パネル -->
+            <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700 mb-1">
+                <span class="text-xs text-slate-400"><i class="fas fa-text-height"></i></span>
+                <input type="range" min="0.85" max="1.25" step="0.05" value="1.0" class="w-24" oninput="updateFontScale(this.value)">
+            </div>
+            
+            <div class="flex gap-2 flex-wrap justify-end">
+                <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
+                    <i class="fas fa-download"></i> Download
+                </button>
+                <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.10</span>
+                <span class="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs border border-red-500/20">ja-JP</span>
+            </div>
         </div>
     </header>
 
@@ -83,7 +146,7 @@
                 複雑な指示（プロンプトエンジニアリング）を学ぶ必要はありません。レストランで注文するように、対応するボタン（例：<code>[CODER]</code> や <code>[COPY]</code>）を押すだけで、AIはその分野のトップエキスパートに自動的に切り替わります。
             </p>
             <p class="text-slate-400 text-xs italic border-t border-slate-700/50 pt-2">
-                * 技術解説：Geminiウェブ版の制限に対応し、「3段階分割」戦略を採用。指示がフィルタリングされずに完全に埋め込まれるように設計されています。
+                * 更新情報：v7.10 ではコピーボタンのレイアウトを最適化。ボタンがテキストに重なる問題を修正し、右端を揃えました。
             </p>
         </section>
 
@@ -307,19 +370,30 @@
         </section>
 
         <section class="glass-panel rounded-xl p-6">
-            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-4">
+            <h2 class="text-xl font-bold mb-2 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-2">
                 <i class="fas fa-terminal"></i> 実践ガイド：12 大モジュールコマンドと詳細使用例
             </h2>
+             <p class="text-slate-400 text-xs mb-6 pl-1">
+                <i class="fas fa-info-circle mr-1"></i> ヒント：サンプルコードの上にマウスを置くと、右上に「コマンドをコピー」と「例文をコピー」ボタンが表示されます。
+            </p>
+
             <div class="grid md:grid-cols-2 gap-6">
                 
+                <!-- VISUAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center"><i class="fas fa-image text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">VISUAL ビジュアル生成</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">高画質、映画のようなライティング記述モード。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-purple-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                        <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-purple-400 font-mono">USER INPUT:</div>
+                             <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[VISUAL] ', this)" class="btn-mini-copy" title="コマンドのみコピー"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[VISUAL] レトロな真鍮製レバー式エスプレッソマシン、クローズアップ、立ち上る蒸気、漆黒の背景、映画のようなドラマチックなライティング、金属の質感と水蒸気のディテールを強調。', this)" class="btn-mini-copy" title="例文全体をコピー"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-purple-400 font-bold">[VISUAL]</span> 
                             レトロな真鍮製レバー式エスプレッソマシン、クローズアップ、立ち上る蒸気、漆黒の背景、映画のようなドラマチックなライティング、金属の質感と水蒸気のディテールを強調。
@@ -327,14 +401,21 @@
                     </div>
                 </div>
 
+                <!-- RESEARCH -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center"><i class="fas fa-search text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">RESEARCH 深層リサーチ</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">権威あるソース、推測排除、強制比較テーブル。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-blue-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-blue-400 font-mono">USER INPUT:</div>
+                             <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[RESEARCH] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[RESEARCH] 企業開発環境におけるCursorとVS Codeの優劣分析。セキュリティ、拡張機能エコシステム、AI統合度を含め、メリット・デメリットの比較表を作成して。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-blue-400 font-bold">[RESEARCH]</span> 
                             企業開発環境におけるCursorとVS Codeの優劣分析。セキュリティ、拡張機能エコシステム、AI統合度を含め、メリット・デメリットの比較表を作成して。
@@ -342,14 +423,21 @@
                     </div>
                 </div>
 
+                <!-- COPY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-yellow-500/20 text-yellow-400 flex items-center justify-center"><i class="fas fa-pen-nib text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">COPY ライティング</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">結論先行 (BLUF)、スライド構造化、専門用語削減。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-yellow-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-yellow-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[COPY] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[COPY] CEOへの「コンバージョン率を維持しつつマーケティング予算を20%削減する」提案スライドのアウトライン。ターゲティング精度の向上と自動化を強調。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-yellow-400 font-bold">[COPY]</span> 
                             CEOへの「コンバージョン率を維持しつつマーケティング予算を20%削減する」提案スライドのアウトライン。ターゲティング精度の向上と自動化を強調。
@@ -357,20 +445,41 @@
                     </div>
                 </div>
 
+                <!-- SOCIAL [Fixed] -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center"><i class="fas fa-share-alt text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">SOCIAL ソーシャル戦略</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">自動判定(短文/長文)。X(Twitter)最適化。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 space-y-3">
                         <div class="text-[10px] text-red-400 font-mono mb-1">USER INPUT:</div>
-                        <div class="text-xs text-slate-300 font-mono space-y-2">
-                            <div>
+                         
+                         <!-- Part 1: Short -->
+                         <div class="group/code relative">
+                            <div class="flex justify-between items-center mb-2 h-6">
+                                <span class="text-[10px] text-slate-500 font-mono select-none">短文モード</span>
+                                <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                    <button onclick="copyString('[SOCIAL: Short] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                    <button onclick="copyString('[SOCIAL: Short] 新機能「AI自動修復」のリリース発表。ワンクリックでの時短効果を興奮気味に。(140字以内)', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-300 font-mono leading-relaxed">
                                 <span class="text-red-400 font-bold">[SOCIAL: Short]</span>
                                 新機能「AI自動修復」のリリース発表。ワンクリックでの時短効果を興奮気味に。(140字以内)
                             </div>
-                            <div class="border-t border-slate-700 pt-2">
+                        </div>
+
+                        <!-- Part 2: Thread -->
+                        <div class="group/code relative border-t border-slate-700 pt-3">
+                            <div class="flex justify-between items-center mb-2 h-6">
+                                <span class="text-[10px] text-slate-500 font-mono select-none">スレッドモード</span>
+                                <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                    <button onclick="copyString('[SOCIAL: Thread] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                    <button onclick="copyString('[SOCIAL: Thread] 「なぜ多くの人のAIプロンプトは機能しないのか？」詳細解説。よくある3つの間違いと修正ロジックを分析。(スレッド形式)', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-300 font-mono leading-relaxed">
                                 <span class="text-red-400 font-bold">[SOCIAL: Thread]</span>
                                 「なぜ多くの人のAIプロンプトは機能しないのか？」詳細解説。よくある3つの間違いと修正ロジックを分析。(スレッド形式)
                             </div>
@@ -378,14 +487,21 @@
                     </div>
                 </div>
 
+                <!-- SLIDES -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center"><i class="fas fa-layer-group text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">SLIDES スライド構成</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">読むための資料。デザイン指示を含む詳細構成。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-indigo-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-indigo-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[SLIDES] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[SLIDES] シリーズA投資家向け「AI駆動ペット健康監視首輪」のピッチデック。市場規模、課題解決、技術的優位性を強調。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-indigo-400 font-bold">[SLIDES]</span> 
                             シリーズA投資家向け「AI駆動ペット健康監視首輪」のピッチデック。市場規模、課題解決、技術的優位性を強調。
@@ -393,14 +509,21 @@
                     </div>
                 </div>
 
+                <!-- WRITING -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-teal-500/20 text-teal-400 flex items-center justify-center"><i class="fas fa-feather text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">WRITING 帰納的思考</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">教えるのではなく、気づきを促す。帰納的なエッセイ。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-teal-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-teal-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[WRITING] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[WRITING] 「リモートワークの隠れた不安」について。終業後も脳をオフにできない現象から切り込み、仕事と生活の境界線について読者に問いかける。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-teal-400 font-bold">[WRITING]</span> 
                             「リモートワークの隠れた不安」について。終業後も脳をオフにできない現象から切り込み、仕事と生活の境界線について読者に問いかける。
@@ -408,20 +531,41 @@
                     </div>
                 </div>
 
+                <!-- SKETCH [Fixed] -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-orange-500/20 text-orange-400 flex items-center justify-center"><i class="fas fa-pencil-alt text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">SKETCH 図解イラスト</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">非写実的なインフォグラフィック。スタイル指定可。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 space-y-3">
                         <div class="text-[10px] text-orange-400 font-mono mb-1">USER INPUT:</div>
-                        <div class="text-xs text-slate-300 font-mono space-y-2">
-                            <div>
+                        
+                        <!-- Part 1: Blackboard -->
+                        <div class="group/code relative">
+                            <div class="flex justify-between items-center mb-2 h-6">
+                                <span class="text-[10px] text-slate-500 font-mono select-none">黒板スタイル</span>
+                                <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                    <button onclick="copyString('[SKETCH: Blackboard] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                    <button onclick="copyString('[SKETCH: Blackboard] 量子力学の「シュレーディンガーの猫」を生/死の重ね合わせ状態で図解。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-300 font-mono leading-relaxed">
                                 <span class="text-orange-400 font-bold">[SKETCH: Blackboard]</span>
                                 量子力学の「シュレーディンガーの猫」を生/死の重ね合わせ状態で図解。
                             </div>
-                            <div class="border-t border-slate-700 pt-2">
+                        </div>
+
+                        <!-- Part 2: Cartoon -->
+                        <div class="group/code relative border-t border-slate-700 pt-3">
+                             <div class="flex justify-between items-center mb-2 h-6">
+                                <span class="text-[10px] text-slate-500 font-mono select-none">カトゥーン</span>
+                                <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                    <button onclick="copyString('[SKETCH: Cartoon] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                    <button onclick="copyString('[SKETCH: Cartoon] ドラえもんのどこでもドアでワームホールを解説。空間を折り畳む概念を含めて。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-300 font-mono leading-relaxed">
                                 <span class="text-orange-400 font-bold">[SKETCH: Cartoon]</span>
                                 ドラえもんのどこでもドアでワームホールを解説。空間を折り畳む概念を含めて。
                             </div>
@@ -429,14 +573,21 @@
                     </div>
                 </div>
                 
+                <!-- THOUGHT -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-gray-500/20 text-gray-400 flex items-center justify-center"><i class="fas fa-brain text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">THOUGHT 思考プロセス</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">思考のローリング要約。一人称で進捗を可視化。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-gray-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-gray-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[THOUGHT] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[THOUGHT] (製品の価格設定戦略に関する草案テキストを貼り付け) 思考プロセスの要約更新を行い、現在の論理的欠陥を確認して。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-gray-400 font-bold">[THOUGHT]</span> 
                             (製品の価格設定戦略に関する草案テキストを貼り付け) 思考プロセスの要約更新を行い、現在の論理的欠陥を確認して。
@@ -444,14 +595,21 @@
                     </div>
                 </div>
 
+                <!-- STRATEGY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-rose-500/20 text-rose-400 flex items-center justify-center"><i class="fas fa-chess-knight text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">STRATEGY 戦略コンサル</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">換位思考模擬。盲点を探る。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-rose-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-rose-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[STRATEGY] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[STRATEGY] 私はシニアエンジニアですが、プロダクトマネージャー(PM)への転身を考えています。管理経験が不足しています。面接官の視点でシミュレーションし、盲点の指摘と戦略アドバイスをください。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-rose-400 font-bold">[STRATEGY]</span> 
                             私はシニアエンジニアですが、プロダクトマネージャー(PM)への転身を考えています。管理経験が不足しています。面接官の視点でシミュレーションし、盲点の指摘と戦略アドバイスをください。
@@ -459,14 +617,21 @@
                     </div>
                 </div>
 
+                <!-- TUTOR -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-graduation-cap text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">TUTOR 互動導師</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">ソクラテス式教育。再帰的学習、パーソナライズ。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-emerald-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-emerald-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[TUTOR] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[TUTOR] Pythonデータ分析を学びたい。完全な初心者です。カリキュラムを組んで、最初のレッスンを始めてください。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-emerald-400 font-bold">[TUTOR]</span> 
                             Pythonデータ分析を学びたい。完全な初心者です。カリキュラムを組んで、最初のレッスンを始めてください。
@@ -474,14 +639,21 @@
                     </div>
                 </div>
 
+                <!-- CODER -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-code text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">CODER 開発エキスパート</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">Cursor/VSCode 専用。SOLID原則、防御的プログラミング。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-emerald-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-emerald-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[CODER] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[CODER] RAG (検索拡張生成) の基本クラスをPythonで記述して。ベクトルDBへの接続メソッドを含めること。詳細なコメントを追加してください。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-emerald-400 font-bold">[CODER]</span> 
                             RAG (検索拡張生成) の基本クラスをPythonで記述して。ベクトルDBへの接続メソッドを含めること。詳細なコメントを追加してください。
@@ -489,14 +661,21 @@
                     </div>
                 </div>
 
+                <!-- ARCHITECT -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center"><i class="fas fa-sitemap text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">ARCHITECT システム設計</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">システム設計パターン。Mermaid図とスキーマ出力。</p>
-                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
-                        <div class="text-[10px] text-cyan-400 font-mono mb-1">USER INPUT:</div>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
+                         <div class="flex justify-between items-center mb-1">
+                            <div class="text-[10px] text-cyan-400 font-mono">USER INPUT:</div>
+                            <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                                <button onclick="copyString('[ARCHITECT] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> コマンド</button>
+                                <button onclick="copyString('[ARCHITECT] 高負荷な「ECサイトのタイムセール（秒殺）システム」を設計して。RedisキャッシュとDB書き込みフローを示すMermaidシーケンス図を出力し、ボトルネックを分析してください。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 例文</button>
+                            </div>
+                        </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-cyan-400 font-bold">[ARCHITECT]</span> 
                             高負荷な「ECサイトのタイムセール（秒殺）システム」を設計して。RedisキャッシュとDB書き込みフローを示すMermaidシーケンス図を出力し、ボトルネックを分析してください。
@@ -510,10 +689,29 @@
     </main>
 
     <footer class="mt-12 text-center text-slate-600 text-xs">
-        LOGIC RAZOR v7.7 (JP Edition) / Engineered for Gemini Advanced / Cursor / Claude 3.5
+        LOGIC RAZOR v7.10 (JP Edition) Enhanced / Engineered for Gemini Advanced / Cursor / Claude 3.5
     </footer>
 
     <script>
+        // --- UI LOGIC: Font Scaling ---
+        function updateFontScale(value) {
+            document.documentElement.style.setProperty('--scale', value);
+        }
+
+        // --- UI LOGIC: Copy String ---
+        function copyString(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalContent = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                btn.classList.add('text-emerald-400', 'border-emerald-500');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.remove('text-emerald-400', 'border-emerald-500');
+                }, 1500);
+            });
+        }
+
         // --- DATA DEFINITION (Hardened Core with Full Command Table) ---
         const corePrompt = `ROLE: Strategic AI Logic Engine.
 LANG: ja-JP(Tokyo) ONLY. Use natural business/tech terminology (e.g., 動画 not 視頻, 品質 not 質量).
@@ -649,7 +847,7 @@ Check Command -> If "/?" Cheatsheet -> Else Identify intent -> Enforce Anti-Lazy
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "logic_razor_v7.7_jp.html";
+            a.download = "logic_razor_v7.10_jp.html";
             a.click();
         }
 
