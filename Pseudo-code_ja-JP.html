@@ -1,7 +1,9 @@
-<!DOCTYPE html><html lang="ja"><head>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIC RAZOR 設定ツール</title>
+    <title>LOGIC RAZOR v7.7 (JP Edition)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -13,9 +15,7 @@
             color: #e2e8f0; /* Slate 200 */
         }
         
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
 
         .glass-panel {
             background: rgba(30, 41, 59, 0.7);
@@ -24,20 +24,16 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        .code-block {
-            background-color: #1e293b;
-            border-left: 4px solid #10b981;
+        /* Checkbox Styling */
+        .module-checkbox:checked + div {
+            background-color: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+        }
+        .module-checkbox:checked + div .icon-box {
+            color: #34d399;
         }
 
-        .highlight-term {
-            color: #34d399; /* Emerald 400 */
-            font-weight: bold;
-        }
-
-        .btn-copy:active {
-            transform: scale(0.95);
-        }
-
+        /* Module Card for Usage Guide */
         .module-card {
             transition: all 0.3s ease;
             border: 1px solid transparent;
@@ -52,132 +48,116 @@
         .tab-btn {
             @apply px-4 py-2 text-sm font-bold rounded-t-lg transition-colors;
         }
-        .tab-btn.active {
-            @apply bg-[#020617] text-emerald-400 border-t-2 border-emerald-500;
-        }
-        .tab-btn.inactive {
-            @apply bg-slate-800 text-slate-400 hover:bg-slate-700;
-        }
         
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569; 
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 flex flex-col items-center">
 
-    <!-- Header -->
-    <header class="w-full max-w-4xl mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    <header class="w-full max-w-5xl mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
             <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
                 LOGIC RAZOR
             </h1>
-            <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // ロジックエンジン構成コア</p>
+            <p class="text-slate-400 text-sm mt-1 tracking-wider">v7.7 ULTIMATE // ロジックエンジン構成コア</p>
         </div>
         <div class="flex gap-2 flex-wrap justify-end">
             <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
-                <i class="fas fa-download"></i> このツールをダウンロード
+                <i class="fas fa-download"></i> Download
             </button>
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.3</span>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.7</span>
             <span class="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs border border-red-500/20">ja-JP</span>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="w-full max-w-4xl grid gap-8">
+    <main class="w-full max-w-5xl grid gap-8">
         
-        <!-- INTRO -->
         <section class="bg-slate-800/40 rounded-xl p-6 border-l-4 border-emerald-500">
-            <h3 class="text-lg font-bold text-emerald-400 mb-2">このアーキテクチャについて</h3>
-            <p class="text-slate-300 text-sm leading-relaxed">
-                これは極めて洗練された高効率なプロンプト構造であり、<span class="text-white font-bold">「疑似コード（Pseudo-code）スタイル」</span>と呼ばれています。
-                Geminiの保存機能（Saved info）の文字数制限に対応するため、<span class="text-white font-bold">「3段階分割コピー」</span>機能を実装しました。
+            <h3 class="text-lg font-bold text-emerald-400 mb-2">これはプロンプトエンジニアリングではありません。「脳内モードスイッチ」です。</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-3">
+                LOGIC RAZOR は、AIに12種類の異なる専門的な<b>「脳内モード」</b>をインストールするツールです。
+                複雑な指示（プロンプトエンジニアリング）を学ぶ必要はありません。レストランで注文するように、対応するボタン（例：<code>[CODER]</code> や <code>[COPY]</code>）を押すだけで、AIはその分野のトップエキスパートに自動的に切り替わります。
+            </p>
+            <p class="text-slate-400 text-xs italic border-t border-slate-700/50 pt-2">
+                * 技術解説：Geminiウェブ版の制限に対応し、「3段階分割」戦略を採用。指示がフィルタリングされずに完全に埋め込まれるように設計されています。
             </p>
         </section>
 
-        <!-- PROMPT COPY AREA (TABBED) -->
         <section class="glass-panel rounded-xl p-6 relative group">
+             <div class="flex justify-between items-center mb-4 border-b border-slate-700/50 pb-2">
+                <h2 class="text-lg font-bold text-emerald-400"><i class="fas fa-cubes mr-2"></i> モジュール設定 (Dynamic Loader)</h2>
+                <div class="text-xs text-slate-400">
+                    <button onclick="selectAll()" class="hover:text-white mr-2 underline">すべて選択</button> / 
+                    <button onclick="clearAll()" class="hover:text-white ml-2 underline">クリア</button>
+                </div>
+            </div>
             
-            <!-- Tabs -->
-            <div class="flex gap-1 mb-0 border-b border-slate-700/50 justify-between items-end">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6" id="moduleGrid">
+                </div>
+
+            <div class="flex gap-1 mb-0 justify-between items-end">
                 <div class="flex gap-1">
-                    <button onclick="switchTab('full')" id="tab-full" class="tab-btn active">
+                    <button onclick="switchTab('full')" id="tab-full" class="px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-[#020617] text-emerald-400 border-t-2 border-emerald-500">
                         <i class="fas fa-file-alt mr-2"></i>完全版 (Full)
                     </button>
-                    <button onclick="switchTab('split')" id="tab-split" class="tab-btn inactive">
+                    <button onclick="switchTab('split')" id="tab-split" class="px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-slate-800 text-slate-400 hover:bg-slate-700">
                         <i class="fas fa-cut mr-2"></i>分割版 (Split 3-Blocks)
                     </button>
                 </div>
-                <!-- New Feature Alert -->
-                <div class="hidden md:block pb-2 pr-2 text-[10px] text-purple-400 font-mono animate-pulse">
-                   💡 v7.3：SKETCH構文の最適化と保存問題の解決
+                <div class="pb-2 pr-2 text-[10px] text-cyan-400 font-mono hidden md:block">
+                   <i class="fas fa-shield-alt"></i> Anti-Lazy Protocol: Active
                 </div>
             </div>
 
-            <!-- Content Container -->
             <div class="bg-[#020617] rounded-b-lg rounded-tr-lg p-4 border border-slate-700/50 min-h-[300px]">
                 
-                <!-- VIEW: FULL -->
                 <div id="view-full" class="relative">
                     <div class="absolute -top-2 right-0 text-[10px] text-slate-500 uppercase tracking-widest font-mono">One-Click Install</div>
-                    <textarea id="promptFull" class="w-full h-96 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly=""></textarea>
+                    <textarea id="promptFull" class="w-full h-80 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly></textarea>
                     
                     <button onclick="copyText('promptFull', this)" class="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transition-all btn-copy">
                         <i class="fas fa-copy"></i>
-                        <span>すべてコピー</span>
+                        <span>コードをコピー</span>
                     </button>
                 </div>
 
-                <!-- VIEW: SPLIT (3 BLOCKS) -->
                 <div id="view-split" class="hidden grid gap-6">
                     <div class="bg-blue-500/10 border border-blue-500/20 p-3 rounded text-xs text-blue-300 mb-2">
                         <i class="fas fa-info-circle mr-1"></i> ヒント: Geminiの「保存された情報」設定では、A → B → C の順に「+追加」しながら貼り付けてください。
                     </div>
 
-                    <!-- Block A -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-900/30 px-2 py-1 rounded">ブロック A: コア論理 (Core)</span>
-                            <span class="text-[10px] text-slate-500">Role, Tone, Principles</span>
+                            <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-900/30 px-2 py-1 rounded">Block A: Core System (Hardened)</span>
+                            <span class="text-[10px] text-slate-500">Role, Anti-Lazy, Workflow</span>
                         </div>
-                        <textarea id="promptPartA" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-emerald-500 focus:outline-none resize-none" readonly=""></textarea>
+                        <textarea id="promptPartA" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-emerald-500 focus:outline-none resize-none" readonly></textarea>
                         <button onclick="copyText('promptPartA', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-emerald-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
-                            <i class="fas fa-copy"></i> コピー A
+                            <i class="fas fa-copy"></i> Copy A
                         </button>
                     </div>
 
-                    <!-- Block B -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">ブロック B: モジュール上巻 (Modules 1-5)</span>
-                            <span class="text-[10px] text-slate-500">Visual, Research, Copy, Social, Slides</span>
+                            <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">Block B: Modules (Part 1)</span>
                         </div>
-                        <textarea id="promptPartB" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly=""></textarea>
+                        <textarea id="promptPartB" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly></textarea>
                         <button onclick="copyText('promptPartB', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-purple-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
-                            <i class="fas fa-copy"></i> コピー B
+                            <i class="fas fa-copy"></i> Copy B
                         </button>
                     </div>
 
-                    <!-- Block C -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">ブロック C: モジュール下巻 + 実行 (Modules 6-10)</span>
-                            <span class="text-[10px] text-slate-500">Writing, Sketch, Thought, Strategy, Tutor</span>
+                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">Block C: Modules (Part 2)</span>
                         </div>
-                        <textarea id="promptPartC" class="w-full h-48 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly=""></textarea>
+                        <textarea id="promptPartC" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly></textarea>
                         <button onclick="copyText('promptPartC', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-orange-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
-                            <i class="fas fa-copy"></i> コピー C
+                            <i class="fas fa-copy"></i> Copy C
                         </button>
                     </div>
                 </div>
@@ -185,14 +165,12 @@
             </div>
         </section>
 
-        <!-- DEEP ANALYSIS (RESTORED) -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-cyan-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-layer-group"></i> コア分析：なぜこのプロンプトが有効なのか？
             </h2>
             
             <div class="grid gap-6">
-                <!-- Item 1: ROLE -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">ROLE</div>
                     <div>
@@ -203,18 +181,16 @@
                     </div>
                 </div>
 
-                <!-- Item 2: LANG -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">LANG</div>
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">ANTI-LAZY</div>
                     <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">ja-JP(Tokyo) ONLY</h4>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">抗怠慢プロトコル (Path C Hardening)</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>ローカライズの強制。<span class="text-white">ONLY</span> と指定することで、不自然な翻訳調を排除し、東京のビジネスシーンで使われる自然な日本語を強制します。
+                            <span class="text-cyan-400 font-bold">原理：</span>LLMが「短い回答」をしたり、コードを <code>//...</code> で省略する傾向に対抗するため、<span class="text-white">BAN</span> 指令と <span class="text-white">INTEGRITY</span> チェックを導入。文字数を超えても「勝手に要約」せず、「突然中断（続きを促す）」させることで、完全なコード生成を強制します。
                         </p>
                     </div>
                 </div>
 
-                <!-- Item 3: CORE -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">CORE</div>
                     <div>
@@ -225,38 +201,45 @@
                     </div>
                 </div>
 
-                <!-- Item 4: MODULES -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">DYNAMIC</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">動的ビルドエンジン</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>静的なプロンプトは不要な指示を含み、トークンを浪費し注意力を散漫にします。必要なモジュール（例：Coder）だけを選択することで、コンテキストウィンドウを浄化し、推論の精度を高めます。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">LANG</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">ja-JP(Tokyo) ONLY</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>ローカライズの強制。<span class="text-white">ONLY</span> と指定することで、不自然な翻訳調を排除し、東京のビジネスシーンで使われる自然な日本語（動画 not 視頻、品質 not 質量）を強制します。
+                        </p>
+                    </div>
+                </div>
+
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[MODULES]</div>
                     <div>
                         <h4 class="font-bold text-slate-200 text-sm mb-1">モジュール設計 / BLUF</h4>
                         <p class="text-slate-400 text-sm mb-2">
-                            <span class="text-cyan-400 font-bold">原理：</span>「思考の連鎖（Chain of Thought）」の応用です。4つのモードを事前定義することで、AIはタスクを分類するだけで適切な処理ロジックを呼び出せ、推論エラーを大幅に減らせます。
+                            <span class="text-cyan-400 font-bold">原理：</span>「思考の連鎖（Chain of Thought）」の応用です。AIはタスクを分類するだけで適切な処理ロジックを呼び出せ、推論エラーを大幅に減らせます。
                         </p>
                         <div class="bg-slate-800/50 p-3 rounded text-xs border-l-2 border-yellow-500">
-                            <span class="text-yellow-400 font-bold">BLUF (Bottom Line Up Front)：</span>軍事・ビジネス用語で「結論を先に」という意味。起承転結というAIの冗長な癖を強制的に矯正します。
+                            <span class="text-yellow-400 font-bold">BLUF (Bottom Line Up Front)：</span>「結論を先に」という意味の軍事・ビジネス用語。AIの冗長な前置きを排除します。
                         </div>
                     </div>
                 </div>
 
-                <!-- Item 5: COMMANDS (NEW) -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-purple-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[COMMANDS]</div>
                     <div>
                         <h4 class="font-bold text-slate-200 text-sm mb-1">自己説明メカニズム (Help)</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span><span class="text-white">/?</span> というトリガーを定義することで、AIに説明書を暗記させるのではなく、必要な時にだけチートシートを「生成」させます。これにより、System Promptの長さを節約しつつ、ツールの利便性を維持します。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 6: EXECUTION -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[EXECUTION]</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">実行ループ</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>ワークフローの定義。<span class="text-white font-mono">Check Command -> Identify intent...</span> という手順を踏ませることで、ヘルプ要求をタスクとして誤処理するのを防ぎます。
+                            <span class="text-cyan-400 font-bold">原理：</span><span class="text-white">/?</span> というトリガーを定義することで、AIに説明書を暗記させるのではなく、必要な時にだけチートシートを「生成」させます。
                         </p>
                     </div>
                 </div>
@@ -264,45 +247,40 @@
             </div>
         </section>
 
-        <!-- GEMINI SETUP GUIDE (REORDERED 1-2-3-4) -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-pink-400 border-b border-slate-700 pb-4">
-                <i class="fas fa-sliders-h"></i> Geminiでの設定方法 (推奨順)
+                <i class="fas fa-sliders-h"></i> Geminiでの設定方法 (4つの方法)
             </h2>
             <div class="grid md:grid-cols-2 gap-6">
-                <!-- Method 1 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-comment-dots"></i> 方法 1：直接対話 (一時利用)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">最速。一時的なモード切り替えやテストに最適。新しいチャットごとに貼り付けが必要。</p>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">最速。一時的なモード切り替えやテストに最適。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
                         <li><span class="text-white">New Chat</span> を開く</li>
-                        <li>チャット欄に完全なコードを貼り付け</li>
+                        <li>完全なコードを貼り付け</li>
                         <li>Enterキーで送信して適用確認</li>
                     </ol>
                 </div>
 
-                <!-- Method 2 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-gem"></i> 方法 2：Gemを作成 (上級者)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。<span class="text-emerald-400">完全版 (Full)</span>を推奨。</p>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。複数の分身を作成可能。<span class="text-emerald-400">完全版 (Full)</span>を推奨。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li><span class="text-white">Gem Manager</span>を開く</li>
-                        <li>"New Gem" を選択</li>
+                        <li><span class="text-white">Gem Manager</span> &gt; "New Gem" を選択</li>
                         <li><span class="text-yellow-400">Instructions</span> に完全なコードを貼り付け</li>
                         <li>保存していつでも呼び出し可能に</li>
                     </ol>
                 </div>
 
-                <!-- Method 3 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-code"></i> 方法 3：AI Studio (開発者)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">最強。System Promptの重みを完全制御できる開発環境。プロンプトの微調整に最適。</p>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">最強。System Promptの重みを完全制御できる開発環境。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
                         <li><span class="text-white">Google AI Studio</span> へ移動</li>
                         <li><span class="text-yellow-400">System Instructions</span> ブロックを見つける</li>
@@ -311,34 +289,29 @@
                     </ol>
                 </div>
 
-                <!-- Method 4 (Featured) -->
                 <div class="bg-slate-800/80 p-5 rounded-lg border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.1)] relative overflow-hidden flex flex-col">
                     <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">👑 推奨 No.1</div>
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-user-cog"></i> 方法 4：保存された情報 (Saved Info)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">設定は一度だけ。全ての新しい会話に自動適用されます。文字数制限が厳しいため<span class="text-emerald-400">分割版</span>推奨。</p>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">設定は一度だけ。全ての新しい会話に自動適用されます。文字数制限回避のため<span class="text-emerald-400">分割版</span>を使用してください。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
                         <li><span class="text-white">Gemini 設定</span> &gt; <span class="text-white">保存された情報</span>へ</li>
                         <li><span class="text-yellow-400">Geminiへの指示</span> を見つける</li>
                         <li><span class="text-emerald-400">ブロック A</span> を貼り付け</li>
-                        <li><span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 追加</span> ボタンをクリック</li>
-                        <li><span class="text-purple-400">ブロック B</span> を貼り付け</li>
-                        <li><span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 追加</span> ボタンをクリック</li>
-                        <li><span class="text-orange-400">ブロック C</span> を貼り付け</li>
+                        <li><span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 追加</span> をクリック (これを2回)</li>
+                        <li><span class="text-purple-400">ブロック B</span> と <span class="text-orange-400">ブロック C</span> をそれぞれ貼り付け</li>
                     </ol>
                 </div>
             </div>
         </section>
 
-        <!-- MODULE USAGE GUIDE -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-4">
-                <i class="fas fa-terminal"></i> 実践ガイド：10 大モジュールコマンドと詳細使用例
+                <i class="fas fa-terminal"></i> 実践ガイド：12 大モジュールコマンドと詳細使用例
             </h2>
-            <!-- Modified Grid: 2 columns on medium AND large screens for better 2x5 alignment -->
             <div class="grid md:grid-cols-2 gap-6">
-                <!-- VISUAL -->
+                
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center"><i class="fas fa-image text-sm"></i></div>
@@ -354,7 +327,6 @@
                     </div>
                 </div>
 
-                <!-- RESEARCH -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center"><i class="fas fa-search text-sm"></i></div>
@@ -370,7 +342,6 @@
                     </div>
                 </div>
 
-                <!-- COPY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-yellow-500/20 text-yellow-400 flex items-center justify-center"><i class="fas fa-pen-nib text-sm"></i></div>
@@ -386,7 +357,6 @@
                     </div>
                 </div>
 
-                <!-- SOCIAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center"><i class="fas fa-share-alt text-sm"></i></div>
@@ -408,7 +378,6 @@
                     </div>
                 </div>
 
-                <!-- SLIDES -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center"><i class="fas fa-layer-group text-sm"></i></div>
@@ -424,7 +393,6 @@
                     </div>
                 </div>
 
-                <!-- WRITING -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-teal-500/20 text-teal-400 flex items-center justify-center"><i class="fas fa-feather text-sm"></i></div>
@@ -440,7 +408,6 @@
                     </div>
                 </div>
 
-                <!-- SKETCH -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-orange-500/20 text-orange-400 flex items-center justify-center"><i class="fas fa-pencil-alt text-sm"></i></div>
@@ -461,14 +428,13 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- THOUGHT -->
+                
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-gray-500/20 text-gray-400 flex items-center justify-center"><i class="fas fa-brain text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">THOUGHT 思考プロセス</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">第一人称視角，滾動更新思考進度。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">思考のローリング要約。一人称で進捗を可視化。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-gray-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
@@ -478,7 +444,6 @@
                     </div>
                 </div>
 
-                <!-- STRATEGY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-rose-500/20 text-rose-400 flex items-center justify-center"><i class="fas fa-chess-knight text-sm"></i></div>
@@ -489,12 +454,11 @@
                         <div class="text-[10px] text-rose-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
                             <span class="text-rose-400 font-bold">[STRATEGY]</span> 
-                            我是資深工程師，想轉職為產品經理(PM)，但缺乏管理經驗。請模擬面試官視角，找出我的盲點並提供策略建議。
+                            私はシニアエンジニアですが、プロダクトマネージャー(PM)への転身を考えています。管理経験が不足しています。面接官の視点でシミュレーションし、盲点の指摘と戦略アドバイスをください。
                         </div>
                     </div>
                 </div>
 
-                <!-- TUTOR (NEW) -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-graduation-cap text-sm"></i></div>
@@ -510,21 +474,56 @@
                     </div>
                 </div>
 
+                <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-code text-sm"></i></div>
+                        <h3 class="font-bold text-slate-200">CODER 開発エキスパート</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 h-8">Cursor/VSCode 専用。SOLID原則、防御的プログラミング。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-emerald-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono leading-relaxed">
+                            <span class="text-emerald-400 font-bold">[CODER]</span> 
+                            RAG (検索拡張生成) の基本クラスをPythonで記述して。ベクトルDBへの接続メソッドを含めること。詳細なコメントを追加してください。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center"><i class="fas fa-sitemap text-sm"></i></div>
+                        <h3 class="font-bold text-slate-200">ARCHITECT システム設計</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 h-8">システム設計パターン。Mermaid図とスキーマ出力。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-cyan-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono leading-relaxed">
+                            <span class="text-cyan-400 font-bold">[ARCHITECT]</span> 
+                            高負荷な「ECサイトのタイムセール（秒殺）システム」を設計して。RedisキャッシュとDB書き込みフローを示すMermaidシーケンス図を出力し、ボトルネックを分析してください。
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
     </main>
 
-    <footer class="mt-12 text-slate-600 text-xs">
-        LOGIC RAZOR for Gemini / GPT-5.1 / Claude 4.5 (JP Edition)
+    <footer class="mt-12 text-center text-slate-600 text-xs">
+        LOGIC RAZOR v7.7 (JP Edition) / Engineered for Gemini Advanced / Cursor / Claude 3.5
     </footer>
 
     <script>
-        // Define Prompt Content in Variables
-        const promptCore = `ROLE: Strategic AI Logic Engine.
-LANG: ja-JP(Tokyo) ONLY. Use natural business/tech terminology.
-TONE: Blunt, Direct, No Filler/Greetings/Closures.
-CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.
+        // --- DATA DEFINITION (Hardened Core with Full Command Table) ---
+        const corePrompt = `ROLE: Strategic AI Logic Engine.
+LANG: ja-JP(Tokyo) ONLY. Use natural business/tech terminology (e.g., 動画 not 視頻, 品質 not 質量).
+TONE: Blunt, Direct, No Filler.
+CORE: Precision>Emotion; Logic>Bias.
+
+[ANTI-LAZY PROTOCOL]
+1. VERBOSITY: ON. Always generate COMPLETE code/text.
+2. BAN: "// ...", "TODO", "[Rest of code]", "Same as above".
+3. INTEGRITY: If output > token limit, stop abruptly (I will type "continue"). Do NOT summarize or truncate logic to fit.
 
 [COMMANDS]
 /? or HELP : Display "MODULE CHEATSHEET" in [LANG].
@@ -535,31 +534,82 @@ Table Columns:
 4. Example Input (Demonstrate usage)
 
 [EXECUTION]
-Check Command -> If "/?" display Cheatsheet -> Else Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
+Check Command -> If "/?" Cheatsheet -> Else Identify intent -> Enforce Anti-Lazy -> Apply Module -> Output Result -> Stop.`;
 
-        const promptModules1 = `[MODULES]
-1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.
-2. RESEARCH: Auth Sources Only(No Guessing), Aggregate Info, Create Compare Table, Provide 3-5 Benchmark Cases.
-3. COPY: BLUF(Conclusion 1st) -> 3 Key Points -> Slide Structure(1 point/page). Cut Jargon 50%, Add 1 Metaphor, Auto-page #.
-4. SOCIAL: Mode:Auto OR Specified([:Short] or [:Thread]). Short:Pain+Highlight+Safety, High-Conv Words, X<140ch(JP limit). Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.
-5. SLIDES: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.`;
+        const modules = [
+            { id: 'visual', icon: 'fa-image', name: 'VISUAL', desc: '8K画像生成記述', content: '1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.' },
+            { id: 'research', icon: 'fa-search', name: 'RESEARCH', desc: '深層リサーチ', content: '2. RESEARCH: Auth Sources Only(No Guessing), Aggregate Info, Create Compare Table, Provide 3-5 Benchmark Cases.' },
+            { id: 'copy', icon: 'fa-pen-nib', name: 'COPY', desc: 'BLUFライティング', content: '3. COPY: BLUF(Conclusion 1st) -> 3 Key Points -> Slide Structure(1 point/page). Cut Jargon 50%, Add 1 Metaphor, Auto-page #.' },
+            { id: 'social', icon: 'fa-share-alt', name: 'SOCIAL', desc: 'SNS戦略', content: '4. SOCIAL: Syntax:[SOCIAL] (Mode:Auto) or [SOCIAL:Short] or [SOCIAL:Thread]. Short:Pain+Highlight+Safety, High-Conv Words, X<140ch(JP limit). Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.' },
+            { id: 'slides', icon: 'fa-layer-group', name: 'SLIDES', desc: 'スライド構成', content: '5. SLIDES: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.' },
+            { id: 'writing', icon: 'fa-feather', name: 'WRITING', desc: '帰納的エッセイ', content: '6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.' },
+            { id: 'sketch', icon: 'fa-pencil-alt', name: 'SKETCH', desc: '図解・スケッチ', content: '7. SKETCH: Mode:Infographic(16:9). Syntax:[SKETCH] or [SKETCH:Blackboard] or [SKETCH:Cartoon]. Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords. Ex.: [SKETCH:Cartoon] Use Doraemon\'s Anywhere Door to explain wormholes.' },
+            { id: 'thought', icon: 'fa-brain', name: 'THOUGHT', desc: '思考プロセス', content: '8. THOUGHT: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)** Body:Single plain text para, <120 words. Content:Concise progress update.' },
+            { id: 'strategy', icon: 'fa-chess-knight', name: 'STRATEGY', desc: '戦略コンサル', content: '9. STRATEGY: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.' },
+            { id: 'tutor', icon: 'fa-graduation-cap', name: 'TUTOR', desc: '対話型講師', content: '10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning.' },
+            { id: 'coder', icon: 'fa-code', name: 'CODER', desc: '開発/Cursor', content: '11. CODER: Role:Senior Architect. Stack:User Specified. Style:Clean, SOLID, Defensive. Output:Code block only + brief explanation. Constraint:Add comments for complex logic. No yapping.' },
+            { id: 'architect', icon: 'fa-sitemap', name: 'ARCHITECT', desc: 'システム設計', content: '12. ARCHITECT: Mode:System Design. Output:Mermaid diagrams (Class/Sequence/State) + DB Schema (SQL/ERD) + Tech Stack Pros/Cons analysis.' }
+        ];
 
-        const promptModules2 = `[MODULES]
-6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
-7. SKETCH: Mode:Infographic(16:9). Style:Auto OR Specified([:Blackboard] / [:Cartoon]). Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords. Ex.: [SKETCH:Cartoon] Use Doraemon's Anywhere Door to explain wormholes.
-8. THOUGHT: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)**\\n\\nBody:Single plain text para, <120 words. Content:Concise progress update. Constraint:No header repeats, No instruction ref.
-9. STRATEGY: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.
-10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning. Output: progressive lessons, quizzes, capstone project.`;
+        // --- INIT & RENDER ---
+        const moduleGrid = document.getElementById('moduleGrid');
 
-        // Populate Textareas on Load
-        window.onload = function() {
-            document.getElementById('promptFull').value = promptCore + "\n\n" + promptModules1 + "\n" + promptModules2;
-            document.getElementById('promptPartA').value = promptCore;
-            document.getElementById('promptPartB').value = promptModules1;
-            document.getElementById('promptPartC').value = promptModules2;
-        };
+        function renderModules() {
+            moduleGrid.innerHTML = modules.map(m => `
+                <label class="cursor-pointer group relative">
+                    <input type="checkbox" class="module-checkbox hidden" value="${m.id}" onchange="updatePrompt()" checked>
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-3 hover:bg-slate-700 transition-all h-full flex items-center gap-3">
+                        <div class="icon-box text-slate-500 group-hover:text-emerald-400 transition-colors w-6 text-center">
+                            <i class="fas ${m.icon}"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-xs text-slate-200">${m.name}</div>
+                            <div class="text-[10px] text-slate-500">${m.desc}</div>
+                        </div>
+                    </div>
+                </label>
+            `).join('');
+            updatePrompt();
+        }
 
-        // Tab Switching Logic
+        // --- CORE LOGIC ---
+        function updatePrompt() {
+            const checkboxes = document.querySelectorAll('.module-checkbox:checked');
+            const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+            
+            // Filter content
+            const selectedModules = modules.filter(m => selectedIds.includes(m.id));
+            
+            // Generate Texts
+            const moduleText = selectedModules.map(m => m.content).join('\n');
+            const fullPrompt = corePrompt + "\n\n" + `I want you to remember the following modules:\n[MODULES]\n` + moduleText;
+
+            // Split Logic for Blocks B and C
+            const midPoint = Math.ceil(selectedModules.length / 2);
+            const part1 = selectedModules.slice(0, midPoint).map(m => m.content).join('\n');
+            const part2 = selectedModules.slice(midPoint).map(m => m.content).join('\n');
+
+            const textB = `I want you to remember the following modules (PART 1/2) for all future interactions:[MODULES]\n${part1}`;
+            const textC = `I want you to remember the following modules (PART 2/2) for all future interactions:[MODULES]\n${part2}`;
+
+            // Update UI
+            document.getElementById('promptFull').value = fullPrompt;
+            document.getElementById('promptPartA').value = corePrompt;
+            document.getElementById('promptPartB').value = textB;
+            document.getElementById('promptPartC').value = textC;
+        }
+
+        function selectAll() {
+            document.querySelectorAll('.module-checkbox').forEach(cb => cb.checked = true);
+            updatePrompt();
+        }
+
+        function clearAll() {
+            document.querySelectorAll('.module-checkbox').forEach(cb => cb.checked = false);
+            updatePrompt();
+        }
+
+        // --- UTILS ---
         function switchTab(mode) {
             const viewFull = document.getElementById('view-full');
             const viewSplit = document.getElementById('view-split');
@@ -569,57 +619,42 @@ Check Command -> If "/?" display Cheatsheet -> Else Identify intent -> Apply Mod
             if (mode === 'full') {
                 viewFull.classList.remove('hidden');
                 viewSplit.classList.add('hidden');
-                tabFull.classList.add('active');
-                tabFull.classList.remove('inactive');
-                tabSplit.classList.add('inactive');
-                tabSplit.classList.remove('active');
+                tabFull.className = "px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-[#020617] text-emerald-400 border-t-2 border-emerald-500";
+                tabSplit.className = "px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-slate-800 text-slate-400 hover:bg-slate-700";
             } else {
                 viewFull.classList.add('hidden');
                 viewSplit.classList.remove('hidden');
-                viewSplit.classList.add('grid'); // Restore grid layout
-                tabFull.classList.add('inactive');
-                tabFull.classList.remove('active');
-                tabSplit.classList.add('active');
-                tabSplit.classList.remove('inactive');
+                tabFull.className = "px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-slate-800 text-slate-400 hover:bg-slate-700";
+                tabSplit.className = "px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-[#020617] text-emerald-400 border-t-2 border-emerald-500";
             }
         }
 
-        // Copy Logic
-        function copyText(elementId, btnElement) {
-            const textArea = document.getElementById(elementId);
-            textArea.select();
-            textArea.setSelectionRange(0, 99999);
-
-            navigator.clipboard.writeText(textArea.value).then(() => {
-                showFeedback(btnElement);
-            }).catch(err => {
-                document.execCommand('copy');
-                showFeedback(btnElement);
-            });
-        }
-
-        function showFeedback(btn) {
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> <span>コピー完了</span>';
-            btn.classList.add('bg-emerald-500', 'text-white');
+        function copyText(id, btn) {
+            const el = document.getElementById(id);
+            el.select();
+            navigator.clipboard.writeText(el.value);
             
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> コピー完了';
+            btn.classList.add('bg-emerald-500');
             setTimeout(() => {
-                btn.innerHTML = originalContent;
-                btn.classList.remove('bg-emerald-500', 'text-white');
-            }, 2000);
+                btn.innerHTML = original;
+                btn.classList.remove('bg-emerald-500');
+            }, 1500);
         }
 
-        // Download HTML Logic
         function downloadFile() {
             const content = "<!DOCTYPE html>" + document.documentElement.outerHTML;
             const blob = new Blob([content], {type: 'text/html'});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "logic_razor_tool_jp.html";
+            a.download = "logic_razor_v7.7_jp.html";
             a.click();
-            URL.revokeObjectURL(url);
         }
-    </script>
 
-</body></html>
+        // Start
+        renderModules();
+    </script>
+</body>
+</html>

@@ -1,7 +1,9 @@
-<!DOCTYPE html><html lang="zh-TW"><head>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIC RAZOR 設定工具</title>
+    <title>LOGIC RAZOR v7.7 (Ultimate Final)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -13,9 +15,7 @@
             color: #e2e8f0; /* Slate 200 */
         }
         
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
 
         .glass-panel {
             background: rgba(30, 41, 59, 0.7);
@@ -24,20 +24,16 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        .code-block {
-            background-color: #1e293b;
-            border-left: 4px solid #10b981;
+        /* Checkbox Styling */
+        .module-checkbox:checked + div {
+            background-color: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+        }
+        .module-checkbox:checked + div .icon-box {
+            color: #34d399;
         }
 
-        .highlight-term {
-            color: #34d399; /* Emerald 400 */
-            font-weight: bold;
-        }
-
-        .btn-copy:active {
-            transform: scale(0.95);
-        }
-
+        /* Module Card for Usage Guide */
         .module-card {
             transition: all 0.3s ease;
             border: 1px solid transparent;
@@ -52,89 +48,76 @@
         .tab-btn {
             @apply px-4 py-2 text-sm font-bold rounded-t-lg transition-colors;
         }
-        .tab-btn.active {
-            @apply bg-[#020617] text-emerald-400 border-t-2 border-emerald-500;
-        }
-        .tab-btn.inactive {
-            @apply bg-slate-800 text-slate-400 hover:bg-slate-700;
-        }
         
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569; 
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 flex flex-col items-center">
 
-    <!-- Header -->
-    <header class="w-full max-w-4xl mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    <header class="w-full max-w-5xl mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
             <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
                 LOGIC RAZOR
             </h1>
-            <p class="text-slate-400 text-sm mt-1 tracking-wider">SYSTEM PROMPT OPTIMIZER // 邏輯引擎配置核心</p>
+            <p class="text-slate-400 text-sm mt-1 tracking-wider">v7.6 ULTIMATE // 邏輯引擎配置核心</p>
         </div>
         <div class="flex gap-2 flex-wrap justify-end">
             <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
-                <i class="fas fa-download"></i> 下載此工具
+                <i class="fas fa-download"></i> 下載工具
             </button>
-            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.5</span>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.6</span>
             <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">zh-TW</span>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="w-full max-w-4xl grid gap-8">
+    <main class="w-full max-w-5xl grid gap-8">
         
-        <!-- INTRO -->
         <section class="bg-slate-800/40 rounded-xl p-6 border-l-4 border-emerald-500">
             <h3 class="text-lg font-bold text-emerald-400 mb-2">這不是提示工程，這是「大腦模式開關」</h3>
             <p class="text-slate-300 text-sm leading-relaxed mb-3">
-                LOGIC RAZOR 就像是給 AI 裝上了 10 個不同專業的<b>「大腦模式」</b>。
-                你不需要學習複雜的溝通技巧（Prompt Engineering），只需要像在餐廳點餐一樣，按下對應的按鈕（例如 <code>[VISUAL]</code> 或 <code>[COPY]</code>），AI 就會自動切換成該領域的頂級專家。
+                LOGIC RAZOR 就像是給 AI 裝上了 12 個不同專業的<b>「大腦模式」</b>。
+                你不需要學習複雜的溝通技巧（Prompt Engineering），只需要像在餐廳點餐一樣，按下對應的按鈕（例如 <code>[CODER]</code> 或 <code>[COPY]</code>），AI 就會自動切換成該領域的頂級專家。
             </p>
             <p class="text-slate-400 text-xs italic border-t border-slate-700/50 pt-2">
                 * 技術說明：針對 Gemini 網頁版限制，採用「三段式拆分」策略，確保指令能完整植入且不被過濾。
             </p>
         </section>
 
-        <!-- PROMPT COPY AREA (TABBED) -->
         <section class="glass-panel rounded-xl p-6 relative group">
+             <div class="flex justify-between items-center mb-4 border-b border-slate-700/50 pb-2">
+                <h2 class="text-lg font-bold text-emerald-400"><i class="fas fa-cubes mr-2"></i> 模組配置器 (Dynamic Loader)</h2>
+                <div class="text-xs text-slate-400">
+                    <button onclick="selectAll()" class="hover:text-white mr-2 underline">全選</button> / 
+                    <button onclick="clearAll()" class="hover:text-white ml-2 underline">清空</button>
+                </div>
+            </div>
             
-            <!-- Tabs -->
-            <div class="flex gap-1 mb-0 border-b border-slate-700/50 justify-between items-end">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6" id="moduleGrid">
+                </div>
+
+            <div class="flex gap-1 mb-0 justify-between items-end">
                 <div class="flex gap-1">
-                    <button onclick="switchTab('full')" id="tab-full" class="tab-btn active">
+                    <button onclick="switchTab('full')" id="tab-full" class="px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-[#020617] text-emerald-400 border-t-2 border-emerald-500">
                         <i class="fas fa-file-alt mr-2"></i>完整版 (Full)
                     </button>
-                    <button onclick="switchTab('split')" id="tab-split" class="tab-btn inactive">
+                    <button onclick="switchTab('split')" id="tab-split" class="px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-slate-800 text-slate-400 hover:bg-slate-700">
                         <i class="fas fa-cut mr-2"></i>拆分版 (Split 3-Blocks)
                     </button>
                 </div>
-                <!-- New Feature Alert -->
-                <div class="hidden md:block pb-2 pr-2 text-[10px] text-purple-400 font-mono animate-pulse">
-                   💡 v7.5：修正 UI 用語
+                <div class="pb-2 pr-2 text-[10px] text-cyan-400 font-mono hidden md:block">
+                   <i class="fas fa-shield-alt"></i> Anti-Lazy Protocol: Active
                 </div>
             </div>
 
-            <!-- Content Container -->
             <div class="bg-[#020617] rounded-b-lg rounded-tr-lg p-4 border border-slate-700/50 min-h-[300px]">
                 
-                <!-- VIEW: FULL -->
                 <div id="view-full" class="relative">
                     <div class="absolute -top-2 right-0 text-[10px] text-slate-500 uppercase tracking-widest font-mono">One-Click Install</div>
-                    <textarea id="promptFull" class="w-full h-96 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly=""></textarea>
+                    <textarea id="promptFull" class="w-full h-80 bg-transparent text-gray-300 font-mono text-sm p-2 focus:outline-none resize-none" readonly></textarea>
                     
                     <button onclick="copyText('promptFull', this)" class="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transition-all btn-copy">
                         <i class="fas fa-copy"></i>
@@ -142,43 +125,37 @@
                     </button>
                 </div>
 
-                <!-- VIEW: SPLIT (3 BLOCKS) -->
                 <div id="view-split" class="hidden grid gap-6">
                     <div class="bg-blue-500/10 border border-blue-500/20 p-3 rounded text-xs text-blue-300 mb-2">
                         <i class="fas fa-info-circle mr-1"></i> 操作提示：在 Gemini「給 Gemini 的指令」中，依序貼上 A → 點擊「+ 新增」→ 貼上 B → 點擊「+ 新增」→ 貼上 C。
                     </div>
 
-                    <!-- Block A -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-900/30 px-2 py-1 rounded">區塊 A: 核心系統 (Core + Commands + Execution)</span>
-                            <span class="text-[10px] text-slate-500">Role, Tone, Help, Workflow</span>
+                            <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-900/30 px-2 py-1 rounded">區塊 A: 核心系統 (Hardened Core)</span>
+                            <span class="text-[10px] text-slate-500">Role, Anti-Lazy, Workflow</span>
                         </div>
-                        <textarea id="promptPartA" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-emerald-500 focus:outline-none resize-none" readonly=""></textarea>
+                        <textarea id="promptPartA" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-emerald-500 focus:outline-none resize-none" readonly></textarea>
                         <button onclick="copyText('promptPartA', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-emerald-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> 複製 A
                         </button>
                     </div>
 
-                    <!-- Block B -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">區塊 B: 模組上卷 (Modules 1-5)</span>
-                            <span class="text-[10px] text-slate-500">Visual, Research, Copy, Social, Slides</span>
+                            <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">區塊 B: 選定模組 (Part 1)</span>
                         </div>
-                        <textarea id="promptPartB" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly=""></textarea>
+                        <textarea id="promptPartB" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly></textarea>
                         <button onclick="copyText('promptPartB', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-purple-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> 複製 B
                         </button>
                     </div>
 
-                    <!-- Block C -->
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">區塊 C: 模組下卷 (Modules 6-10)</span>
-                            <span class="text-[10px] text-slate-500">Writing, Sketch, Thought, Strategy, Tutor</span>
+                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">區塊 C: 選定模組 (Part 2)</span>
                         </div>
-                        <textarea id="promptPartC" class="w-full h-40 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly=""></textarea>
+                        <textarea id="promptPartC" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly></textarea>
                         <button onclick="copyText('promptPartC', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-orange-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> 複製 C
                         </button>
@@ -188,7 +165,6 @@
             </div>
         </section>
 
-        <!-- DEEP ANALYSIS (RESTORED) -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-cyan-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-layer-group"></i> 核心解析：為什麼這段 Prompt 有效？
@@ -206,18 +182,18 @@
                     </div>
                 </div>
 
-                <!-- Item 2: LANG -->
+                <!-- Item 2: ANTI-LAZY -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">LANG</div>
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">ANTI-LAZY</div>
                     <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">zh-TW(Taiwan) ONLY</h4>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">抗懶惰協議 (Path C Hardening)</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>強制本地化。特別強調 <span class="text-white">ONLY</span> 和 <span class="text-white">local terms</span>，是為了對抗模型訓練資料中大量的簡體中文權重，確保輸出是「影片」而不是「視頻」、「品質」而不是「質量」。
+                            <span class="text-cyan-400 font-bold">原理：</span>針對 LLM 傾向生成「簡短回答」或用 <code>//...</code> 省略代碼的習性，透過 <span class="text-white">BAN</span> 指令與 <span class="text-white">INTEGRITY</span> 檢查，強制模型若字數超標應「突然中斷」而非「擅自摘要」，確保代碼完整性。
                         </p>
                     </div>
                 </div>
 
-                <!-- Item 3: CORE -->
+                <!-- Item 4: CORE -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">CORE</div>
                     <div>
@@ -228,13 +204,35 @@
                     </div>
                 </div>
 
-                <!-- Item 4: MODULES -->
+                <!-- Item 5: DYNAMIC -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">DYNAMIC</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">動態組裝引擎</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>靜態 Prompt 往往包含不需要的指令，浪費 Token 且稀釋注意力。您可以只勾選需要的模組（如 Coder），大幅淨化上下文視窗，提升推理專注度。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 6: LANG -->
+                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
+                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">LANG</div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm mb-1">zh-TW(Taiwan) ONLY</h4>
+                        <p class="text-slate-400 text-sm">
+                            <span class="text-cyan-400 font-bold">原理：</span>強制本地化。特別強調 <span class="text-white">ONLY</span> 和 <span class="text-white">local terms</span>，是為了對抗模型訓練資料中大量的簡體中文權重，確保輸出是「影片」而不是「視頻」、「品質」而不是「質量」。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 7: MODULES -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[MODULES]</div>
                     <div>
                         <h4 class="font-bold text-slate-200 text-sm mb-1">模組化設計 / BLUF</h4>
                         <p class="text-slate-400 text-sm mb-2">
-                            <span class="text-cyan-400 font-bold">原理：</span>這是「思維鏈（Chain of Thought）」的變體。預先定義四種模式，讓模型在接收任務時，只需做「分類」動作，就能調用對應的處理邏輯，大幅降低推理錯誤率。
+                            <span class="text-cyan-400 font-bold">原理：</span>這是「思維鏈（Chain of Thought）」的變體。預先定義各種模式，讓模型在接收任務時，只需做「分類」動作，就能調用對應的處理邏輯，大幅降低推理錯誤率。
                         </p>
                         <div class="bg-slate-800/50 p-3 rounded text-xs border-l-2 border-yellow-500">
                             <span class="text-yellow-400 font-bold">BLUF (Bottom Line Up Front)：</span>在文案模式中，這是一個軍事/商業溝通術語，意指「結論先行」，強迫模型改變「起承轉合」的囉唆習慣。
@@ -242,24 +240,13 @@
                     </div>
                 </div>
 
-                <!-- Item 5: COMMANDS (NEW) -->
+                <!-- Item 8: COMMANDS -->
                 <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
                     <div class="font-mono text-purple-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[COMMANDS]</div>
                     <div>
                         <h4 class="font-bold text-slate-200 text-sm mb-1">自我說明機制 (Help)</h4>
                         <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>透過定義 <span class="text-white">/?</span> 觸發條件，讓 AI 不需要死記說明書，而是在需要時「即時生成」速查表。這大幅節省了 System Prompt 的長度，同時保持了工具的友善度。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 6: EXECUTION -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[EXECUTION]</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">執行閉環</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>定義工作流。<span class="text-white font-mono">Check Command -> Identify intent...</span> 確保 AI 先檢查是否為指令，再進入推理模式，避免將求助訊號誤判為任務內容。
+                            <span class="text-cyan-400 font-bold">原理：</span>透過定義 <span class="text-white">/?</span> 觸發條件，讓 AI 不需要死記說明書，而是在需要時「即時生成」表格化的 CheatSheet，提升工具友善度。
                         </p>
                     </div>
                 </div>
@@ -267,13 +254,11 @@
             </div>
         </section>
 
-        <!-- GEMINI SETUP GUIDE (REORDERED 1-2-3-4) -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-pink-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-sliders-h"></i> 如何在 Gemini 中設置？ (4種方式)
             </h2>
             <div class="grid md:grid-cols-2 gap-6">
-                <!-- Method 1 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-comment-dots"></i> 方式 1：直接對話 (臨時用)
@@ -286,12 +271,11 @@
                     </ol>
                 </div>
 
-                <!-- Method 2 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-gem"></i> 方式 2：建立 Gem (進階版)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。<span class="text-emerald-400">完全版 (Full)</span>を推奨。</p>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。<span class="text-emerald-400">完整版 (Full)</span>推薦。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
                         <li>點擊 <span class="text-white">Gem Manager</span> &gt; "New Gem"</li>
                         <li>在 <span class="text-yellow-400">Instructions</span> 欄位貼上完整代碼</li>
@@ -299,7 +283,6 @@
                     </ol>
                 </div>
 
-                <!-- Method 3 -->
                 <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-code"></i> 方式 3：AI Studio (開發者)
@@ -313,32 +296,29 @@
                     </ol>
                 </div>
 
-                <!-- Method 4 (Featured) -->
                 <div class="bg-slate-800/80 p-5 rounded-lg border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.1)] relative overflow-hidden flex flex-col">
                     <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">👑 推薦首選</div>
                     <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
                         <i class="fas fa-user-cog"></i> 方式 4：個人化指令 (Saved Info)
                     </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">設定一次，所有新對話自動套用。文字上限較嚴格，請用<span class="text-emerald-400">拆分版</span>。</p>
+                    <p class="text-slate-400 text-xs mb-3 flex-grow">設定一次，所有新對話自動套用。請務必使用<span class="text-emerald-400">拆分版</span>以突破字數限制。</p>
                     <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
                         <li>進入 <span class="text-white">Gemini 設定</span> &gt; <span class="text-white">個人化建議</span></li>
                         <li>找到 <span class="text-yellow-400">給 Gemini 的指令</span></li>
                         <li>貼上 <span class="text-emerald-400">區塊 A</span></li>
-                        <li>點擊 <span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 新增</span> (重複 2 次)</li>
+                        <li>點擊 <span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 新增</span> (重複2次)</li>
                         <li>分別貼上 <span class="text-purple-400">區塊 B</span> 與 <span class="text-orange-400">區塊 C</span></li>
                     </ol>
                 </div>
             </div>
         </section>
 
-        <!-- MODULE USAGE GUIDE -->
         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-purple-400 border-b border-slate-700 pb-4">
-                <i class="fas fa-terminal"></i> 實戰指南：10 大模組指令與詳細範例
+                <i class="fas fa-terminal"></i> 實戰指南：12 大模組指令與詳細範例
             </h2>
-            <!-- Modified Grid: 2 columns on medium AND large screens for better 2x5 alignment -->
             <div class="grid md:grid-cols-2 gap-6">
-                <!-- VISUAL -->
+                
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center"><i class="fas fa-image text-sm"></i></div>
@@ -354,7 +334,6 @@
                     </div>
                 </div>
 
-                <!-- RESEARCH -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center"><i class="fas fa-search text-sm"></i></div>
@@ -370,7 +349,6 @@
                     </div>
                 </div>
 
-                <!-- COPY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-yellow-500/20 text-yellow-400 flex items-center justify-center"><i class="fas fa-pen-nib text-sm"></i></div>
@@ -386,7 +364,6 @@
                     </div>
                 </div>
 
-                <!-- SOCIAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center"><i class="fas fa-share-alt text-sm"></i></div>
@@ -408,7 +385,6 @@
                     </div>
                 </div>
 
-                <!-- SLIDES -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center"><i class="fas fa-layer-group text-sm"></i></div>
@@ -424,7 +400,6 @@
                     </div>
                 </div>
 
-                <!-- WRITING -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-teal-500/20 text-teal-400 flex items-center justify-center"><i class="fas fa-feather text-sm"></i></div>
@@ -440,7 +415,6 @@
                     </div>
                 </div>
 
-                <!-- SKETCH -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-orange-500/20 text-orange-400 flex items-center justify-center"><i class="fas fa-pencil-alt text-sm"></i></div>
@@ -461,8 +435,7 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- THOUGHT -->
+                
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-gray-500/20 text-gray-400 flex items-center justify-center"><i class="fas fa-brain text-sm"></i></div>
@@ -478,7 +451,6 @@
                     </div>
                 </div>
 
-                <!-- STRATEGY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-rose-500/20 text-rose-400 flex items-center justify-center"><i class="fas fa-chess-knight text-sm"></i></div>
@@ -494,13 +466,12 @@
                     </div>
                 </div>
 
-                <!-- TUTOR (NEW) -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-graduation-cap text-sm"></i></div>
                         <h3 class="font-bold text-slate-200">TUTOR 互動導師</h3>
                     </div>
-                    <p class="text-xs text-slate-400 mb-4 h-8">蘇格拉底式教學，遞迴學習，量身打造課程。</p>
+                    <p class="text-xs text-slate-400 mb-4 h-8">蘇格拉底式教學，遞迴學習。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3">
                         <div class="text-[10px] text-emerald-400 font-mono mb-1">USER INPUT:</div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
@@ -510,21 +481,56 @@
                     </div>
                 </div>
 
+                <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-code text-sm"></i></div>
+                        <h3 class="font-bold text-slate-200">CODER 開發專家</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 h-8">Cursor/VSCode 專用。SOLID 原則，防禦性程式設計。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-emerald-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono leading-relaxed">
+                            <span class="text-emerald-400 font-bold">[CODER]</span> 
+                            用 Python 寫一個 RAG (Retrieval-Augmented Generation) 的基礎 Class，需包含連接向量資料庫的方法。請加上詳細註解。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card bg-slate-800/50 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center"><i class="fas fa-sitemap text-sm"></i></div>
+                        <h3 class="font-bold text-slate-200">ARCHITECT 系統架構</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 h-8">系統設計模式。輸出 Mermaid 圖表與 Schema。</p>
+                    <div class="bg-[#020617] rounded border border-slate-700 p-3">
+                        <div class="text-[10px] text-cyan-400 font-mono mb-1">USER INPUT:</div>
+                        <div class="text-xs text-slate-300 font-mono leading-relaxed">
+                            <span class="text-cyan-400 font-bold">[ARCHITECT]</span> 
+                            設計一個高併發的「電商秒殺系統」。請輸出 Mermaid 序列圖展示 Redis 緩存與資料庫寫入的流程，並分析可能的瓶頸。
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
     </main>
 
-    <footer class="mt-12 text-slate-600 text-xs">
-        LOGIC RAZOR for Gemini / GPT-5.1 / Claude 4.5 (JP Edition)
+    <footer class="mt-12 text-center text-slate-600 text-xs">
+        LOGIC RAZOR v7.6 Ultimate / Engineered for Gemini Advanced / Cursor / Claude 3.5
     </footer>
 
     <script>
-        // Define Prompt Content in Variables
-        const promptCore = `ROLE: Strategic AI Logic Engine.
-LANG: zh-TW(Taiwan) ONLY. Use local terms.
-TONE: Blunt, Direct, No Filler/Greetings/Closures.
-CORE: Precision>Emotion; Logic>Bias; Repeatability>Flashiness.
+        // --- DATA DEFINITION (Hardened Core with Full Command Table) ---
+        const corePrompt = `ROLE: Strategic AI Logic Engine.
+LANG: zh-TW(Taiwan) ONLY. Use local terms (e.g., 影片 not 視頻, 品質 not 質量).
+TONE: Blunt, Direct, No Filler.
+CORE: Precision>Emotion; Logic>Bias.
+
+[ANTI-LAZY PROTOCOL]
+1. VERBOSITY: ON. Always generate COMPLETE code/text.
+2. BAN: "// ...", "TODO", "[Rest of code]", "Same as above".
+3. INTEGRITY: If output > token limit, stop abruptly (I will type "continue"). Do NOT summarize or truncate logic to fit.
 
 [COMMANDS]
 /? or HELP : Display "MODULE CHEATSHEET" in [LANG].
@@ -535,31 +541,82 @@ Table Columns:
 4. Example Input (Demonstrate usage)
 
 [EXECUTION]
-Check Command -> If "/?" display Cheatsheet -> Else Identify intent -> Apply Module -> Output Essential Result Only -> Stop.`;
+Check Command -> If "/?" Cheatsheet -> Else Identify intent -> Enforce Anti-Lazy -> Apply Module -> Output Result -> Stop.`;
 
-        const promptModules1 = `I want you to remember the following modules for all future interactions: [MODULES PART 1]\n
-1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.
-2. RESEARCH: Auth Sources Only(No Guessing), Aggregate Info, Create Compare Table, Provide 3-5 Benchmark Cases.
-3. COPY: BLUF(Conclusion 1st) -> 3 Key Points -> Slide Structure(1 point/page). Cut Jargon 50%, Add 1 Metaphor, Auto-page #.
-4. SOCIAL: Mode:Auto OR Specified([:Short] or [:Thread]). Short:Pain+Highlight+Safety, High-Conv Words, X<140ch(JP limit). Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.
-5. SLIDES: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.`;
+        const modules = [
+            { id: 'visual', icon: 'fa-image', name: 'VISUAL', desc: '8K 圖像描述', content: '1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.' },
+            { id: 'research', icon: 'fa-search', name: 'RESEARCH', desc: '深度研究表格', content: '2. RESEARCH: Auth Sources Only(No Guessing), Aggregate Info, Create Compare Table, Provide 3-5 Benchmark Cases.' },
+            { id: 'copy', icon: 'fa-pen-nib', name: 'COPY', desc: 'BLUF 文案', content: '3. COPY: BLUF(Conclusion 1st) -> 3 Key Points -> Slide Structure(1 point/page). Cut Jargon 50%, Add 1 Metaphor, Auto-page #.' },
+            { id: 'social', icon: 'fa-share-alt', name: 'SOCIAL', desc: '社群貼文', content: '4. SOCIAL: Syntax:[SOCIAL] (Mode:Auto) or [SOCIAL:Short] or [SOCIAL:Thread]. Short:Pain+Highlight+Safety, High-Conv Words, X<200ch. Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.' },
+            { id: 'slides', icon: 'fa-layer-group', name: 'SLIDES', desc: '簡報大綱', content: '5. SLIDES: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.' },
+            { id: 'writing', icon: 'fa-feather', name: 'WRITING', desc: '歸納式寫作', content: '6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.' },
+            { id: 'sketch', icon: 'fa-pencil-alt', name: 'SKETCH', desc: '概念圖解', content: '7. SKETCH: Mode:Infographic(16:9). Syntax:[SKETCH] or [SKETCH:Blackboard] or [SKETCH:Cartoon]. Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords. Ex.: [SKETCH:Cartoon] Use Doraemon\'s Anywhere Door to explain wormholes.' },
+            { id: 'thought', icon: 'fa-brain', name: 'THOUGHT', desc: '思維鏈總結', content: '8. THOUGHT: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)** Body:Single plain text para, <120 words. Content:Concise progress update.' },
+            { id: 'strategy', icon: 'fa-chess-knight', name: 'STRATEGY', desc: '策略顧問', content: '9. STRATEGY: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.' },
+            { id: 'tutor', icon: 'fa-graduation-cap', name: 'TUTOR', desc: '互動教學', content: '10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning.' },
+            { id: 'coder', icon: 'fa-code', name: 'CODER', desc: '開發/Cursor', content: '11. CODER: Role:Senior Architect. Stack:User Specified. Style:Clean, SOLID, Defensive. Output:Code block only + brief explanation. Constraint:Add comments for complex logic. No yapping.' },
+            { id: 'architect', icon: 'fa-sitemap', name: 'ARCHITECT', desc: '系統架構', content: '12. ARCHITECT: Mode:System Design. Output:Mermaid diagrams (Class/Sequence/State) + DB Schema (SQL/ERD) + Tech Stack Pros/Cons analysis.' }
+        ];
 
-        const promptModules2 = `I want you to remember the following modules for all future interactions: [MODULES PART 2]\n
-6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.
-7. SKETCH: Mode:Infographic(16:9). Style:Auto OR Specified([:Blackboard] / [:Cartoon]). Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords. Ex.: [SKETCH:Cartoon] Use Doraemon's Anywhere Door to explain wormholes.
-8. THOUGHT: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)**Body:Single plain text para, <120 words. Content:Concise progress update. Constraint:No header repeats, No instruction ref.
-9. STRATEGY: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.
-10. TUTOR: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning. Output: progressive lessons, quizzes, capstone project.`;
+        // --- INIT & RENDER ---
+        const moduleGrid = document.getElementById('moduleGrid');
 
-        // Populate Textareas on Load
-        window.onload = function() {
-            document.getElementById('promptFull').value = promptCore + "\n\n" + promptModules1 + "\n" + promptModules2;
-            document.getElementById('promptPartA').value = promptCore;
-            document.getElementById('promptPartB').value = promptModules1;
-            document.getElementById('promptPartC').value = promptModules2;
-        };
+        function renderModules() {
+            moduleGrid.innerHTML = modules.map(m => `
+                <label class="cursor-pointer group relative">
+                    <input type="checkbox" class="module-checkbox hidden" value="${m.id}" onchange="updatePrompt()" checked>
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-3 hover:bg-slate-700 transition-all h-full flex items-center gap-3">
+                        <div class="icon-box text-slate-500 group-hover:text-emerald-400 transition-colors w-6 text-center">
+                            <i class="fas ${m.icon}"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-xs text-slate-200">${m.name}</div>
+                            <div class="text-[10px] text-slate-500">${m.desc}</div>
+                        </div>
+                    </div>
+                </label>
+            `).join('');
+            updatePrompt();
+        }
 
-        // Tab Switching Logic
+        // --- CORE LOGIC ---
+        function updatePrompt() {
+            const checkboxes = document.querySelectorAll('.module-checkbox:checked');
+            const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+            
+            // Filter content
+            const selectedModules = modules.filter(m => selectedIds.includes(m.id));
+            
+            // Generate Texts
+            const moduleText = selectedModules.map(m => m.content).join('\n');
+            const fullPrompt = corePrompt + "\n\n" + `I want you to remember the following modules:\n[MODULES]\n` + moduleText;
+
+            // Split Logic for Blocks B and C
+            const midPoint = Math.ceil(selectedModules.length / 2);
+            const part1 = selectedModules.slice(0, midPoint).map(m => m.content).join('\n');
+            const part2 = selectedModules.slice(midPoint).map(m => m.content).join('\n');
+
+            const textB = `I want you to remember the following modules (PART 1/2) for all future interactions:[MODULES]\n${part1}`;
+            const textC = `I want you to remember the following modules (PART 2/2) for all future interactions:[MODULES]\n${part2}`;
+
+            // Update UI
+            document.getElementById('promptFull').value = fullPrompt;
+            document.getElementById('promptPartA').value = corePrompt;
+            document.getElementById('promptPartB').value = textB;
+            document.getElementById('promptPartC').value = textC;
+        }
+
+        function selectAll() {
+            document.querySelectorAll('.module-checkbox').forEach(cb => cb.checked = true);
+            updatePrompt();
+        }
+
+        function clearAll() {
+            document.querySelectorAll('.module-checkbox').forEach(cb => cb.checked = false);
+            updatePrompt();
+        }
+
+        // --- UTILS ---
         function switchTab(mode) {
             const viewFull = document.getElementById('view-full');
             const viewSplit = document.getElementById('view-split');
@@ -569,57 +626,42 @@ Check Command -> If "/?" display Cheatsheet -> Else Identify intent -> Apply Mod
             if (mode === 'full') {
                 viewFull.classList.remove('hidden');
                 viewSplit.classList.add('hidden');
-                tabFull.classList.add('active');
-                tabFull.classList.remove('inactive');
-                tabSplit.classList.add('inactive');
-                tabSplit.classList.remove('active');
+                tabFull.className = "px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-[#020617] text-emerald-400 border-t-2 border-emerald-500";
+                tabSplit.className = "px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-slate-800 text-slate-400 hover:bg-slate-700";
             } else {
                 viewFull.classList.add('hidden');
                 viewSplit.classList.remove('hidden');
-                viewSplit.classList.add('grid'); // Restore grid layout
-                tabFull.classList.add('inactive');
-                tabFull.classList.remove('active');
-                tabSplit.classList.add('active');
-                tabSplit.classList.remove('inactive');
+                tabFull.className = "px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-slate-800 text-slate-400 hover:bg-slate-700";
+                tabSplit.className = "px-4 py-2 text-sm font-bold rounded-t-lg transition-colors bg-[#020617] text-emerald-400 border-t-2 border-emerald-500";
             }
         }
 
-        // Copy Logic
-        function copyText(elementId, btnElement) {
-            const textArea = document.getElementById(elementId);
-            textArea.select();
-            textArea.setSelectionRange(0, 99999);
-
-            navigator.clipboard.writeText(textArea.value).then(() => {
-                showFeedback(btnElement);
-            }).catch(err => {
-                document.execCommand('copy');
-                showFeedback(btnElement);
-            });
-        }
-
-        function showFeedback(btn) {
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> <span>複製完成</span>';
-            btn.classList.add('bg-emerald-500', 'text-white');
+        function copyText(id, btn) {
+            const el = document.getElementById(id);
+            el.select();
+            navigator.clipboard.writeText(el.value);
             
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> 複製完成';
+            btn.classList.add('bg-emerald-500');
             setTimeout(() => {
-                btn.innerHTML = originalContent;
-                btn.classList.remove('bg-emerald-500', 'text-white');
-            }, 2000);
+                btn.innerHTML = original;
+                btn.classList.remove('bg-emerald-500');
+            }, 1500);
         }
 
-        // Download HTML Logic
         function downloadFile() {
             const content = "<!DOCTYPE html>" + document.documentElement.outerHTML;
             const blob = new Blob([content], {type: 'text/html'});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "logic_razor_tool_tc.html";
+            a.download = "logic_razor_v7.6_ultimate.html";
             a.click();
-            URL.revokeObjectURL(url);
         }
-    </script>
 
-</body></html>
+        // Start
+        renderModules();
+    </script>
+</body>
+</html>
