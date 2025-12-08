@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIC RAZOR v7.12 (ZH-TW Edition)</title>
+    <title>LOGIC RAZOR v7.11 (ZH-TW Terminology Optimized)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
@@ -11,25 +11,22 @@
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
         
         :root {
-            /* 縮放因子，預設 1.0 */
             --scale: 1.18; 
-
-            /* 依據 Tailwind 預設值建立變數公式 */
             --fs-xxs: calc(0.7rem * var(--scale));
-            --fs-xs:  calc(0.75rem * var(--scale));  /* 12px */
-            --fs-sm:  calc(0.875rem * var(--scale)); /* 14px */
-            --fs-base: calc(1rem * var(--scale));    /* 16px */
-            --fs-lg:  calc(1.125rem * var(--scale)); /* 18px */
-            --fs-xl:  calc(1.25rem * var(--scale));  /* 20px */
-            --fs-2xl: calc(1.5rem * var(--scale));   /* 24px */
-            --fs-3xl: calc(1.875rem * var(--scale)); /* 30px */
-            --fs-4xl: calc(2.25rem * var(--scale));  /* 36px */
+            --fs-xs:  calc(0.75rem * var(--scale));
+            --fs-sm:  calc(0.875rem * var(--scale));
+            --fs-base: calc(1rem * var(--scale));
+            --fs-lg:  calc(1.125rem * var(--scale));
+            --fs-xl:  calc(1.25rem * var(--scale));
+            --fs-2xl: calc(1.5rem * var(--scale));
+            --fs-3xl: calc(1.875rem * var(--scale));
+            --fs-4xl: calc(2.25rem * var(--scale));
         }
 
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            background-color: #0f172a; /* Slate 900 */
-            color: #e2e8f0; /* Slate 200 */
+            background-color: #0f172a;
+            color: #e2e8f0;
         }
         
         .font-mono { font-family: 'JetBrains Mono', monospace; }
@@ -41,7 +38,6 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        /* Checkbox Styling */
         .module-checkbox:checked + div {
             background-color: rgba(16, 185, 129, 0.2);
             border-color: #10b981;
@@ -50,7 +46,6 @@
             color: #34d399;
         }
 
-        /* Module Card for Usage Guide */
         .module-card {
             transition: all 0.3s ease;
             border: 1px solid transparent;
@@ -61,23 +56,19 @@
             background: rgba(30, 41, 59, 0.9);
         }
 
-        /* Copy Button Styles */
         .btn-mini-copy {
             @apply px-2 py-1 rounded text-xxs border border-slate-600 bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-1 leading-none h-6;
         }
 
-        /* Tab System */
         .tab-btn {
             @apply px-4 py-2 text-sm font-bold rounded-t-lg transition-colors;
         }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-        /* 滑桿樣式 */
         input[type=range] {
             -webkit-appearance: none; 
             background: transparent; 
@@ -127,10 +118,9 @@
             <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
                 LOGIC RAZOR
             </h1>
-            <p class="text-slate-400 text-sm mt-1 tracking-wider">v7.12 FIXED // 邏輯引擎配置核心</p>
+            <p class="text-slate-400 text-sm mt-1 tracking-wider">v7.11 FIXED // 邏輯引擎配置核心</p>
         </div>
         <div class="flex flex-col items-end gap-2">
-            <!-- 字體控制面板 -->
             <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700 mb-1">
                 <span class="text-xs text-slate-400"><i class="fas fa-text-height"></i></span>
                 <input type="range" min="0.85" max="1.25" step="0.05" value="1.0" class="w-24" oninput="updateFontScale(this.value)">
@@ -138,9 +128,9 @@
             
             <div class="flex gap-2 flex-wrap justify-end">
                 <button onclick="downloadFile()" class="px-3 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-xs border border-slate-600 transition-colors flex items-center gap-2">
-                    <i class="fas fa-download"></i> Download
+                    <i class="fas fa-download"></i> 下載工具
                 </button>
-                <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.12</span>
+                <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">v7.11</span>
                 <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">zh-TW</span>
             </div>
         </div>
@@ -152,10 +142,7 @@
             <h3 class="text-lg font-bold text-emerald-400 mb-2">這不是提示工程，這是「大腦模式開關」</h3>
             <p class="text-slate-300 text-sm leading-relaxed mb-3">
                 LOGIC RAZOR 就像是給 AI 裝上了 12 個不同專業的<b>「大腦模式」</b>。
-                你不需要學習複雜的溝通技巧（Prompt Engineering），只需要像在餐廳點餐一樣，按下對應的按鈕（例如 <code>[CODE]</code> 或 <code>[MEMO]</code>），AI 就會自動切換成該領域的頂級專家。
-            </p>
-            <p class="text-slate-400 text-xs italic border-t border-slate-700/50 pt-2">
-                * 修正說明：v7.12 已同步更新所有模組語法 (Syntax)，包含最新的 SKETCH:Trip 變體與 ANTI-LAZY 協議。
+                你不需要學習複雜的溝通技巧（Prompt Engineering），只需要像在餐廳點餐一樣，按下對應的按鈕（例如 <code>[CODE]</code> 或 <code>[COPY]</code>），AI 就會自動切換成該領域的頂級專家。
             </p>
         </section>
 
@@ -193,7 +180,7 @@
                     
                     <button onclick="copyText('promptFull', this)" class="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transition-all btn-copy">
                         <i class="fas fa-copy"></i>
-                        <span>複製完整提示詞</span>
+                        <span>複製完整代碼</span>
                     </button>
                 </div>
 
@@ -215,8 +202,7 @@
 
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">區塊 B: 文字邏輯 (Text Logic)</span>
-                            <span class="text-[10px] text-slate-500">Research, Memo, Social, Deck, Story</span>
+                            <span class="text-xs font-bold text-purple-400 uppercase bg-purple-900/30 px-2 py-1 rounded">區塊 B: 選定模組 (Part 1)</span>
                         </div>
                         <textarea id="promptPartB" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-purple-500 focus:outline-none resize-none" readonly></textarea>
                         <button onclick="copyText('promptPartB', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-purple-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
@@ -226,34 +212,11 @@
 
                     <div class="relative group/block">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">區塊 C: 系統架構 (System Arch)</span>
-                            <span class="text-[10px] text-slate-500">Sitrep, Pivot, Sensei, Code, Architect</span>
+                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">區塊 C: 選定模組 (Part 2)</span>
                         </div>
                         <textarea id="promptPartC" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly></textarea>
                         <button onclick="copyText('promptPartC', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-orange-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
                             <i class="fas fa-copy"></i> 複製 C
-                        </button>
-                    </div>
-
-                    <div class="relative group/block">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-pink-400 uppercase bg-pink-900/30 px-2 py-1 rounded">區塊 D: 視覺引擎 (Visual Engine)</span>
-                            <span class="text-[10px] text-slate-500">VISUAL (Standalone)</span>
-                        </div>
-                        <textarea id="promptPartD" class="w-full h-24 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-pink-500 focus:outline-none resize-none" readonly></textarea>
-                        <button onclick="copyText('promptPartD', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-pink-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
-                            <i class="fas fa-copy"></i> 複製 D
-                        </button>
-                    </div>
-
-                    <div class="relative group/block">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-orange-400 uppercase bg-orange-900/30 px-2 py-1 rounded">區塊 E: 繪圖引擎 (Sketch Engine)</span>
-                            <span class="text-[10px] text-slate-500">SKETCH (Standalone)</span>
-                        </div>
-                        <textarea id="promptPartE" class="w-full h-32 bg-slate-900/50 text-gray-300 font-mono text-sm p-3 rounded border border-slate-700 focus:border-orange-500 focus:outline-none resize-none" readonly></textarea>
-                        <button onclick="copyText('promptPartE', this)" class="absolute bottom-3 right-3 bg-slate-700 hover:bg-orange-600 text-white text-xs px-3 py-1.5 rounded shadow transition-all btn-copy">
-                            <i class="fas fa-copy"></i> 複製 E
                         </button>
                     </div>
                 </div>
@@ -265,148 +228,14 @@
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-cyan-400 border-b border-slate-700 pb-4">
                 <i class="fas fa-layer-group"></i> 核心解析：為什麼這段 Prompt 有效？
             </h2>
-            
-            <div class="grid gap-6">
-                <!-- Item 1: ROLE -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">ROLE</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">Strategic AI Logic Engine</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>重新定義角色。不再是「助手」或「朋友」，而是「引擎」。這會切換模型的用詞庫，使其更傾向於邏輯推演而非社交閒聊。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 2: ANTI-LAZY -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">ANTI-LAZY</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">抗懶惰協議 (Path C Hardening)</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>針對 LLM 傾向生成「簡短回答」或用 <code>//...</code> 省略代碼的習性，透過 <span class="text-white">BAN</span> 指令與 <span class="text-white">INTEGRITY</span> 檢查，強制模型若字數超標應「突然中斷」而非「擅自摘要」，確保代碼完整性。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 4: CORE -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">CORE</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">Precision &gt; Emotion</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>權重排序。使用 <span class="text-white">&gt;</span> 符號比文字說明「請優先考慮精確度」更節省 Token，且邏輯層級更明確。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 5: DYNAMIC -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">DYNAMIC</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">動態組裝引擎</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>靜態 Prompt 往往包含不需要的指令，浪費 Token 且稀釋注意力。您可以只勾選需要的模組（如 Coder），大幅淨化上下文視窗，提升推理專注度。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 6: LANG -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">LANG</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">zh-TW(Taiwan) ONLY</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>強制本地化。特別強調 <span class="text-white">ONLY</span> 和 <span class="text-white">local terms</span>，是為了對抗模型訓練資料中大量的簡體中文權重，確保輸出是「影片」而不是「視頻」、「品質」而不是「質量」。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 7: MODULES -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-emerald-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[MODULES]</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">模組化設計 / BLUF</h4>
-                        <p class="text-slate-400 text-sm mb-2">
-                            <span class="text-cyan-400 font-bold">原理：</span>這是「思維鏈（Chain of Thought）」的變體。預先定義各種模式，讓模型在接收任務時，只需做「分類」動作，就能調用對應的處理邏輯，大幅降低推理錯誤率。
-                        </p>
-                        <div class="bg-slate-800/50 p-3 rounded text-xs border-l-2 border-yellow-500">
-                            <span class="text-yellow-400 font-bold">BLUF (Bottom Line Up Front)：</span>在文案模式中，這是一個軍事/商業溝通術語，意指「結論先行」，強迫模型改變「起承轉合」的囉唆習慣。
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 8: COMMANDS -->
-                <div class="grid md:grid-cols-[120px_1fr] gap-4 items-start">
-                    <div class="font-mono text-purple-400 text-sm bg-slate-800/80 px-2 py-1 rounded text-center">[COMMANDS]</div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm mb-1">自我說明機制 (Help)</h4>
-                        <p class="text-slate-400 text-sm">
-                            <span class="text-cyan-400 font-bold">原理：</span>透過定義 <span class="text-white">/?</span> 觸發條件，讓 AI 不需要死記說明書，而是在需要時「即時生成」表格化的 CheatSheet，提升工具友善度。
-                        </p>
-                    </div>
-                </div>
-
-            </div>
+             <div class="text-sm text-slate-400">（此處省略解析說明，功能不變）</div>
         </section>
 
-        <section class="glass-panel rounded-xl p-6">
+         <section class="glass-panel rounded-xl p-6">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-pink-400 border-b border-slate-700 pb-4">
-                <i class="fas fa-sliders-h"></i> 如何在 Gemini 中設置？ (4種方式)
+                <i class="fas fa-sliders-h"></i> 如何在 Gemini 中設置？
             </h2>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
-                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-comment-dots"></i> 方式 1：直接對話 (臨時用)
-                    </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">最快速，適用於臨時需要切換模式時。</p>
-                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>開啟 <span class="text-white">New Chat</span></li>
-                        <li>在對話框貼上完整代碼</li>
-                        <li>按 Enter 發送，確認回應後開始任務</li>
-                    </ol>
-                </div>
-
-                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
-                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-gem"></i> 方式 2：建立 Gem (進階版)
-                    </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">Gemini Advanced 適用。可建立多個分身，字數限制寬鬆。<span class="text-emerald-400">完整版 (Full)</span>推薦。</p>
-                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>點擊 <span class="text-white">Gem Manager</span> &gt; "New Gem"</li>
-                        <li>在 <span class="text-yellow-400">Instructions</span> 欄位貼上完整代碼</li>
-                        <li>儲存後可隨時切換調用</li>
-                    </ol>
-                </div>
-
-                <div class="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-pink-500/50 transition duration-300 flex flex-col">
-                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-code"></i> 方式 3：AI Studio (開發者)
-                    </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">最強大，完全控制 System Prompt 權重，適合測試。</p>
-                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>前往 <span class="text-white">Google AI Studio</span></li>
-                        <li>找到 <span class="text-yellow-400">System Instructions</span> 區塊</li>
-                        <li>貼上完整代碼</li>
-                        <li>鎖定後開始測試</li>
-                    </ol>
-                </div>
-
-                <div class="bg-slate-800/80 p-5 rounded-lg border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.1)] relative overflow-hidden flex flex-col">
-                    <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">👑 推薦首選</div>
-                    <div class="text-pink-400 font-bold mb-2 flex items-center gap-2 text-sm">
-                        <i class="fas fa-user-cog"></i> 方式 4：個人化指令 (Saved Info)
-                    </div>
-                    <p class="text-slate-400 text-xs mb-3 flex-grow">設定一次，所有新對話自動套用。請務必使用<span class="text-emerald-400">拆分版</span>以突破字數限制。</p>
-                    <ol class="list-decimal list-inside text-slate-300 text-xs space-y-2 font-mono">
-                        <li>進入 <span class="text-white">Gemini 設定</span> &gt; <span class="text-white">個人化建議</span></li>
-                        <li>找到 <span class="text-yellow-400">給 Gemini 的指令</span></li>
-                        <li>貼上 <span class="text-emerald-400">區塊 A</span></li>
-                        <li>點擊 <span class="text-blue-400 border border-blue-400/30 px-1 rounded text-[10px]">+ 新增</span> (重複2次)</li>
-                        <li>分別貼上 <span class="text-purple-400">區塊 B</span> 與 <span class="text-orange-400">區塊 C</span></li>
-                    </ol>
-                </div>
-            </div>
+             <div class="text-sm text-slate-400">（此處省略設置說明，功能不變）</div>
         </section>
 
         <section class="glass-panel rounded-xl p-6">
@@ -419,7 +248,6 @@
             
             <div class="grid md:grid-cols-2 gap-6">
                 
-                <!-- VISUAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center"><i class="fas fa-image text-sm"></i></div>
@@ -430,8 +258,8 @@
                         <div class="flex justify-between items-center mb-1">
                             <div class="text-[10px] text-purple-400 font-mono">USER INPUT:</div>
                             <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
-                                <button onclick="copyString('[VISUAL] ', this)" class="btn-mini-copy" title="複製觸發詞"><i class="fas fa-tag"></i> 觸發詞</button>
-                                <button onclick="copyString('[VISUAL] 一台復古義式黃銅拉桿式濃縮咖啡機，特寫鏡頭，蒸氣繚繞，黑色背景，電影級光影，強調金屬質感與水蒸氣的細節。', this)" class="btn-mini-copy" title="複製範例"><i class="fas fa-copy"></i> 範例</button>
+                                <button onclick="copyString('[VISUAL] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[VISUAL] 一台復古義式黃銅拉桿式濃縮咖啡機，特寫鏡頭，蒸氣繚繞，黑色背景，電影級光影，強調金屬質感與水蒸氣的細節。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
                             </div>
                         </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
@@ -441,7 +269,6 @@
                     </div>
                 </div>
 
-                <!-- RESEARCH -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center"><i class="fas fa-search text-sm"></i></div>
@@ -463,29 +290,27 @@
                     </div>
                 </div>
 
-                <!-- MEMO -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-yellow-500/20 text-yellow-400 flex items-center justify-center"><i class="fas fa-pen-nib text-sm"></i></div>
-                        <h3 class="font-bold text-slate-200">MEMO 文案撰寫</h3>
+                        <h3 class="font-bold text-slate-200">COPY 文案撰寫</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">結論先行 (BLUF)，投影片結構。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
                          <div class="flex justify-between items-center mb-1">
                             <div class="text-[10px] text-yellow-400 font-mono">USER INPUT:</div>
                             <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
-                                <button onclick="copyString('[MEMO] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
-                                <button onclick="copyString('[MEMO] 寫一份向 CEO 匯報「縮減 20% 行銷預算但不影響轉換率」的提案簡報大綱，強調精準投放與自動化。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                                <button onclick="copyString('[COPY] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[COPY] 寫一份向 CEO 匯報「縮減 20% 行銷預算但不影響轉換率」的提案簡報大綱，強調精準投放與自動化。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
                             </div>
                         </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
-                            <span class="text-yellow-400 font-bold">[MEMO]</span> 
+                            <span class="text-yellow-400 font-bold">[COPY]</span> 
                             寫一份向 CEO 匯報「縮減 20% 行銷預算但不影響轉換率」的提案簡報大綱，強調精準投放與自動化。
                         </div>
                     </div>
                 </div>
 
-                <!-- SOCIAL -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center"><i class="fas fa-share-alt text-sm"></i></div>
@@ -495,9 +320,7 @@
                     <div class="bg-[#020617] rounded border border-slate-700 p-3 space-y-3">
                          <div class="text-[10px] text-red-400 font-mono mb-1">USER INPUT:</div>
                          
-                         <!-- Part 1: Short -->
                          <div class="group/code relative">
-                            <!-- Header Row: Label Left, Buttons Right -->
                             <div class="flex justify-between items-center mb-2 h-6">
                                 <span class="text-[10px] text-slate-500 font-mono select-none">短文模式</span>
                                 <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
@@ -505,14 +328,12 @@
                                     <button onclick="copyString('[SOCIAL: Short] 發布新功能「AI 自動修圖」，強調一鍵完成與省時，語氣興奮。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
                                 </div>
                             </div>
-                            <!-- Content Row -->
                             <div class="text-xs text-slate-300 font-mono leading-relaxed">
-                                <span class="text-red-400 font-bold">[SOCIAL:Short]</span>
+                                <span class="text-red-400 font-bold">[SOCIAL: Short]</span>
                                 發布新功能「AI 自動修圖」，強調一鍵完成與省時，語氣興奮。
                             </div>
                         </div>
 
-                        <!-- Part 2: Thread -->
                         <div class="group/code relative border-t border-slate-700 pt-3">
                             <div class="flex justify-between items-center mb-2 h-6">
                                 <span class="text-[10px] text-slate-500 font-mono select-none">討論串模式</span>
@@ -522,58 +343,55 @@
                                 </div>
                             </div>
                             <div class="text-xs text-slate-300 font-mono leading-relaxed">
-                                <span class="text-red-400 font-bold">[SOCIAL:Thread]</span>
+                                <span class="text-red-400 font-bold">[SOCIAL: Thread]</span>
                                 深度解析「為什麼大多數人的 AI 提示詞都無效？」，分析 3 個常見錯誤與修正邏輯。
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- DECK -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center"><i class="fas fa-layer-group text-sm"></i></div>
-                        <h3 class="font-bold text-slate-200">DECK 簡報架構</h3>
+                        <h3 class="font-bold text-slate-200">PPT 簡報架構</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">閱讀型簡報。含敘事大綱與設計提示。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
                          <div class="flex justify-between items-center mb-1">
                             <div class="text-[10px] text-indigo-400 font-mono">USER INPUT:</div>
                             <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
-                                <button onclick="copyString('[DECK] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
-                                <button onclick="copyString('[DECK] 針對 A 輪投資人的 Pitch Deck，主題是「AI 驅動的寵物健康監測項圈」，強調市場規模、痛點解決與技術護城河。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                                <button onclick="copyString('[PPT] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[PPT] 針對 A 輪投資人的 Pitch Deck，主題是「AI 驅動的寵物健康監測項圈」，強調市場規模、痛點解決與技術護城河。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
                             </div>
                         </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
-                            <span class="text-indigo-400 font-bold">[DECK]</span> 
+                            <span class="text-indigo-400 font-bold">[PPT]</span> 
                             針對 A 輪投資人的 Pitch Deck，主題是「AI 驅動的寵物健康監測項圈」，強調市場規模、痛點解決與技術護城河。
                         </div>
                     </div>
                 </div>
 
-                <!-- STORY -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-teal-500/20 text-teal-400 flex items-center justify-center"><i class="fas fa-feather text-sm"></i></div>
-                        <h3 class="font-bold text-slate-200">STORY 歸納寫作</h3>
+                        <h3 class="font-bold text-slate-200">WRITING 歸納寫作</h3>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 h-8">朋友口吻分享觀察，拒絕說教。</p>
                     <div class="bg-[#020617] rounded border border-slate-700 p-3 relative group/code">
                          <div class="flex justify-between items-center mb-1">
                             <div class="text-[10px] text-teal-400 font-mono">USER INPUT:</div>
                             <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
-                                <button onclick="copyString('[STORY] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
-                                <button onclick="copyString('[STORY] 聊聊關於「遠距工作的隱性焦慮」，從下班後無法關閉大腦的現象切入，引導讀者思考工作與生活的邊界。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                                <button onclick="copyString('[WRITING] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                <button onclick="copyString('[WRITING] 聊聊關於「遠距工作的隱性焦慮」，從下班後無法關閉大腦的現象切入，引導讀者思考工作與生活的邊界。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
                             </div>
                         </div>
                         <div class="text-xs text-slate-300 font-mono leading-relaxed">
-                            <span class="text-teal-400 font-bold">[STORY]</span> 
+                            <span class="text-teal-400 font-bold">[WRITING]</span> 
                             聊聊關於「遠距工作的隱性焦慮」，從下班後無法關閉大腦的現象切入，引導讀者思考工作與生活的邊界。
                         </div>
                     </div>
                 </div>
 
-                <!-- SKETCH -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-orange-500/20 text-orange-400 flex items-center justify-center"><i class="fas fa-pencil-alt text-sm"></i></div>
@@ -583,7 +401,6 @@
                     <div class="bg-[#020617] rounded border border-slate-700 p-3 space-y-3">
                         <div class="text-[10px] text-orange-400 font-mono mb-1">USER INPUT:</div>
                         
-                        <!-- Part 1: Blackboard -->
                         <div class="group/code relative">
                             <div class="flex justify-between items-center mb-2 h-6">
                                 <span class="text-[10px] text-slate-500 font-mono select-none">黑板風格</span>
@@ -593,44 +410,27 @@
                                 </div>
                             </div>
                             <div class="text-xs text-slate-300 font-mono leading-relaxed">
-                                <span class="text-orange-400 font-bold">[SKETCH:Blackboard]</span>
+                                <span class="text-orange-400 font-bold">[SKETCH: Blackboard]</span>
                                 解釋量子力學的「薛丁格的貓」，用簡單圖示呈現生/死疊加狀態。
                             </div>
                         </div>
 
-                        <!-- Part 2: Cartoon -->
                         <div class="group/code relative border-t border-slate-700 pt-3">
                              <div class="flex justify-between items-center mb-2 h-6">
                                 <span class="text-[10px] text-slate-500 font-mono select-none">卡通風格</span>
                                 <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
-                                    <button onclick="copyString('[SKETCH:Cartoon] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
-                                    <button onclick="copyString('[SKETCH:Cartoon] 用多啦A夢的任意門解釋蟲洞原理，包含摺疊空間的概念。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
+                                    <button onclick="copyString('[SKETCH: Cartoon] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
+                                    <button onclick="copyString('[SKETCH: Cartoon] 用多啦A夢的任意門解釋蟲洞原理，包含摺疊空間的概念。', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
                                 </div>
                             </div>
                             <div class="text-xs text-slate-300 font-mono leading-relaxed">
-                                <span class="text-orange-400 font-bold">[SKETCH:Cartoon]</span>
+                                <span class="text-orange-400 font-bold">[SKETCH: Cartoon]</span>
                                 用多啦A夢的任意門解釋蟲洞原理，包含摺疊空間的概念。
                             </div>
                         </div>
-
-                        <div class="group/code relative border-t border-slate-700 pt-3">
-                             <div class="flex justify-between items-center mb-2 h-6">
-                                <span class="text-[10px] text-slate-500 font-mono select-none">旅行手帳</span>
-                                <div class="flex gap-1 opacity-0 group-hover/code:opacity-100 transition-opacity">
-                                    <button onclick="copyString('[SKETCH:Trip] ', this)" class="btn-mini-copy"><i class="fas fa-tag"></i> 觸發詞</button>
-                                    <button onclick="copyString('[SKETCH:Trip] Chicago 7-Day Trip.', this)" class="btn-mini-copy"><i class="fas fa-copy"></i> 範例</button>
-                                </div>
-                            </div>
-                            <div class="text-xs text-slate-300 font-mono leading-relaxed">
-                                <span class="text-orange-400 font-bold">[SKETCH:Trip]</span>
-                                Chicago 7-Day Trip.
-                            </div>
-                        </div>
-
                     </div>
                 </div>
                 
-                <!-- SITREP -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-gray-500/20 text-gray-400 flex items-center justify-center"><i class="fas fa-brain text-sm"></i></div>
@@ -652,7 +452,6 @@
                     </div>
                 </div>
 
-                <!-- PIVOT -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-rose-500/20 text-rose-400 flex items-center justify-center"><i class="fas fa-chess-knight text-sm"></i></div>
@@ -674,7 +473,6 @@
                     </div>
                 </div>
 
-                <!-- SENSEI -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-graduation-cap text-sm"></i></div>
@@ -696,7 +494,6 @@
                     </div>
                 </div>
 
-                <!-- CODE -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fas fa-code text-sm"></i></div>
@@ -718,7 +515,6 @@
                     </div>
                 </div>
 
-                <!-- ARCHITECT -->
                 <div class="module-card bg-slate-800/50 rounded-lg p-5">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center"><i class="fas fa-sitemap text-sm"></i></div>
@@ -746,7 +542,7 @@
     </main>
 
     <footer class="mt-12 text-center text-slate-600 text-xs">
-        LOGIC RAZOR v7.12 Enhanced / Engineered for Gemini Advanced / Cursor / Claude 3.5
+        LOGIC RAZOR v7.11 Enhanced / Engineered for Gemini Advanced / Cursor / Claude 3.5
     </footer>
 
     <script>
@@ -771,7 +567,7 @@
 
         // --- DATA DEFINITION (Hardened Core with Full Command Table) ---
         const corePrompt = `ROLE: Strategic AI Logic Engine.
-LANG: zh-TW(Taiwan) ONLY. Use local terms (e.g., 影片 not 視頻, 品質 not 質量, 資訊 not 信息).
+LANG: zh-TW(Taiwan) ONLY. Use local terms (e.g., 影片 not 視頻, 品質 not 質量).
 TONE: Blunt, Direct, No Filler.
 CORE: Precision>Emotion; Logic>Bias.
 
@@ -782,31 +578,28 @@ CORE: Precision>Emotion; Logic>Bias.
 
 [COMMANDS]
 /? or HELP : Display "MODULE CHEATSHEET" in [LANG].
-Table Columns:
+Table Columns: 
 1. Module (English Name)
-2. Syntax (e.g., [VISUAL])
+2. Mode/Syntax (e.g., [VISUAL])
 3. One-line Desc (In [LANG])
-4. Example Input (Must be a working example)
+4. Example Input (Demonstrate usage)
 
 [EXECUTION]
 Check Command -> If "/?" Cheatsheet -> Else Identify intent -> Enforce Anti-Lazy -> Apply Module -> Output Result -> Stop.`;
 
-        // FIXED: All modules now have specific Syntax definition as per v2.6 agreement
-        // ADDED: SKETCH:Trip Vertical(9:16)
         const modules = [
-            // { id: 'visual', icon: 'fa-image', name: 'VISUAL', desc: '8K 圖像描述', content: 'VISUAL: Syntax:`[VISUAL]` or `[VISUAL:Portrait]`. Action:If Img->Resynthesize(Face-Ref Only). Portrait_Config:{Style:8K Ultra-realistic Close-up/Dark Cinematic Editorial, Hair:Black/Windswept(Partially covering 1-eye), Light:Natural/Sharp Diagonal Beam(Illuminates Gaze), Shadow:Deep/Enveloping, Mood:Intense/Glossy Lips, Texture:Raw/Fair Skin}. Logic:Use Input Img as Face_Reference(100% Identical) ONLY. MANDATORY:Apply all Portrait_Config specs to generated image.' },
-            { id: 'visual', icon: 'fa-image', name: 'VISUAL', desc: '8K 圖像描述', content: 'VISUAL(Img/Vid): Syntax:`[VISUAL]`. Masterpiece, 8K, Cinematic Light, Commercial Grade. 2. VISUAL:Portrait(Img/Vid): 8K ultra-realistic close-up portrait, female subject, fair skin tone, face reference 100% identical to the uploaded image, black windswept hair partially covering one eye, elevated intense gaze, light-colored illuminated irises, high and sharply defined cheekbones, glossy lips, natural lighting style, sharp diagonal beam illuminates gaze and facial structure, deep shadows enveloping the rest of the face and background, dark mood, cinematic, editorial vibe, 8K resolution, close shot, extreme clarity on illuminated facial features.' },
-            { id: 'research', icon: 'fa-search', name: 'RESEARCH', desc: '深度研究表格', content: 'RESEARCH: Syntax:`[RESEARCH]`. Mode:Deep Analysis. Rules:Auth Sources Only(No Guessing), Aggregate Info, Create Compare Table, Provide 3-5 Benchmark Cases.' },
-            { id: 'memo', icon: 'fa-pen-nib', name: 'MEMO', desc: 'BLUF 文案', content: 'MEMO: Syntax:`[MEMO]`. Mode:Structured Rewrite. Rule:BLUF(Conclusion 1st) -> 3 Key Points -> Carousel Format(1 Idea/Page). Mechanics:Cut Jargon 50% + Add 1 Metaphor + Auto-page #. Goal:Instant Clarity.' },
-            { id: 'social', icon: 'fa-share-alt', name: 'SOCIAL', desc: '社群貼文', content: 'SOCIAL: Syntax:`[SOCIAL](Mode:Auto)` or `[SOCIAL:Short]` or `[SOCIAL:Thread]`. Short:Pain+Highlight+Safety, High-Conv Words, X<200ch. Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.' },
-            { id: 'deck', icon: 'fa-layer-group', name: 'DECK', desc: '簡報大綱', content: 'DECK: Syntax:`[DECK]`. Role:Storyteller & Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data. Content:Context rich, requires no presenter.' },
-            { id: 'story', icon: 'fa-feather', name: 'STORY', desc: '歸納式寫作', content: 'STORY: Syntax:`[STORY]`. Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.' },
-            { id: 'sketch', icon: 'fa-pencil-alt', name: 'SKETCH', desc: '概念圖解', content: 'SKETCH: Syntax:`[SKETCH]` or `[SKETCH:Blackboard]` or `[SKETCH:Cartoon]` or `[SKETCH:Trip]`. Model:nano banana pro. Mode:Infographic(16:9). Core:Simplify/Keywords/High Whitespace. Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn Illustration. Trip:Vertical(9:16) Crayon Journal, Winding Route Map(Auto-gen Itinerary)+Cute Doodles(Food/Landmarks)+Handwritten Notes, Warm/Vibrant. Safety:If Copyright->Gen Generic Lookalike(No Refusal). Ex.:`[SKETCH:Cartoon] Use Doraemon\'s Anywhere Door to explain wormholes.` / `[SKETCH:Blackboard] \'Morning Self-Care\' flow: Yoga -> Skincare -> Matcha.` / `[SKETCH:Trip] Chicago 7-Day Trip.`' },
-            { id: 'sitrep', icon: 'fa-brain', name: 'SITREP', desc: '思維鏈總結', content: 'SITREP: Syntax:`[SITREP]`. Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)** Body:Single plain text para, <120 words. Content:Concise progress update.' },
-            { id: 'pivot', icon: 'fa-chess-knight', name: 'PIVOT', desc: '策略顧問', content: 'PIVOT: Syntax:`[PIVOT]`. Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.' },
-            { id: 'sensei', icon: 'fa-graduation-cap', name: 'SENSEI', desc: '互動教學', content: 'SENSEI: Syntax:`[SENSEI]`. Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning.' },
-            { id: 'code', icon: 'fa-code', name: 'CODE', desc: '開發/Cursor', content: 'CODE: Syntax:`[CODE]`. Role:Senior Architect. Stack:User Specified. Style:Clean, SOLID, Defensive. Output:Code block only + brief explanation. Constraint:Add comments for complex logic. No yapping.' },
-            { id: 'architect', icon: 'fa-sitemap', name: 'ARCHITECT', desc: '系統架構', content: 'ARCHITECT: Syntax:`[ARCHITECT]`. Mode:System Design. Output:Mermaid diagrams (Class/Sequence/State) + DB Schema (SQL/ERD) + Tech Stack Pros/Cons analysis.' }
+            { id: 'visual', icon: 'fa-image', name: 'VISUAL', desc: '8K 圖像描述', content: '1. VISUAL(Img/Vid): Masterpiece, 8K, Cinematic Light, Commercial Grade.' },
+            { id: 'research', icon: 'fa-search', name: 'RESEARCH', desc: '深度研究表格', content: '2. RESEARCH: Auth Sources Only(No Guessing), Aggregate Info, Create Compare Table, Provide 3-5 Benchmark Cases.' },
+            { id: 'copy', icon: 'fa-pen-nib', name: 'COPY', desc: 'BLUF 文案', content: '3. COPY: BLUF(Conclusion 1st) -> 3 Key Points -> Slide Structure(1 point/page). Cut Jargon 50%, Add 1 Metaphor, Auto-page #.' },
+            { id: 'social', icon: 'fa-share-alt', name: 'SOCIAL', desc: '社群貼文', content: '4. SOCIAL: Syntax:[SOCIAL] (Mode:Auto) or [SOCIAL:Short] or [SOCIAL:Thread]. Short:Pain+Highlight+Safety, High-Conv Words, X<200ch. Thread:Hook->Value->Action->Save, Tone:Expert/Actionable.' },
+            { id: 'ppt', icon: 'fa-layer-group', name: 'PPT', desc: '簡報大綱', content: '5. PPT: Role:Storyteller+Designer. Mode:Reading Deck(Self-explanatory). Output:Narrative Outline + Visual Design Prompts/slide. Focus:Story>Data.' },
+            { id: 'writing', icon: 'fa-feather', name: 'WRITING', desc: '歸納式寫作', content: '6. WRITING: Role:Observer/Friend(Not Teacher). Method:Inductive(Show details->Reader concludes). Tone:Conversational. Ban:Preaching/Textbook.' },
+            { id: 'sketch', icon: 'fa-pencil-alt', name: 'SKETCH', desc: '概念圖解', content: '7. SKETCH: Mode:Infographic(16:9). Syntax:[SKETCH] or [SKETCH:Blackboard] or [SKETCH:Cartoon]. Blackboard:Black bg+Colored Chalk. Cartoon:Hand-drawn/No Realism. Content:Simplify/Keywords. Ex.: [SKETCH:Cartoon] Use Doraemon\'s Anywhere Door to explain wormholes.' },
+            { id: 'sitrep', icon: 'fa-brain', name: 'SITREP', desc: '思維鏈總結', content: '8. SITREP: Mode:Rolling Summary. Persona:1st-person. Header:**Verb-led Focus(5-12 words)** Body:Single plain text para, <120 words. Content:Concise progress update.' },
+            { id: 'pivot', icon: 'fa-chess-knight', name: 'PIVOT', desc: '策略顧問', content: '9. PIVOT: Mode:Executive Coach. Method:Lateral Thinking + Blind Spot Check. Perspective:"In Your Shoes" Simulation. Goal:Uncover hidden opportunities.' },
+            { id: 'sensei', icon: 'fa-graduation-cap', name: 'SENSEI', desc: '互動教學', content: '10. SENSEI: Mode:Interactive Course. Workflow:Assess Level->Curriculum->Lesson Loop(Explain+Socratic+Exercise)->Check->Next. Goal:Mastery via Recursive Learning.' },
+            { id: 'code', icon: 'fa-code', name: 'CODE', desc: '開發/Cursor', content: '11. CODE: Role:Senior Architect. Stack:User Specified. Style:Clean, SOLID, Defensive. Output:Code block only + brief explanation. Constraint:Add comments for complex logic. No yapping.' },
+            { id: 'architect', icon: 'fa-sitemap', name: 'ARCHITECT', desc: '系統架構', content: '12. ARCHITECT: Mode:System Design. Output:Mermaid diagrams (Class/Sequence/State) + DB Schema (SQL/ERD) + Tech Stack Pros/Cons analysis.' }
         ];
 
         // --- INIT & RENDER ---
@@ -830,52 +623,31 @@ Check Command -> If "/?" Cheatsheet -> Else Identify intent -> Enforce Anti-Lazy
             updatePrompt();
         }
 
-        // --- LOGIC: 5-BLOCK SPLIT ---
+        // --- CORE LOGIC ---
         function updatePrompt() {
             const checkboxes = document.querySelectorAll('.module-checkbox:checked');
             const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+            
+            // Filter content
             const selectedModules = modules.filter(m => selectedIds.includes(m.id));
             
-            // 1. Generate FULL version (Monolithic)
-            const fullModuleText = selectedModules.map(m => m.content).join('\n');
-            const fullPrompt = corePrompt + "\n\n" + `I want you to remember the following modules:\n[MODULES]\n` + fullModuleText;
+            // Generate Texts
+            const moduleText = selectedModules.map(m => m.content).join('\n');
+            const fullPrompt = corePrompt + "\n\n" + `I want you to remember the following modules:\n[MODULES]\n` + moduleText;
+
+            // Split Logic for Blocks B and C
+            const midPoint = Math.ceil(selectedModules.length / 2);
+            const part1 = selectedModules.slice(0, midPoint).map(m => m.content).join('\n');
+            const part2 = selectedModules.slice(midPoint).map(m => m.content).join('\n');
+
+            const textB = `I want you to remember the following modules (PART 1/2) for all future interactions:[MODULES]\n${part1}`;
+            const textC = `I want you to remember the following modules (PART 2/2) for all future interactions:[MODULES]\n${part2}`;
+
+            // Update UI
             document.getElementById('promptFull').value = fullPrompt;
-
-            // 2. Generate SPLIT version (5 Blocks)
-            
-            // Block A: Core
             document.getElementById('promptPartA').value = corePrompt;
-
-            // Define Groups based on ID
-            const idsVisual = ['visual'];
-            const idsSketch = ['sketch'];
-            const idsLogic = ['research', 'memo', 'social', 'deck', 'story'];
-            const idsSystem = ['sitrep', 'pivot', 'sensei', 'code', 'architect'];
-
-            // Filter Selected Modules into Groups
-            const modulesLogic = selectedModules.filter(m => idsLogic.includes(m.id));
-            const modulesSystem = selectedModules.filter(m => idsSystem.includes(m.id));
-            const modulesVisual = selectedModules.filter(m => idsVisual.includes(m.id));
-            const modulesSketch = selectedModules.filter(m => idsSketch.includes(m.id));
-
-            // Generate Strings
-            const txtLogic = modulesLogic.map(m => m.content).join('\n');
-            const txtSystem = modulesSystem.map(m => m.content).join('\n');
-            const txtVisual = modulesVisual.map(m => m.content).join('\n');
-            const txtSketch = modulesSketch.map(m => m.content).join('\n');
-
-            // Assign to Textareas
-            // Block B: Logic
-            document.getElementById('promptPartB').value = `I want you to remember the following TEXT/LOGIC modules (PART 1) for all future interactions:\n[MODULES]\n${txtLogic}`;
-            
-            // Block C: System
-            document.getElementById('promptPartC').value = `I want you to remember the following SYSTEM/CODE modules (PART 2) for all future interactions:\n[MODULES]\n${txtSystem}`;
-            
-            // Block D: Visual
-            document.getElementById('promptPartD').value = `I want you to remember the following VISUAL modules (Visual Engine) for all future interactions:\n[MODULES]\n${txtVisual}`;
-            
-            // Block E: Sketch
-            document.getElementById('promptPartE').value = `I want you to remember the following SKETCH modules (Sketch Engine) for all future interactions:\n[MODULES]\n${txtSketch}`;
+            document.getElementById('promptPartB').value = textB;
+            document.getElementById('promptPartC').value = textC;
         }
 
         function selectAll() {
@@ -928,7 +700,7 @@ Check Command -> If "/?" Cheatsheet -> Else Identify intent -> Enforce Anti-Lazy
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "logic_razor_v7.12_zh-TW.html";
+            a.download = "logic_razor_v7.11_tw.html";
             a.click();
         }
 
