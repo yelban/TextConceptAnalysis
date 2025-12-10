@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 數位轉型競賽 - 評審機制說明書</title>
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Deep Navy */
+            --secondary-color: #334155; /* Slate */
+            --accent-color: #3b82f6; /* Bright Blue */
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --code-bg: #1e1e1e;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sections */
+        section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #475569;
+        }
+
+        ul {
+            list-style-position: inside;
+            margin-bottom: 15px;
+            color: #475569;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Methodology Cards */
+        .method-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .method-card {
+            background-color: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .method-card strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Scoring Logic Grid */
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .score-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .score-item {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s;
+        }
+
+        .score-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .score-weight {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+        }
+
+        .tier-box {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .tier-base {
+            background-color: #ecfdf5; /* Light Green */
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+        }
+
+        .tier-bonus {
+            background-color: #fff7ed; /* Light Orange */
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            margin-top: 8px;
+        }
+
+        /* Prompt Section */
+        .prompt-container {
+            position: relative;
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .prompt-header {
+            background-color: #2d2d2d;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #404040;
+        }
+
+        .prompt-label {
+            color: #e2e8f0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-btn:hover {
+            background-color: #2563eb;
+        }
+
+        .copy-btn.copied {
+            background-color: var(--success-color);
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+            color: #d4d4d4;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        /* Logic Why Section */
+        .logic-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+        }
+        
+        .logic-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        /* Section 05: Breakdown Table */
+        .breakdown-row {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .breakdown-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .breakdown-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .bd-code {
+            font-family: 'Consolas', monospace;
+            background-color: #f1f5f9;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #334155;
+            border-left: 3px solid var(--accent-color);
+            margin-right: 20px;
+        }
+
+        .bd-desc h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .bd-desc p {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            padding-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>AI 數位轉型實作競賽</h1>
+        <div class="subtitle">AI 自動化評審機制與評分標準說明書 (v2.0)</div>
+        <div class="badge">CONFIDENTIAL / INTERNAL USE</div>
+    </header>
+
+    <!-- 1. Methodology -->
+    <section>
+        <h2>01. 評審方法學 (Methodology)</h2>
+        <p>本屆競賽的「內容完整性 (40%)」評審機制採用 <strong>LLM (Large Language Model) 輔助評分</strong>。為了平衡「鼓勵全員參與」與「鑑別技術深度」，我們屏棄傳統的「扣分制」，改採<strong>「階梯式加分模型 (Tiered Scoring Model)」</strong>。</p>
+        
+        <div class="method-grid">
+            <div class="method-card">
+                <strong>核心哲學：Base + Bonus</strong>
+                <p>評分不再是二元對立（有/無）。每個維度分為兩層：
+                <br>• <strong>基礎分 (Base, 1-5分)</strong>：獎勵邏輯清晰、溝通順暢的提案。
+                <br>• <strong>進階分 (Bonus, 6-10分)</strong>：僅授予具備量化數據、具體技術堆疊與完整落地計畫的提案。</p>
+            </div>
+            <div class="method-card">
+                <strong>評審角色設定</strong>
+                <p>AI 被設定為一位<strong>「嚴格但具啟發性的技術導師 (Mentor & Judge)」</strong>。它的任務不僅是打分，更是提供具體的改進建議，幫助同仁從「行銷口號」進化為「實作專案」。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Scoring Logic -->
+    <section>
+        <h2>02. 評分標準與邏輯 (Scoring Criteria)</h2>
+        <p>評分總權重 40%，拆解為四個維度，每個維度滿分 10 分。</p>
+
+        <div class="score-grid">
+            <!-- Criterion 1 -->
+            <div class="score-item">
+                <div class="score-title">
+                    1. 痛點解析 (Problem Definition)
+                    <span class="score-weight">10 pts</span>
+                </div>
+                <div class="tier-box tier-base">
+                    <strong>Base (1-5分)：</strong> 能清楚描述問題與現狀流程。<br>
+                    <em>例：「流程太慢，大家很累。」</em>
+                </div>
+                <div class="tier-box tier-bonus">
+                    <strong>Bonus (6-10分)：</strong> 具備 Baseline 與 Target 具體數據。<br>
+                    <em>例：「目前耗時45分鐘，目標縮減至5分鐘內。」</em>
+                </div>
+            </div>
+
+            <!-- Criterion 2 -->
+            <div class="score-item">
+                <div class="score-title">
+                    2. AI 適配度 (Solution Fit)
+                    <span class="score-weight">10 pts</span>
+                </div>
+                <div class="tier-box tier-base">
+                    <strong>Base (1-5分)：</strong> 解決方案邏輯通順，有具體做法。<br>
+                    <em>例：「用系統自動回覆客戶。」</em>
+                </div>
+                <div class="tier-box tier-bonus">
+                    <strong>Bonus (6-10分)：</strong> 正確選擇 AI 模型與技術堆疊。<br>
+                    <em>例：「使用 RAG 技術結合 GPT-4 分析非結構化合約。」</em>
+                </div>
+            </div>
+
+            <!-- Criterion 3 -->
+            <div class="score-item">
+                <div class="score-title">
+                    3. 創新價值 (Innovation)
+                    <span class="score-weight">10 pts</span>
+                </div>
+                <div class="tier-box tier-base">
+                    <strong>Base (1-5分)：</strong> 優化使用者體驗 (UX) 或工作流暢度。<br>
+                    <em>例：「操作介面更直覺，油而不膩。」</em>
+                </div>
+                <div class="tier-box tier-bonus">
+                    <strong>Bonus (6-10分)：</strong> 創造新價值或預測性能力。<br>
+                    <em>例：「預測設備故障，或創造個人化推薦模式。」</em>
+                </div>
+            </div>
+
+            <!-- Criterion 4 -->
+            <div class="score-item">
+                <div class="score-title">
+                    4. 落地可行性 (Feasibility)
+                    <span class="score-weight">10 pts</span>
+                </div>
+                <div class="tier-box tier-base">
+                    <strong>Base (1-5分)：</strong> 敘事結構完整 (Why -> How -> What)。<br>
+                    <em>例：「簡報邏輯清晰，易於理解。」</em>
+                </div>
+                <div class="tier-box tier-bonus">
+                    <strong>Bonus (6-10分)：</strong> 包含實作路徑、資安評估與 ROI。<br>
+                    <em>例：「含數據清洗計畫、資安控管機制與效益試算。」</em>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Final Prompt -->
+    <section>
+        <h2>03. AI 評審核心指令 (System Prompt v2.0)</h2>
+        <p>以下是用於驅動 LLM (如 GPT-4o / Claude 3.5 Sonnet) 進行評分的完整提示詞。這段程式碼確保了評分的一致性與專業度。</p>
+
+        <div class="prompt-container">
+            <div class="prompt-header">
+                <span class="prompt-label">SYSTEM PROMPT (Markdown)</span>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    複製指令
+                </button>
+            </div>
+            <pre id="prompt-text"># Role
+You are an "AI Transformation Mentor & Judge". Your goal is to encourage participation while strictly identifying top-tier execution. You balance "Communication Clarity" (Base Score) with "Technical/Data Rigor" (Bonus Score).
+
+# Mission
+Evaluate the user submission (Transcript or PDF) based on "Content Completeness" (40% weight).
+Adopt a "Tiered Scoring" approach:
+- **Base Score (1-5 pts):** Awarded for logical narrative, clarity, and clear intent. (The "Effort" score).
+- **Bonus Score (6-10 pts):** Awarded ONLY for hard data, specific AI technical depth, and proven feasibility. (The "Excellence" score).
+
+# Scoring Criteria (Total 40 Points)
+
+1. **Problem Definition (Logic vs. Data)** [0-10 pts]
+    - **Base (1-5):** The pain point is described clearly and logically. The "Why" is understandable (Qualitative).
+      *Example:* "The process is too manual and slow." (Gets ~5 pts)
+    - **Bonus (6-10):** Includes specific baseline metrics and quantitative targets.
+      *Example:* "Currently takes 45 mins/order; Target is <5 mins." (Gets 8-10 pts)
+
+2. **Solution Fit (Logic vs. AI Tech)** [0-10 pts]
+    - **Base (1-5):** The proposed solution logically addresses the problem. There is a clear "How" (even if it's just a concept or rule-based).
+      *Example:* "Use a system to auto-reply to customers." (Gets ~4-5 pts)
+    - **Bonus (6-10):** Specifically selects the *right* AI model/stack (e.g., RAG, LLM, CV) with technical justification.
+      *Example:* "Use Gemini-1.5-Pro for long-context semantic analysis of contracts." (Gets 8-10 pts)
+
+3. **Innovation (Experience vs. Transformation)** [0-10 pts]
+    - **Base (1-5):** Improves user experience (UX) or workflow smoothness. Makes life easier.
+      *Example:* "Oil that isn't sticky" or "One-click report generation." (Gets ~5 pts)
+    - **Bonus (6-10):** Creates *new value* or business models previously impossible without AI.
+      *Example:* "Predictive maintenance to prevent downtime before it happens." (Gets 8-10 pts)
+
+4. **Feasibility (Structure vs. Implementation)** [0-10 pts]
+    - **Base (1-5):** The presentation is structured (Source -> Process -> Result) and easy to follow.
+      *Example:* A clear 3-step explanation like the video transcript. (Gets ~5 pts)
+    - **Bonus (6-10):** Detailed roadmap, risk assessment (Hallucination/Security), and ROI calculation.
+      *Example:* "Phase 1: Data Cleaning (Wk1-2), Phase 2: Fine-tuning (Wk3-4)..." (Gets 8-10 pts)
+
+# Output Format (Strict JSON)
+{
+  "project_name": "String",
+  "summary": "1-sentence constructive summary",
+  "scores": {
+    "problem_definition": Integer (0-10),
+    "ai_tech_fit": Integer (0-10),
+    "innovation_level": Integer (0-10),
+    "feasibility_structure": Integer (0-10)
+  },
+  "total_weighted_score": Float (Sum of scores. Max 40),
+  "critique": {
+    "strengths": ["Highlight 1 good point about logic/clarity", "Highlight 1 good point about structure"],
+    "areas_for_growth": ["What data is missing?", "How to deepen the AI tech stack?"],
+    "verdict": "Encouraging closing statement."
+  },
+  "suggestion_for_improvement": "One specific step to move from 'Base Score' to 'Bonus Score' (e.g., 'Add a metric for time saved')."
+}
+
+# Constraint
+- Use Traditional Chinese (zh-TW).
+- Tone: Professional, Encouraging, but Analytical. Use the "Sandwich Method" (Praise structure -> Critique lack of data -> Encourage potential).
+- **Crucial**: If the input is well-structured (like a good speech) but lacks data, give it a "Passing Score" (around 20-24 total), NOT a zero. Acknowledge the communication skill.</pre>
+        </div>
+    </section>
+
+    <!-- 4. Why this works -->
+    <section>
+        <h2>04. 設計邏輯解析 (Design Rationale)</h2>
+        <p>這套 Prompt 的設計包含以下三個核心技術點，確保評審結果既有人性又有專業度：</p>
+        <ul class="logic-list">
+            <li><strong>JSON 結構化輸出 (Strict JSON)：</strong> 強制 AI 輸出機器可讀的 JSON 格式，方便後續直接將分數匯入 Excel 或資料庫，避免 AI 廢話連篇。</li>
+            <li><strong>三明治回饋法 (Sandwich Method)：</strong> 設定 <code>Tone</code> 參數，要求 AI 先肯定「優點（結構/邏輯）」，再切入「缺點（數據/技術）」，最後給予「具體建議」。這能降低同仁的被剝奪感，增加接受度。</li>
+            <li><strong>具體範例引導 (Few-Shot Prompting)：</strong> 在 Prompt 中直接寫入 "High Score Example" 與 "Low Score Example"。這利用了 LLM 的模仿能力，確保它對於「什麼是數據」有明確的基準，防止幻覺評分。</li>
+        </ul>
+    </section>
+
+    <!-- 5. Prompt Breakdown -->
+    <section>
+        <h2>05. 提示詞逐行解析 (Detailed Prompt Explanation)</h2>
+        <p>為了確保評審標準的透明度與可解釋性，以下逐一解析 Prompt 中各段落的設計用意與指令功能。</p>
+        
+        <div class="breakdown-row">
+            <div class="bd-code">Role: "Mentor & Judge"</div>
+            <div class="bd-desc">
+                <h4>角色設定 (Persona)</h4>
+                <p>如果不指定 Mentor 角色，AI 預設會扮演無情的「批改機器」。加上 "Mentor" 能微調其語氣參數，使其在指出錯誤時更傾向於「教學」而非「責罵」，符合內部培訓的目的。</p>
+            </div>
+        </div>
+
+        <div class="breakdown-row">
+            <div class="bd-code">Tiered Scoring: Base vs Bonus</div>
+            <div class="bd-desc">
+                <h4>階梯式評分 (Tiered Logic)</h4>
+                <p>這是核心演算法。我們強制 AI 分離「邏輯分數」與「技術分數」。這行指令解決了「簡報做得好但沒有 AI」該給幾分的問題，確保了「苦勞分」與「功勞分」的公平區隔。</p>
+            </div>
+        </div>
+
+        <div class="breakdown-row">
+            <div class="bd-code">*Example:* "Target is <5 mins"</div>
+            <div class="bd-desc">
+                <h4>少樣本學習 (Few-Shot Examples)</h4>
+                <p>這在 AI 術語中稱為 "Few-Shot Prompting"。直接給 AI 看「什麼叫好，什麼叫普通」，比寫一千字說明還有用。這些範例充當了 AI 評分的「錨點 (Anchors)」，防止評分標準飄移。</p>
+            </div>
+        </div>
+
+        <div class="breakdown-row">
+            <div class="bd-code">Output Format (Strict JSON)</div>
+            <div class="bd-desc">
+                <h4>結構化輸出 (Data Integrity)</h4>
+                <p>指定 JSON 格式是為了「自動化」。這樣產出的評語可以直接透過程式碼抓取並填入 Excel 或網頁，不需要人工複製貼上。同時限制了 AI 不能廢話，必須精準填空。</p>
+            </div>
+        </div>
+
+        <div class="breakdown-row">
+            <div class="bd-code">Constraint: "Sandwich Method"</div>
+            <div class="bd-desc">
+                <h4>三明治回饋法 (Psychological Safety)</h4>
+                <p>這是心理學技巧：肯定 -> 建議 -> 鼓勵。這條指令強制 AI 在批評缺乏數據前，必須先稱讚其結構或創意，能顯著降低參賽者的防衛心，增加改進意願。</p>
+            </div>
+        </div>
+
+        <div class="breakdown-row">
+            <div class="bd-code">Crucial: "Passing Score"</div>
+            <div class="bd-desc">
+                <h4>安全護欄 (Safety Guardrail)</h4>
+                <p>這是為了防止 AI 過度嚴苛的最後一道防線。如果沒有這條，AI 可能會因為「沒有數據」就直接給結構很好的提案 0 分。這條指令確保了「溝通能力」本身是有基本價值的。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © 2024 AI Digital Transformation Office. Internal Use Only.<br>
+        Designed by Strategic AI Logic Engine.
+    </footer>
+</div>
+
+<script>
+    function copyPrompt() {
+        const promptText = document.getElementById('prompt-text').innerText;
+        
+        // Create a temporary textarea to handle the copy
+        const textarea = document.createElement('textarea');
+        textarea.value = promptText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        // Visual feedback
+        const btn = document.querySelector('.copy-btn');
+        const originalText = btn.innerHTML;
+        
+        btn.innerHTML = `
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            已複製！
+        `;
+        btn.classList.add('copied');
+
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>
