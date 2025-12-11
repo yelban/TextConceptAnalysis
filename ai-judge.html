@@ -1,439 +1,976 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 評審系統 v5.0 - 企業數位轉型戰略資產</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: #F8FAFC; color: #1E293B; }
-        .gradient-text {
-            background: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 評審系統 v5.0 | 務實高管版</title>
+  
+  <!-- OG Tags -->
+  <meta property="og:title" content="AI 評審系統 v5.0 | 務實高管版">
+  <meta property="og:description" content="用商業思維評審 AI 專案，篩選真正能省錢、賺錢的實戰工具">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://placehold.co/1200x630/1e293b/ffffff?text=AI+Judge+v5.0">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+          },
+          fontSize: {
+            'display': ['3.5rem', { lineHeight: '1.1', fontWeight: '900' }],
+            'display-sm': ['2.5rem', { lineHeight: '1.2', fontWeight: '900' }],
+          }
         }
-        .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
-        pre { white-space: pre-wrap; word-wrap: break-word; }
-        
-        /* Custom Scrollbar for code blocks */
-        .code-scroll::-webkit-scrollbar { height: 8px; }
-        .code-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
-        .code-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        .code-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    /* === 基礎設定 === */
+    html { scroll-behavior: smooth; }
+    body { 
+      font-size: 18px; 
+      line-height: 1.7; 
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* === 設計規範 === */
+    :root {
+      --color-primary: #4f46e5;
+      --color-primary-light: #818cf8;
+      --color-accent: #f59e0b;
+      --color-accent-light: #fbbf24;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 24px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
+      --shadow-lg: 0 20px 48px rgba(0,0,0,0.18);
+      --section-padding-y: 120px;
+      --section-padding-y-mobile: 80px;
+    }
+    
+    /* === 字體層級 === */
+    .text-display { font-size: 3.5rem; line-height: 1.1; font-weight: 900; }
+    .text-display-sm { font-size: 2.5rem; line-height: 1.2; font-weight: 900; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    
+    @media (max-width: 768px) {
+      body { font-size: 16px; }
+      .text-display { font-size: 2.25rem; }
+      .text-display-sm { font-size: 1.75rem; }
+      :root {
+        --section-padding-y: 80px;
+        --section-padding-y-mobile: 60px;
+      }
+    }
+    
+    /* === 區塊間距統一 === */
+    .section-padding {
+      padding-top: var(--section-padding-y);
+      padding-bottom: var(--section-padding-y);
+    }
+    @media (max-width: 768px) {
+      .section-padding {
+        padding-top: var(--section-padding-y-mobile);
+        padding-bottom: var(--section-padding-y-mobile);
+      }
+    }
+    
+    /* === 漸層與高亮 === */
+    .gradient-text {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .quote-highlight {
+      background: linear-gradient(180deg, transparent 50%, #fef08a 50%);
+      padding: 0 4px;
+    }
+    
+    /* === 卡片系統 === */
+    .card {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .card-static {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #e2e8f0;
+    }
+    
+    /* === 按鈕系統 === */
+    .btn-primary {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      color: white;
+      padding: 16px 32px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(30, 41, 59, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(30, 41, 59, 0.4);
+    }
+    .btn-primary:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .btn-primary:focus-visible {
+      outline: 3px solid var(--color-primary-light);
+      outline-offset: 2px;
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: #475569;
+      padding: 16px 28px;
+      border-radius: var(--radius-md);
+      font-weight: 500;
+      border: 1px solid #e2e8f0;
+      transition: all 0.2s ease;
+    }
+    .btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+    .btn-secondary:focus-visible {
+      outline: 3px solid var(--color-primary-light);
+      outline-offset: 2px;
+    }
+    
+    /* === 可摺疊元件 === */
+    .collapsible-trigger {
+      min-height: 64px;
+      transition: background 0.2s ease;
+    }
+    .collapsible-trigger:hover {
+      background: #f8fafc;
+    }
+    .collapsible-trigger:focus-visible {
+      outline: 3px solid var(--color-primary-light);
+      outline-offset: -3px;
+    }
+    .collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .collapsible-content.expanded {
+      max-height: 500px;
+    }
+    .collapsible-icon {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .collapsible-icon.rotated {
+      transform: rotate(180deg);
+    }
+    
+    /* === 進度條動畫 === */
+    .progress-bar {
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .progress-bar.animated {
+      width: var(--target-width);
+    }
+    
+    /* === Scroll Reveal === */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    
+    /* === Tooltip === */
+    .tooltip-trigger {
+      position: relative;
+      cursor: pointer;
+    }
+    .tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      background: #1e293b;
+      color: white;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+      z-index: 50;
+    }
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #1e293b;
+    }
+    .tooltip-trigger:hover .tooltip,
+    .tooltip-trigger:focus .tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) scale(1);
+    }
+    
+    /* === 徽章 === */
+    .badge-v5 {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .badge-v5::before {
+      content: '🎯';
+    }
+    
+    /* === Mobile Menu === */
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+    .mobile-overlay {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .mobile-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* === Back to Top === */
+    .back-to-top {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    /* === Code Block === */
+    .code-block {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .code-header {
+      background: #f1f5f9;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 20px;
+    }
+    pre code {
+      font-family: 'SF Mono', 'Fira Code', 'Monaco', Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #334155;
+    }
+    
+    /* === Copied 狀態 === */
+    .copy-btn.copied {
+      background: #10b981 !important;
+    }
+    
+    /* === 比較圖表（Mobile 替代象限圖） === */
+    .comparison-bar {
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: #f1f5f9;
+      overflow: hidden;
+      position: relative;
+    }
+    .comparison-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+    }
+    .comparison-bar-label {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      font-weight: 500;
+      color: #64748b;
+    }
+  </style>
 </head>
-<body class="antialiased selection:bg-indigo-100 selection:text-indigo-700">
+<body class="bg-slate-50 text-slate-700 font-sans">
 
-    <!-- 1. Hero Section: Value Proposition -->
-    <header class="relative bg-white overflow-hidden">
-        <div class="absolute inset-0 bg-slate-50 opacity-50">
-            <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+  <!-- Skip Link for a11y -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-indigo-600 text-white px-4 py-2 rounded-lg z-50">
+    跳到主要內容
+  </a>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-slate-200/80 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <span class="badge-v5">v5.0</span>
+        <span class="font-bold text-slate-900 hidden sm:inline">AI Judge</span>
+      </a>
+      
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+        <a href="#tldr" class="hover:text-slate-900 transition-colors">懶人包</a>
+        <a href="#criteria" class="hover:text-slate-900 transition-colors">評審標準</a>
+        <a href="#validation" class="hover:text-slate-900 transition-colors">效果驗證</a>
+        <a href="#analysis" class="hover:text-slate-900 transition-colors">逐行解析</a>
+        <a href="#prompt" class="btn-primary text-sm !py-2 !px-4">取得提示詞</a>
+      </div>
+      
+      <!-- Mobile Hamburger -->
+      <button id="menuBtn" class="md:hidden p-2 -mr-2" onclick="toggleMobileMenu()" aria-label="開啟選單" aria-expanded="false">
+        <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- Mobile Menu Overlay -->
+  <div id="mobileOverlay" class="mobile-overlay fixed inset-0 bg-black/50 z-50 md:hidden" onclick="toggleMobileMenu()"></div>
+  
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-72 h-full bg-white shadow-2xl z-50 p-6 md:hidden" role="dialog" aria-modal="true">
+    <button onclick="toggleMobileMenu()" class="absolute top-4 right-4 p-2" aria-label="關閉選單">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <div class="flex flex-col gap-6 mt-16">
+      <a href="#tldr" onclick="toggleMobileMenu()" class="text-lg font-medium text-slate-700 py-2">30 秒懶人包</a>
+      <a href="#pain" onclick="toggleMobileMenu()" class="text-lg font-medium text-slate-700 py-2">為什麼需要</a>
+      <a href="#criteria" onclick="toggleMobileMenu()" class="text-lg font-medium text-slate-700 py-2">評審標準</a>
+      <a href="#validation" onclick="toggleMobileMenu()" class="text-lg font-medium text-slate-700 py-2">效果驗證</a>
+      <a href="#analysis" onclick="toggleMobileMenu()" class="text-lg font-medium text-slate-700 py-2">逐行解析</a>
+      <a href="#prompt" onclick="toggleMobileMenu()" class="btn-primary text-center mt-4">取得提示詞</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content">
+  
+    <!-- Hero Section -->
+    <header class="pt-28 pb-12 px-6 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-indigo-50/50"></div>
+      <div class="absolute top-20 right-0 w-96 h-96 bg-indigo-100/40 rounded-full blur-3xl"></div>
+      
+      <div class="max-w-4xl mx-auto text-center relative">
+        <p class="section-label text-indigo-600 mb-4">AI Demo Day 評審方法論</p>
+        
+        <h1 class="text-display text-slate-900 mb-6">
+          別再選出<br class="sm:hidden">
+          <span class="gradient-text">「炫技但沒用」</span>的專案
+        </h1>
+        
+        <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-8">
+          這套 System Prompt 讓 AI 用<strong class="text-slate-800">高管視角</strong>評審，<br class="hidden md:block">
+          篩選真正能省錢、賺錢的實戰工具。
+        </p>
+        
+        <!-- Quick Actions -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+          <a href="#prompt" class="btn-primary inline-flex items-center gap-2">
+            <span>取得提示詞</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+          <a href="#tldr" class="btn-secondary inline-flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <span>30 秒看懂</span>
+          </a>
         </div>
-        <div class="relative max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-6 border border-indigo-100">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                </span>
-                v5.0 System Prompt Ready
-            </div>
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-tight">
-                讓 AI 像 <span class="gradient-text">投資人</span> 與 <span class="gradient-text">經營者</span><br>一樣思考與評審
-            </h1>
-            <p class="text-xl text-slate-500 max-w-3xl mx-auto mb-10 leading-relaxed">
-                這不僅是一個評分工具，而是一套植入企業戰略的篩選器。<br>
-                它平衡了<strong>「溝通清晰度」</strong>與<strong>「商業落地性」</strong>，確保我們選出的不是炫技的玩具，而是真正的戰略資產。
-            </p>
-            <div class="flex justify-center gap-4">
-                <a href="#logic" class="bg-indigo-600 text-white px-8 py-3 rounded-full font-medium hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
-                    查看運作邏輯
-                </a>
-                <a href="#prompt-analysis" class="bg-white text-slate-700 border border-slate-200 px-8 py-3 rounded-full font-medium hover:bg-slate-50 transition">
-                    解析 Prompt 策略
-                </a>
-            </div>
-        </div>
+        
+        <!-- Target Persona -->
+        <p class="text-sm text-slate-500">
+          適合：AI 轉型負責人 · 部門主管 · 創新長 · 專案評審委員
+        </p>
+      </div>
     </header>
 
-    <!-- 2. Before / After: The Impact -->
-    <section class="py-16 max-w-6xl mx-auto px-6">
-        <h2 class="text-2xl font-bold text-center mb-12 text-slate-800">為什麼我們需要 AI 評審？</h2>
-        <div class="grid md:grid-cols-2 gap-8">
-            <!-- Before Card -->
-            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 opacity-80 relative overflow-hidden group">
-                <div class="absolute top-0 left-0 w-2 h-full bg-slate-300"></div>
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-xl">😖</div>
-                    <h3 class="text-xl font-bold text-slate-600">傳統人工/簡易 AI 評審</h3>
-                </div>
-                <ul class="space-y-3 text-slate-500">
-                    <li class="flex items-start gap-2"><span class="text-red-400 mt-1">✕</span> <span><strong>憑感覺打分：</strong>容易被漂亮的簡報排版或流利的口條迷惑。</span></li>
-                    <li class="flex items-start gap-2"><span class="text-red-400 mt-1">✕</span> <span><strong>忽視落地成本：</strong>選出技術很強但沒人會維護的「孤兒專案」。</span></li>
-                    <li class="flex items-start gap-2"><span class="text-red-400 mt-1">✕</span> <span><strong>為了 AI 而 AI：</strong>甚至獎勵殺雞用牛刀的浪費行為。</span></li>
-                </ul>
+    <!-- TL;DR Section - 30秒懶人包 -->
+    <section id="tldr" class="py-12 px-6 bg-white border-y border-slate-200">
+      <div class="max-w-4xl mx-auto">
+        <div class="reveal card-static p-6 md:p-8 bg-gradient-to-br from-indigo-50 to-slate-50">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
             </div>
-
-            <!-- After Card -->
-            <div class="bg-white p-8 rounded-3xl shadow-xl border border-indigo-100 relative overflow-hidden card-hover z-10">
-                <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-xl">🎯</div>
-                    <h3 class="text-xl font-bold text-indigo-900">v5.0 AI 戰略評審</h3>
-                </div>
-                <ul class="space-y-3 text-slate-600">
-                    <li class="flex items-start gap-2"><span class="text-green-500 mt-1">✓</span> <span><strong>雙軌評分制：</strong>「話講清楚」給基本分，「數據護城河」才給高分。</span></li>
-                    <li class="flex items-start gap-2"><span class="text-green-500 mt-1">✓</span> <span><strong>務實濾鏡：</strong>優先獎勵能釋放核心人力的高價值小工具。</span></li>
-                    <li class="flex items-start gap-2"><span class="text-green-500 mt-1">✓</span> <span><strong>維運永續性：</strong>強制檢查「誰來維護」，拒絕技術債。</span></li>
-                </ul>
+            <div>
+              <h2 class="text-xl font-bold text-slate-900 mb-1">30 秒懶人包</h2>
+              <p class="text-sm text-slate-500">TL;DR — 看完這段就能用</p>
             </div>
+          </div>
+          
+          <div class="space-y-4 text-slate-700">
+            <div class="flex gap-3">
+              <span class="text-indigo-600 font-bold flex-shrink-0">1.</span>
+              <p><strong>問題</strong>：傳統評審獎勵「技術複雜度」，選出一堆沒人用的專案</p>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-indigo-600 font-bold flex-shrink-0">2.</span>
+              <p><strong>解法</strong>：讓 AI 同時扮演「投資人」(看價值) + 「部門主管」(看可用性)</p>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-indigo-600 font-bold flex-shrink-0">3.</span>
+              <p><strong>標準</strong>：4 維度各 25 分，「技術平庸但好用」可拿高分</p>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-indigo-600 font-bold flex-shrink-0">4.</span>
+              <p><strong>效果</strong>：優秀專案 (85-95分) vs 炫技專案 (55分) 有 30-40 分差距</p>
+            </div>
+          </div>
+          
+          <div class="mt-6 pt-6 border-t border-slate-200 flex flex-wrap gap-3">
+            <a href="#prompt" class="btn-primary text-sm !py-2 !px-4">直接拿提示詞 →</a>
+            <a href="#pain" class="text-sm text-slate-600 hover:text-slate-900 py-2 px-4">想了解更多 ↓</a>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- 3. The Logic: 4 Dimensions -->
-    <section id="logic" class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="text-indigo-600 font-semibold tracking-wider text-sm uppercase">Evaluation Criteria</span>
-                <h2 class="text-3xl font-bold mt-2">從四個維度審視商業價值</h2>
-                <p class="text-slate-500 mt-4">我們將 100 分拆解為四個 25 分的維度，並採用「階梯式評分 (Tiered Scoring)」。</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Card 1 -->
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col h-full card-hover">
-                    <div class="text-3xl mb-4">📊</div>
-                    <h3 class="font-bold text-lg mb-2">1. 痛點定義</h3>
-                    <p class="text-xs font-bold text-indigo-600 mb-4 uppercase">Logic vs. Impact</p>
-                    <div class="mt-auto space-y-2 text-sm">
-                        <div class="p-3 bg-white rounded-lg border border-slate-200">
-                            <span class="block text-slate-400 text-xs font-bold">Base (1-12分)</span>
-                            <span class="text-slate-600">邏輯清楚，痛點明確。</span>
-                        </div>
-                        <div class="p-3 bg-indigo-50 rounded-lg border border-indigo-100">
-                            <span class="block text-indigo-600 text-xs font-bold">Bonus (13-25分)</span>
-                            <span class="text-indigo-900">對齊公司營收戰略 或 釋放核心人力時間。</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col h-full card-hover">
-                    <div class="text-3xl mb-4">🛡️</div>
-                    <h3 class="font-bold text-lg mb-2">2. 解決方案</h3>
-                    <p class="text-xs font-bold text-indigo-600 mb-4 uppercase">Logic vs. Tech Moat</p>
-                    <div class="mt-auto space-y-2 text-sm">
-                        <div class="p-3 bg-white rounded-lg border border-slate-200">
-                            <span class="block text-slate-400 text-xs font-bold">Base (1-12分)</span>
-                            <span class="text-slate-600">方法合理，知道怎麼做。</span>
-                        </div>
-                        <div class="p-3 bg-indigo-50 rounded-lg border border-indigo-100">
-                            <span class="block text-indigo-600 text-xs font-bold">Bonus (13-25分)</span>
-                            <span class="text-indigo-900">運用私有數據建立護城河 或 聰明使用現成工具。</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col h-full card-hover">
-                    <div class="text-3xl mb-4">🚀</div>
-                    <h3 class="font-bold text-lg mb-2">3. 創新體驗</h3>
-                    <p class="text-xs font-bold text-indigo-600 mb-4 uppercase">Experience vs. Adoption</p>
-                    <div class="mt-auto space-y-2 text-sm">
-                        <div class="p-3 bg-white rounded-lg border border-slate-200">
-                            <span class="block text-slate-400 text-xs font-bold">Base (1-12分)</span>
-                            <span class="text-slate-600">優化流程，讓體驗更好。</span>
-                        </div>
-                        <div class="p-3 bg-indigo-50 rounded-lg border border-indigo-100">
-                            <span class="block text-indigo-600 text-xs font-bold">Bonus (13-25分)</span>
-                            <span class="text-indigo-900">無痛導入 (Zero Friction) 或 流程重塑 (Re-engineering)。</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col h-full card-hover">
-                    <div class="text-3xl mb-4">🏗️</div>
-                    <h3 class="font-bold text-lg mb-2">4. 落地架構</h3>
-                    <p class="text-xs font-bold text-indigo-600 mb-4 uppercase">Structure vs. Sustainability</p>
-                    <div class="mt-auto space-y-2 text-sm">
-                        <div class="p-3 bg-white rounded-lg border border-slate-200">
-                            <span class="block text-slate-400 text-xs font-bold">Base (1-12分)</span>
-                            <span class="text-slate-600">結構完整，敘事清晰。</span>
-                        </div>
-                        <div class="p-3 bg-indigo-50 rounded-lg border border-indigo-100">
-                            <span class="block text-indigo-600 text-xs font-bold">Bonus (13-25分)</span>
-                            <span class="text-indigo-900">清楚交代「誰來維護」，且考慮了資安風險。</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 4. Deep Dive: Prompt Strategy Analysis (Detailed Table) -->
-    <section id="prompt-analysis" class="py-16 max-w-6xl mx-auto px-6">
-        <div class="text-center mb-12">
-            <span class="text-indigo-600 font-semibold tracking-wider text-sm uppercase">Strategic Blueprint</span>
-            <h2 class="text-2xl font-bold mt-2 mb-4">Prompt 戰略意圖逐行解析</h2>
-            <p class="text-slate-500 max-w-3xl mx-auto">
-                這份文件揭示了我們如何透過 Prompt Engineering，將「投資人思維 (VC)」與「部門主管思維 (BU Head)」植入 AI 的大腦中。
-            </p>
+    <!-- Pain Section -->
+    <section id="pain" class="section-padding px-6 bg-slate-50">
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal text-center mb-12">
+          <p class="section-label text-red-600 mb-2">The Cost of Inaction</p>
+          <h2 class="text-display-sm text-slate-900 mb-4">沒有務實標準的代價</h2>
+          <p class="text-slate-600"><strong class="text-slate-800">一句話：</strong>選錯專案 = 燒錢 + 技術債 + 士氣低落</p>
         </div>
         
-        <!-- Table Style Grid -->
-        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-            
-            <!-- Header Row -->
-            <div class="hidden md:grid md:grid-cols-12 bg-slate-100 border-b border-slate-200 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                <div class="md:col-span-5 px-6 py-4">Prompt 指令 (Code)</div>
-                <div class="md:col-span-7 px-6 py-4">戰略意圖 (Strategic Intent)</div>
-            </div>
-
-            <!-- PART 1 -->
-            <div class="bg-indigo-50/50 px-6 py-3 border-b border-indigo-100 text-indigo-800 font-bold text-sm">
-                第一部分：角色與心智模型 (Role & Mental Model)
-            </div>
-            
-            <!-- Row 1.1 -->
-            <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    # Role<br>You are an "AI Transformation Mentor & Judge".
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <h4 class="font-bold text-slate-800 mb-1">定義雙重身份</h4>
-                    <ul class="text-sm text-slate-600 space-y-1 list-disc list-inside">
-                        <li><strong>Judge (法官)</strong>：維持比賽公平性。</li>
-                        <li><strong>Mentor (導師)</strong>：目的是教育而非羞辱。確保評語帶有建設性。</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Row 1.2 -->
-            <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    You balance "Communication Clarity" (Base Score) with "Strategic & Operational Reality" (Bonus Score).
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <h4 class="font-bold text-slate-800 mb-1">雙軌評分核心</h4>
-                    <p class="text-sm text-slate-600 mb-2">明確告知 AI，分數由兩個層次組成：「話講清楚」是基本分（Base），但「能落地賺錢」才是決勝分（Bonus）。</p>
-                    <div class="inline-block bg-yellow-50 text-yellow-800 text-xs px-2 py-1 rounded border border-yellow-100">
-                        目的：防止 AI 被漂亮的簡報排版迷惑，強迫它挖掘內容實質。
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 1.3 -->
-            <div class="grid md:grid-cols-12 border-b border-slate-200 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    # Mission<br>
-                    **Mental Model:** Combine the "Venture Capitalist" (Is it valuable?) with the "Business Unit Head" (Is it usable and maintainable?).
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <h4 class="font-bold text-slate-800 mb-1">植入大腦 (The Brain Implant)</h4>
-                    <p class="text-sm text-slate-600 mb-2">這是 v5.0 的靈魂。要求 AI 同時具備兩種視角：</p>
-                    <ul class="text-sm text-slate-600 space-y-1 list-disc list-inside">
-                        <li><strong>VC (投資人)</strong>：看戰略價值 (Value)。</li>
-                        <li><strong>BU Head (主管)</strong>：看好不好用、會不會搞死團隊 (Usability)。</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- PART 2 -->
-            <div class="bg-indigo-50/50 px-6 py-3 border-b border-indigo-100 text-indigo-800 font-bold text-sm">
-                第二部分：評分維度詳解 (Scoring Criteria)
-            </div>
-
-            <!-- Row 2.1 (Pain Point) -->
-            <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    1. **Problem Definition (Logic vs. Impact)**<br>- **Bonus (13-25 pts):**
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <h4 class="font-bold text-slate-800 mb-1">定義戰場</h4>
-                    <p class="text-sm text-slate-600">告訴 AI，這裡要看的是「影響力 (Impact)」，而不僅僅是邏輯通順。</p>
-                </div>
-            </div>
-            
-             <!-- Row 2.1.1 -->
-             <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    1. **Strategic Alignment**: Links to revenue/customers.
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <h4 class="font-bold text-slate-800 mb-1">向上對齊 (Strategic Fit)</h4>
-                    <p class="text-sm text-slate-600">要求專案必須能服務公司的大目標（如：營收、客滿度）。過濾掉那些「為了做而做」的邊緣專案。</p>
-                </div>
-            </div>
-
-            <!-- Row 2.1.2 -->
-            <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    2. **Operational Release**: Frees up high-value talent from low-value tasks...<br><br>
-                    *Logic:* Do not penalize small projects if they significantly boost morale...
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <div class="mb-4">
-                        <h4 class="font-bold text-slate-800 mb-1">向下釋放 (Operational Efficiency)</h4>
-                        <p class="text-sm text-slate-600">為「行政效率優化」平反。即使專案很小（如自動整理發票），如果能讓百萬年薪的業務專心賣東西，就是高價值。</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 mb-1">保護士氣</h4>
-                        <p class="text-sm text-slate-600">防止 AI 因為專案規模太小給低分，認可「小確幸」對組織效能的貢獻。</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 2.2 (Solution) -->
-            <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    2. **Solution Fit (Logic vs. Tech Moat)**<br>- **Bonus (13-25 pts):**
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <h4 class="font-bold text-slate-800 mb-1">定義技術價值</h4>
-                    <p class="text-sm text-slate-600">重點不在「技術有多新」，而在「護城河 (Moat) 有多深」。</p>
-                </div>
-            </div>
-
-             <!-- Row 2.2.1 -->
-             <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    1. **Data Moat**: Leverages proprietary data.<br><br>
-                    2. **Smart Leverage**: Uses off-the-shelf tools cleverly... without over-engineering.
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <div class="mb-4">
-                        <h4 class="font-bold text-slate-800 mb-1">護城河思維</h4>
-                        <p class="text-sm text-slate-600">如果有用公司私有數據，競爭對手就抄不走。獎勵數據資產的累積，而非單純的 API 串接。</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 mb-1">反內捲思維 (Anti-Overengineering)</h4>
-                        <p class="text-sm text-slate-600">如果用現成的 Notion + Zapier 就能做，不要給我寫 Python。打擊「簡歷驅動開發」，獎勵用最小成本解決問題的聰明人。</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 2.3 (Innovation) -->
-            <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    3. **Innovation (Experience vs. Adoption)**<br><br>
-                    1. **Zero Friction**: Seamlessly integrates into existing workflows...<br><br>
-                    *Logic:* "Hard to use" = Score Cap at 15.
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <div class="mb-4">
-                        <h4 class="font-bold text-slate-800 mb-1">重新定義創新 & 無痛導入</h4>
-                        <p class="text-sm text-slate-600">在企業裡，最大的創新不是「黑科技」，而是「大家真的願意用」。最好的 AI 是員工「感覺不到」的 AI (如嵌入在 LINE)。</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 mb-1">懲罰機制</h4>
-                        <p class="text-sm text-slate-600">如果 User Experience (UX) 爛，技術再強也有分數天花板 (Cap)，直接封頂 15 分。</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 2.4 (Feasibility) -->
-            <div class="grid md:grid-cols-12 border-b border-slate-200 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    4. **Feasibility (Structure vs. Sustainability)**<br><br>
-                    1. **Maintenance Check**: Who fixes it when it breaks?<br><br>
-                    2. **Risk Control**: Addresses Hallucinations & Privacy.
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <div class="mb-4">
-                        <h4 class="font-bold text-slate-800 mb-1">永續性檢核 & 巴士指數</h4>
-                        <p class="text-sm text-slate-600">不僅要看「做不做出來」，還要看「養不養得起」。如果實習生離職專案就死掉，這是負資產。獎勵 Low-Code 或標準化服務。</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 mb-1">保命符</h4>
-                        <p class="text-sm text-slate-600">這是企業 AI 的紅線，沒考慮幻覺跟個資就是不及格。</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PART 3 -->
-            <div class="bg-indigo-50/50 px-6 py-3 border-b border-indigo-100 text-indigo-800 font-bold text-sm">
-                第三部分：輸出與反饋 (Output & Feedback)
-            </div>
-
-            <!-- Row 3.1 -->
-            <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    # Output Format (Strict JSON)<br><br>
-                    "summary": "...Focus on Operational & Business Value"
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <h4 class="font-bold text-slate-800 mb-1">摘要聚焦</h4>
-                    <p class="text-sm text-slate-600">強迫 AI 用「商業語言」總結，而不是技術語言。讓高層一眼就能看懂這專案在幹嘛。</p>
-                </div>
-            </div>
-
-            <!-- Row 3.2 -->
-            <div class="grid md:grid-cols-12 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    "blind_spots": ["Maintenance burden?", "Is adoption realistic?"]<br><br>
-                    "suggestion_for_improvement": "Role-aware actionable advice..."
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <div class="mb-4">
-                        <h4 class="font-bold text-slate-800 mb-1">盲點偵測 (Devil's Advocate)</h4>
-                        <p class="text-sm text-slate-600">AI 扮演「魔鬼代言人」，直接戳專案最脆弱的地方（如：誰來維護？）。幫助同仁進行防禦性思考。</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 mb-1">角色感知建議</h4>
-                        <p class="text-sm text-slate-600">對業務講人話（找資源），對工程師講技術話（優化架構），確保建議真的能執行，而不是聽不懂的天書。</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PART 4 -->
-            <div class="bg-indigo-50/50 px-6 py-3 border-b border-indigo-100 text-indigo-800 font-bold text-sm">
-                第四部分：限制與黃金法則 (Constraint & Rules)
-            </div>
-
-            <!-- Row 4.1 -->
-            <div class="grid md:grid-cols-12 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    # Constraint<br><br>
-                    **Pragmatism Filter**: A project with "Average Tech" but "Excellent Usability" ... represents a GREAT Business Case.
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <h4 class="font-bold text-slate-800 mb-1">務實濾鏡 (Pragmatism)</h4>
-                    <p class="text-sm text-slate-600 mb-2">這是 v5.0 的最高指導原則。<strong>技術平庸但好用的專案 > 技術高深但難用的專案</strong>。這徹底扭轉了傳統「技術至上」的評審偏見。</p>
-                </div>
-            </div>
-             <!-- Row 4.2 -->
-             <div class="grid md:grid-cols-12 border-t border-slate-100 hover:bg-slate-50 transition-colors group">
-                <div class="md:col-span-5 px-6 py-5 font-mono text-sm text-indigo-600 bg-slate-50/30">
-                    Score 60-75: Solid Operational Tool<br>
-                    Score 76-100: Strategic Asset
-                </div>
-                <div class="md:col-span-7 px-6 py-5">
-                    <h4 class="font-bold text-slate-800 mb-1">定錨點 (Anchor)</h4>
-                    <ul class="text-sm text-slate-600 space-y-1 list-disc list-inside">
-                        <li><strong>中堅力量 (60-75)</strong>：讓那些解決實際問題的小工具能穩拿 70 分，這對推動全員 AI 轉型至關重要。</li>
-                        <li><strong>戰略資產 (76-100)</strong>：只有同時具備高技術、高價值、高易用性的專案才能拿金牌。</li>
-                    </ul>
-                </div>
-            </div>
-
+        <div class="grid md:grid-cols-3 gap-6 mb-16">
+          <div class="reveal reveal-delay-1 card p-6 text-center border-t-4 border-red-400">
+            <div class="text-4xl mb-4">💸</div>
+            <h3 class="font-bold text-slate-900 mb-2">選錯專案燒錢</h3>
+            <p class="text-slate-600 text-sm">投資高技術專案，結果沒人會用</p>
+          </div>
+          <div class="reveal reveal-delay-2 card p-6 text-center border-t-4 border-amber-400">
+            <div class="text-4xl mb-4">🧱</div>
+            <h3 class="font-bold text-slate-900 mb-2">技術債堆積</h3>
+            <p class="text-slate-600 text-sm">實習生離職專案就死，變成遺毒系統</p>
+          </div>
+          <div class="reveal reveal-delay-3 card p-6 text-center border-t-4 border-slate-400">
+            <div class="text-4xl mb-4">😞</div>
+            <h3 class="font-bold text-slate-900 mb-2">團隊士氣低落</h3>
+            <p class="text-slate-600 text-sm">接地氣的好專案被忽視</p>
+          </div>
         </div>
+        
+        <!-- Before/After -->
+        <div class="reveal grid md:grid-cols-2 gap-8">
+          <div class="card-static p-8 bg-slate-100 border-2 border-slate-300 relative">
+            <div class="absolute -top-3 left-6 bg-slate-500 text-white px-4 py-1 rounded-full text-xs font-bold">傳統模式</div>
+            <h3 class="font-bold text-slate-700 mt-2 mb-4">技術至上的評審偏見</h3>
+            <ul class="space-y-3 text-slate-600 text-sm">
+              <li class="flex items-start gap-3">
+                <span class="text-slate-400 mt-0.5">✗</span>
+                <span>只看技術複雜度，忽略實際效益</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-slate-400 mt-0.5">✗</span>
+                <span>被漂亮的簡報排版迷惑</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-slate-400 mt-0.5">✗</span>
+                <span>獎勵「為了 AI 而 AI」的專案</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-slate-400 mt-0.5">✗</span>
+                <span>低估接地氣的行政效率優化</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="card-static p-8 bg-emerald-50 border-2 border-emerald-300 relative">
+            <div class="absolute -top-3 left-6 bg-emerald-600 text-white px-4 py-1 rounded-full text-xs font-bold">v5.0 模式</div>
+            <h3 class="font-bold text-emerald-800 mt-2 mb-4">務實導向的評審標準</h3>
+            <ul class="space-y-3 text-emerald-900 text-sm">
+              <li class="flex items-start gap-3">
+                <span class="text-emerald-500 mt-0.5">✓</span>
+                <span>平衡「戰略高度」與「執行深度」</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-emerald-500 mt-0.5">✓</span>
+                <span>挖掘內容實質而非形式</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-emerald-500 mt-0.5">✓</span>
+                <span>獎勵「用對工具解決問題」的聰明人</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-emerald-500 mt-0.5">✓</span>
+                <span>認可小確幸帶來的組織效能提升</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- 5. The Code: Full Prompt Display -->
-    <section class="py-16 bg-slate-900 text-slate-300">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-2xl font-bold text-white">System Prompt v5.0 Source Code</h2>
-                <button onclick="navigator.clipboard.writeText(document.getElementById('prompt-code').innerText); alert('已複製 System Prompt！')" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded transition font-mono">
-                    Copy Code
-                </button>
+    <!-- Golden Rule - 唯一 WOW Moment -->
+    <section class="py-16 md:py-24 px-6 bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 left-10 w-40 h-40 border-4 border-white rounded-full"></div>
+        <div class="absolute bottom-10 right-10 w-60 h-60 border-4 border-white rounded-full"></div>
+      </div>
+      
+      <div class="max-w-4xl mx-auto text-center relative">
+        <div class="reveal">
+          <p class="text-amber-900/70 text-sm font-bold uppercase tracking-wider mb-6">v5.0 最高指導原則</p>
+          <blockquote class="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-6">
+            「<span class="bg-white/20 px-2 rounded">技術平庸但好用</span>」<br>
+            <span class="text-amber-200 text-2xl md:text-3xl mx-4">></span><br>
+            「技術高深但難用」
+          </blockquote>
+          <p class="text-amber-100 text-lg">這徹底扭轉了傳統「技術至上」的評審偏見</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section class="section-padding px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal text-center mb-12">
+          <p class="section-label text-indigo-600 mb-2">Methodology</p>
+          <h2 class="text-display-sm text-slate-900 mb-4">雙軌評審心智模型</h2>
+          <p class="text-slate-600"><strong class="text-slate-800">一句話：</strong>讓 AI 同時戴上投資人和部門主管兩頂帽子</p>
+        </div>
+        
+        <div class="reveal grid md:grid-cols-2 gap-8">
+          <div class="card p-8 border-t-4 border-indigo-500">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center text-3xl">💼</div>
+              <div>
+                <h3 class="font-bold text-slate-900">創投思維</h3>
+                <p class="text-sm text-indigo-600">Venture Capitalist</p>
+              </div>
+            </div>
+            <p class="text-slate-600 mb-4">像投資人一樣審視：這東西<strong class="text-slate-800">有沒有價值</strong>？能不能規模化？</p>
+            <div class="bg-indigo-50 rounded-xl p-4">
+              <p class="text-indigo-800 text-sm font-medium">🎯 核心問題：「Is it valuable?」</p>
+            </div>
+          </div>
+          
+          <div class="card p-8 border-t-4 border-emerald-500">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-14 h-14 bg-emerald-100 rounded-xl flex items-center justify-center text-3xl">🏢</div>
+              <div>
+                <h3 class="font-bold text-slate-900">部門主管思維</h3>
+                <p class="text-sm text-emerald-600">Business Unit Head</p>
+              </div>
+            </div>
+            <p class="text-slate-600 mb-4">像營運主管一樣審視：這東西<strong class="text-slate-800">好不好用</strong>？誰來維護？</p>
+            <div class="bg-emerald-50 rounded-xl p-4">
+              <p class="text-emerald-800 text-sm font-medium">🎯 核心問題：「Is it usable & maintainable?」</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scoring Criteria Section -->
+    <section id="criteria" class="section-padding px-6 bg-slate-50">
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal text-center mb-12">
+          <p class="section-label text-indigo-600 mb-2">Scoring Rubrics</p>
+          <h2 class="text-display-sm text-slate-900 mb-4">四大評分維度</h2>
+          <p class="text-slate-600"><strong class="text-slate-800">一句話：</strong>每維度 25 分，Base 保底 + Bonus 加分</p>
+        </div>
+        
+        <!-- Score Range Legend -->
+        <div class="reveal flex flex-wrap justify-center gap-3 mb-10">
+          <div class="tooltip-trigger">
+            <span class="bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium">&lt;60 分：執行模糊</span>
+            <span class="tooltip">概念可行，但缺乏落地細節</span>
+          </div>
+          <div class="tooltip-trigger">
+            <span class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium">60-75 分：實用工具</span>
+            <span class="tooltip">解決真實問題，好上手</span>
+          </div>
+          <div class="tooltip-trigger">
+            <span class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium">76-100 分：戰略資產</span>
+            <span class="tooltip">高技術 + 高價值 + 高易用</span>
+          </div>
+        </div>
+        
+        <!-- Dimension Cards -->
+        <div class="reveal grid md:grid-cols-2 gap-6">
+          
+          <!-- Dimension 1 -->
+          <div class="card-static overflow-hidden">
+            <button onclick="toggleCollapsible(this)" class="collapsible-trigger w-full px-6 py-5 flex items-center justify-between" aria-expanded="false">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">🎯</div>
+                <div class="text-left">
+                  <h3 class="font-bold text-slate-900">痛點定義</h3>
+                  <p class="text-xs text-slate-500">有數據佐證的真實痛點</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-slate-900">25<span class="text-sm font-normal text-slate-400">分</span></span>
+                <svg class="collapsible-icon w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </button>
+            <div class="collapsible-content" aria-hidden="true">
+              <div class="px-6 pb-6 space-y-3">
+                <div class="bg-slate-50 rounded-xl p-4">
+                  <p class="font-semibold text-slate-700 text-sm mb-1">📋 Base (1-12 分)</p>
+                  <p class="text-slate-600 text-sm">清楚說明痛點，用數據佐證（耗時、錯誤率）</p>
+                </div>
+                <div class="bg-red-50 rounded-xl p-4">
+                  <p class="font-semibold text-red-700 text-sm mb-2">⭐ Bonus (13-25 分)</p>
+                  <ul class="text-red-800 text-sm space-y-1">
+                    <li>• <strong>向上對齊</strong>：連結營收或客戶目標</li>
+                    <li>• <strong>向下釋放</strong>：釋放高價值人才做高價值事</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Dimension 2 -->
+          <div class="card-static overflow-hidden">
+            <button onclick="toggleCollapsible(this)" class="collapsible-trigger w-full px-6 py-5 flex items-center justify-between" aria-expanded="false">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">🔧</div>
+                <div class="text-left">
+                  <h3 class="font-bold text-slate-900">解決方案</h3>
+                  <p class="text-xs text-slate-500">用對工具，不過度工程</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-slate-900">25<span class="text-sm font-normal text-slate-400">分</span></span>
+                <svg class="collapsible-icon w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </button>
+            <div class="collapsible-content" aria-hidden="true">
+              <div class="px-6 pb-6 space-y-3">
+                <div class="bg-slate-50 rounded-xl p-4">
+                  <p class="font-semibold text-slate-700 text-sm mb-1">📋 Base (1-12 分)</p>
+                  <p class="text-slate-600 text-sm">邏輯合理的解決方案，清楚說明「怎麼做」</p>
+                </div>
+                <div class="bg-blue-50 rounded-xl p-4">
+                  <p class="font-semibold text-blue-700 text-sm mb-2">⭐ Bonus (13-25 分)</p>
+                  <ul class="text-blue-800 text-sm space-y-1">
+                    <li>• <strong>護城河</strong>：運用公司私有數據</li>
+                    <li>• <strong>聰明槓桿</strong>：現成工具巧妙解決問題</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Dimension 3 -->
+          <div class="card-static overflow-hidden">
+            <button onclick="toggleCollapsible(this)" class="collapsible-trigger w-full px-6 py-5 flex items-center justify-between" aria-expanded="false">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">💡</div>
+                <div class="text-left">
+                  <h3 class="font-bold text-slate-900">創新程度</h3>
+                  <p class="text-xs text-slate-500">消除步驟，而非加速步驟</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-slate-900">25<span class="text-sm font-normal text-slate-400">分</span></span>
+                <svg class="collapsible-icon w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </button>
+            <div class="collapsible-content" aria-hidden="true">
+              <div class="px-6 pb-6 space-y-3">
+                <div class="bg-slate-50 rounded-xl p-4">
+                  <p class="font-semibold text-slate-700 text-sm mb-1">📋 Base (1-12 分)</p>
+                  <p class="text-slate-600 text-sm">更好的使用體驗，更順暢的工作流程</p>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-4">
+                  <p class="font-semibold text-purple-700 text-sm mb-2">⭐ Bonus (13-25 分)</p>
+                  <ul class="text-purple-800 text-sm space-y-1">
+                    <li>• <strong>零摩擦</strong>：無縫嵌入現有流程</li>
+                    <li>• <strong>減法思維</strong>：讓步驟消失</li>
+                  </ul>
+                </div>
+                <div class="bg-amber-50 rounded-xl p-3 border border-amber-200">
+                  <p class="text-amber-800 text-xs font-medium">⚠️ UX 爛 = 天花板 15 分</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Dimension 4 -->
+          <div class="card-static overflow-hidden">
+            <button onclick="toggleCollapsible(this)" class="collapsible-trigger w-full px-6 py-5 flex items-center justify-between" aria-expanded="false">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">🏗️</div>
+                <div class="text-left">
+                  <h3 class="font-bold text-slate-900">落地可行性</h3>
+                  <p class="text-xs text-slate-500">誰來維護？風險怎麼控？</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-slate-900">25<span class="text-sm font-normal text-slate-400">分</span></span>
+                <svg class="collapsible-icon w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </button>
+            <div class="collapsible-content" aria-hidden="true">
+              <div class="px-6 pb-6 space-y-3">
+                <div class="bg-slate-50 rounded-xl p-4">
+                  <p class="font-semibold text-slate-700 text-sm mb-1">📋 Base (1-12 分)</p>
+                  <p class="text-slate-600 text-sm">清晰架構（資料來源 → 處理流程 → 產出結果）</p>
+                </div>
+                <div class="bg-emerald-50 rounded-xl p-4">
+                  <p class="font-semibold text-emerald-700 text-sm mb-2">⭐ Bonus (13-25 分)</p>
+                  <ul class="text-emerald-800 text-sm space-y-1">
+                    <li>• <strong>永續性</strong>：Low-Code 優於義大利麵程式</li>
+                    <li>• <strong>風險控管</strong>：處理 AI 幻覺與個資</li>
+                  </ul>
+                </div>
+                <div class="bg-red-50 rounded-xl p-3 border border-red-200">
+                  <p class="text-red-800 text-xs font-medium">🚨 造成技術債 = 扣分</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- Validation Section -->
+    <section id="validation" class="section-padding px-6 bg-white">
+      <div class="max-w-4xl mx-auto">
+        <div class="reveal text-center mb-12">
+          <p class="section-label text-indigo-600 mb-2">Real-World Validation</p>
+          <h2 class="text-display-sm text-slate-900 mb-4">效果驗證</h2>
+          <p class="text-slate-600"><strong class="text-slate-800">一句話：</strong>優秀專案與炫技專案有 30-40 分差距</p>
+        </div>
+        
+        <!-- Comparison Chart (Mobile Friendly) -->
+        <div class="reveal card-static p-6 md:p-8 mb-8">
+          <h3 class="font-bold text-slate-900 mb-6 text-center">分數分佈對照</h3>
+          
+          <div class="space-y-6">
+            <!-- 優秀 AI 專案 -->
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-slate-700">🏆 優秀 AI 專案</span>
+                <span class="text-sm font-bold text-indigo-600">85-95 分</span>
+              </div>
+              <div class="comparison-bar">
+                <div class="comparison-bar-fill bg-gradient-to-r from-indigo-500 to-purple-500 progress-bar" style="--target-width: 90%;">
+                  <span class="opacity-0">90</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">高技術 + 高價值 + 高易用性</p>
             </div>
             
-            <div class="bg-slate-800 rounded-xl p-6 overflow-x-auto shadow-2xl border border-slate-700">
-                <pre id="prompt-code" class="font-mono text-xs md:text-sm leading-relaxed text-indigo-100">
-# Role
+            <!-- 實用小工具 -->
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-slate-700">⭐ 實用小工具</span>
+                <span class="text-sm font-bold text-emerald-600">70 分</span>
+              </div>
+              <div class="comparison-bar">
+                <div class="comparison-bar-fill bg-gradient-to-r from-emerald-500 to-teal-500 progress-bar" style="--target-width: 70%;">
+                  <span class="opacity-0">70</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">技術平庸但解決真實問題</p>
+            </div>
+            
+            <!-- 本次案例 -->
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-slate-700">📋 模擬案例（行銷影片）</span>
+                <span class="text-sm font-bold text-amber-600">55 分</span>
+              </div>
+              <div class="comparison-bar">
+                <div class="comparison-bar-fill bg-gradient-to-r from-amber-500 to-orange-500 progress-bar" style="--target-width: 55%;">
+                  <span class="opacity-0">55</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">敘述流暢但缺乏 AI 技術深度</p>
+            </div>
+            
+            <!-- 炫技陷阱 -->
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-slate-700">⚠️ 炫技但難用</span>
+                <span class="text-sm font-bold text-slate-500">50-60 分</span>
+              </div>
+              <div class="comparison-bar">
+                <div class="comparison-bar-fill bg-gradient-to-r from-slate-400 to-slate-500 progress-bar" style="--target-width: 55%;">
+                  <span class="opacity-0">55</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">技術高深但沒人會用</p>
+            </div>
+          </div>
+          
+          <div class="mt-8 pt-6 border-t border-slate-200 text-center">
+            <p class="text-slate-600">
+              <span class="font-bold text-indigo-600">30-40 分差距</span> — 有效區分「會講故事」與「真正落地」
+            </p>
+          </div>
+        </div>
+        
+        <!-- Case Detail -->
+        <div class="reveal card-static overflow-hidden">
+          <div class="bg-slate-800 px-6 py-4 text-white">
+            <div class="flex items-center gap-3">
+              <span class="text-xl">🎬</span>
+              <div>
+                <h3 class="font-bold">模擬案例：NotebookLM 風格行銷影片</h3>
+                <p class="text-slate-400 text-sm">敘述流暢、體驗感好，但缺乏 AI 技術深度</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm font-medium text-slate-700">痛點定義</span>
+                  <span class="text-sm font-bold">15/25</span>
+                </div>
+                <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-emerald-500 rounded-full progress-bar" style="--target-width: 60%;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm font-medium text-slate-700">解決方案</span>
+                  <span class="text-sm font-bold">10/25</span>
+                </div>
+                <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-blue-500 rounded-full progress-bar" style="--target-width: 40%;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm font-medium text-slate-700">創新優化</span>
+                  <span class="text-sm font-bold">15/25</span>
+                </div>
+                <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-purple-500 rounded-full progress-bar" style="--target-width: 60%;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm font-medium text-slate-700">落地架構</span>
+                  <span class="text-sm font-bold">15/25</span>
+                </div>
+                <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-teal-500 rounded-full progress-bar" style="--target-width: 60%;"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6 pt-6 border-t border-slate-200 flex items-center justify-between">
+              <div>
+                <p class="text-xs text-slate-500 mb-1">總分</p>
+                <span class="text-4xl font-black text-slate-900">55</span>
+                <span class="text-lg text-slate-400 font-medium">/ 100</span>
+              </div>
+              <span class="bg-amber-100 text-amber-800 px-4 py-2 rounded-xl text-sm font-bold">
+                尚可 — 有努力但方向不對
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prompt Section -->
+    <section id="prompt" class="section-padding px-6 bg-slate-100">
+      <div class="max-w-5xl mx-auto">
+        <div class="reveal text-center mb-10">
+          <p class="section-label text-indigo-600 mb-2">System Prompt</p>
+          <h2 class="text-display-sm text-slate-900 mb-4">完整提示詞</h2>
+          <p class="text-slate-600">複製後直接貼入 ChatGPT / Claude 使用</p>
+        </div>
+        
+        <div class="reveal code-block">
+          <!-- Header -->
+          <div class="code-header flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="flex gap-1.5">
+                <span class="w-3 h-3 bg-red-400 rounded-full"></span>
+                <span class="w-3 h-3 bg-amber-400 rounded-full"></span>
+                <span class="w-3 h-3 bg-emerald-400 rounded-full"></span>
+              </div>
+              <span class="text-slate-500 text-sm font-mono">system-prompt-v5.0.md</span>
+            </div>
+            <button id="copyBtn" onclick="copyPrompt()" class="copy-btn flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all">
+              <svg id="copyIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span id="copyText">複製</span>
+            </button>
+          </div>
+          
+          <!-- Toggle -->
+          <div class="px-5 py-3 border-b border-slate-200 bg-slate-50">
+            <button onclick="togglePromptExpand()" id="expandBtn" class="text-indigo-600 text-sm font-medium hover:text-indigo-700 flex items-center gap-2">
+              <svg id="expandIcon" class="collapsible-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              <span id="expandText">展開完整內容</span>
+            </button>
+          </div>
+          
+          <!-- Code Content -->
+          <div id="promptContainer" class="overflow-hidden transition-all duration-500" style="max-height: 280px;">
+            <div class="p-5 overflow-x-auto bg-white">
+              <pre id="promptCode" class="whitespace-pre-wrap"><code># Role
 You are an "AI Transformation Mentor & Judge". Your goal is to encourage participation while strictly identifying top-tier execution. You balance "Communication Clarity" (Base Score) with "Strategic & Operational Reality" (Bonus Score).
 
 # Mission
@@ -495,19 +1032,647 @@ Evaluate the user submission based on "Content Completeness" (0-100 pts).
 - **Rule of Thumb**:
   - Score < 60: Good Concept but vague execution.
   - Score 60-75: Solid Operational Tool (Solves a real problem, easy to use).
-  - Score 76-100: Strategic Asset (High Tech + High Value + High Usability).</pre>
+  - Score 76-100: Strategic Asset (High Tech + High Value + High Usability).</code></pre>
             </div>
+          </div>
         </div>
+        
+        <!-- Secondary CTA -->
+        <div class="reveal mt-8 text-center">
+          <button onclick="shareToClipboard()" class="btn-secondary inline-flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+            <span>分享這個頁面給同事</span>
+          </button>
+        </div>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-white py-12 text-center border-t border-slate-200">
-        <p class="text-slate-500 font-medium">Ready to deploy?</p>
-        <p class="text-sm text-slate-400 mt-2">將此 Prompt 複製到您的 LLM (ChatGPT, Claude, Gemini) 即可開始評審。</p>
-        <div class="mt-8 text-xs text-slate-300">
-            © 2025 AI Transformation Office
+    <!-- Deep Dive: 完整逐行解析 -->
+    <section id="analysis" class="section-padding px-6 bg-white">
+      <div class="max-w-5xl mx-auto">
+        <div class="reveal text-center mb-12">
+          <p class="section-label text-indigo-600 mb-2">Deep Dive</p>
+          <h2 class="text-display-sm text-slate-900 mb-4">完整逐行解析</h2>
+          <p class="text-slate-600"><strong class="text-slate-800">一句話：</strong>每一行 Prompt 都有其戰略意圖，這裡揭示背後的設計邏輯</p>
         </div>
-    </footer>
+        
+        <!-- Part 1: Role & Mental Model -->
+        <div class="reveal mb-12">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold">1</div>
+            <div>
+              <h3 class="text-xl font-bold text-slate-900">角色與心智模型</h3>
+              <p class="text-sm text-slate-500">Role & Mental Model — 決定 AI 的「世界觀」</p>
+            </div>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th class="bg-slate-100 text-left px-5 py-4 text-sm font-bold text-slate-700 border-b-2 border-slate-200 w-2/5">Prompt 指令</th>
+                  <th class="bg-slate-100 text-left px-5 py-4 text-sm font-bold text-slate-700 border-b-2 border-slate-200">戰略意圖</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-4 align-top">
+                    <code class="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-mono break-all"># Role</code><br>
+                    <code class="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-mono break-all mt-1 inline-block">You are an "AI Transformation Mentor & Judge".</code>
+                  </td>
+                  <td class="px-5 py-4 align-top">
+                    <p class="font-semibold text-slate-800 mb-2">🎭 定義雙重身份</p>
+                    <ul class="text-sm text-slate-600 space-y-1">
+                      <li><strong>Judge (法官)</strong>：維持比賽公平性</li>
+                      <li><strong>Mentor (導師)</strong>：目的是教育而非羞辱，確保評語帶有建設性</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-4 align-top">
+                    <code class="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-mono break-all">You balance "Communication Clarity" (Base Score) with "Strategic & Operational Reality" (Bonus Score).</code>
+                  </td>
+                  <td class="px-5 py-4 align-top">
+                    <p class="font-semibold text-slate-800 mb-2">⚖️ 雙軌評分核心</p>
+                    <p class="text-sm text-slate-600 mb-2">明確告知 AI，分數由兩個層次組成：</p>
+                    <ul class="text-sm text-slate-600 space-y-1">
+                      <li>「話講清楚」→ 基本分 (Base)</li>
+                      <li>「能落地賺錢」→ 決勝分 (Bonus)</li>
+                    </ul>
+                    <p class="text-xs text-slate-500 mt-2 italic">目的：防止 AI 被漂亮的簡報排版迷惑，強迫它挖掘內容實質</p>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-4 align-top">
+                    <code class="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-mono break-all"># Mission</code><br>
+                    <code class="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-mono break-all mt-1 inline-block">**Mental Model:** Combine the "Venture Capitalist" with the "Business Unit Head".</code>
+                  </td>
+                  <td class="px-5 py-4 align-top">
+                    <p class="font-semibold text-slate-800 mb-2">🧠 植入大腦 (The Brain Implant)</p>
+                    <p class="text-sm text-slate-600 mb-2">這是 <strong>v5.0 的靈魂</strong>。要求 AI 同時具備兩種視角：</p>
+                    <div class="grid grid-cols-2 gap-2 mt-2">
+                      <div class="bg-blue-50 rounded-lg p-2 text-xs">
+                        <strong class="text-blue-700">VC (投資人)</strong><br>
+                        <span class="text-blue-600">看戰略價值 (Value)</span>
+                      </div>
+                      <div class="bg-emerald-50 rounded-lg p-2 text-xs">
+                        <strong class="text-emerald-700">BU Head (主管)</strong><br>
+                        <span class="text-emerald-600">看可用性 (Usability)</span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Part 2: Scoring Criteria -->
+        <div class="reveal mb-12">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold">2</div>
+            <div>
+              <h3 class="text-xl font-bold text-slate-900">評分維度詳解</h3>
+              <p class="text-sm text-slate-500">Scoring Criteria — Prompt 的邏輯引擎，注入企業實戰邏輯</p>
+            </div>
+          </div>
+          
+          <!-- 2.1 Problem Definition -->
+          <div class="mb-8">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-lg">🎯</span>
+              <h4 class="font-bold text-slate-800">2.1 Problem Definition (痛點定義)</h4>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr>
+                    <th class="bg-red-50 text-left px-5 py-3 text-sm font-bold text-red-800 border-b-2 border-red-200 w-2/5">Prompt 指令</th>
+                    <th class="bg-red-50 text-left px-5 py-3 text-sm font-bold text-red-800 border-b-2 border-red-200">戰略意圖</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-red-50 text-red-700 px-2 py-1 rounded font-mono">**Problem Definition (Logic vs. Impact)**</code><br>
+                      <code class="text-xs bg-red-50 text-red-700 px-2 py-1 rounded font-mono mt-1 inline-block">- **Bonus (13-25 pts):**</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">⚔️ 定義戰場</p>
+                      <p class="text-sm text-slate-600">告訴 AI，這裡要看的是「<strong>影響力 (Impact)</strong>」，而不僅僅是邏輯通順</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-red-50 text-red-700 px-2 py-1 rounded font-mono break-all">**Strategic Alignment**: Links to revenue/customers.</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">📈 向上對齊 (Strategic Fit)</p>
+                      <p class="text-sm text-slate-600">要求專案必須能服務公司的大目標（營收、客戶滿意度）</p>
+                      <p class="text-xs text-slate-500 mt-1 italic">目的：過濾掉那些「為了做而做」的邊緣專案</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-red-50 text-red-700 px-2 py-1 rounded font-mono break-all">**Operational Release**: Frees up high-value talent from low-value tasks...</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">⬇️ 向下釋放 (Operational Efficiency)</p>
+                      <p class="text-sm text-slate-600">為「行政效率優化」平反。即使專案很小（如自動整理發票），如果能讓百萬年薪的業務專心賣東西，就是高價值</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-red-50 text-red-700 px-2 py-1 rounded font-mono break-all">*Logic:* Do not penalize small projects if they significantly boost morale...</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">💪 保護士氣</p>
+                      <p class="text-sm text-slate-600">防止 AI 因為專案規模太小給低分，認可「小確幸」對組織效能的貢獻</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- 2.2 Solution Fit -->
+          <div class="mb-8">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-lg">🔧</span>
+              <h4 class="font-bold text-slate-800">2.2 Solution Fit (解決方案)</h4>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr>
+                    <th class="bg-blue-50 text-left px-5 py-3 text-sm font-bold text-blue-800 border-b-2 border-blue-200 w-2/5">Prompt 指令</th>
+                    <th class="bg-blue-50 text-left px-5 py-3 text-sm font-bold text-blue-800 border-b-2 border-blue-200">戰略意圖</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-mono">**Solution Fit (Logic vs. Tech Moat)**</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">🏰 定義技術價值</p>
+                      <p class="text-sm text-slate-600">重點不在「技術有多新」，而在「<strong>護城河 (Moat) 有多深</strong>」</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-mono break-all">**Data Moat**: Leverages proprietary data.</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">🛡️ 護城河思維</p>
+                      <p class="text-sm text-slate-600">如果有用公司私有數據，競爭對手就抄不走</p>
+                      <p class="text-xs text-slate-500 mt-1 italic">目的：獎勵數據資產的累積，而非單純的 API 串接</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-mono break-all">**Smart Leverage**: Uses off-the-shelf tools cleverly... without over-engineering.</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">🔄 反內捲思維 (Anti-Overengineering)</p>
+                      <p class="text-sm text-slate-600">如果用現成的 Notion + Zapier 就能做，不要給我寫 Python</p>
+                      <p class="text-xs text-slate-500 mt-1 italic">目的：打擊「簡歷驅動開發」，獎勵用最小成本解決問題的聰明人</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- 2.3 Innovation -->
+          <div class="mb-8">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-lg">💡</span>
+              <h4 class="font-bold text-slate-800">2.3 Innovation (創新定義)</h4>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr>
+                    <th class="bg-purple-50 text-left px-5 py-3 text-sm font-bold text-purple-800 border-b-2 border-purple-200 w-2/5">Prompt 指令</th>
+                    <th class="bg-purple-50 text-left px-5 py-3 text-sm font-bold text-purple-800 border-b-2 border-purple-200">戰略意圖</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded font-mono">**Innovation (Experience vs. Adoption)**</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">🔄 重新定義創新</p>
+                      <p class="text-sm text-slate-600">在企業裡，最大的創新不是「黑科技」，而是「<strong>大家真的願意用</strong>」</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded font-mono break-all">**Zero Friction**: Seamlessly integrates into existing workflows...</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">🚪 無痛導入</p>
+                      <p class="text-sm text-slate-600">最好的 AI 是員工「感覺不到」的 AI。嵌入在 LINE/Slack 比獨立一個 App 分數更高</p>
+                      <p class="text-xs text-slate-500 mt-1 italic">目的：降低變革阻力 (Resistance to Change)</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded font-mono break-all">**Process Re-engineering**: Eliminates steps entirely rather than just automating them.</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">➖ 減法思維</p>
+                      <p class="text-sm text-slate-600">真正的創新是「<strong>讓步驟消失</strong>」，而不只是「讓步驟變快」</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded font-mono break-all">*Logic:* "Hard to use" = Score Cap at 15.</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">🚫 懲罰機制</p>
+                      <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 mt-2">
+                        <p class="text-sm text-amber-800">如果 UX 爛，技術再強也有分數天花板 (Cap)，直接封頂 <strong>15 分</strong>，拿不到高分</p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- 2.4 Feasibility -->
+          <div class="mb-8">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-lg">🏗️</span>
+              <h4 class="font-bold text-slate-800">2.4 Feasibility (落地可行性)</h4>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr>
+                    <th class="bg-emerald-50 text-left px-5 py-3 text-sm font-bold text-emerald-800 border-b-2 border-emerald-200 w-2/5">Prompt 指令</th>
+                    <th class="bg-emerald-50 text-left px-5 py-3 text-sm font-bold text-emerald-800 border-b-2 border-emerald-200">戰略意圖</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded font-mono">**Feasibility (Structure vs. Sustainability)**</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">♻️ 永續性檢核</p>
+                      <p class="text-sm text-slate-600">不僅要看「做不做得出來」，還要看「<strong>養不養得起</strong>」</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded font-mono break-all">**Maintenance Check**: Who fixes it when it breaks?</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">🚌 巴士指數 (The Bus Factor)</p>
+                      <p class="text-sm text-slate-600">如果實習生離職專案就死掉，這是<strong>負資產</strong></p>
+                      <p class="text-xs text-slate-500 mt-1 italic">目的：獎勵 Low-Code 或標準化服務，降低未來的維護債</p>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 align-top">
+                      <code class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded font-mono break-all">**Risk Control**: Addresses Hallucinations & Privacy.</code>
+                    </td>
+                    <td class="px-5 py-4 align-top">
+                      <p class="font-semibold text-slate-800 mb-2">🛑 保命符</p>
+                      <div class="bg-red-50 border border-red-200 rounded-lg p-3 mt-2">
+                        <p class="text-sm text-red-800">這是企業 AI 的紅線，<strong>沒考慮幻覺跟個資就是不及格</strong></p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Part 3: Output & Feedback -->
+        <div class="reveal mb-12">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold">3</div>
+            <div>
+              <h3 class="text-xl font-bold text-slate-900">輸出與反饋</h3>
+              <p class="text-sm text-slate-500">Output & Feedback — 決定參賽者收到什麼樣的「成績單」</p>
+            </div>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th class="bg-slate-100 text-left px-5 py-3 text-sm font-bold text-slate-700 border-b-2 border-slate-200 w-2/5">Prompt 指令</th>
+                  <th class="bg-slate-100 text-left px-5 py-3 text-sm font-bold text-slate-700 border-b-2 border-slate-200">戰略意圖</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-4 align-top">
+                    <code class="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded font-mono"># Output Format (Strict JSON)</code><br>
+                    <code class="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded font-mono mt-1 inline-block break-all">"summary": "...Focus on Operational & Business Value"</code>
+                  </td>
+                  <td class="px-5 py-4 align-top">
+                    <p class="font-semibold text-slate-800 mb-2">📝 摘要聚焦</p>
+                    <p class="text-sm text-slate-600">強迫 AI 用「<strong>商業語言</strong>」總結，而不是技術語言</p>
+                    <p class="text-xs text-slate-500 mt-1 italic">目的：讓高層一眼就能看懂這專案在幹嘛</p>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-4 align-top">
+                    <code class="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded font-mono break-all">"blind_spots": ["Maintenance burden?", "Is adoption realistic?"]</code>
+                  </td>
+                  <td class="px-5 py-4 align-top">
+                    <p class="font-semibold text-slate-800 mb-2">🔍 盲點偵測 (Devil's Advocate)</p>
+                    <p class="text-sm text-slate-600">AI 扮演「魔鬼代言人」，直接戳專案最脆弱的地方（如：誰來維護？）</p>
+                    <p class="text-xs text-slate-500 mt-1 italic">目的：幫助同仁進行防禦性思考</p>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-4 align-top">
+                    <code class="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded font-mono break-all">"suggestion_for_improvement": "Role-aware actionable advice..."</code>
+                  </td>
+                  <td class="px-5 py-4 align-top">
+                    <p class="font-semibold text-slate-800 mb-2">💬 角色感知建議</p>
+                    <p class="text-sm text-slate-600">對業務講人話（找資源），對工程師講技術話（優化架構）</p>
+                    <p class="text-xs text-slate-500 mt-1 italic">目的：確保建議真的能執行，而不是聽不懂的天書</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Part 4: Constraint & Rules -->
+        <div class="reveal">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold">4</div>
+            <div>
+              <h3 class="text-xl font-bold text-slate-900">限制與黃金法則</h3>
+              <p class="text-sm text-slate-500">Constraint & Rules — 最後的保險絲，確保評分分布符合預期</p>
+            </div>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th class="bg-amber-50 text-left px-5 py-3 text-sm font-bold text-amber-800 border-b-2 border-amber-200 w-2/5">Prompt 指令</th>
+                  <th class="bg-amber-50 text-left px-5 py-3 text-sm font-bold text-amber-800 border-b-2 border-amber-200">戰略意圖</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-4 align-top">
+                    <code class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded font-mono"># Constraint</code><br>
+                    <code class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded font-mono mt-1 inline-block break-all">**Pragmatism Filter**: A project with "Average Tech" but "Excellent Usability"...</code>
+                  </td>
+                  <td class="px-5 py-4 align-top">
+                    <p class="font-semibold text-slate-800 mb-2">⚖️ 務實濾鏡 (Pragmatism)</p>
+                    <div class="bg-amber-100 border border-amber-300 rounded-lg p-3 mt-2">
+                      <p class="text-sm text-amber-900 font-medium">這是 v5.0 的最高指導原則</p>
+                      <p class="text-sm text-amber-800 mt-1">技術平庸但好用的專案 <strong>&gt;</strong> 技術高深但難用的專案</p>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2 italic">目的：徹底扭轉傳統「技術至上」的評審偏見</p>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-4 align-top">
+                    <code class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded font-mono break-all">Score 60-75: Solid Operational Tool</code>
+                  </td>
+                  <td class="px-5 py-4 align-top">
+                    <p class="font-semibold text-slate-800 mb-2">⚓ 定錨點 — 中堅力量</p>
+                    <p class="text-sm text-slate-600">定義什麼叫「中堅力量」。讓那些解決實際問題的小工具能穩拿 <strong>70 分</strong></p>
+                    <p class="text-xs text-slate-500 mt-1 italic">目的：這對推動全員 AI 轉型至關重要</p>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-4 align-top">
+                    <code class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded font-mono break-all">Score 76-100: Strategic Asset</code>
+                  </td>
+                  <td class="px-5 py-4 align-top">
+                    <p class="font-semibold text-slate-800 mb-2">🏆 定錨點 — 戰略資產</p>
+                    <p class="text-sm text-slate-600">定義什麼叫「戰略資產」</p>
+                    <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-3 mt-2">
+                      <p class="text-sm text-indigo-800">只有同時具備 <strong>高技術 + 高價值 + 高易用性</strong> 的專案才能拿金牌</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Summary Box -->
+        <div class="reveal mt-12 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 text-white">
+          <div class="flex items-start gap-4">
+            <span class="text-4xl">📋</span>
+            <div>
+              <h3 class="text-xl font-bold mb-3">總結：v5.0 的核心戰略</h3>
+              <p class="text-slate-300 leading-relaxed">
+                這份 Prompt 的每一行都在執行一個核心戰略：「<strong class="text-white">去魅 (De-mystify) 與 落地 (Grounding)</strong>」。
+                它不再把 AI 視為黑科技比賽，而是視為「<strong class="text-amber-400">解決商業問題的手段</strong>」。
+              </p>
+              <p class="text-slate-400 text-sm mt-4">
+                這份文件可以幫助你向高層解釋：「為什麼我們的 AI 評審不會只選出炫技的專案，而是會選出真正能幫公司省錢、賺錢的實戰工具。」
+              </p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
 
+    <!-- FAQ Section (降級為輔助) -->
+    <section id="faq" class="py-16 px-6 bg-slate-50 border-t border-slate-200">
+      <div class="max-w-3xl mx-auto">
+        <div class="reveal text-center mb-10">
+          <h2 class="text-xl font-bold text-slate-900 mb-2">常見問題</h2>
+          <p class="text-sm text-slate-500">87% 的用戶問過這些問題</p>
+        </div>
+        
+        <div class="reveal space-y-3">
+          
+          <div class="card-static overflow-hidden">
+            <button onclick="toggleCollapsible(this)" class="collapsible-trigger w-full px-5 py-4 flex items-center justify-between text-left" aria-expanded="false">
+              <span class="font-medium text-slate-800 text-sm">這套標準會不會打擊創新？</span>
+              <svg class="collapsible-icon w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="collapsible-content" aria-hidden="true">
+              <div class="px-5 pb-4 text-slate-600 text-sm">
+                不會。這套標準獎勵的是「有效的創新」。真正有突破性的技術，如果同時具備好的使用體驗，會拿到 76-100 的高分。
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-static overflow-hidden">
+            <button onclick="toggleCollapsible(this)" class="collapsible-trigger w-full px-5 py-4 flex items-center justify-between text-left" aria-expanded="false">
+              <span class="font-medium text-slate-800 text-sm">技術很強但分數低怎麼辦？</span>
+              <svg class="collapsible-icon w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="collapsible-content" aria-hidden="true">
+              <div class="px-5 pb-4 text-slate-600 text-sm">
+                這正是這套標準的價值所在。技術強但分數低，通常意味著 UX 不好、沒解決真實痛點、或維護成本太高。早點發現，早點修正。
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-static overflow-hidden">
+            <button onclick="toggleCollapsible(this)" class="collapsible-trigger w-full px-5 py-4 flex items-center justify-between text-left" aria-expanded="false">
+              <span class="font-medium text-slate-800 text-sm">為什麼是 v5.0？</span>
+              <svg class="collapsible-icon w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="collapsible-content" aria-hidden="true">
+              <div class="px-5 pb-4 text-slate-600 text-sm">
+                經過 4 輪實戰迭代：v1-2 只看技術、v3 加入商業價值但權重不當、v4 引入 Base+Bonus 但對小工具不友善、v5 加入「務實濾鏡」達到平衡。
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-10 px-6 bg-slate-900 text-slate-400">
+    <div class="max-w-6xl mx-auto text-center">
+      <div class="flex items-center justify-center gap-3 mb-3">
+        <span class="badge-v5">v5.0</span>
+        <span class="font-bold text-white">AI Judge</span>
+      </div>
+      <p class="text-sm">務實高管版 — 去魅與落地的評審方法學</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="backToTop" onclick="scrollToTop()" class="back-to-top fixed bottom-6 right-6 w-12 h-12 bg-slate-900 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-slate-800 transition-all z-40" aria-label="回到頂部">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+  </button>
+
+  <script>
+    // === Mobile Menu ===
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const overlay = document.getElementById('mobileOverlay');
+      const btn = document.getElementById('menuBtn');
+      const isOpen = menu.classList.toggle('open');
+      overlay.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen);
+    }
+    
+    // === Copy Prompt ===
+    function copyPrompt() {
+      const code = document.getElementById('promptCode').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.getElementById('copyBtn');
+        const text = document.getElementById('copyText');
+        btn.classList.add('copied');
+        text.textContent = '已複製！';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          text.textContent = '複製';
+        }, 2500);
+      });
+    }
+    
+    // === Share ===
+    function shareToClipboard() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('連結已複製，可以分享給同事！');
+      });
+    }
+    
+    // === Collapsible ===
+    function toggleCollapsible(btn) {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('.collapsible-icon');
+      const isExpanded = content.classList.toggle('expanded');
+      btn.setAttribute('aria-expanded', isExpanded);
+      content.setAttribute('aria-hidden', !isExpanded);
+      if (icon) icon.classList.toggle('rotated', isExpanded);
+    }
+    
+    // === Prompt Expand ===
+    let promptExpanded = false;
+    function togglePromptExpand() {
+      const container = document.getElementById('promptContainer');
+      const text = document.getElementById('expandText');
+      const icon = document.getElementById('expandIcon');
+      promptExpanded = !promptExpanded;
+      container.style.maxHeight = promptExpanded ? '2000px' : '280px';
+      text.textContent = promptExpanded ? '收合內容' : '展開完整內容';
+      icon.classList.toggle('rotated', promptExpanded);
+    }
+    
+    // === Scroll to Top ===
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // === Back to Top Visibility ===
+    let lastScrollY = 0;
+    window.addEventListener('scroll', () => {
+      const btn = document.getElementById('backToTop');
+      btn.classList.toggle('visible', window.scrollY > 600);
+      lastScrollY = window.scrollY;
+    }, { passive: true });
+    
+    // === Scroll Reveal & Progress Bar Animation ===
+    const revealElements = document.querySelectorAll('.reveal');
+    const progressBars = document.querySelectorAll('.progress-bar');
+    
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          
+          // Animate progress bars within this element
+          entry.target.querySelectorAll('.progress-bar').forEach((bar, index) => {
+            setTimeout(() => {
+              bar.classList.add('animated');
+            }, index * 150);
+          });
+        }
+      });
+    }, observerOptions);
+    
+    revealElements.forEach(el => revealObserver.observe(el));
+    
+    // === Smooth Scroll ===
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const offset = 80;
+          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // === Keyboard Navigation ===
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const menu = document.getElementById('mobileMenu');
+        if (menu.classList.contains('open')) {
+          toggleMobileMenu();
+        }
+      }
+    });
+  </script>
 </body>
 </html>
