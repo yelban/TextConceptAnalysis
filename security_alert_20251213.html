@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企業員工資安對策守則：電子郵件與 LINE 安全防護</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 text-base leading-relaxed">
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+        <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+            <div class="text-center">
+                <div class="inline-flex items-center gap-2 bg-red-500/20 text-red-300 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>
+                    緊急資安公告 | 2025/12/13
+                </div>
+                <h1 class="text-3xl md:text-5xl font-black mb-6 leading-tight">
+                    防堵假冒高層與<br class="md:hidden">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">LINE 社交工程詐騙</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-8">
+                    詐騙集團正假冒董事長，透過偽造信件與 LINE QR Code 劫持攻擊同仁。<br>
+                    <strong class="text-white">三秒判斷、七步防禦、一鍵急救</strong>——守護您的帳號安全。
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#email-defense" class="bg-white text-slate-900 px-6 py-3 rounded-xl font-semibold hover:bg-slate-100 transition">
+                        📧 郵件防偽標籤
+                    </a>
+                    <a href="#line-defense" class="bg-emerald-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-600 transition">
+                        📱 LINE 鐵壁防禦
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Visual Overview -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">🗺️ 防禦架構總覽</h2>
+                <p class="text-slate-600">從威脅識別到緊急救援，五道關卡守護您的資訊安全</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-xl">
+                <img src="overview.png" 
+                     alt="防堵假冒高層與 LINE 社交工程詐騙對策" 
+                     class="w-full h-auto">
+            </div>
+        </div>
+    </section>
+
+    <!-- Before/After Comparison -->
+    <section class="py-12 md:py-16 bg-slate-100">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">⚖️ 危機對比：您準備好了嗎？</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Before -->
+                <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-6 md:p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-4xl">😰</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-red-700">沒有防護意識</h3>
+                            <p class="text-red-600 text-sm">高風險狀態</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-slate-700">
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 text-xl">✗</span>
+                            <span>看到「陳董事長」就相信是本人</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 text-xl">✗</span>
+                            <span>隨意掃描 QR Code「加好友」</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 text-xl">✗</span>
+                            <span>LINE 允許多裝置登入，從不檢查</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 text-xl">✗</span>
+                            <span>帳號被盜後不知道如何處理</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6 p-4 bg-red-100 rounded-xl">
+                        <p class="text-red-800 font-medium text-center">
+                            💸 後果：帳號被盜、親友受害、公司機密外洩
+                        </p>
+                    </div>
+                </div>
+                <!-- After -->
+                <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-6 md:p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-4xl">🛡️</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-emerald-700">完成防護設定</h3>
+                            <p class="text-emerald-600 text-sm">銅牆鐵壁狀態</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-slate-700">
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 text-xl">✓</span>
+                            <span>三秒辨識：看標籤、看紅燈、不掃碼</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 text-xl">✓</span>
+                            <span>關閉「允許自其他裝置登入」</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 text-xl">✓</span>
+                            <span>啟用雙重認證與生物辨識</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 text-xl">✓</span>
+                            <span>熟悉黃金救援 SOP</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6 p-4 bg-emerald-100 rounded-xl">
+                        <p class="text-emerald-800 font-medium text-center">
+                            ✅ 結果：駭客無法入侵、詐騙立即識破
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Email Defense -->
+    <section id="email-defense" class="py-12 md:py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <span class="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">第一道防線</span>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">📧 認明「董事長唯一信箱」標籤</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    資訊部已在郵件系統實施「視覺輔助辨識」，三秒鐘判斷真偽
+                </p>
+            </div>
+
+            <!-- Visual Guide Image -->
+            <div class="mb-10 rounded-2xl overflow-hidden shadow-xl border border-slate-200">
+                <img src="guide.png" 
+                     alt="企業員工資安對策守則：電子郵件與 LINE 安全防護" 
+                     class="w-full h-auto">
+            </div>
+
+            <!-- Criteria Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="card-hover bg-emerald-50 border border-emerald-200 rounded-2xl p-6">
+                    <div class="w-14 h-14 bg-emerald-500 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                        ✓
+                    </div>
+                    <h3 class="text-lg font-bold text-emerald-700 mb-2">有標籤 = 正版</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        主旨顯示 <code class="bg-emerald-100 px-2 py-1 rounded text-emerald-800">[董事長唯一信箱]</code> 才是真正來自董事長的信件
+                    </p>
+                </div>
+                <div class="card-hover bg-red-50 border border-red-200 rounded-2xl p-6">
+                    <div class="w-14 h-14 bg-red-500 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                        ✗
+                    </div>
+                    <h3 class="text-lg font-bold text-red-700 mb-2">無標籤 = 100% 詐騙</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        顯示「陳來助」、「來助」、「LJ」但沒有標籤，直接刪除，切勿回覆或點擊連結
+                    </p>
+                </div>
+                <div class="card-hover bg-amber-50 border border-amber-200 rounded-2xl p-6">
+                    <div class="w-14 h-14 bg-amber-500 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                        ⚠
+                    </div>
+                    <h3 class="text-lg font-bold text-amber-700 mb-2">紅色/黃色警示 = 危險</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        看到 <span class="text-red-600 font-medium">External</span> 或 <span class="text-amber-600 font-medium">垃圾郵件警示</span>，立即提高警覺
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LINE Defense -->
+    <section id="line-defense" class="py-12 md:py-16 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <span class="inline-block bg-emerald-500/20 text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold mb-4">第二道防線</span>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">📱 LINE 帳號「鐵壁防禦」七步驟</h2>
+                <p class="text-slate-300 max-w-2xl mx-auto">
+                    拿起手機，依照下列步驟強化設定<br>
+                    <span class="text-slate-400 text-sm">操作路徑：LINE 主頁 → 右上角齒輪 ⚙️ 設定</span>
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Step 1 -->
+                <div class="card-hover bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold">1</span>
+                        <h3 class="text-lg font-bold">補齊帳號核心資料</h3>
+                    </div>
+                    <p class="text-slate-300 text-sm mb-3">設定 → 我的帳號</p>
+                    <ul class="text-slate-200 text-sm space-y-2">
+                        <li>✓ 確認「電話號碼」已綁定</li>
+                        <li>✓ 確認「電子郵件」與「密碼」已設定</li>
+                    </ul>
+                    <p class="mt-3 text-amber-300 text-xs">⚠️ 密碼設定後無法查看，忘記只能重設</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="card-hover bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold">2</span>
+                        <h3 class="text-lg font-bold">管理登入裝置</h3>
+                    </div>
+                    <p class="text-slate-300 text-sm mb-3">設定 → 我的帳號 → 登入中的裝置</p>
+                    <p class="text-slate-200 text-sm">
+                        檢查清單中是否有「非本人」裝置，若有請立刻按「<span class="text-red-400 font-semibold">登出</span>」
+                    </p>
+                    <a href="https://line-tw-official.weblog.to/archives/11922213.html" target="_blank" 
+                       class="inline-block mt-3 text-cyan-400 text-sm hover:underline">
+                        📚 查看官方教學 →
+                    </a>
+                </div>
+
+                <!-- Step 3 (Highlighted) -->
+                <div class="card-hover bg-gradient-to-br from-red-600 to-red-700 rounded-2xl p-6 border border-red-400 md:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 bg-white text-red-600 rounded-full flex items-center justify-center font-bold">3</span>
+                        <div>
+                            <h3 class="text-lg font-bold">關閉「允許自其他裝置登入」</h3>
+                            <span class="text-red-200 text-xs">🔥 最重要！</span>
+                        </div>
+                    </div>
+                    <p class="text-red-100 text-sm mb-3">設定 → 我的帳號 → 允許自其他裝置登入</p>
+                    <div class="bg-white/20 rounded-xl p-4 text-sm">
+                        <p class="text-white mb-2"><strong>❌ 只用手機傳 LINE：</strong>務必關閉，100% 杜絕遠端盜用</p>
+                        <p class="text-white"><strong>✅ 需使用電腦版：</strong>保持開啟，但須定期檢查登入裝置</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="card-hover bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold">4</span>
+                        <h3 class="text-lg font-bold">網頁登入雙重認證</h3>
+                    </div>
+                    <p class="text-slate-300 text-sm mb-3">設定 → 我的帳號 → 開啟「網頁登入雙重認證」</p>
+                    <p class="text-slate-200 text-sm">
+                        登入第三方網頁時，手機會跳出確認通知，防止帳密外洩後被盜用
+                    </p>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="card-hover bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold">5</span>
+                        <h3 class="text-lg font-bold">啟用生物辨識</h3>
+                    </div>
+                    <p class="text-slate-300 text-sm mb-3">設定 → 我的帳號 → Face ID / Touch ID</p>
+                    <p class="text-slate-200 text-sm">
+                        用生物辨識解鎖，無需輸入密碼，避免密碼被鍵盤側錄
+                    </p>
+                    <a href="https://line-tw-official.weblog.to/archives/84191413.html" target="_blank" 
+                       class="inline-block mt-3 text-cyan-400 text-sm hover:underline">
+                        📚 查看官方教學 →
+                    </a>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="card-hover bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold">6</span>
+                        <h3 class="text-lg font-bold">App 本機鎖</h3>
+                    </div>
+                    <p class="text-slate-300 text-sm mb-3">設定 → 隱私設定 → 開啟「密碼鎖定」</p>
+                    <p class="text-slate-200 text-sm">
+                        防止手機借人或遺失時，LINE 對話內容直接被看光
+                    </p>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="card-hover bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold">7</span>
+                        <h3 class="text-lg font-bold">聊天加密 Letter Sealing</h3>
+                    </div>
+                    <p class="text-slate-300 text-sm mb-3">設定 → 隱私設定 → 開啟「Letter Sealing」</p>
+                    <p class="text-slate-200 text-sm">
+                        確保訊息點對點加密。換新手機時請依正規流程轉移
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency SOS -->
+    <section id="sos" class="py-12 md:py-16 bg-red-600 text-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <span class="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">🆘 黃金救援</span>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">懷疑被盜帳號怎麼辦？</h2>
+                <p class="text-red-100 max-w-2xl mx-auto">
+                    不慎掃描了不明 QR Code，或發現 LINE 突然無法登入、亂傳訊息？請立即行動！
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Situation A -->
+                <div class="bg-white rounded-2xl p-6 md:p-8 text-slate-800">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-3xl">📱</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-emerald-700">情況 A：手機還能打開 LINE</h3>
+                            <p class="text-slate-500 text-sm">還有機會自救！</p>
+                        </div>
+                    </div>
+                    <ol class="space-y-4">
+                        <li class="flex items-start gap-4">
+                            <span class="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">1</span>
+                            <div>
+                                <p class="font-semibold">踢除駭客</p>
+                                <p class="text-slate-600 text-sm">設定 → 我的帳號 → 登入中的裝置 → <span class="text-red-600 font-semibold">登出所有裝置</span></p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</span>
+                            <div>
+                                <p class="font-semibold">更改密碼</p>
+                                <p class="text-slate-600 text-sm">設定 → 我的帳號 → 密碼 → 設定新密碼</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">3</span>
+                            <div>
+                                <p class="font-semibold">關閉權限</p>
+                                <p class="text-slate-600 text-sm">暫時關閉「允許自其他裝置登入」</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- Situation B -->
+                <div class="bg-white rounded-2xl p-6 md:p-8 text-slate-800">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-3xl">🚨</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-red-700">情況 B：LINE 已被登出</h3>
+                            <p class="text-slate-500 text-sm">駭客已改密碼，需官方介入</p>
+                        </div>
+                    </div>
+                    <ol class="space-y-4">
+                        <li class="flex items-start gap-4">
+                            <span class="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">1</span>
+                            <div>
+                                <p class="font-semibold">立即回報</p>
+                                <p class="text-slate-600 text-sm">填寫 LINE 官方問題反應表單，申請停權以減少親友受害</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</span>
+                            <div>
+                                <p class="font-semibold">官方救援</p>
+                                <p class="text-slate-600 text-sm">參考下方連結中的「填寫客服表單」步驟</p>
+                            </div>
+                        </li>
+                    </ol>
+                    <a href="https://line-tw-official.weblog.to/archives/26738038.html" target="_blank"
+                       class="inline-flex items-center gap-2 mt-6 bg-red-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-700 transition">
+                        🚑 官方急救手冊
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Reminders -->
+    <section class="py-12 md:py-16 bg-amber-50">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">⚠️ 重要觀念重申</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border-l-4 border-red-500">
+                    <div class="flex items-start gap-4">
+                        <span class="text-4xl">🚫</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-red-700 mb-2">嚴禁掃碼</h3>
+                            <p class="text-slate-700 leading-relaxed">
+                                任何要求您「掃描 QR Code 加好友」或「掃碼入群」的指令，<br>
+                                <strong class="text-red-600">99% 是登入劫持詐騙</strong>，請絕對不要掃描。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border-l-4 border-amber-500">
+                    <div class="flex items-start gap-4">
+                        <span class="text-4xl">📞</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-amber-700 mb-2">雙重確認</h3>
+                            <p class="text-slate-700 leading-relaxed">
+                                收到董事長或主管用 LINE 要求匯款、轉帳，<br>
+                                <strong class="text-amber-600">請務必打電話確認</strong>，不要只憑文字訊息就執行。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-10">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <p class="text-lg text-white font-semibold mb-2">🛡️ 資訊安全，人人有責</p>
+            <p class="text-sm">發布單位：資訊部 / 管理處 | 發布日期：2025/12/13</p>
+            <p class="text-sm mt-4">收到可疑信件或發現帳號異常，請截圖通報資訊部</p>
+        </div>
+    </footer>
+
+</body>
+</html>
