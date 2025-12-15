@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>蟬的生存數學 | 當數學遇上演化論</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+          },
+          colors: {
+            sage: {
+              50: '#f6f7f4',
+              100: '#e3e7dd',
+              200: '#c8d1bd',
+              500: '#7d9167',
+              600: '#5f7349',
+            },
+            ink: {
+              50: '#f8f8f7',
+              100: '#e8e8e6',
+              800: '#2d2d2a',
+              900: '#1a1a18',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .gradient-text {
+      background: linear-gradient(135deg, #5f7349 0%, #7d9167 50%, #3d5229 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12);
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .timeline-dot::before {
+      content: '';
+      position: absolute;
+      left: -9px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #7d9167;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px #7d9167;
+    }
+    
+    /* 列印樣式 */
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body { font-size: 11px !important; line-height: 1.4 !important; background: white !important; }
+      .no-print { display: none !important; }
+      header { min-height: auto !important; padding: 1rem 0 !important; }
+      header h1 { font-size: 24px !important; }
+      header p { font-size: 12px !important; margin-bottom: 0 !important; }
+      header .flex { display: none !important; }
+      header .inline-flex { margin-bottom: 0.5rem !important; }
+      section { padding: 0.75rem 0 !important; }
+      section h2 { font-size: 16px !important; margin-bottom: 0.5rem !important; }
+      section h3 { font-size: 13px !important; }
+      .text-center.mb-16 { margin-bottom: 0.5rem !important; }
+      .grid { gap: 0.5rem !important; }
+      .rounded-3xl, .rounded-2xl { border-radius: 8px !important; }
+      .p-8, .p-6 { padding: 0.5rem !important; }
+      .md\:p-10, .md\:p-12 { padding: 0.75rem !important; }
+      .space-y-12 > * + * { margin-top: 0.5rem !important; }
+      .space-y-6 > * + * { margin-top: 0.4rem !important; }
+      .space-y-4 > * + * { margin-top: 0.25rem !important; }
+      .py-24, .py-16 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+      .mb-8, .mb-6 { margin-bottom: 0.3rem !important; }
+      .mt-10, .mt-4 { margin-top: 0.3rem !important; }
+      .text-5xl { font-size: 20px !important; }
+      .text-4xl { font-size: 18px !important; }
+      .text-3xl { font-size: 16px !important; }
+      .text-2xl { font-size: 14px !important; }
+      .text-xl { font-size: 13px !important; }
+      .text-lg { font-size: 12px !important; }
+      details { break-inside: avoid; }
+      details[open] summary ~ * { display: block !important; }
+      details summary svg { display: none !important; }
+      figure { margin: 0.5rem 0 !important; }
+      figure img { max-height: 180px !important; width: auto !important; margin: 0 auto; }
+      figcaption { margin-top: 0.25rem !important; font-size: 9px !important; }
+      footer { padding: 0.5rem !important; font-size: 9px !important; }
+      .shadow-lg, .shadow-sm, .shadow-2xl { box-shadow: none !important; border: 1px solid #ddd !important; }
+      .blur-3xl { display: none !important; }
+      .gradient-text { -webkit-text-fill-color: #5f7349 !important; }
+      .bg-gradient-to-br, .bg-gradient-to-b { background: #f5f5f5 !important; }
+      .bg-ink-900 { background: #2d2d2a !important; color: white !important; }
+      .backdrop-blur { backdrop-filter: none !important; }
+      @page { margin: 1cm; size: A4; }
+    }
+  </style>
+</head>
+<body class="font-sans bg-ink-50 text-ink-800 antialiased">
+
+  <!-- Hero Section -->
+  <header class="min-h-[90vh] flex items-center justify-center relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-sage-50 via-white to-sage-100 opacity-80"></div>
+    <div class="absolute top-20 left-10 w-72 h-72 bg-sage-200 rounded-full blur-3xl opacity-30"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-sage-100 rounded-full blur-3xl opacity-40"></div>
+    
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center fade-in">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur rounded-full text-sm text-sage-600 mb-8 shadow-sm">
+        <span>🧮</span>
+        <span>數學 × 生物</span>
+        <span class="mx-2 text-ink-100">|</span>
+        <span>難度 ⭐⭐⭐</span>
+      </div>
+      
+      <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+        <span class="gradient-text">蟬的生存數學</span>
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-ink-800/70 max-w-2xl mx-auto mb-8 leading-relaxed">
+        為了不被吃掉，蟬學會了<strong class="text-sage-600">最小公倍數</strong>。<br>
+        大自然的數學課，比學校的更狠。
+      </p>
+      
+      <div class="flex flex-wrap justify-center gap-4 mt-10">
+        <a href="#mystery" class="px-8 py-4 bg-ink-900 text-white rounded-full font-medium hover:bg-ink-800 transition-colors shadow-lg shadow-ink-900/20">
+          開始探索 →
+        </a>
+        <a href="#qa" class="px-8 py-4 bg-white text-ink-800 rounded-full font-medium hover:bg-ink-100 transition-colors border border-ink-100">
+          Q&A 攻防戰
+        </a>
+        <button onclick="window.print()" class="no-print px-8 py-4 bg-sage-600 text-white rounded-full font-medium hover:bg-sage-500 transition-colors shadow-lg shadow-sage-600/20">
+          🖨️ 列印講義
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Before/After Section -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sage-500 text-sm font-medium tracking-widest uppercase">生存挑戰</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4">誰能活下來？</h2>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Before: 笨笨蟬 -->
+        <div class="card-hover bg-white rounded-3xl p-8 md:p-10 shadow-lg shadow-red-500/5 border border-red-100">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-4xl">💀</span>
+            <div>
+              <h3 class="text-xl font-bold text-red-600">笨笨蟬</h3>
+              <p class="text-sm text-ink-800/50">12 年週期</p>
+            </div>
+          </div>
+          
+          <div class="space-y-4 text-ink-800/70">
+            <p class="text-lg">天敵（鳥）每 <strong class="text-red-500">4 年</strong>出現一次大群體。</p>
+            <div class="bg-red-50 rounded-2xl p-6">
+              <p class="font-mono text-center text-lg">
+                12 ÷ 4 = <span class="text-red-600 font-bold text-2xl">3</span>
+              </p>
+              <p class="text-center text-sm mt-2 text-red-600">整除！每次出土都碰面！</p>
+            </div>
+            <p class="text-base">第 12 年出來 → <strong class="text-red-500">剛好遇到天敵</strong> → 變成午餐 🍽️</p>
+          </div>
+        </div>
+        
+        <!-- After: 聰明蟬 -->
+        <div class="card-hover bg-white rounded-3xl p-8 md:p-10 shadow-lg shadow-sage-500/10 border border-sage-200">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-4xl">🎉</span>
+            <div>
+              <h3 class="text-xl font-bold text-sage-600">聰明蟬</h3>
+              <p class="text-sm text-ink-800/50">13 年週期</p>
+            </div>
+          </div>
+          
+          <div class="space-y-4 text-ink-800/70">
+            <p class="text-lg">同樣的天敵，每 <strong class="text-sage-600">4 年</strong>出現一次。</p>
+            <div class="bg-sage-50 rounded-2xl p-6">
+              <p class="font-mono text-center text-lg">
+                LCM(13, 4) = <span class="text-sage-600 font-bold text-2xl">52</span>
+              </p>
+              <p class="text-center text-sm mt-2 text-sage-600">要等 52 年才會碰面！</p>
+            </div>
+            <p class="text-base">第 13 年出來 → <strong class="text-sage-600">天敵不在</strong> → 安全繁殖 🌱</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual Diagram Section -->
+  <section class="py-16 px-6 bg-gradient-to-b from-ink-50 to-sage-50">
+    <div class="max-w-4xl mx-auto">
+      <figure class="rounded-3xl overflow-hidden shadow-2xl shadow-ink-900/10">
+        <img src="cicada-blackboard.png" alt="蟬的生存挑戰時間軸示意圖" class="w-full h-auto">
+      </figure>
+      <figcaption class="text-center mt-6 text-ink-800/50 text-sm">
+        ▲ 時間軸對比：天敵週期 vs 不同週期蟬的命運
+      </figcaption>
+    </div>
+  </section>
+
+  <!-- Mystery Section -->
+  <section id="mystery" class="py-24 px-6 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sage-500 text-sm font-medium tracking-widest uppercase">懸疑開場</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4">為什麼是 13 年和 17 年？</h2>
+      </div>
+      
+      <div class="bg-gradient-to-br from-ink-900 to-ink-800 rounded-3xl p-8 md:p-12 text-white">
+        <div class="flex items-start gap-4 mb-8">
+          <span class="text-5xl">🤔</span>
+          <div>
+            <h3 class="text-2xl font-bold mb-3">這是真的嗎？</h3>
+            <p class="text-white/70 text-lg leading-relaxed">
+              是真的！牠們叫做<strong class="text-sage-200">「週期蟬」(Periodical Cicadas)</strong>，主要住在北美洲。
+              如果你去美國，剛好遇到第 13 年或 17 年，你會看到<strong class="text-sage-200">幾億隻蟬</strong>同時跑出來。
+            </p>
+          </div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-white/10 backdrop-blur rounded-2xl p-6">
+            <div class="text-5xl font-black text-sage-200 mb-2">13</div>
+            <p class="text-white/60">質數週期</p>
+            <p class="text-sm text-white/40 mt-2">LCM(13, 2~12) 都很大</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-2xl p-6">
+            <div class="text-5xl font-black text-sage-200 mb-2">17</div>
+            <p class="text-white/60">質數週期</p>
+            <p class="text-sm text-white/40 mt-2">LCM(17, 2~16) 都很大</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Principle Section -->
+  <section class="py-24 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sage-500 text-sm font-medium tracking-widest uppercase">數學魔法</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4">質數的生存優勢</h2>
+      </div>
+      
+      <div class="relative pl-8 border-l-2 border-sage-200 space-y-12">
+        <div class="relative timeline-dot">
+          <span class="text-sm text-sage-500 font-medium">原理一</span>
+          <h3 class="text-xl font-bold mt-1 mb-3">質數很難被整除</h3>
+          <p class="text-ink-800/70 leading-relaxed">
+            13 和 17 除了 1 和自己之外，沒有其他因數。這意味著不管天敵的週期是 2, 3, 4, 5... 年，
+            都無法整除蟬的週期，「撞期」的機率大幅降低。
+          </p>
+        </div>
+        
+        <div class="relative timeline-dot">
+          <span class="text-sm text-sage-500 font-medium">原理二</span>
+          <h3 class="text-xl font-bold mt-1 mb-3">最小公倍數拖到最長</h3>
+          <p class="text-ink-800/70 leading-relaxed">
+            當兩個數互質（沒有共同因數），它們的 LCM = 兩數相乘。
+            所以 <code class="bg-sage-100 px-2 py-1 rounded text-sage-600">LCM(13, 4) = 52</code>，
+            天敵要等 <strong>52 年</strong>才能剛好碰到大餐！
+          </p>
+        </div>
+        
+        <div class="relative timeline-dot">
+          <span class="text-sm text-sage-500 font-medium">原理三</span>
+          <h3 class="text-xl font-bold mt-1 mb-3">演化的數學本能</h3>
+          <p class="text-ink-800/70 leading-relaxed">
+            大自然雖然沒上過數學課，但經過數百萬年的天擇，
+            <strong>選擇「非質數週期」的蟬都被吃光了</strong>。留下來的，都是數學學得最好的。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q&A Section -->
+  <section id="qa" class="py-24 px-6 bg-sage-50">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sage-500 text-sm font-medium tracking-widest uppercase">刁鑽問題</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4">Q&A 攻防戰</h2>
+        <p class="text-ink-800/60 mt-4">五年級學生可能會問的問題，以及簡單有力的回答</p>
+      </div>
+      
+      <div class="space-y-6">
+        <details class="card-hover bg-white rounded-2xl shadow-sm group print-open" open>
+          <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+            <div class="flex items-center gap-4">
+              <span class="text-2xl">🧐</span>
+              <span class="font-medium text-lg">為什麼不是 19 或 23 年？它們也是質數啊！</span>
+            </div>
+            <svg class="w-5 h-5 text-ink-800/30 group-open:rotate-180 transition-transform no-print" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-ink-800/70">
+            <p class="bg-sage-50 rounded-xl p-4">
+              生物的壽命有極限。在地底下睡 19 或 23 年實在太久了，身體可能撐不住就先死掉了。
+              所以 13 和 17 年剛好是<strong class="text-sage-600">「夠久能避開天敵」</strong>又<strong class="text-sage-600">「不會太久身體受得了」</strong>的黃金數字。
+            </p>
+          </div>
+        </details>
+        
+        <details class="card-hover bg-white rounded-2xl shadow-sm group print-open" open>
+          <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+            <div class="flex items-center gap-4">
+              <span class="text-2xl">🦅</span>
+              <span class="font-medium text-lg">天敵為什麼不也改成 13 年出現一次？</span>
+            </div>
+            <svg class="w-5 h-5 text-ink-800/30 group-open:rotate-180 transition-transform no-print" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-ink-800/70">
+            <p class="bg-sage-50 rounded-xl p-4">
+              天敵（像是鳥或老鼠）壽命比較短，而且牠們<strong class="text-sage-600">不能「只吃蟬」過活</strong>——
+              因為蟬 13 年才出來一次，其他 12 年鳥會餓死。所以天敵沒辦法為了配合蟬，而改變自己的生命週期。
+            </p>
+          </div>
+        </details>
+        
+        <details class="card-hover bg-white rounded-2xl shadow-sm group print-open" open>
+          <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+            <div class="flex items-center gap-4">
+              <span class="text-2xl">🤯</span>
+              <span class="font-medium text-lg">如果天敵每年都出現怎麼辦？</span>
+            </div>
+            <svg class="w-5 h-5 text-ink-800/30 group-open:rotate-180 transition-transform no-print" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-ink-800/70">
+            <p class="bg-sage-50 rounded-xl p-4">
+              沒錯！如果天敵每年都很多，那不管選幾年都沒用。
+              但是，週期蟬有一招大絕招叫做<strong class="text-sage-600">「人海戰術」</strong>。
+              因為牠們累積了 13 年才出來，數量多到幾億隻，天敵就算吃到飽也吃不完，剩下的蟬還是可以生寶寶。
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tips Section -->
+  <section class="py-24 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sage-500 text-sm font-medium tracking-widest uppercase">上台秘訣</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4">讓你的報告脫穎而出</h2>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-ink-100">
+          <div class="w-12 h-12 bg-sage-100 rounded-xl flex items-center justify-center text-2xl mb-4">🎤</div>
+          <h3 class="font-bold mb-2">開場要強</h3>
+          <p class="text-ink-800/60 text-sm leading-relaxed">
+            不要說「大家好我要講質數」。<br>
+            要說：<strong>「今天要介紹一種動物，牠為了不被吃掉，竟然學會了數學！」</strong>
+          </p>
+        </div>
+        
+        <div class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-ink-100">
+          <div class="w-12 h-12 bg-sage-100 rounded-xl flex items-center justify-center text-2xl mb-4">🖼️</div>
+          <h3 class="font-bold mb-2">道具支援</h3>
+          <p class="text-ink-800/60 text-sm leading-relaxed">
+            印一張週期蟬的照片（紅眼睛、黑身體），貼在黑板上。視覺記憶比文字更持久。
+          </p>
+        </div>
+        
+        <div class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-ink-100">
+          <div class="w-12 h-12 bg-sage-100 rounded-xl flex items-center justify-center text-2xl mb-4">🎯</div>
+          <h3 class="font-bold mb-2">自信結尾</h3>
+          <p class="text-ink-800/60 text-sm leading-relaxed">
+            「所以，不要覺得數學只是用來考試的。<br>
+            <strong>在自然界裡，數學是用來保命的。</strong>」
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-6 bg-ink-900 text-white/60">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-sm">
+        📚 適合對象：剛學完最小公倍數的學生
+        <span class="mx-3 text-white/20">|</span>
+        🎯 核心概念：LCM × 演化論
+        <span class="mx-3 text-white/20">|</span>
+        ⏱️ 建議時長：5 分鐘
+      </p>
+      <p class="text-xs mt-4 text-white/30">
+        大自然雖然沒上過數學課，但它懂最小公倍數。
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

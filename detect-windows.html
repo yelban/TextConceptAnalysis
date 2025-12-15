@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 電腦安全自我檢測指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fafbfc;
+            --text-primary: #1a1a2e;
+            --accent-blue: #0066ff;
+            --accent-red: #ff4757;
+            --accent-green: #26de81;
+            --card-bg: #ffffff;
+        }
+        
+        * {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .cmd-block {
+            background: linear-gradient(145deg, #1e1e2e, #2d2d3f);
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cmd-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+        }
+        
+        .copy-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .phase-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .phase-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .danger-gradient {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        }
+        
+        .success-gradient {
+            background: linear-gradient(135deg, #26de81 0%, #20bf6b 100%);
+        }
+        
+        .tool-card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.5); }
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .step-number {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white py-16 md:py-24 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-10 left-10 text-8xl">🔐</div>
+            <div class="absolute bottom-10 right-10 text-8xl">🛡️</div>
+            <div class="absolute top-1/2 left-1/4 text-6xl float-animation">💻</div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-medium mb-6">
+                🎯 工程師級安全取證入門
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
+                你的電腦被駭了嗎？<br/>
+                <span class="text-yellow-300">30 分鐘自我檢測</span>
+            </h1>
+            <p class="text-xl md:text-2xl font-light opacity-90 max-w-2xl mx-auto">
+                不需要專業背景，用 <strong>進程、網路、啟動項</strong> 三個維度<br/>
+                快速發現 90% 的入侵痕跡
+            </p>
+        </div>
+    </header>
+
+    <!-- Before/After Section -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">
+                🎭 檢測前 vs 檢測後
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Before -->
+                <div class="glass-card rounded-3xl p-8 border-l-4 border-red-400">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-4xl">😰</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-red-600">沒有檢測的你</h3>
+                            <p class="text-gray-500 text-sm">焦慮、不確定、亂槍打鳥</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✗</span>
+                            <span>「電腦好像變慢了...是不是中毒？」</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✗</span>
+                            <span>用一堆免費掃毒軟體亂掃一通</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✗</span>
+                            <span>不知道從哪裡開始檢查</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✗</span>
+                            <span>花 5 小時跟病毒博弈</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- After -->
+                <div class="glass-card rounded-3xl p-8 border-l-4 border-green-400">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-4xl">😎</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-green-600">掌握方法的你</h3>
+                            <p class="text-gray-500 text-sm">有邏輯、有系統、快狠準</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 mt-1">✓</span>
+                            <span>知道黑客只會做兩件事：<strong>建連線</strong>＋<strong>藏後門</strong></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 mt-1">✓</span>
+                            <span>用 3 個簡單指令快速定位問題</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 mt-1">✓</span>
+                            <span>會用專業工具驗證程式簽章</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 mt-1">✓</span>
+                            <span>30 分鐘重灌解決一切</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Logic Section -->
+    <section class="py-16 px-6 bg-white/50">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-5xl mb-4 block">🧠</span>
+                <h2 class="text-3xl font-bold mb-4">核心邏輯：逆向思考</h2>
+                <p class="text-gray-600 text-lg">黑客入侵後通常只會做兩件事</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6 pulse-glow">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">
+                            📡
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">建立連線</h3>
+                            <p class="text-sm text-gray-500">C2 Communication</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">把資料傳出去，或接收遠端指令控制你的電腦</p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-6 pulse-glow">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">
+                            🔄
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">持久化</h3>
+                            <p class="text-sm text-gray-500">Persistence</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">確保重新開機後，木馬還能繼續執行</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <div class="inline-block bg-yellow-100 text-yellow-800 rounded-full px-6 py-3 font-medium">
+                    💡 只要針對這兩點檢查，90% 的粗糙攻擊都能被發現
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Phase Cards -->
+    <section class="py-16 px-6">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4">🔍 三步驟快速檢測</h2>
+            <p class="text-center text-gray-600 mb-12">由淺入深，每個步驟都有明確的檢查邏輯</p>
+            
+            <!-- Phase 1 -->
+            <div class="phase-card glass-card rounded-3xl p-8 mb-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="step-number bg-blue-500 text-white">1</div>
+                    <div>
+                        <h3 class="text-2xl font-bold">網路連線審計</h3>
+                        <p class="text-gray-500">Network Audit - 最誠實的指標</p>
+                    </div>
+                </div>
+                
+                <div class="bg-blue-50 rounded-xl p-4 mb-6">
+                    <p class="text-blue-800">
+                        <strong>🎯 原理：</strong>如果你的電腦沒開瀏覽器卻一直在傳輸數據，那就是有鬼
+                    </p>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm font-medium text-gray-500">CMD 指令</span>
+                        <button onclick="copyCmd('netstat -ano | findstr &quot;ESTABLISHED&quot;')" class="copy-btn text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full">
+                            📋 複製
+                        </button>
+                    </div>
+                    <div class="cmd-block rounded-xl p-5 text-green-400 text-base overflow-x-auto">
+                        <code>netstat -ano | findstr "ESTABLISHED"</code>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-5">
+                    <h4 class="font-bold mb-3 flex items-center gap-2">
+                        <span>📖</span> 解讀方式
+                    </h4>
+                    <ol class="space-y-2 text-gray-700">
+                        <li class="flex items-start gap-3">
+                            <span class="bg-blue-100 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center text-sm flex-shrink-0">1</span>
+                            <span>列出所有「已建立」的連線，<strong>PID</strong> 是最後一欄的數字</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-blue-100 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center text-sm flex-shrink-0">2</span>
+                            <span>記下可疑連線的 PID（例如：連線到奇怪的國外 IP）</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-blue-100 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center text-sm flex-shrink-0">3</span>
+                            <span>打開 <strong>工作管理員 → 詳細資料</strong>，對照 PID 看是哪個軟體在偷連線</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-blue-100 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center text-sm flex-shrink-0">4</span>
+                            <span><code class="bg-gray-200 px-1 rounded">svchost.exe</code> 或瀏覽器通常正常，奇怪名字的 .exe 直接殺掉</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- Phase 2 -->
+            <div class="phase-card glass-card rounded-3xl p-8 mb-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="step-number bg-purple-500 text-white">2</div>
+                    <div>
+                        <h3 class="text-2xl font-bold">啟動項排查</h3>
+                        <p class="text-gray-500">Persistence Check - 黑客必須讓程式隨系統啟動</p>
+                    </div>
+                </div>
+                
+                <div class="bg-purple-50 rounded-xl p-4 mb-6">
+                    <p class="text-purple-800">
+                        <strong>🎯 快捷鍵：</strong>按 <kbd class="bg-white px-2 py-1 rounded shadow-sm">Ctrl</kbd> + <kbd class="bg-white px-2 py-1 rounded shadow-sm">Shift</kbd> + <kbd class="bg-white px-2 py-1 rounded shadow-sm">Esc</kbd> 開啟工作管理員
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 rounded-xl p-5">
+                        <h4 class="font-bold mb-3">📍 位置</h4>
+                        <p class="text-gray-700">工作管理員 → <strong>「啟動應用程式」</strong> 分頁</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-5">
+                        <h4 class="font-bold mb-3">🚨 可疑特徵</h4>
+                        <ul class="text-gray-700 space-y-1">
+                            <li>• 發行者是「<span class="text-red-500 font-bold">無</span>」或亂碼</li>
+                            <li>• 你完全不認得的軟體名稱</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-6 bg-green-50 border border-green-200 rounded-xl p-4">
+                    <p class="text-green-800">
+                        <strong>✅ 安全操作：</strong>把所有不認得的軟體 <strong>右鍵 → 停用</strong>。這不會弄壞電腦，頂多某個軟體開機不會自動跳出來
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Phase 3 -->
+            <div class="phase-card glass-card rounded-3xl p-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="step-number bg-red-500 text-white">3</div>
+                    <div>
+                        <h3 class="text-2xl font-bold">影子帳戶檢查</h3>
+                        <p class="text-gray-500">Hidden Accounts - 攻擊者可能偷偷創建管理員帳戶</p>
+                    </div>
+                </div>
+                
+                <div class="bg-red-50 rounded-xl p-4 mb-6">
+                    <p class="text-red-800">
+                        <strong>⚠️ 注意：</strong>需要以<strong>系統管理員身分</strong>執行 CMD
+                    </p>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm font-medium text-gray-500">CMD 指令</span>
+                        <button onclick="copyCmd('net user')" class="copy-btn text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full">
+                            📋 複製
+                        </button>
+                    </div>
+                    <div class="cmd-block rounded-xl p-5 text-green-400 text-base">
+                        <code>net user</code>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-5">
+                    <h4 class="font-bold mb-3">✅ 正常應該只有這些帳戶：</h4>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-white px-3 py-1 rounded-full text-sm border">Administrator</span>
+                        <span class="bg-white px-3 py-1 rounded-full text-sm border">Guest</span>
+                        <span class="bg-white px-3 py-1 rounded-full text-sm border">DefaultAccount</span>
+                        <span class="bg-white px-3 py-1 rounded-full text-sm border">WDAGUtilityAccount</span>
+                        <span class="bg-blue-100 px-3 py-1 rounded-full text-sm border border-blue-300 text-blue-700">你自己的帳號</span>
+                    </div>
+                    <div class="bg-red-100 border border-red-200 rounded-lg p-3">
+                        <p class="text-red-700 text-sm">
+                            <strong>🚨 危險信號：</strong>如果看到像 <code class="bg-white px-1 rounded">Support_3812</code>、<code class="bg-white px-1 rounded">Admin2</code> 等不認識的名字，<strong>立刻刪除</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Tools Section -->
+    <section class="py-16 px-6 bg-gradient-to-br from-slate-800 to-slate-900 text-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-5xl mb-4 block">🔬</span>
+                <h2 class="text-3xl font-bold mb-4">進階工具</h2>
+                <p class="text-slate-300">如果以上都沒發現但還是不放心，使用「手術刀」級檢查</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Process Explorer -->
+                <div class="tool-card rounded-3xl p-8 text-gray-800">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center text-3xl text-white">
+                            🔎
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">Process Explorer</h3>
+                            <p class="text-gray-500 text-sm">工作管理員威力加強版</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                            <p class="font-bold text-yellow-800">🌟 殺手級功能</p>
+                            <p class="text-yellow-700 text-sm mt-1">直接驗證簽章 + 連線 VirusTotal 掃毒</p>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            打開 <code class="bg-gray-100 px-1 rounded">Options → Check VirusTotal.com</code>，看到紅色分數（如 5/70）就是中毒
+                        </p>
+                    </div>
+                    
+                    <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer" target="_blank" 
+                       class="mt-6 inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-xl font-medium transition-colors">
+                        <span>下載工具</span>
+                        <span>→</span>
+                    </a>
+                </div>
+                
+                <!-- Autoruns -->
+                <div class="tool-card rounded-3xl p-8 text-gray-800">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center text-3xl text-white">
+                            ⚙️
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">Autoruns</h3>
+                            <p class="text-gray-500 text-sm">啟動項檢查的終極版</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
+                            <p class="font-bold text-purple-800">🗂️ 涵蓋範圍</p>
+                            <p class="text-purple-700 text-sm mt-1">註冊表 + 排程任務 + 所有藏污納垢的地方</p>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            紅色條目 = 檔案遺失或有問題，需要特別注意
+                        </p>
+                    </div>
+                    
+                    <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns" target="_blank"
+                       class="mt-6 inline-flex items-center gap-2 bg-purple-500 hover:bg-purple-600 text-white px-5 py-3 rounded-xl font-medium transition-colors">
+                        <span>下載工具</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert Advice Section -->
+    <section class="py-16 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="danger-gradient text-white rounded-3xl p-8 md:p-12">
+                <div class="flex items-start gap-6">
+                    <div class="text-6xl hidden md:block">⚡</div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4">
+                            專家建議：不要浪費時間分析病毒
+                        </h2>
+                        <p class="text-white/90 text-lg mb-8">
+                            如果發現明確入侵跡象（未知遠端連線、無法刪除的奇怪檔案），最符合經濟效益的解法：
+                        </p>
+                        
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="bg-white/20 backdrop-blur rounded-2xl p-5 text-center">
+                                <div class="text-4xl mb-2">🔌</div>
+                                <h4 class="font-bold mb-1">1. 斷網</h4>
+                                <p class="text-sm text-white/80">拔網線 / 關 Wi-Fi</p>
+                            </div>
+                            <div class="bg-white/20 backdrop-blur rounded-2xl p-5 text-center">
+                                <div class="text-4xl mb-2">💾</div>
+                                <h4 class="font-bold mb-1">2. 備份</h4>
+                                <p class="text-sm text-white/80">只備份文檔/圖片<br/>不要備份 .exe</p>
+                            </div>
+                            <div class="bg-white/20 backdrop-blur rounded-2xl p-5 text-center">
+                                <div class="text-4xl mb-2">🔄</div>
+                                <h4 class="font-bold mb-1">3. 重灌</h4>
+                                <p class="text-sm text-white/80">Clean Install<br/>30 分鐘搞定</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 bg-white/10 rounded-xl p-4 text-center">
+                            <p class="font-medium">💡 與其花 5 小時跟病毒博弈，不如花 30 分鐘重灌來得徹底</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Reference Card -->
+    <section class="py-16 px-6 bg-white/50">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-8">📋 快速參考卡</h2>
+            
+            <div class="glass-card rounded-3xl p-8 overflow-hidden">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b-2 border-gray-200">
+                            <th class="pb-4 text-gray-500 font-medium">檢測項目</th>
+                            <th class="pb-4 text-gray-500 font-medium">工具</th>
+                            <th class="pb-4 text-gray-500 font-medium">指令/位置</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="py-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xl">📡</span>
+                                    <span class="font-medium">網路連線</span>
+                                </div>
+                            </td>
+                            <td class="py-4 text-gray-600">CMD</td>
+                            <td class="py-4">
+                                <code class="bg-gray-100 px-2 py-1 rounded text-sm">netstat -ano | findstr "ESTABLISHED"</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xl">🔄</span>
+                                    <span class="font-medium">啟動項</span>
+                                </div>
+                            </td>
+                            <td class="py-4 text-gray-600">工作管理員</td>
+                            <td class="py-4">
+                                <code class="bg-gray-100 px-2 py-1 rounded text-sm">Ctrl+Shift+Esc → 啟動應用程式</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xl">👤</span>
+                                    <span class="font-medium">影子帳戶</span>
+                                </div>
+                            </td>
+                            <td class="py-4 text-gray-600">CMD (管理員)</td>
+                            <td class="py-4">
+                                <code class="bg-gray-100 px-2 py-1 rounded text-sm">net user</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Resource -->
+    <section class="py-16 px-6">
+        <div class="max-w-3xl mx-auto text-center">
+            <span class="text-5xl mb-4 block">🎬</span>
+            <h2 class="text-2xl font-bold mb-4">推薦影片資源</h2>
+            <p class="text-gray-600 mb-8">
+                這支影片演示了上述 <code class="bg-gray-100 px-1 rounded">net user</code> 和 <code class="bg-gray-100 px-1 rounded">netstat</code> 等指令的實際操作畫面，<br/>
+                非常適合不熟悉 CMD 介面的使用者
+            </p>
+            
+            <a href="https://www.youtube.com/watch?v=xC6oFi2dqhE" target="_blank"
+               class="inline-flex items-center gap-3 bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all hover:scale-105">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                <span>觀看 YouTube 教學</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 bg-slate-900 text-slate-400 text-center">
+        <p class="text-sm">
+            🛡️ 安全取證快速入門指南 | 工程師邏輯 × 三步驟檢測
+        </p>
+        <p class="text-xs mt-2 opacity-60">
+            讓每個人都能用簡單的方法保護自己的數位資產
+        </p>
+    </footer>
+
+    <!-- Toast for copy feedback -->
+    <div id="toast" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none">
+        ✅ 已複製到剪貼簿
+    </div>
+
+    <script>
+        function copyCmd(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+    </script>
+</body>
+</html>
