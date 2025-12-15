@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企業算力申請指南 | 國網中心 NCHC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        'navy': '#0f172a',
+                        'slate': '#334155',
+                        'mist': '#f8fafc',
+                        'accent': '#f59e0b',
+                        'success': '#10b981',
+                        'danger': '#ef4444',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-size: 18px; line-height: 1.8; }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .path-a { border-left: 4px solid #f59e0b; }
+        .path-b { border-left: 4px solid #10b981; }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stagger-1 { animation-delay: 0.1s; transform: translateY(20px); }
+        .stagger-2 { animation-delay: 0.2s; transform: translateY(20px); }
+        .stagger-3 { animation-delay: 0.3s; transform: translateY(20px); }
+        .stagger-4 { animation-delay: 0.4s; transform: translateY(20px); }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 12px;
+        }
+        
+        .timeline-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="bg-mist text-slate antialiased">
+
+    <!-- Hero Section -->
+    <header class="min-h-[70vh] flex items-center justify-center px-6 py-16 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in stagger-1">
+                <span class="inline-block px-4 py-2 bg-navy/5 rounded-full text-sm font-medium text-navy mb-6">
+                    🇹🇼 台灣企業專用指南
+                </span>
+            </div>
+            <h1 class="fade-in stagger-2 text-4xl md:text-6xl font-black text-navy leading-tight mb-6">
+                國家級 AI 算力<br>
+                <span class="gradient-text">企業申請全攻略</span>
+            </h1>
+            <p class="fade-in stagger-3 text-xl md:text-2xl text-slate/70 max-w-2xl mx-auto mb-10">
+                從「不知從何下手」到「精準命中審查要點」<br>
+                一頁讀懂國網中心（NCHC）算力取得路徑
+            </p>
+            <div class="fade-in stagger-4 flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#paths" class="px-8 py-4 bg-navy text-white font-bold rounded-2xl hover:bg-navy/90 transition-colors">
+                    ⚡ 查看申請路徑
+                </a>
+                <a href="#decision" class="px-8 py-4 bg-accent/10 text-accent font-bold rounded-2xl hover:bg-accent/20 transition-colors">
+                    🎯 快速決策指南
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Before/After Section -->
+    <section class="px-6 py-20 bg-mist">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-black text-center text-navy mb-16">
+                📊 有策略 vs 沒策略
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Before -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border-2 border-danger/20 card-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-4xl">😵</span>
+                        <div>
+                            <span class="text-danger font-bold text-sm uppercase tracking-wider">Before</span>
+                            <h3 class="text-2xl font-bold text-navy">沒有此指南</h3>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-lg">
+                        <li class="flex items-start gap-3">
+                            <span class="text-danger text-xl mt-1">✗</span>
+                            <span>計畫書寫成「行銷文案」，審查秒退</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-danger text-xl mt-1">✗</span>
+                            <span>GPU 額度亂喊價，被砍 50% 預算</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-danger text-xl mt-1">✗</span>
+                            <span>不知道有免費補助，多花冤枉錢</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-danger text-xl mt-1">✗</span>
+                            <span>帳號卡關兩週，專案延誤</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- After -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border-2 border-success/20 card-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-4xl">🎯</span>
+                        <div>
+                            <span class="text-success font-bold text-sm uppercase tracking-wider">After</span>
+                            <h3 class="text-2xl font-bold text-navy">使用此指南</h3>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-lg">
+                        <li class="flex items-start gap-3">
+                            <span class="text-success text-xl mt-1">✓</span>
+                            <span>計畫書直擊技術審查痛點，一次過審</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-success text-xl mt-1">✓</span>
+                            <span>用公式算出精準額度，不被砍預算</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-success text-xl mt-1">✓</span>
+                            <span>掌握補助時程，免費取得 H100 算力</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-success text-xl mt-1">✓</span>
+                            <span>帳號申請一次到位，專案準時啟動</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Two Paths Section -->
+    <section id="paths" class="px-6 py-20 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-navy mb-4">
+                    🛤️ 兩條算力取得路徑
+                </h2>
+                <p class="text-xl text-slate/70">選對路，事半功倍</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Path A -->
+                <div class="bg-mist rounded-3xl p-8 path-a card-hover">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-accent/20 rounded-2xl flex items-center justify-center">
+                            <span class="text-3xl">💰</span>
+                        </div>
+                        <div>
+                            <span class="text-accent font-bold text-sm uppercase tracking-wider">路徑 A</span>
+                            <h3 class="text-2xl font-black text-navy">商業採購</h3>
+                            <p class="text-slate/60">台智雲 TWS</p>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight-box p-4 mb-6">
+                        <p class="font-bold text-navy text-center">💡 花錢買時間，企業最常用</p>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="timeline-dot bg-accent/20 text-accent">1</div>
+                            <span class="text-lg">官網註冊企業帳號</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="timeline-dot bg-accent/20 text-accent">2</div>
+                            <span class="text-lg">綁定信用卡或簽約</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="timeline-dot bg-accent/20 text-accent">3</div>
+                            <span class="text-lg">隨開隨用 (Pay-as-you-go)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6">
+                        <h4 class="font-bold text-navy mb-3">✨ 優勢</h4>
+                        <ul class="space-y-2 text-slate/80">
+                            <li>• 免寫計畫書、免審核</li>
+                            <li>• SLA 商業保障</li>
+                            <li>• 可開發票、付費技術顧問</li>
+                            <li>• 適合傳產 AI 轉型</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-accent/10 rounded-xl">
+                        <p class="text-sm font-medium text-accent">🔗 tws.twcc.ai</p>
+                    </div>
+                </div>
+                
+                <!-- Path B -->
+                <div class="bg-mist rounded-3xl p-8 path-b card-hover">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-success/20 rounded-2xl flex items-center justify-center">
+                            <span class="text-3xl">📝</span>
+                        </div>
+                        <div>
+                            <span class="text-success font-bold text-sm uppercase tracking-wider">路徑 B</span>
+                            <h3 class="text-2xl font-black text-navy">專案申請</h3>
+                            <p class="text-slate/60">國網 iService</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-emerald-50 to-green-100 rounded-xl p-4 mb-6">
+                        <p class="font-bold text-navy text-center">💡 花時間省預算，適合研發/新創</p>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="timeline-dot bg-success/20 text-success">1</div>
+                            <span class="text-lg">iService 服務網註冊</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="timeline-dot bg-success/20 text-success">2</div>
+                            <span class="text-lg">使用工商憑證驗證</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="timeline-dot bg-success/20 text-success">3</div>
+                            <span class="text-lg">撰寫技術計畫書</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="timeline-dot bg-success/20 text-success">4</div>
+                            <span class="text-lg">技術審查 (1-2週+)</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="timeline-dot bg-success/20 text-success">5</div>
+                            <span class="text-lg">優惠費率購買點數</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6">
+                        <h4 class="font-bold text-navy mb-3">✨ 優勢</h4>
+                        <ul class="space-y-2 text-slate/80">
+                            <li>• 費率比公有雲便宜</li>
+                            <li>• 可申請政府算力補助（免費）</li>
+                            <li>• 適合 R&D 與產學合作</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-success/10 rounded-xl">
+                        <p class="text-sm font-medium text-success">🔗 iservice.nchc.org.tw</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hardware Arsenal -->
+    <section class="px-6 py-20 bg-navy text-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black mb-4">
+                    🖥️ 硬體軍火庫
+                </h2>
+                <p class="text-xl text-white/60">國網中心主要運算資源</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/10 card-hover">
+                    <div class="text-4xl mb-4">🌲</div>
+                    <h3 class="text-xl font-bold mb-2">台灣杉二號</h3>
+                    <p class="text-sm text-white/40 mb-4">Taiwania 2</p>
+                    <p class="text-white/80">
+                        GPU 主力機種<br>
+                        <span class="text-accent font-bold">V100 / H100</span><br>
+                        AI 訓練首選
+                    </p>
+                </div>
+                
+                <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/10 card-hover">
+                    <div class="text-4xl mb-4">🌳</div>
+                    <h3 class="text-xl font-bold mb-2">台灣杉三號</h3>
+                    <p class="text-sm text-white/40 mb-4">Taiwania 3</p>
+                    <p class="text-white/80">
+                        CPU 高速運算<br>
+                        <span class="text-accent font-bold">物理/化學模擬</span><br>
+                        科學計算專用
+                    </p>
+                </div>
+                
+                <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/10 card-hover relative overflow-hidden">
+                    <div class="absolute top-4 right-4 bg-accent text-navy text-xs font-bold px-2 py-1 rounded-full">
+                        NEW 2025
+                    </div>
+                    <div class="text-4xl mb-4">💎</div>
+                    <h3 class="text-xl font-bold mb-2">晶創 25</h3>
+                    <p class="text-sm text-white/40 mb-4">Nano 5</p>
+                    <p class="text-white/80">
+                        最新 AI 專用機<br>
+                        <span class="text-accent font-bold">生成式 AI 優化</span><br>
+                        2025/03 正式收費
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Decision Guide -->
+    <section id="decision" class="px-6 py-20 bg-mist">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-navy mb-4">
+                    🎯 快速決策
+                </h2>
+                <p class="text-xl text-slate/70">30 秒選出你的路徑</p>
+            </div>
+            
+            <div class="bg-white rounded-3xl p-8 shadow-lg">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4 p-6 bg-accent/5 rounded-2xl border-2 border-accent/20">
+                        <div class="w-12 h-12 bg-accent rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-2xl">A</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-navy mb-1">選擇路徑 A（台智雲）</h4>
+                            <p class="text-slate/70">接案 / 商業模型上線 / 不想寫報告 / 沒有專職 AI 團隊</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 p-6 bg-success/5 rounded-2xl border-2 border-success/20">
+                        <div class="w-12 h-12 bg-success rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-2xl text-white">B</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-navy mb-1">選擇路徑 B（iService）</h4>
+                            <p class="text-slate/70">R&D 部門 / 產學合作 / 預算有限 / 願意寫技術計畫書</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proposal Writing Tips -->
+    <section class="px-6 py-20 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-navy mb-4">
+                    📋 計畫書過審秘訣
+                </h2>
+                <p class="text-xl text-slate/70">技術審查委員的真正痛點</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-navy to-slate rounded-3xl p-8 md:p-12 text-white mb-12">
+                <div class="text-center mb-8">
+                    <span class="text-5xl">🎯</span>
+                    <h3 class="text-2xl md:text-3xl font-black mt-4">核心戰略 (BLUF)</h3>
+                </div>
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white/10 rounded-2xl p-6 mb-6">
+                        <p class="text-danger text-lg mb-2">❌ 不要寫</p>
+                        <p class="text-xl">「我們想做 AI」</p>
+                    </div>
+                    <div class="bg-white/10 rounded-2xl p-6">
+                        <p class="text-success text-lg mb-2">✅ 要寫</p>
+                        <p class="text-xl">「我們如何用算力解決具體的數學/工程問題」</p>
+                    </div>
+                    <p class="text-center mt-8 text-white/80 text-lg">
+                        審查委員最怕：你申請了 GPU 卻讓它空轉（Idle）<br>
+                        <span class="font-bold text-accent">證明你的程式碼已經準備好了，只差算力進場</span>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Title Example -->
+                <div class="bg-mist rounded-2xl p-6">
+                    <h4 class="font-bold text-xl text-navy mb-4">📌 計畫名稱範例</h4>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl p-4 border-l-4 border-danger">
+                            <p class="text-danger text-sm font-bold mb-1">❌ 錯誤</p>
+                            <p class="text-slate">智慧客服系統開發計畫</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border-l-4 border-success">
+                            <p class="text-success text-sm font-bold mb-1">✅ 正確</p>
+                            <p class="text-slate">基於 <strong>Llama-3-70B</strong> 微調之垂直領域 RAG 客服系統與 <strong>TensorRT</strong> 推論優化驗證</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate/60 mt-4">💡 直接亮出模型名稱與技術棧</p>
+                </div>
+                
+                <!-- Resource Calculation -->
+                <div class="bg-mist rounded-2xl p-6">
+                    <h4 class="font-bold text-xl text-navy mb-4">🧮 資源估算公式</h4>
+                    <div class="bg-white rounded-xl p-4 font-mono text-sm overflow-x-auto">
+                        <p class="text-navy">Total Core-Hours =</p>
+                        <p class="text-slate/80 ml-4">(Epochs × Data Size × Time/Batch)</p>
+                        <p class="text-slate/80 ml-4">× Buffer (1.2)</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 mt-4 text-sm">
+                        <p class="font-bold text-navy mb-2">範例論述：</p>
+                        <p class="text-slate/80">70B 模型，單 Epoch 需 100 GPU-hours<br>
+                        10 Epochs × 5 次實驗 = 5,000<br>
+                        +20% 緩衝 = <span class="text-accent font-bold">申請 6,000 GPU-hours</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Practical Details -->
+    <section class="px-6 py-20 bg-mist">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-navy mb-4">
+                    ⚙️ 申請實務細節
+                </h2>
+                <p class="text-xl text-slate/70">最容易卡關的地方</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl p-6 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">👤</span>
+                        <h4 class="font-bold text-xl text-navy">帳號申請眉角</h4>
+                    </div>
+                    <ul class="space-y-3 text-slate/80">
+                        <li class="flex items-start gap-2">
+                            <span class="text-accent">•</span>
+                            <span>使用<strong>公司網域信箱</strong>，不要用個人信箱</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-accent">•</span>
+                            <span>身份類別：「企業與個人計畫」</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-accent">•</span>
+                            <span>費率約學術界 1.5~2 倍，但仍比 AWS/GCP 便宜</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">💵</span>
+                        <h4 class="font-bold text-xl text-navy">費率參考</h4>
+                    </div>
+                    <ul class="space-y-3 text-slate/80">
+                        <li class="flex items-start gap-2">
+                            <span class="text-accent">•</span>
+                            <span>CPU：約 NT$ 0.37 / 核心小時</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-accent">•</span>
+                            <span>GPU：依型號計價（V100 < H100）</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-accent">•</span>
+                            <span><strong>NRQ</strong>（非保留）便宜但要排隊<br><strong>RQ</strong>（保留）貴但不用搶</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">🎁</span>
+                        <h4 class="font-bold text-xl text-navy">2025 重點：算力補助</h4>
+                    </div>
+                    <ul class="space-y-3 text-slate/80">
+                        <li class="flex items-start gap-2">
+                            <span class="text-success">•</span>
+                            <span>關注<strong>數位發展部</strong>、<strong>Aidea（工研院）</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-success">•</span>
+                            <span>關鍵字：「算力平台使用申請」</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-success">•</span>
+                            <span>可獲得<strong>免費 H100 算力點數</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-danger text-sm">⚠️</span>
+                            <span>需繳交成果報告、部分開源</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">🛠️</span>
+                        <h4 class="font-bold text-xl text-navy">技術支援差異</h4>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-success/5 rounded-xl p-4">
+                            <p class="font-bold text-success text-sm mb-1">國網 iService</p>
+                            <p class="text-slate/80 text-sm">僅處理帳號與連線問題<br>不教 CUDA / PyTorch</p>
+                        </div>
+                        <div class="bg-accent/5 rounded-xl p-4">
+                            <p class="font-bold text-accent text-sm mb-1">台智雲 TWS</p>
+                            <p class="text-slate/80 text-sm">付費技術顧問 + MLOps 平台<br>適合沒有 AI 團隊的傳產</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-6 py-12 bg-navy text-white/60">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-sm">
+                本指南為企業申請國網中心算力資源之策略參考<br>
+                實際費率與政策請以官方公告為準
+            </p>
+            <div class="mt-6 flex justify-center gap-6 text-sm">
+                <a href="https://www.nchc.org.tw" target="_blank" class="hover:text-white transition-colors">國網中心</a>
+                <a href="https://tws.twcc.ai" target="_blank" class="hover:text-white transition-colors">台智雲</a>
+                <a href="https://iservice.nchc.org.tw" target="_blank" class="hover:text-white transition-colors">iService</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
