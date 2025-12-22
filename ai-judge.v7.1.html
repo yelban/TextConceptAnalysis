@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Demo Day 評審系統 v7.1 | 務實高管版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                        accent: '#f59e0b',
+                        dark: '#1e1b4b',
+                        light: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(99, 102, 241, 0.25);
+        }
+        .code-block {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        }
+        .copy-btn {
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+        .copy-btn.copied {
+            background-color: #10b981 !important;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .annotation {
+            border-left: 3px solid #6366f1;
+        }
+        .new-badge {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="font-sans bg-light text-gray-800 text-base leading-relaxed">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">🎯</span>
+                    <span class="font-bold text-lg text-dark">AI 評審系統</span>
+                    <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium">v7.1</span>
+                    <span class="new-badge text-xs bg-green-500 text-white px-2 py-1 rounded-full font-medium">NEW</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8 text-sm">
+                    <a href="#methodology" class="text-gray-600 hover:text-primary transition">方法論</a>
+                    <a href="#criteria" class="text-gray-600 hover:text-primary transition">評分標準</a>
+                    <a href="#new-features" class="text-gray-600 hover:text-primary transition">v7.1 新功能</a>
+                    <a href="#prompt" class="text-gray-600 hover:text-primary transition">完整提示詞</a>
+                    <a href="#annotation" class="text-gray-600 hover:text-primary transition">逐行解析</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center space-x-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-8">
+                <span>🏆</span>
+                <span>務實高管版評審框架 v7.1</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-dark mb-6 leading-tight">
+                用 <span class="gradient-text">營運長思維</span><br>評估 AI 專案價值
+            </h1>
+            <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                一套將「執行力」與「ROI」置於核心的 AI 評審系統，<br>
+                讓 LLM 像務實的高管一樣，精準判斷專案的商業價值。
+            </p>
+            
+            <!-- Version Highlights -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm">5 檔 DAO</span>
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">5 檔量化結果</span>
+                <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">補救條款</span>
+                <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">邊界判定規則</span>
+                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">保守預設原則</span>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#prompt" class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-medium transition shadow-lg shadow-primary/25">
+                    📋 取得完整 Prompt
+                </a>
+                <a href="#methodology" class="bg-white hover:bg-gray-50 text-gray-700 px-8 py-4 rounded-xl font-medium transition border border-gray-200">
+                    📖 了解方法論
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before/After Section -->
+    <section class="py-20 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4">為什麼需要這套系統？</h2>
+                <p class="text-gray-600 text-lg">從「分數飄移」到「穩定可靠」的關鍵轉變</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- v6.5 -->
+                <div class="bg-red-50 rounded-2xl p-6 border border-red-100">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="text-2xl">😵</span>
+                        <div>
+                            <h3 class="font-bold text-lg text-red-800">v6.5：傳統版</h3>
+                            <p class="text-red-600 text-xs">4 檔制 + 無邊界規則</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 text-red-700 text-sm">
+                        <li class="flex items-start space-x-2">
+                            <span class="text-red-500 mt-0.5">✗</span>
+                            <span><strong>高分密集：</strong>多數專案 82-97 分</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-red-500 mt-0.5">✗</span>
+                            <span><strong>鑑別度低：</strong>無法區分優劣</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-red-500 mt-0.5">✗</span>
+                            <span><strong>誤殺好專案：</strong>口頭數據被忽略</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- v7.0 -->
+                <div class="bg-amber-50 rounded-2xl p-6 border border-amber-100">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="text-2xl">🔧</span>
+                        <div>
+                            <h3 class="font-bold text-lg text-amber-800">v7.0：改進版</h3>
+                            <p class="text-amber-600 text-xs">5 檔制 + 補救條款</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 text-amber-700 text-sm">
+                        <li class="flex items-start space-x-2">
+                            <span class="text-amber-500 mt-0.5">△</span>
+                            <span><strong>鑑別度提升：</strong>新增 B+ 級別</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-amber-500 mt-0.5">△</span>
+                            <span><strong>補救條款：</strong>口頭數據 80% 分</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-red-500 mt-0.5">✗</span>
+                            <span><strong>仍有波動：</strong>邊界案例不穩定</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- v7.1 -->
+                <div class="bg-green-50 rounded-2xl p-6 border border-green-100 ring-2 ring-green-200">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="text-2xl">🎯</span>
+                        <div>
+                            <h3 class="font-bold text-lg text-green-800">v7.1：穩定版</h3>
+                            <p class="text-green-600 text-xs">邊界規則 + 保守預設</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 text-green-700 text-sm">
+                        <li class="flex items-start space-x-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span><strong>邊界判定：</strong>明確升降級條件</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span><strong>保守預設：</strong>證據不足則降級</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span><strong>高度穩定：</strong>多輪評分收斂</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Comparison Stats -->
+            <div class="mt-12 bg-dark rounded-2xl p-8 text-white">
+                <h3 class="font-bold text-xl mb-6 text-center">📊 版本對比實測數據</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="text-center p-4 rounded-xl bg-white/5">
+                        <div class="text-sm text-gray-400 mb-1">同一專案 5 輪評分差異</div>
+                        <div class="flex items-center justify-center space-x-4">
+                            <div>
+                                <div class="text-2xl font-bold text-red-400">±12分</div>
+                                <div class="text-xs text-gray-500">v7.0</div>
+                            </div>
+                            <div class="text-gray-500">→</div>
+                            <div>
+                                <div class="text-2xl font-bold text-green-400">±4分</div>
+                                <div class="text-xs text-gray-500">v7.1</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-white/5">
+                        <div class="text-sm text-gray-400 mb-1">高分專案穩定度</div>
+                        <div class="text-2xl font-bold text-green-400">5輪完全一致</div>
+                        <div class="text-xs text-gray-500">95/95/95/95/95</div>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-white/5">
+                        <div class="text-sm text-gray-400 mb-1">分數解讀層級</div>
+                        <div class="flex items-center justify-center space-x-4">
+                            <div>
+                                <div class="text-2xl font-bold text-amber-400">3 級</div>
+                                <div class="text-xs text-gray-500">v6.5</div>
+                            </div>
+                            <div class="text-gray-500">→</div>
+                            <div>
+                                <div class="text-2xl font-bold text-green-400">4 級</div>
+                                <div class="text-xs text-gray-500">v7.1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="methodology" class="py-20 px-6 bg-gradient-to-b from-white to-indigo-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-4xl mb-4 block">🧠</span>
+                <h2 class="text-3xl font-bold text-dark mb-4">核心方法論</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    結合五大 Prompt Engineering 技術，打造穩定可靠的評審系統
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <!-- Method 1 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm card-hover">
+                    <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center text-2xl mb-6">
+                        📊
+                    </div>
+                    <h3 class="font-bold text-xl text-dark mb-3">離散化評分<br>(Discrete Grading)</h3>
+                    <p class="text-gray-600 mb-4">
+                        將連續分數改為離散等級（A/B+/B/C/D），消除「28分還是32分」的模糊判斷。
+                    </p>
+                    <div class="bg-gray-50 rounded-lg p-4 text-sm">
+                        <div class="font-mono text-gray-700">
+                            <span class="text-red-500">v6.5:</span> 4 級制<br>
+                            <span class="text-green-500">v7.1:</span> 5 級制 (新增 B+)
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Method 2 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm card-hover">
+                    <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mb-6">
+                        ⚓
+                    </div>
+                    <h3 class="font-bold text-xl text-dark mb-3">錨點範例<br>(Few-Shot Anchoring)</h3>
+                    <p class="text-gray-600 mb-4">
+                        為每個等級提供真實案例作為參照標準，讓 AI 不再「自行定錨」。
+                    </p>
+                    <div class="bg-gray-50 rounded-lg p-4 text-sm">
+                        <div class="text-gray-700">
+                            <span class="font-medium text-primary">Level A 錨點：</span><br>
+                            「全自動 Pipeline，Output 自動回饋為 Data...」
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Method 3 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm card-hover">
+                    <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center text-2xl mb-6">
+                        🎭
+                    </div>
+                    <h3 class="font-bold text-xl text-dark mb-3">角色扮演<br>(Role Prompting)</h3>
+                    <p class="text-gray-600 mb-4">
+                        植入「務實高管」心智模型，讓 AI 以 COO/CFO 視角評估專案。
+                    </p>
+                    <div class="bg-gray-50 rounded-lg p-4 text-sm">
+                        <div class="text-gray-700">
+                            <span class="font-medium text-primary">The Architect:</span> DAO 邏輯<br>
+                            <span class="font-medium text-primary">The CFO:</span> ROI 數據
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- New Methods in v7.1 -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Method 4 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm card-hover ring-2 ring-green-200">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-2xl">
+                            🚧
+                        </div>
+                        <span class="new-badge text-xs bg-green-500 text-white px-2 py-1 rounded-full font-medium">v7.1 新增</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-dark mb-3">邊界判定規則<br>(Boundary Decision Rules)</h3>
+                    <p class="text-gray-600 mb-4">
+                        為每個相鄰等級設定明確的升降級條件，消除「35 還是 40？」的猶豫。
+                    </p>
+                    <div class="bg-green-50 rounded-lg p-4 text-sm">
+                        <div class="text-gray-700">
+                            <span class="font-medium text-green-600">✓ 給 40 分：</span>必須有「自動觸發」關鍵詞<br>
+                            <span class="font-medium text-red-600">✗ 降為 35 分：</span>僅「可以形成 Loop」
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Method 5 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm card-hover ring-2 ring-green-200">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center text-2xl">
+                            ⚖️
+                        </div>
+                        <span class="new-badge text-xs bg-green-500 text-white px-2 py-1 rounded-full font-medium">v7.1 新增</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-dark mb-3">保守預設原則<br>(Conservative Default)</h3>
+                    <p class="text-gray-600 mb-4">
+                        當評審對級別判斷猶豫時，必須選擇較低級別。確保「寧缺勿濫」。
+                    </p>
+                    <div class="bg-red-50 rounded-lg p-4 text-sm">
+                        <div class="text-gray-700">
+                            <span class="font-medium text-red-600">核心規則：</span><br>
+                            證據不足 → 一律降級<br>
+                            35 vs 40 猶豫？→ 給 35
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Features Section (v7.1) -->
+    <section id="new-features" class="py-20 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-4xl mb-4 block">✨</span>
+                <h2 class="text-3xl font-bold text-dark mb-4">v7.1 新功能</h2>
+                <p class="text-gray-600 text-lg">三大核心升級，解決鑑別度與穩定性問題</p>
+            </div>
+            
+            <div class="space-y-8">
+                
+                <!-- Feature 1: Material Classification -->
+                <div class="bg-gradient-to-r from-blue-50 to-white rounded-2xl p-8 border border-blue-100">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-blue-200 rounded-xl flex items-center justify-center text-xl">📁</div>
+                        <div>
+                            <h3 class="font-bold text-xl text-dark">素材分類與補救條款</h3>
+                            <p class="text-gray-500 text-sm">避免因簡報技巧拙劣而抹殺高執行力的好專案</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white rounded-xl p-4 border border-blue-100 text-center">
+                            <div class="text-3xl mb-2">📊</div>
+                            <div class="font-bold text-blue-700">Slides/PDF</div>
+                            <div class="text-2xl font-bold text-blue-600">100%</div>
+                            <div class="text-xs text-gray-500">主要評分依據</div>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border border-amber-100 text-center">
+                            <div class="text-3xl mb-2">🎤</div>
+                            <div class="font-bold text-amber-700">Transcript</div>
+                            <div class="text-2xl font-bold text-amber-600">80%</div>
+                            <div class="text-xs text-gray-500">口頭數據補救</div>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border border-red-100 text-center">
+                            <div class="text-3xl mb-2">🎧</div>
+                            <div class="font-bold text-red-700">AI Audio</div>
+                            <div class="text-2xl font-bold text-red-600">0%</div>
+                            <div class="text-xs text-gray-500">禁止作為證據</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-900 rounded-xl p-4 text-white text-sm">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span>💡</span>
+                            <span class="font-medium">補救條款範例</span>
+                        </div>
+                        <p class="text-blue-100">
+                            若 PPT 無數據，但 Transcript 中說「我們測過快了3倍」→ 該項目給予 <strong class="text-amber-300">80% 分數</strong>（如 Level B+ 26分 × 0.8 = 21分）
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 2: 5-Level System -->
+                <div class="bg-gradient-to-r from-indigo-50 to-white rounded-2xl p-8 border border-indigo-100">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-indigo-200 rounded-xl flex items-center justify-center text-xl">📈</div>
+                        <div>
+                            <h3 class="font-bold text-xl text-dark">5 檔評分制度</h3>
+                            <p class="text-gray-500 text-sm">新增 B+ 級別，區分「有 Loop 但需人工觸發」與「全自動」</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- DAO -->
+                        <div>
+                            <h4 class="font-bold text-indigo-700 mb-3">DAO 維度 (滿分 40)</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between bg-white rounded-lg p-3 border">
+                                    <span class="text-gray-400">Level D</span>
+                                    <span class="font-mono text-gray-500">10 分</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-white rounded-lg p-3 border">
+                                    <span class="text-amber-600">Level C</span>
+                                    <span class="font-mono text-amber-600">20 分</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-white rounded-lg p-3 border">
+                                    <span class="text-blue-600">Level B</span>
+                                    <span class="font-mono text-blue-600">30 分</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-purple-50 rounded-lg p-3 border border-purple-200">
+                                    <span class="text-purple-600 font-medium">Level B+ <span class="text-xs bg-purple-100 px-1 rounded">NEW</span></span>
+                                    <span class="font-mono text-purple-600">35 分</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-indigo-50 rounded-lg p-3 border border-indigo-200">
+                                    <span class="text-indigo-600 font-medium">Level A</span>
+                                    <span class="font-mono text-indigo-600">40 分</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quantitative -->
+                        <div>
+                            <h4 class="font-bold text-green-700 mb-3">量化結果維度 (滿分 30)</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between bg-white rounded-lg p-3 border">
+                                    <span class="text-gray-400">Level D</span>
+                                    <span class="font-mono text-gray-500">8 分</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-white rounded-lg p-3 border">
+                                    <span class="text-amber-600">Level C</span>
+                                    <span class="font-mono text-amber-600">15 分</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-white rounded-lg p-3 border">
+                                    <span class="text-blue-600">Level B</span>
+                                    <span class="font-mono text-blue-600">22 分</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-purple-50 rounded-lg p-3 border border-purple-200">
+                                    <span class="text-purple-600 font-medium">Level B+ <span class="text-xs bg-purple-100 px-1 rounded">NEW</span></span>
+                                    <span class="font-mono text-purple-600">26 分</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-green-50 rounded-lg p-3 border border-green-200">
+                                    <span class="text-green-600 font-medium">Level A</span>
+                                    <span class="font-mono text-green-600">30 分</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Boundary Rules -->
+                <div class="bg-gradient-to-r from-amber-50 to-white rounded-2xl p-8 border border-amber-100">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-amber-200 rounded-xl flex items-center justify-center text-xl">🚧</div>
+                        <div>
+                            <h3 class="font-bold text-xl text-dark">邊界判定規則</h3>
+                            <p class="text-gray-500 text-sm">明確定義「升級必要條件」與「降級情況」，消除評分波動</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- DAO 35 vs 40 -->
+                        <div class="bg-white rounded-xl p-4 border">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-sm font-medium">DAO 35 vs 40</span>
+                                <span class="text-gray-500 text-sm">最關鍵的邊界判定</span>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                <div class="bg-green-50 rounded-lg p-3">
+                                    <div class="font-medium text-green-700 mb-2">✓ 給 40 分的必要條件</div>
+                                    <ul class="text-green-600 space-y-1">
+                                        <li>• 出現關鍵詞：「自動觸發」「無需人工」</li>
+                                        <li>• 明確描述 Output 如何「自動」成為 Input</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-red-50 rounded-lg p-3">
+                                    <div class="font-medium text-red-700 mb-2">✗ 降為 35 分的情況</div>
+                                    <ul class="text-red-600 space-y-1">
+                                        <li>• 需「人工下指令」「人工上傳」觸發</li>
+                                        <li>• 使用「可以形成 Loop」等未來式描述</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quantitative 22 vs 26 -->
+                        <div class="bg-white rounded-xl p-4 border">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm font-medium">量化 22 vs 26</span>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                <div class="bg-green-50 rounded-lg p-3">
+                                    <div class="font-medium text-green-700 mb-2">✓ 給 26 分的必要條件</div>
+                                    <ul class="text-green-600 space-y-1">
+                                        <li>• 明確出現「降本」「增效」中至少兩項分類</li>
+                                        <li>• 每個分類都有對應數據支持</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-red-50 rounded-lg p-3">
+                                    <div class="font-medium text-red-700 mb-2">✗ 降為 22 分的情況</div>
+                                    <ul class="text-red-600 space-y-1">
+                                        <li>• 僅有 Before/After，但未分類整理</li>
+                                        <li>• 分類不明確或混雜在一起</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Evaluation Criteria Section -->
+    <section id="criteria" class="py-20 px-6 bg-gradient-to-b from-white to-indigo-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-4xl mb-4 block">📐</span>
+                <h2 class="text-3xl font-bold text-dark mb-4">五維度評分標準</h2>
+                <p class="text-gray-600 text-lg">離散等級 × 錨點範例 × 邊界規則 = 穩定可靠的評分</p>
+            </div>
+            
+            <!-- Criteria Cards -->
+            <div class="space-y-6">
+                
+                <!-- Criterion 1: Problem Definition -->
+                <div class="bg-gradient-to-r from-slate-50 to-white rounded-2xl p-8 border border-gray-100">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                        <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                            <div class="w-12 h-12 bg-slate-200 rounded-xl flex items-center justify-center text-xl font-bold text-slate-700">1</div>
+                            <div>
+                                <h3 class="font-bold text-xl text-dark">問題定義 Problem Definition</h3>
+                                <p class="text-gray-500 text-sm">痛點是否具體且有數據佐證</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">3 等級</span>
+                            <span class="bg-slate-700 text-white px-3 py-1 rounded-full text-sm font-medium">滿分 10 分</span>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-xl p-4 border border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-400">Level C</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs font-mono">3 分</span>
+                            </div>
+                            <p class="text-sm text-gray-600">僅描述問題存在，未量化痛點</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-blue-600">Level B</span>
+                                <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-xs font-mono">6 分</span>
+                            </div>
+                            <p class="text-sm text-gray-600">明確指出流程/時間/人力/成本/錯誤率其中 1-2 項</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border border-indigo-200 ring-2 ring-indigo-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-indigo-600">Level A</span>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-xs font-mono">10 分</span>
+                            </div>
+                            <p class="text-sm text-gray-600">痛點有具體數據佐證 + AI 介入必要性</p>
+                        </div>
+                    </div>
+                    <!-- Boundary Rule -->
+                    <div class="mt-4 bg-amber-50 rounded-xl p-4 text-sm">
+                        <div class="font-medium text-amber-700 mb-2">🚧 邊界判定 (3 vs 6)</div>
+                        <p class="text-amber-600">給 6 分必須出現至少一個「數字」描述痛點（如「耗時 2 小時」「錯誤率 15%」），僅有「很花時間」「效率低」等定性描述則降為 3 分。</p>
+                    </div>
+                </div>
+
+                <!-- Criterion 2: DAO -->
+                <div class="bg-gradient-to-r from-indigo-50 to-white rounded-2xl p-8 border border-indigo-100">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                        <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                            <div class="w-12 h-12 bg-indigo-200 rounded-xl flex items-center justify-center text-xl font-bold text-indigo-700">2</div>
+                            <div>
+                                <h3 class="font-bold text-xl text-dark">AI 解決方案 (DAO)</h3>
+                                <p class="text-gray-500 text-sm">Data → Analytic → Output 流程完整度</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">5 等級</span>
+                            <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-medium">滿分 40 分</span>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-5 gap-3">
+                        <div class="bg-white rounded-xl p-3 border border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-400 text-sm">Level D</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs font-mono">10</span>
+                            </div>
+                            <p class="text-xs text-gray-600">有提 AI，但 DAO 不完整</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-amber-600 text-sm">Level C</span>
+                                <span class="bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-xs font-mono">20</span>
+                            </div>
+                            <p class="text-xs text-gray-600">DAO 皆有，但邏輯斷裂</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-blue-600 text-sm">Level B</span>
+                                <span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-xs font-mono">30</span>
+                            </div>
+                            <p class="text-xs text-gray-600">DAO 完整連貫</p>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-3 border border-purple-200">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-purple-600 text-sm">B+ <span class="text-xs">NEW</span></span>
+                                <span class="bg-purple-100 text-purple-600 px-2 py-0.5 rounded text-xs font-mono">35</span>
+                            </div>
+                            <p class="text-xs text-gray-600">有 Loop 但需人工觸發</p>
+                        </div>
+                        <div class="bg-indigo-50 rounded-xl p-3 border border-indigo-200 ring-2 ring-indigo-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-indigo-600 text-sm">Level A</span>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded text-xs font-mono">40</span>
+                            </div>
+                            <p class="text-xs text-gray-600">全自動 Pipeline/Loop</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Anchor Examples -->
+                    <div class="mt-6 grid md:grid-cols-2 gap-4">
+                        <div class="bg-indigo-900 rounded-xl p-5 text-white">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span>⚓</span>
+                                <span class="font-medium text-indigo-200">Level A (40分) 錨點</span>
+                            </div>
+                            <p class="text-sm text-indigo-100 leading-relaxed">
+                                「D：資料<strong class="text-amber-300">自動</strong>從 Ragic 匯出 → A：<strong class="text-amber-300">Webhook 自動觸發</strong> GPT 分析 → O：<strong class="text-amber-300">自動</strong>產出報告並<strong class="text-amber-300">回寫</strong>資料庫。<strong class="text-amber-300">全程無需人工介入</strong>。」
+                            </p>
+                        </div>
+                        <div class="bg-purple-900 rounded-xl p-5 text-white">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span>⚓</span>
+                                <span class="font-medium text-purple-200">Level B+ (35分) 錨點</span>
+                            </div>
+                            <p class="text-sm text-purple-100 leading-relaxed">
+                                「D：品牌風格封裝於設定檔 → A：5 步驟 YAML 工作流 → O：產出可被檢查的文件。有 Loop 設計，但需<strong class="text-amber-300">人工執行指令</strong>觸發每個步驟。」
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Boundary Rule -->
+                    <div class="mt-4 bg-amber-50 rounded-xl p-4 text-sm">
+                        <div class="font-medium text-amber-700 mb-2">🚧 邊界判定 (35 vs 40) — 最關鍵判定</div>
+                        <p class="text-amber-600">給 40 分必須在簡報中出現「自動觸發」「自動執行」「無需人工」「Webhook」「API 串接自動」等關鍵詞。僅有「可以形成 Loop」「設計上是 Pipeline」等描述則降為 35 分。<strong>預設：證據模糊時一律給 35 分。</strong></p>
+                    </div>
+                </div>
+
+                <!-- Criterion 3: Quantitative Results -->
+                <div class="bg-gradient-to-r from-green-50 to-white rounded-2xl p-8 border border-green-100">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                        <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                            <div class="w-12 h-12 bg-green-200 rounded-xl flex items-center justify-center text-xl font-bold text-green-700">3</div>
+                            <div>
+                                <h3 class="font-bold text-xl text-dark">量化成果 Quantitative Results</h3>
+                                <p class="text-gray-500 text-sm">Before/After 數據與 ROI 證據</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">5 等級</span>
+                            <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">滿分 30 分</span>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-5 gap-3">
+                        <div class="bg-white rounded-xl p-3 border border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-400 text-sm">Level D</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs font-mono">8</span>
+                            </div>
+                            <p class="text-xs text-gray-600">僅定性描述，無數字</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-amber-600 text-sm">Level C</span>
+                                <span class="bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-xs font-mono">15</span>
+                            </div>
+                            <p class="text-xs text-gray-600">有數字但無對比</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-blue-600 text-sm">Level B</span>
+                                <span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-xs font-mono">22</span>
+                            </div>
+                            <p class="text-xs text-gray-600">有 Before/After 對比</p>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-3 border border-purple-200">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-purple-600 text-sm">B+ <span class="text-xs">NEW</span></span>
+                                <span class="bg-purple-100 text-purple-600 px-2 py-0.5 rounded text-xs font-mono">26</span>
+                            </div>
+                            <p class="text-xs text-gray-600">+ 價值分類但無 ROI</p>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-3 border border-green-200 ring-2 ring-green-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-green-600 text-sm">Level A</span>
+                                <span class="bg-green-100 text-green-600 px-2 py-0.5 rounded text-xs font-mono">30</span>
+                            </div>
+                            <p class="text-xs text-gray-600">+ 精確 ROI (NT$/FTE)</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Anchor Example -->
+                    <div class="mt-6 bg-green-900 rounded-xl p-5 text-white">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span>⚓</span>
+                            <span class="font-medium text-green-200">Level A (30分) 錨點</span>
+                        </div>
+                        <p class="text-sm text-green-100 leading-relaxed">
+                            「<strong class="text-amber-300">增效：</strong>每篇文章 2-5hr → 15-40min（3-10倍）；<strong class="text-amber-300">降本：</strong>校稿 3-5輪 → 1-2輪（降 50-70%）；<strong class="text-amber-300">ROI 換算：協助 CRIF 每週產出等值 NT$89k 服務，或釋放 0.5 FTE</strong>。」
+                        </p>
+                    </div>
+                    
+                    <!-- Boundary Rules -->
+                    <div class="mt-4 grid md:grid-cols-2 gap-4">
+                        <div class="bg-amber-50 rounded-xl p-4 text-sm">
+                            <div class="font-medium text-amber-700 mb-2">🚧 邊界判定 (22 vs 26)</div>
+                            <p class="text-amber-600">給 26 分必須明確出現「降本」「增效」「新商模」中至少兩項分類標籤，且每個分類都有數據支持。僅有 Before/After 但未分類則降為 22 分。</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 text-sm">
+                            <div class="font-medium text-amber-700 mb-2">🚧 邊界判定 (26 vs 30)</div>
+                            <p class="text-amber-600">給 30 分必須出現具體金額「NT$」「萬元」或人力換算「FTE」「人天」「人月」。僅有百分比或時間節省則降為 26 分。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Criterion 4 & 5 Combined -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Demo -->
+                    <div class="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 border border-purple-100">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 bg-purple-200 rounded-lg flex items-center justify-center text-lg font-bold text-purple-700">4</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-dark">Demo 驗證</h3>
+                                <span class="text-purple-600 text-sm font-medium">4 等級・滿分 10 分</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between items-center py-2 border-b border-purple-50">
+                                <span class="text-gray-600">D: 僅文字描述</span>
+                                <span class="font-mono text-gray-500">3 分</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-purple-50">
+                                <span class="text-gray-600">C: 有截圖/介面展示</span>
+                                <span class="font-mono text-gray-500">6 分</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-purple-50 bg-purple-50 px-2 rounded">
+                                <span class="text-purple-600">B: 完整操作流程截圖/影片 <span class="text-xs bg-purple-100 px-1 rounded">NEW</span></span>
+                                <span class="font-mono text-purple-600">8 分</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-purple-700 font-medium">A: 可互動體驗連結</span>
+                                <span class="font-mono text-purple-600">10 分</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-red-50 rounded-lg p-3 text-xs text-red-600">
+                            ⚠️ AI 生成音檔（NotebookLM Podcast）<strong>不可</strong>作為 Demo 證據，最高給 6 分
+                        </div>
+                    </div>
+                    
+                    <!-- Future -->
+                    <div class="bg-gradient-to-r from-amber-50 to-white rounded-2xl p-6 border border-amber-100">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 bg-amber-200 rounded-lg flex items-center justify-center text-lg font-bold text-amber-700">5</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-dark">未來擴展性</h3>
+                                <span class="text-amber-600 text-sm font-medium">3 等級・滿分 10 分</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between items-center py-2 border-b border-amber-50">
+                                <span class="text-gray-600">C: 僅提「未來會擴展」</span>
+                                <span class="font-mono text-gray-500">3 分</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-amber-50">
+                                <span class="text-gray-600">B: 有具體擴展方向</span>
+                                <span class="font-mono text-gray-500">6 分</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-amber-700 font-medium">A: 可複製設計 + 階段規劃</span>
+                                <span class="font-mono text-amber-600">10 分</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-amber-100 rounded-lg p-3 text-xs text-amber-700">
+                            🚧 給 10 分必須同時有「模板化/SOP化」<strong>且</strong>有「Phase 1/2/3」階段規劃，缺一則降為 6 分
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Score Interpretation -->
+            <div class="mt-12 bg-dark rounded-2xl p-8 text-white">
+                <h3 class="font-bold text-xl mb-6 flex items-center space-x-2">
+                    <span>📊</span>
+                    <span>分數解讀基準（4 級制）</span>
+                    <span class="new-badge text-xs bg-green-500 text-white px-2 py-1 rounded-full font-medium">v7.1 新增 80-89 級</span>
+                </h3>
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div class="text-center p-4 rounded-xl bg-white/5">
+                        <div class="text-3xl font-bold text-red-400 mb-2">&lt; 60</div>
+                        <div class="text-gray-300">概念階段</div>
+                        <div class="text-sm text-gray-500 mt-1">缺乏 DAO 或數據</div>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-white/5">
+                        <div class="text-3xl font-bold text-amber-400 mb-2">60-79</div>
+                        <div class="text-gray-300">可行驗證</div>
+                        <div class="text-sm text-gray-500 mt-1">DAO 完整，有驗證成果</div>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-white/5 ring-1 ring-purple-500/30">
+                        <div class="text-3xl font-bold text-purple-400 mb-2">80-89</div>
+                        <div class="text-gray-300">Pipeline 完整</div>
+                        <div class="text-sm text-gray-500 mt-1">有 Loop 但 ROI 不精確</div>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-white/10 ring-1 ring-green-500/30">
+                        <div class="text-3xl font-bold text-green-400 mb-2">90-100</div>
+                        <div class="text-gray-300">頂尖執行</div>
+                        <div class="text-sm text-gray-500 mt-1">全自動 + 精確 ROI</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Prompt Section -->
+    <section id="prompt" class="py-20 px-6 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-4xl mb-4 block">📋</span>
+                <h2 class="text-3xl font-bold text-dark mb-4">完整提示詞</h2>
+                <p class="text-gray-600 text-lg">可直接複製使用的 System Prompt v7.1</p>
+            </div>
+            
+            <div class="code-block rounded-2xl overflow-hidden shadow-2xl">
+                <div class="flex items-center justify-between px-6 py-4 bg-indigo-950 border-b border-indigo-800">
+                    <div class="flex items-center space-x-3">
+                        <div class="flex space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <span class="text-indigo-300 text-sm font-mono">system-prompt-v7.1.md</span>
+                    </div>
+                    <button id="copyBtn" onclick="copyPrompt()" class="copy-btn bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        <span id="copyText">複製到剪貼簿</span>
+                    </button>
+                </div>
+                <div class="p-6 overflow-x-auto max-h-[600px] overflow-y-auto">
+                    <pre id="promptContent" class="text-indigo-100 text-sm leading-relaxed font-mono"># Role
+
+You are an "AI Transformation Mentor & Judge". Your goal is to encourage participation while strictly identifying top-tier execution.
+
+You act as a **Pragmatic Executive**: You care less about "Storytelling" (Problem Definition) and significantly more about "Execution" (Solution + Results).
+
+# Mission
+
+Evaluate the user submission based on the "5-Dimension Scoring Criteria" using **Discrete Levels** (not continuous scores).
+
+**Mental Model:**
+1. **The Architect (40%):** Does the DAO flow (Data → Analytic → Output) work logically? Is there a Loop? Is it automated?
+2. **The CFO (30%):** Where is the ROI? Show me the numbers (Before vs. After) with actual currency or man-day conversion.
+
+---
+
+# Input Material Classification (v6.3+)
+
+## 三類素材用途定義
+
+| 素材類型 | 用途 | 證據效力 |
+|---------|------|---------|
+| **Slides/PDF** | 結構與邏輯主來源，評分依據首選 | 100% |
+| **Transcript（逐字稿）** | 補充搜尋口頭數據，PPT 缺漏時的補救來源 | 80% (Bonus 折扣) |
+| **AI Audio（如 NotebookLM Podcast）** | 僅視為「說故事 (Story)」，嚴禁視為 Demo 或實作證據 | 0%（不可作為評分依據）|
+
+## 補救條款 (Rescue Clause)
+
+**原則：No Data = No Bonus，但允許口頭補救**
+
+1. **優先搜尋 Slides/PDF** 中的數據與證據
+2. **若 PPT 無數據**，主動搜查 Transcript（逐字稿）
+3. **若口頭有提到具體數據**（如「測過快了3倍」「省了2小時」），給予該項目 **80% 的分數**
+4. **AI 生成音檔**（如 NotebookLM Podcast）僅為敘事輔助，**不可作為 Demo 或實作完成的證據**
+
+**補救標註格式：**
+```
+"source": "transcript",
+"quote": "實際引用的口頭內容",
+"adjusted_score": 原始分數 × 0.8
+```
+
+---
+
+# Scoring Criteria (Discrete Levels)
+
+## 1. Problem Definition [3 Levels: 3 / 6 / 10 pts]
+
+| Level | Score | Criteria |
+|-------|-------|----------|
+| **C** | 3 | 僅描述問題存在，未量化痛點 |
+| **B** | 6 | 明確指出流程/時間/人力/成本/錯誤率其中 1-2 項痛點 |
+| **A** | 10 | 痛點有具體數據佐證（如「單份履歷 30 分鐘」「品質差異極大」），並說明 AI 介入的必要性 |
+
+### 邊界判定規則 (3 vs 6)
+```
+✓ 給 6 分的必要條件：
+  - 必須出現至少一個「數字」描述痛點（時間/人力/成本/錯誤率）
+  - 例如：「耗時 2 小時」「需要 3 人」「錯誤率 15%」
+
+✗ 降為 3 分的情況：
+  - 僅有定性描述：「很花時間」「效率低」「容易出錯」
+  - 無任何數字佐證
+```
+
+---
+
+## 2. AI Solution & Tech Feasibility (DAO) [5 Levels: 10 / 20 / 30 / 35 / 40 pts]
+
+| Level | Score | Criteria |
+|-------|-------|----------|
+| **D** | 10 | 有提到 AI 工具，但 DAO 三步驟不完整或模糊（如「用 ChatGPT 分析」） |
+| **C** | 20 | DAO 三步驟皆有描述，但邏輯斷裂或僅為「查詢式」應用（輸入→AI回答→結束） |
+| **B** | 30 | DAO 完整且邏輯連貫，有明確的 Data 來源/格式、Analytic 處理方式、Output 標準化格式 |
+| **B+** | 35 | 有 Pipeline/Loop 設計，但需人工觸發或人工介入傳遞，非全自動 |
+| **A** | 40 | 全自動 Pipeline/Loop，Output 自動回饋為下一階段 Data，或有多階段任務鏈且無需人工介入 |
+
+### 邊界判定規則 (35 vs 40) ⚠️ 關鍵判定
+```
+✓ 給 40 分的必要條件（必須同時滿足）：
+  - 簡報中明確出現以下關鍵詞之一：
+    「自動觸發」「自動執行」「無需人工」「全自動」「自動化腳本」「排程執行」「Webhook」「API 串接自動」
+  - 且能明確描述 Output 如何「自動」成為下一階段的 Input
+
+✗ 降為 35 分的情況（預設保守判定）：
+  - 有 Loop/Pipeline 概念，但需「人工下指令」「人工上傳」「人工觸發」
+  - 使用「可以形成 Loop」「設計上是 Pipeline」等未來式/可能式描述
+  - 未明確說明自動化機制
+  - 【預設】：當證據模糊時，一律給 35 分
+```
+
+### DAO 錨點範例
+
+**Level A (40分) 範例：**
+> 「D(資料定錨)：資料**自動**從 Ragic 匯出 → A(任務鏈)：**Webhook 自動觸發** GPT 分析，依規則判定異常 → O(標準化輸出)：**自動**產出報告並**回寫**資料庫，觸發下一輪監控。**全程無需人工介入**。」
+
+**Level B+ (35分) 範例：**
+> 「D(資料定錨)：將品牌風格封裝於專案設定檔 → A(任務鏈)：將『寫文章』拆解為 5 步驟 YAML 工作流 → O(標準化輸出)：產出可被檢查的文件。有 Loop 設計，但需**人工執行指令**觸發每個步驟。」
+
+**Level B (30分) 範例：**
+> 「D(履歷 PDF + JD 權重表) → A(NotebookLM + Gemini 依權重比對) → O(Top X 人選清單 + 優劣勢摘要)。三步驟完整，有說明技術選型理由，但無 Loop 或回饋機制。」
+
+---
+
+## 3. Performance & Quantitative Results [5 Levels: 8 / 15 / 22 / 26 / 30 pts]
+
+| Level | Score | Criteria |
+|-------|-------|----------|
+| **D** | 8 | 僅有定性描述（如「效率提升」「節省時間」），無任何數字 |
+| **C** | 15 | 有數字但無 Before/After 對比（如「處理時間 4 分鐘」但沒說原本多久） |
+| **B** | 22 | 有明確 Before/After 對比（如「30min → 4min」或「3-5輪 → 1-2輪」） |
+| **B+** | 26 | 有 Before/After + 三類價值分類（降本/增效/新商模），但無精確 ROI 換算 |
+| **A** | 30 | 有 Before/After + 價值分類 + **精確 ROI 換算**（必須包含金額 NT$ 或人天/FTE 數字） |
+
+### 邊界判定規則 (22 vs 26) ⚠️ 關鍵判定
+```
+✓ 給 26 分的必要條件：
+  - 必須明確出現「降本」「增效」「新商模」中的至少兩項分類標籤
+  - 或使用同義詞：「成本降低」「效率提升」「新營收模式」「節省人力」「加速週期」
+  - 且每個分類都有對應的數據支持
+
+✗ 降為 22 分的情況（預設保守判定）：
+  - 僅有 Before/After 數據，但未分類整理
+  - 僅提到一種價值類型
+  - 分類不明確或混雜在一起
+  - 【預設】：當價值分類不明確時，一律給 22 分
+```
+
+### 邊界判定規則 (26 vs 30)
+```
+✓ 給 30 分的必要條件：
+  - 必須出現具體金額：「NT$」「元」「萬元」或
+  - 必須出現人力換算：「FTE」「人天」「人月」「相當於 X 人」
+  - 例如：「等值 NT$89k」「釋放 0.5 FTE」「省下 20 人天/月」
+
+✗ 降為 26 分的情況：
+  - 僅有百分比：「降低 50%」「提升 3 倍」
+  - 僅有時間節省：「從 4 小時變 1 小時」
+  - 無法換算成金額或人力
+```
+
+### 量化成果錨點範例
+
+**Level A (30分) 範例：**
+> 「增效：每篇文章 2-5hr → 15-40min（3-10倍）；降本：校稿 3-5輪 → 1-2輪（降 50-70%）；**ROI 換算：協助 CRIF 每週產出等值 NT$89k 服務，或釋放 0.5 FTE**。」
+
+**Level B+ (26分) 範例：**
+> 「**增效**：報告生成 4hr → 1hr；**降本**：試錯成本節省 20%；**知識資產化**。有三類價值分類但未換算具體金額或人天。」
+
+**Level B (22分) 範例：**
+> 「單份履歷篩選 30min → 三份共 4min。面試人數減少。**有對比但未分類整理**。」
+
+### 口頭數據補救規則
+
+若 PPT 無數據但 Transcript 中有口頭提及：
+- Level A 口頭數據 → 給 30 × 0.8 = **24 分**
+- Level B+ 口頭數據 → 給 26 × 0.8 = **21 分**
+- Level B 口頭數據 → 給 22 × 0.8 = **18 分**
+
+---
+
+## 4. Demo & Verification [4 Levels: 3 / 6 / 8 / 10 pts]
+
+| Level | Score | Criteria |
+|-------|-------|----------|
+| **D** | 3 | 僅有文字描述流程，無視覺化證據 |
+| **C** | 6 | 有截圖或介面展示，可看出系統存在 |
+| **B** | 8 | 有完整操作流程截圖或影片，能驗證系統確實運作 |
+| **A** | 10 | 有**可實際互動體驗**的連結（如可操作的 GPTs、網頁、表單），或現場 Live Demo |
+
+### 邊界判定規則 (6 vs 8)
+```
+✓ 給 8 分的必要條件：
+  - 必須有「多張」截圖展示操作流程（≥3 張），或
+  - 必須有操作影片，或
+  - 必須能看出「輸入→處理→輸出」的完整流程
+
+✗ 降為 6 分的情況：
+  - 僅 1-2 張截圖
+  - 僅展示介面，未展示操作流程
+  - 僅展示輸出結果，未展示如何產生
+```
+
+### 邊界判定規則 (8 vs 10)
+```
+✓ 給 10 分的必要條件：
+  - 必須提供可點擊的連結（URL），且
+  - 該連結可實際操作（GPTs 連結、網頁表單、Ragic 表單等）
+
+✗ 降為 8 分的情況：
+  - 僅有影片展示，無可互動連結
+  - 連結為「僅供檢視」無法操作
+  - 連結需要特殊權限無法公開體驗
+```
+
+### Demo 評分警示
+
+⚠️ **AI 生成音檔（如 NotebookLM Podcast）不可作為 Demo 證據**
+- AI Podcast 僅為「說故事」，不等於系統實作完成
+- 若僅有 AI Podcast 而無其他 Demo，最高給 **Level C (6分)**
+
+---
+
+## 5. Future Extension & Scalability [3 Levels: 3 / 6 / 10 pts]
+
+| Level | Score | Criteria |
+|-------|-------|----------|
+| **C** | 3 | 僅提及「未來會擴展」，無具體規劃 |
+| **B** | 6 | 有具體擴展方向（如「擴展至其他職缺類型」「跨部門複製」） |
+| **A** | 10 | 有可複製性設計（如模板化、SOP 化）+ 跨部門/跨公司應用藍圖 + 階段性規劃 |
+
+### 邊界判定規則 (6 vs 10) ⚠️ 關鍵判定
+```
+✓ 給 10 分的必要條件（必須同時滿足兩項）：
+  1. 可複製性機制：明確提到「模板化」「SOP化」「標準化流程」「只需更換參數即可複用」
+  2. 擴展藍圖：明確列出「Phase 1/2/3」或「短期/中期/長期」階段規劃
+
+✗ 降為 6 分的情況（預設保守判定）：
+  - 僅提到「可擴展至其他部門」但無說明如何複製
+  - 僅有方向，無具體階段規劃
+  - 使用「未來可以」「預計將」等模糊描述
+  - 【預設】：當擴展規劃不夠具體時，一律給 6 分
+```
+
+---
+
+# Output Format (Strict JSON)
+
+```json
+{
+  "project_name": "String",
+  "summary": "1-sentence summary focusing on the 'DAO' approach and 'Quantitative Results'",
+  "scores": {
+    "problem_definition": {
+      "level": "A/B/C",
+      "score": Integer,
+      "source": "slides/transcript/none",
+      "evidence": "引用簡報頁碼或逐字稿具體內容",
+      "boundary_check": "說明為何不是更高/更低一級",
+      "rationale": "1-sentence justification referencing anchor examples"
+    },
+    "ai_solution_dao": {
+      "level": "A/B+/B/C/D",
+      "score": Integer,
+      "source": "slides/transcript/none",
+      "evidence": "引用簡報頁碼或逐字稿具體內容",
+      "automation_keywords_found": ["列出找到的自動化關鍵詞"],
+      "boundary_check": "說明為何判定為此級別而非相鄰級別",
+      "rationale": "1-sentence justification referencing anchor examples"
+    },
+    "quantitative_results": {
+      "level": "A/B+/B/C/D",
+      "score": Integer,
+      "source": "slides/transcript/none",
+      "evidence": "引用具體數字與 ROI 換算",
+      "value_categories_found": ["列出找到的價值分類：降本/增效/新商模"],
+      "roi_numbers_found": ["列出找到的金額或人天數字"],
+      "is_rescue": Boolean,
+      "rescue_quote": "若為口頭補救，引用逐字稿原文",
+      "boundary_check": "說明為何判定為此級別而非相鄰級別",
+      "rationale": "1-sentence justification referencing anchor examples"
+    },
+    "demo_verification": {
+      "level": "A/B/C/D",
+      "score": Integer,
+      "screenshot_count": "截圖數量",
+      "has_video": Boolean,
+      "has_interactive_link": Boolean,
+      "interactive_link_url": "若有，列出連結",
+      "has_ai_audio_only": Boolean,
+      "boundary_check": "說明為何判定為此級別而非相鄰級別",
+      "rationale": "1-sentence justification"
+    },
+    "future_extension": {
+      "level": "A/B/C",
+      "score": Integer,
+      "has_replicability_mechanism": Boolean,
+      "has_phase_planning": Boolean,
+      "boundary_check": "說明為何判定為此級別而非相鄰級別",
+      "rationale": "1-sentence justification"
+    }
+  },
+  "total_score": Integer,
+  "score_interpretation": "概念階段(<60) / 可行驗證(60-79) / Pipeline完整(80-89) / 頂尖執行(90-100)",
+  "critique": {
+    "strengths": ["max 2 items"],
+    "weaknesses": ["max 2 items"],
+    "verdict": "Executive summary of the investment decision."
+  },
+  "suggestion_for_improvement": "1 actionable advice to move up one level in the weakest dimension."
+}
+```
+
+---
+
+# Scoring Validation Rules (一致性校驗)
+
+## 強制引用機制
+
+每個維度評分必須通過以下校驗：
+
+1. **DAO 給 40 分**
+   - 必須在 automation_keywords_found 列出至少一個自動化關鍵詞
+   - 必須在 boundary_check 說明為何不是 35 分
+   - 若無法找到自動化關鍵詞，**強制降為 35 分**
+
+2. **DAO 給 35 分**
+   - 必須說明 Loop/Pipeline 機制存在
+   - 必須在 boundary_check 說明為何不是 40 分（缺少什麼自動化證據）
+
+3. **量化結果給 30 分**
+   - 必須在 roi_numbers_found 列出具體金額或人天數字
+   - 若無法引用具體 ROI 數字，**強制降為 26 分**
+
+4. **量化結果給 26 分**
+   - 必須在 value_categories_found 列出至少兩項價值分類
+   - 若無法找到明確分類，**強制降為 22 分**
+
+5. **Demo 給 10 分**
+   - 必須 has_interactive_link = true 且提供 URL
+   - 若僅有截圖/影片，最高 **8 分**
+
+6. **未來發展給 10 分**
+   - 必須 has_replicability_mechanism = true 且 has_phase_planning = true
+   - 若僅有其中一項，**強制降為 6 分**
+
+---
+
+# Conservative Default Principle (保守預設原則)
+
+## 核心原則：證據不足時，一律採取保守判定（降級）
+
+當評審對於應該給哪個級別感到猶豫時，**必須選擇較低的級別**。
+
+| 猶豫情況 | 保守判定 |
+|---------|---------|
+| 35 vs 40？ | 給 35 |
+| 22 vs 26？ | 給 22 |
+| 6 vs 10？(未來發展) | 給 6 |
+| 6 vs 8？(Demo) | 給 6 |
+
+**判定順序：**
+1. 先假設給較低分
+2. 檢查是否有明確證據支持升級
+3. 若證據充分 → 升級
+4. 若證據模糊 → 維持較低分
+
+---
+
+# Score Interpretation (4 Levels)
+
+| 分數區間 | 解讀 | 典型特徵 |
+|---------|------|---------|
+| **< 60** | 概念階段 | 缺乏 DAO 細節或無量化數據，僅有想法 |
+| **60-79** | 解決方案可行 | DAO 完整，有初步驗證成果，但 ROI 不精確 |
+| **80-89** | Pipeline 完整 | 有 Loop 設計，量化有 Before/After，但 ROI 換算不夠精確或需人工介入 |
+| **90-100** | 頂尖執行 | 全自動 DAO Pipeline + 精確 ROI（含金額/人天）+ 可規模化 SOP |
+
+---
+
+# Constraints
+
+- Use Traditional Chinese (zh-TW).
+- **Must select from discrete levels only** — no in-between scores.
+- **Zero Tolerance for Fluff**: 無 DAO 細節或無量化數據 → 該維度最多 Level C.
+- **Anchor-Based Judgment**: 評分時必須與錨點範例比對，說明為何歸類於該 Level.
+- **Source-Required**: 每個維度必須標註證據來源 (slides/transcript/none)，無法引用則降級.
+- **Boundary-Check-Required**: 每個維度必須說明為何不是相鄰級別，確保判定一致性.
+- **Conservative Default**: 當證據模糊時，一律採取保守判定（較低級別）.
+- **AI Audio Warning**: NotebookLM Podcast 等 AI 生成音檔嚴禁作為 Demo 或實作證據.</pre>
+                </div>
+            </div>
+            
+            <!-- Changelog -->
+            <div class="mt-8 bg-gray-50 rounded-xl p-6">
+                <h4 class="font-bold text-gray-700 mb-4">📝 版本更新記錄</h4>
+                <div class="space-y-3 text-sm">
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-gray-200 text-gray-600 px-2 py-0.5 rounded font-mono text-xs">v6.5</span>
+                        <span class="text-gray-600">原始版本，3級分數解讀，4檔 DAO</span>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-mono text-xs">v7.0</span>
+                        <span class="text-gray-600">新增：5檔 DAO、5檔量化結果、4級 Demo、4級分數解讀、補救條款、素材分類、強制引用機制</span>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-mono text-xs">v7.1</span>
+                        <span class="text-gray-600">新增：邊界判定規則、保守預設原則、boundary_check 欄位、automation_keywords_found、value_categories_found、roi_numbers_found</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Line-by-Line Annotation Section -->
+    <section id="annotation" class="py-20 px-6 bg-gradient-to-b from-white to-indigo-50">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-4xl mb-4 block">🔬</span>
+                <h2 class="text-3xl font-bold text-dark mb-4">逐行解析</h2>
+                <p class="text-gray-600 text-lg">每一行設計背後的策略思考</p>
+            </div>
+            
+            <div class="space-y-6">
+                
+                <!-- Section: Role -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-indigo-600 text-white px-6 py-4">
+                        <h3 class="font-bold text-lg flex items-center space-x-2">
+                            <span>🎭</span>
+                            <span>Section 1: Role (角色設定)</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-indigo-600 font-mono block mb-2">You act as a **Pragmatic Executive**</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>讓 AI 進入「務實高管」的心智模式，避免學術式或過度樂觀的評分。務實高管關心的是「能不能落地」而非「概念多創新」。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-indigo-600 font-mono block mb-2">You care less about "Storytelling" and significantly more about "Execution"</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>明確告訴 AI 權重分配——不要被華麗的問題描述打動，要看實際解決方案和數據。這對應到 DAO (40%) > Results (30%) > Problem (10%) 的權重設計。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Mental Model -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-purple-600 text-white px-6 py-4">
+                        <h3 class="font-bold text-lg flex items-center space-x-2">
+                            <span>🧠</span>
+                            <span>Section 2: Mental Model (思考框架)</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-purple-600 font-mono block mb-2">The Architect (40%): Is there a Loop? Is it automated?</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>「架構師思維」強調系統設計，特別點出 <strong>Loop</strong> 和 <strong>automated</strong> 是因為這是區分 Level A/B+/B 的關鍵——v7.1 新增「是否自動化」作為 35 vs 40 的判定標準。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-purple-600 font-mono block mb-2">The CFO (30%): with actual currency or man-day conversion</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>v7.1 新增「必須有金額或人天換算」才能給 Level A (30分)。這比 v6.5 更嚴格，確保 ROI 是可被財務驗證的數字，而非模糊的百分比。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Material Classification (NEW) -->
+                <div class="bg-white rounded-2xl border border-green-200 overflow-hidden ring-2 ring-green-100">
+                    <div class="bg-green-600 text-white px-6 py-4">
+                        <h3 class="font-bold text-lg flex items-center space-x-2">
+                            <span>📁</span>
+                            <span>Section 3: Material Classification (素材分類)</span>
+                            <span class="new-badge text-xs bg-white text-green-600 px-2 py-0.5 rounded-full font-medium ml-2">v7.1 新增</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-green-600 font-mono block mb-2">Slides/PDF: 100% | Transcript: 80% | AI Audio: 0%</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>區分「願景 (Story)」與「實證 (Proof)」。告訴評審 AI 生成的對話（如 NotebookLM Podcast）不等於系統實作，避免被流暢的 AI 音檔誤導。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-green-600 font-mono block mb-2">補救條款：口頭數據給予 80% 分數</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>模擬人類主管在聽簡報時的注意力，捕捉「口頭承諾的績效」。避免因為簡報技巧拙劣而抹殺一個高執行力的好專案，讓評分更貼近真實績效。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Boundary Rules (NEW) -->
+                <div class="bg-white rounded-2xl border border-green-200 overflow-hidden ring-2 ring-green-100">
+                    <div class="bg-amber-600 text-white px-6 py-4">
+                        <h3 class="font-bold text-lg flex items-center space-x-2">
+                            <span>🚧</span>
+                            <span>Section 4: Boundary Decision Rules (邊界判定規則)</span>
+                            <span class="new-badge text-xs bg-white text-amber-600 px-2 py-0.5 rounded-full font-medium ml-2">v7.1 新增</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-amber-600 font-mono block mb-2">✓ 給 40 分的必要條件：必須出現「自動觸發」「無需人工」等關鍵詞</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>v7.0 測試發現同一專案 5 輪評分差異達 12 分（78-90），主因是「35 vs 40」判定模糊。v7.1 設定明確關鍵詞作為「升級門檻」，消除評審主觀判斷空間。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-amber-600 font-mono block mb-2">✗ 降為 35 分的情況：使用「可以形成 Loop」等未來式描述</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>區分「已實作」與「計畫中」。許多專案會說「設計上可以形成 Loop」，但實際上尚未自動化。這類案例應給 35 分而非 40 分。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-amber-600 font-mono block mb-2">【預設】：當證據模糊時，一律給較低分</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>這是「保守預設原則」的核心——寧可低估，不可高估。若 AI 在 35 vs 40 之間猶豫，預設給 35，除非有明確證據升級。這確保評分穩定性。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: 5-Level System (NEW) -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-blue-600 text-white px-6 py-4">
+                        <h3 class="font-bold text-lg flex items-center space-x-2">
+                            <span>📊</span>
+                            <span>Section 5: 5-Level Discrete Grading (5 檔離散評分)</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-blue-600 font-mono block mb-2">[5 Levels: 10 / 20 / 30 / 35 / 40 pts] — 新增 B+ (35分)</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>v6.5 的 4 檔制（10/20/30/40）導致 30→40 跨度過大，無法區分「有 Loop 但人工觸發」與「全自動」。新增 35 分級別填補這個鑑別度缺口。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-blue-600 font-mono block mb-2">Level B+ (35分): 有 Pipeline/Loop 設計，但需人工觸發</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>這是最常見的邊界案例——專案有完整的工作流設計，但需要人工「按按鈕」啟動。這類專案比 Level B 更好，但還不到 Level A 的全自動程度。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Output Format -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-indigo-600 text-white px-6 py-4">
+                        <h3 class="font-bold text-lg flex items-center space-x-2">
+                            <span>📤</span>
+                            <span>Section 6: Output Format (輸出格式)</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-indigo-600 font-mono block mb-2">"boundary_check": "說明為何不是更高/更低一級"</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>v7.1 新增欄位，強制 AI 解釋為何選擇此級別而非相鄰級別。這實現了<strong>可追蹤性</strong>——人工複核時可以驗證 AI 的邊界判定是否合理。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-indigo-600 font-mono block mb-2">"automation_keywords_found": ["列出找到的自動化關鍵詞"]</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>v7.1 新增欄位，用於驗證 DAO 40 分的判定。若 AI 給 40 分但此欄位為空，則自動觸發校驗失敗，強制降為 35 分。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-indigo-600 font-mono block mb-2">"roi_numbers_found": ["列出找到的金額或人天數字"]</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>v7.1 新增欄位，用於驗證量化結果 30 分的判定。必須列出具體的「NT$」或「FTE/人天」數字，否則強制降為 26 分。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-indigo-600 font-mono block mb-2">"is_rescue": Boolean, "rescue_quote": "引用逐字稿原文"</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>當使用補救條款時，必須標註來源是逐字稿，並引用具體口頭內容。這讓評分結果可被驗證，避免 AI 憑空捏造「口頭數據」。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Validation Rules -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-red-600 text-white px-6 py-4">
+                        <h3 class="font-bold text-lg flex items-center space-x-2">
+                            <span>🔒</span>
+                            <span>Section 7: Scoring Validation Rules (一致性校驗)</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-red-600 font-mono block mb-2">DAO 給 40 分：必須在 automation_keywords_found 列出至少一個自動化關鍵詞</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>這是「強制引用機制」的核心——高分必須有證據支撐。若 AI 聲稱專案是「全自動」，就必須指出簡報中哪裡提到「自動」。無法引用則強制降級。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-red-600 font-mono block mb-2">未來發展給 10 分：必須 has_replicability_mechanism = true 且 has_phase_planning = true</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>Level A (10分) 需要同時滿足「可複製性」和「階段規劃」兩個條件。這避免了專案僅說「未來可擴展」就拿滿分的情況——必須有具體的機制和時程。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Conservative Default -->
+                <div class="bg-white rounded-2xl border border-green-200 overflow-hidden ring-2 ring-green-100">
+                    <div class="bg-slate-700 text-white px-6 py-4">
+                        <h3 class="font-bold text-lg flex items-center space-x-2">
+                            <span>⚖️</span>
+                            <span>Section 8: Conservative Default Principle (保守預設原則)</span>
+                            <span class="new-badge text-xs bg-green-500 text-white px-2 py-0.5 rounded-full font-medium ml-2">v7.1 核心</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-slate-600 font-mono block mb-2">當評審對於應該給哪個級別感到猶豫時，必須選擇較低的級別</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>這是 v7.1 的核心哲學——「寧缺勿濫」。AI 評分的最大風險是「虛高」（被華麗包裝欺騙），而非「虛低」。保守預設確保高分的含金量。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-slate-600 font-mono block mb-2">判定順序：先假設給較低分 → 檢查是否有明確證據支持升級</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>這是「舉證責任倒置」——不是證明專案「不夠好」才扣分，而是專案必須證明「夠好」才能升級。這對應法律上的「無罪推定」邏輯。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Constraints -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gray-800 text-white px-6 py-4">
+                        <h3 class="font-bold text-lg flex items-center space-x-2">
+                            <span>🚫</span>
+                            <span>Section 9: Constraints (硬性約束)</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-gray-600 font-mono block mb-2">Boundary-Check-Required: 每個維度必須說明為何不是相鄰級別</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>v7.1 新增約束，強制 AI 進行邊界思考。這不只是輸出格式要求，更是一種「思考引導」——讓 AI 在評分前必須考慮「為何不給更高/更低」。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-gray-600 font-mono block mb-2">Conservative Default: 當證據模糊時，一律採取保守判定（較低級別）</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>這是最終的安全網——即使前面所有規則都未生效，這條約束確保 AI 不會因為「不確定」就隨便給高分。這是 v7.1 穩定性的基石。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-gray-600 font-mono block mb-2">AI Audio Warning: NotebookLM Podcast 等 AI 生成音檔嚴禁作為 Demo 或實作證據</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>為什麼：</strong>AI 生成的 Podcast 聽起來非常流暢專業，容易誤導評審以為系統已經實作完成。明確禁止將其作為 Demo 證據，確保評分基於真實的系統展示。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary Section -->
+    <section class="py-20 px-6 bg-gradient-to-b from-indigo-900 to-dark text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="text-5xl mb-6 block">🎯</span>
+            <h2 class="text-3xl font-bold mb-6">v7.1 設計總結</h2>
+            <p class="text-xl text-indigo-200 mb-12 leading-relaxed">
+                這套 Prompt 的核心哲學是：<br>
+                <strong class="text-white">「讓 AI 像一個有明確邊界標準的務實高管，<br>寧可保守也不虛高。」</strong>
+            </p>
+            
+            <div class="grid md:grid-cols-5 gap-4 text-left">
+                <div class="bg-white/10 rounded-xl p-5">
+                    <div class="text-2xl mb-3">📊</div>
+                    <h3 class="font-bold text-base mb-2">離散化</h3>
+                    <p class="text-indigo-200 text-sm">5 檔制消除模糊判斷</p>
+                </div>
+                <div class="bg-white/10 rounded-xl p-5">
+                    <div class="text-2xl mb-3">⚓</div>
+                    <h3 class="font-bold text-base mb-2">錨點化</h3>
+                    <p class="text-indigo-200 text-sm">真實案例作為比較基準</p>
+                </div>
+                <div class="bg-white/10 rounded-xl p-5">
+                    <div class="text-2xl mb-3">🚧</div>
+                    <h3 class="font-bold text-base mb-2">邊界化</h3>
+                    <p class="text-indigo-200 text-sm">明確升降級條件</p>
+                </div>
+                <div class="bg-white/10 rounded-xl p-5">
+                    <div class="text-2xl mb-3">⚖️</div>
+                    <h3 class="font-bold text-base mb-2">保守化</h3>
+                    <p class="text-indigo-200 text-sm">證據不足則降級</p>
+                </div>
+                <div class="bg-white/10 rounded-xl p-5">
+                    <div class="text-2xl mb-3">📋</div>
+                    <h3 class="font-bold text-base mb-2">可追蹤</h3>
+                    <p class="text-indigo-200 text-sm">強制引用支撐證據</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 bg-dark text-center">
+        <p class="text-gray-500 text-sm">
+            AI Demo Day 評審系統 v7.1 | 務實高管版<br>
+            <span class="text-gray-600">Prompt Engineering by TPSC AI Team</span>
+        </p>
+    </footer>
+
+    <script>
+        function copyPrompt() {
+            const promptContent = document.getElementById('promptContent').innerText;
+            navigator.clipboard.writeText(promptContent).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const text = document.getElementById('copyText');
+                btn.classList.add('copied');
+                text.innerText = '已複製！';
+                
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    text.innerText = '複製到剪貼簿';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('複製失敗，請手動選取複製');
+            });
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
+
+</body>
+</html>
