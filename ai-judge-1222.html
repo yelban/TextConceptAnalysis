@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>甲桂林 AI 轉型實作評審總表 (v6.2)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f3f4f6; }
+        .score-badge { font-weight: bold; border-radius: 9999px; padding: 0.25rem 0.75rem; text-align: center; }
+        .tier-s { background-color: #d1fae5; color: #065f46; border: 1px solid #34d399; } /* 90+ */
+        .tier-a { background-color: #eff6ff; color: #1e40af; border: 1px solid #60a5fa; } /* 80-89 */
+        .tier-b { background-color: #fff7ed; color: #9a3412; border: 1px solid #fdba74; } /* 70-79 */
+        .tier-c { background-color: #fef2f2; color: #991b1b; border: 1px solid #f87171; } /* <70 */
+        
+        th { background-color: #1f2937; color: white; }
+        tr:nth-child(even) { background-color: #f9fafb; }
+        tr:hover { background-color: #f3f4f6; }
+        
+        .dao-tag { display: inline-block; background-color: #e5e7eb; color: #374151; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;}
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">🏆 甲桂林 AI 轉型實作評選總表</h1>
+            <p class="text-gray-600">評審標準：問題定義 (10%) | DAO 解決方案 (40%) | 量化效益 (30%) | Demo (10%) | 未來擴充 (10%)</p>
+        </div>
+
+        <div class="overflow-x-auto shadow-lg rounded-lg">
+            <table class="w-full bg-white text-sm text-left rtl:text-right text-gray-500">
+                <thead class="text-xs uppercase">
+                    <tr>
+                        <th scope="col" class="px-6 py-4 w-12 text-center">排名</th>
+                        <th scope="col" class="px-6 py-4 w-48">組別 / 專案名稱</th>
+                        <th scope="col" class="px-6 py-4 w-20 text-center">總分</th>
+                        <th scope="col" class="px-6 py-4 w-32 hidden md:table-cell">細項得分<br><span class="text-[10px] normal-case">(問/解/效/演/擴)</span></th>
+                        <th scope="col" class="px-6 py-4 w-64">核心亮點 (DAO & ROI)</th>
+                        <th scope="col" class="px-6 py-4 w-64">評審點評與改進建議</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <!-- 第六組 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-center font-bold text-xl text-yellow-600">1</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-lg">第六組</div>
+                            <div class="text-blue-600 font-medium">六都房市 AI 戰情室</div>
+                            <div class="text-xs text-gray-500 mt-1">數位部</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="score-badge tier-s text-lg">96</span>
+                        </td>
+                        <td class="px-6 py-4 hidden md:table-cell text-center font-mono text-gray-600">
+                            10 | 39 | 28 | 10 | 9
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="dao-tag">GitHub Actions</span><span class="dao-tag">Python</span><span class="dao-tag">Gemini Flash</span>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                <li><strong>零人工介入：</strong>全自動每日排程與 Line 推播。</li>
+                                <li><strong>三道防線清洗：</strong>完美解決資料雜訊（如 Toyota/美食文）。</li>
+                                <li><strong>效率提升：</strong>單案調研效率提升 180 倍。</li>
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-green-700 font-bold text-xs mb-1">【特優 S-Tier】</div>
+                            <p class="mb-2">技術含金量最高，真正實現「讓資訊找人」。</p>
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200 text-xs">
+                                <strong>建議：</strong>進行為期一個月的 A/B Test，用真實投放數據驗證「CTR 提升 15%」的預估值。
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- 第十組 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-center font-bold text-xl text-gray-500">2</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-lg">第十組</div>
+                            <div class="text-blue-600 font-medium">BTS 智慧開發平台</div>
+                            <div class="text-xs text-gray-500 mt-1">業務一部 & 規劃部</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="score-badge tier-s text-lg">94</span>
+                        </td>
+                        <td class="px-6 py-4 hidden md:table-cell text-center font-mono text-gray-600">
+                            10 | 38 | 28 | 9 | 9
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="dao-tag">Parametric Design</span><span class="dao-tag">Feasibility Study</span>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                <li><strong>核心痛點：</strong>解決每週「消失的 20 小時」法規試算。</li>
+                                <li><strong>協作革命：</strong>業務與規劃部的即時協作平台。</li>
+                                <li><strong>產出：</strong>合規量體 + 財務配比表 + AI 風格圖。</li>
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-green-700 font-bold text-xs mb-1">【特優 S-Tier】</div>
+                            <p class="mb-2">深入產業核心決策，非單純文書優化，具極高戰略價值。</p>
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200 text-xs">
+                                <strong>建議：</strong>展示「邊界測試」（輸入錯誤參數系統報錯），並考慮串接營建成本資料庫。
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- 第七組 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-center font-bold text-xl text-yellow-700">3</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-lg">第七組</div>
+                            <div class="text-blue-600 font-medium">市場分析效率革新</div>
+                            <div class="text-xs text-gray-500 mt-1">業務部</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="score-badge tier-s text-lg">92</span>
+                        </td>
+                        <td class="px-6 py-4 hidden md:table-cell text-center font-mono text-gray-600">
+                            10 | 37 | 28 | 9 | 8
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="dao-tag">Vision AI</span><span class="dao-tag">OCR</span><span class="dao-tag">Logic Inference</span>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                <li><strong>多模態應用：</strong>視覺辨識銷控表 + 平面圖推導戶數。</li>
+                                <li><strong>驚人 ROI：</strong>作業時間從 7 小時 -> 30 分鐘 (>90% 節省)。</li>
+                                <li><strong>痛點精細：</strong>精準拆解每個耗時環節。</li>
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-green-700 font-bold text-xs mb-1">【特優 S-Tier】</div>
+                            <p class="mb-2">務實且強大，平面圖推導戶數的邏輯設計非常精彩。</p>
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200 text-xs">
+                                <strong>建議：</strong>建立內部的 Prompt Library 工具包，讓此技術能快速複製給新人。
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- 第四組 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-center font-bold text-gray-600">4</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-lg">第四組</div>
+                            <div class="text-blue-600 font-medium">視覺零時差</div>
+                            <div class="text-xs text-gray-500 mt-1">Evolution AI 隊</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="score-badge tier-s text-lg">91</span>
+                        </td>
+                        <td class="px-6 py-4 hidden md:table-cell text-center font-mono text-gray-600">
+                            9 | 36 | 28 | 9 | 9
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="dao-tag">Midjourney</span><span class="dao-tag">Stable Diffusion</span><span class="dao-tag">SOP</span>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                <li><strong>解決鬼打牆：</strong>消除「低解析度語言」溝通障礙。</li>
+                                <li><strong>具體成效：</strong>修改次數減少 60%，縮短 3 天定稿期。</li>
+                                <li><strong>資產化：</strong>建立企業專屬 Style Library (LoRA)。</li>
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-green-700 font-bold text-xs mb-1">【特優 S-Tier】</div>
+                            <p class="mb-2">教科書級別的 DAO 流程，戰略高度在於「審美資產化」。</p>
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200 text-xs">
+                                <strong>建議：</strong>補充說明「節省的廠商修改費用」金額，增強財務說服力。
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- 第八組 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-center font-bold text-gray-600">5</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-lg">第八組</div>
+                            <div class="text-blue-600 font-medium">建築立面優化與實價登錄</div>
+                            <div class="text-xs text-gray-500 mt-1">別急，AI在想隊</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="score-badge tier-s text-lg">90</span>
+                        </td>
+                        <td class="px-6 py-4 hidden md:table-cell text-center font-mono text-gray-600">
+                            9 | 36 | 28 | 9 | 8
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="dao-tag">Generative AI</span><span class="dao-tag">Python OCR</span>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                <li><strong>雙軌並進：</strong>右腦設計 (渲染費歸零) + 左腦數據 (爬蟲)。</li>
+                                <li><strong>震撼 ROI：</strong>設計時間 3 天 -> 10 分鐘；爬蟲 3 小時 -> 10 秒。</li>
+                                <li><strong>技術實力：</strong>解決圖形驗證碼 (ddddocr)。</li>
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-green-700 font-bold text-xs mb-1">【特優 S-Tier】</div>
+                            <p class="mb-2">軟硬實力兼具，對成本結構有破壞式創新潛力。</p>
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200 text-xs">
+                                <strong>建議：</strong>強化設計生成的「可控性」說明，嘗試將爬取的數據自動餵給設計端做決策。
+                            </div>
+                        </td>
+                    </tr>
+
+                     <!-- 第一組 -->
+                     <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-center font-bold text-gray-600">6</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-lg">第一組</div>
+                            <div class="text-blue-600 font-medium">AI 賦能房地產流程進化</div>
+                            <div class="text-xs text-gray-500 mt-1">企劃部</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="score-badge tier-a text-lg">87</span>
+                        </td>
+                        <td class="px-6 py-4 hidden md:table-cell text-center font-mono text-gray-600">
+                            9 | 35 | 26 | 9 | 8
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="dao-tag">AI Kiosk</span><span class="dao-tag">Full Workflow</span>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                <li><strong>光速企劃：</strong>前置作業 3 天 -> 10 分鐘。</li>
+                                <li><strong>全鏈路：</strong>案名 -> Slogan -> 文案 -> 視覺風格圖。</li>
+                                <li><strong>產品化：</strong>提出 "AI Kiosk" 事務機概念。</li>
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-blue-700 font-bold text-xs mb-1">【優選 A-Tier】</div>
+                            <p class="mb-2">精準打擊創意發想門檻，效率提升顯著。</p>
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200 text-xs">
+                                <strong>建議：</strong>加入「商標/版權快篩」機制，並建立「金牌 Prompt 資料庫」。
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- 第五組 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-center font-bold text-gray-600">7</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-lg">第五組</div>
+                            <div class="text-blue-600 font-medium">廣告預算優化</div>
+                            <div class="text-xs text-gray-500 mt-1">AI 成果發表</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="score-badge tier-a text-lg">82</span>
+                        </td>
+                        <td class="px-6 py-4 hidden md:table-cell text-center font-mono text-gray-600">
+                            9 | 36 | 20 | 9 | 8
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="dao-tag">NotebookLM</span><span class="dao-tag">Google AI Studio</span><span class="dao-tag">RAG</span>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                <li><strong>喚醒沉睡數據：</strong>活化 PDF 歷史報價單與發票。</li>
+                                <li><strong>隱性轉顯性：</strong>將資深員工的估價經驗標準化。</li>
+                                <li><strong>工具靈活：</strong>靈活運用 AI Studio 生成結構化 Excel。</li>
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-blue-700 font-bold text-xs mb-1">【優選 A-Tier】</div>
+                            <p class="mb-2">技術應用成熟，是企業知識管理的典範。</p>
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200 text-xs">
+                                <strong>建議：</strong>必須補充「前後對比數據」（如省時/省錢金額），證明 CFO 視角的價值。
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- 第十一組 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-center font-bold text-gray-600">8</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-lg">第十一組</div>
+                            <div class="text-blue-600 font-medium">台中 AI 的力量</div>
+                            <div class="text-xs text-gray-500 mt-1">台中業務部</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="score-badge tier-b text-lg">73</span>
+                        </td>
+                        <td class="px-6 py-4 hidden md:table-cell text-center font-mono text-gray-600">
+                            8 | 28 | 22 | 7 | 8
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="dao-tag">Digitization</span><span class="dao-tag">Customer Profiling</span>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                <li><strong>數位化基礎：</strong>紙本日報 -> Google Forms。</li>
+                                <li><strong>效率指標：</strong>行政作業時間節省 83% (60分 -> 10分)。</li>
+                                <li><strong>質化分析：</strong>針對職業別生成分眾行銷策略。</li>
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-orange-700 font-bold text-xs mb-1">【佳作 B-Tier】</div>
+                            <p class="mb-2">務實的起步，解決了一線人員最繁瑣的痛點。</p>
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200 text-xs">
+                                <strong>建議：</strong>導入 Zapier/GAS 實現「自動化串接」，讓表單直接觸發 AI 生成報告。
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- 第九組 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-center font-bold text-gray-600">9</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-lg">第九組</div>
+                            <div class="text-blue-600 font-medium">AI SOP 生成與更新助手</div>
+                            <div class="text-xs text-gray-500 mt-1">業務一部</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="score-badge tier-c text-lg">67</span>
+                        </td>
+                        <td class="px-6 py-4 hidden md:table-cell text-center font-mono text-gray-600">
+                            9 | 28 | 15 | 7 | 8
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="dao-tag">Knowledge Management</span><span class="dao-tag">Chatbot</span>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                <li><strong>高風險價值：</strong>鎖定法規/簽約等易錯環節。</li>
+                                <li><strong>知識傳承：</strong>解決師徒制隱性知識流失問題。</li>
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-red-700 font-bold text-xs mb-1">【潛力 C-Tier】</div>
+                            <p class="mb-2">方向正確但驗證不足，缺乏數據佐證。</p>
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200 text-xs">
+                                <strong>建議：</strong>必須建立「數據儀表板」，追蹤新人上手速度或 SOP 查詢次數以證明價值。
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-4 text-right text-gray-500 text-xs">
+            * 評分依據：2025-12-22 成果發表會提交資料
+        </div>
+    </div>
+
+</body>
+</html>
