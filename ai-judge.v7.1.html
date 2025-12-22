@@ -67,6 +67,13 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
+        .tech-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        .tech-badge {
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+        }
     </style>
 </head>
 <body class="font-sans bg-light text-gray-800 text-base leading-relaxed">
@@ -81,11 +88,11 @@
                     <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium">v7.1</span>
                     <span class="new-badge text-xs bg-green-500 text-white px-2 py-1 rounded-full font-medium">NEW</span>
                 </div>
-                <div class="hidden md:flex items-center space-x-8 text-sm">
+                <div class="hidden md:flex items-center space-x-6 text-sm">
                     <a href="#methodology" class="text-gray-600 hover:text-primary transition">方法論</a>
                     <a href="#criteria" class="text-gray-600 hover:text-primary transition">評分標準</a>
-                    <a href="#new-features" class="text-gray-600 hover:text-primary transition">v7.1 新功能</a>
                     <a href="#prompt" class="text-gray-600 hover:text-primary transition">完整提示詞</a>
+                    <a href="#deep-dive" class="text-gray-600 hover:text-primary transition">技術深度解析</a>
                     <a href="#annotation" class="text-gray-600 hover:text-primary transition">逐行解析</a>
                 </div>
             </div>
@@ -120,8 +127,8 @@
                 <a href="#prompt" class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-medium transition shadow-lg shadow-primary/25">
                     📋 取得完整 Prompt
                 </a>
-                <a href="#methodology" class="bg-white hover:bg-gray-50 text-gray-700 px-8 py-4 rounded-xl font-medium transition border border-gray-200">
-                    📖 了解方法論
+                <a href="#deep-dive" class="bg-white hover:bg-gray-50 text-gray-700 px-8 py-4 rounded-xl font-medium transition border border-gray-200">
+                    🔬 技術深度解析
                 </a>
             </div>
         </div>
@@ -1283,23 +1290,330 @@ Evaluate the user submission based on the "5-Dimension Scoring Criteria" using *
         </div>
     </section>
 
-    <!-- Line-by-Line Annotation Section -->
-    <section id="annotation" class="py-20 px-6 bg-gradient-to-b from-white to-indigo-50">
+    <!-- Deep Dive Technical Analysis Section -->
+    <section id="deep-dive" class="py-20 px-6 bg-gradient-to-b from-white to-slate-50">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-12">
                 <span class="text-4xl mb-4 block">🔬</span>
-                <h2 class="text-3xl font-bold text-dark mb-4">逐行解析</h2>
-                <p class="text-gray-600 text-lg">每一行設計背後的策略思考</p>
+                <h2 class="text-3xl font-bold text-dark mb-4">Prompt Engineering 技術深度解析</h2>
+                <p class="text-gray-600 text-lg">這套提示詞運用了哪些高階技巧？為什麼這樣設計？</p>
+            </div>
+            
+            <!-- Summary Card -->
+            <div class="bg-dark rounded-2xl p-8 text-white mb-12">
+                <h3 class="font-bold text-xl mb-4 flex items-center space-x-2">
+                    <span>💡</span>
+                    <span>核心設計哲學</span>
+                </h3>
+                <p class="text-lg text-indigo-200 leading-relaxed mb-6">
+                    這份提示詞之所以強大，是因為它<strong class="text-white">不信任 AI 的模糊判斷</strong>。它通過四大機制將原本主觀的「評審工作」轉化為 AI 可以精確執行的「演算法程序」：
+                </p>
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div class="bg-white/10 rounded-xl p-4 text-center">
+                        <div class="text-2xl mb-2">🔢</div>
+                        <div class="font-medium">量化</div>
+                        <div class="text-sm text-indigo-300">找數字、找金額</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-4 text-center">
+                        <div class="text-2xl mb-2">🔑</div>
+                        <div class="font-medium">關鍵字鎖定</div>
+                        <div class="text-sm text-indigo-300">找 Webhook、找 SOP</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-4 text-center">
+                        <div class="text-2xl mb-2">🚦</div>
+                        <div class="font-medium">邏輯閘</div>
+                        <div class="text-sm text-indigo-300">沒有 A 就不能給 B</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-4 text-center">
+                        <div class="text-2xl mb-2">⬇️</div>
+                        <div class="font-medium">強制降級</div>
+                        <div class="text-sm text-indigo-300">不確定就給低分</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                
+                <!-- Part 1: Role & Mental Model -->
+                <div class="tech-card rounded-2xl p-8 border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-lg">🎭</div>
+                        <div>
+                            <h3 class="font-bold text-xl text-dark">第一部分：角色與思維模型</h3>
+                            <span class="tech-badge bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded uppercase">Role Prompting + Persona</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">這部分是為了讓 AI「入戲」，設定它的價值觀與評分視角。</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-indigo-600 font-mono block mb-3 bg-indigo-50 p-2 rounded">You act as a **Pragmatic Executive**</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-indigo-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">身份定錨 (Persona)：</span>
+                                    <span class="text-gray-600">設定 AI 為「務實的高階主管」，這告訴 AI 不要被華麗的詞藻迷惑，要專注於「結果」與「執行力」。</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-indigo-600 font-mono block mb-3 bg-indigo-50 p-2 rounded">Evaluate... using **Discrete Levels** (not continuous scores)</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-indigo-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">離散評分 (Discrete Levels)：</span>
+                                    <span class="text-gray-600">強迫 AI 只能選固定的分級（如 3, 6, 10），不能給出模糊的中間值（如 7.5），這能大幅降低 AI 的隨機性，確保評分標準一致。</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-indigo-600 font-mono block mb-3 bg-indigo-50 p-2 rounded">The Architect (40%)... The CFO (30%)...</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-indigo-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">權重分配 (Weighting)：</span>
+                                    <span class="text-gray-600">直接告訴 AI 腦中要看重什麼。「架構師 (40%)」看邏輯與自動化，「財務長 (30%)」看投資報酬率。這兩者加起來佔了 70%，確立了評分的重心在於「技術落地」與「商業價值」。透過 "DAO" 和 "ROI" 定義了 AI 判斷好壞的專有名詞體系。</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 2: Material & Rescue -->
+                <div class="tech-card rounded-2xl p-8 border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-lg">📁</div>
+                        <div>
+                            <h3 class="font-bold text-xl text-dark">第二部分：素材證據力與補救條款</h3>
+                            <span class="tech-badge bg-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase">Hierarchy of Evidence + Defensive Instructions</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">這部分是為了處理「資料來源」的優先順序，防止 AI 產生幻覺。</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-blue-600 font-mono block mb-3 bg-blue-50 p-2 rounded">Slides/PDF: 100% | Transcript: 80% | AI Audio: 0%</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-blue-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">證據階層 (Hierarchy of Evidence)：</span>
+                                    <span class="text-gray-600">這是一個非常聰明的防呆機制。AI 容易混淆資訊來源，這裡明確規定：白紙黑字的簡報算數 (100%)，嘴巴說的打八折 (80%)，AI 生成的 Podcast 完全不算 (0%)。</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 bg-red-50 rounded-lg p-3 text-sm text-red-700">
+                                <strong>防止作弊：</strong>特別強調 AI Audio 不算分，防止參賽者用好聽的 AI 語音掩蓋內容空洞的事實。
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-blue-600 font-mono block mb-3 bg-blue-50 p-2 rounded">"adjusted_score": 原始分數 × 0.8</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-blue-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">演算法邏輯 (Algorithmic Logic)：</span>
+                                    <span class="text-gray-600">這裡植入了一個具體的數學公式。如果 PPT 沒寫但口頭有說，AI 必須執行「乘上 0.8」的運算。這讓評分既有人情味（允許口頭補充），又有原則（口說無憑要扣分）。</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 3: Scoring Criteria & Boundary -->
+                <div class="tech-card rounded-2xl p-8 border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center text-lg">🚧</div>
+                        <div>
+                            <h3 class="font-bold text-xl text-dark">第三部分：評分標準與邊界判定</h3>
+                            <span class="tech-badge bg-amber-100 text-amber-700 px-2 py-0.5 rounded uppercase">Few-Shot Prompting + Negative Constraints</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">這是提示詞的核心，運用了「少樣本提示 (Few-Shot Prompting)」與「負面約束 (Negative Constraints)」。</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-sm font-medium">Problem Definition</span>
+                            </div>
+                            <code class="text-sm text-amber-600 font-mono block mb-3 bg-amber-50 p-2 rounded">✓ 給 6 分的必要條件：必須出現至少一個「數字」</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-amber-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">二元判定 (Binary Check)：</span>
+                                    <span class="text-gray-600">為了解決 AI 評分模稜兩可的問題，這裡設立了明確的「門檻」。有數字 = 6分，沒數字 = 3分。將主觀判斷轉化為客觀的特徵檢索。</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-sm font-medium">DAO 35 vs 40</span>
+                                <span class="text-xs text-red-500 font-medium">⚠️ 關鍵判定</span>
+                            </div>
+                            <code class="text-sm text-amber-600 font-mono block mb-3 bg-amber-50 p-2 rounded">必須出現：「自動觸發」「Webhook」「API 串接自動」</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-amber-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">關鍵字觸發 (Keyword Triggering)：</span>
+                                    <span class="text-gray-600">要拿滿分 (40分)，AI 必須在文中掃描到特定技術關鍵字（如 Webhook, API）。這是強制 AI 進行「事實查核」，而非僅憑感覺打分。</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-sm font-medium">Quantitative Results</span>
+                            </div>
+                            <code class="text-sm text-amber-600 font-mono block mb-3 bg-amber-50 p-2 rounded">必須出現：「NT$」「FTE」「人天」「人月」</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-amber-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">貨幣化要求 (Monetization)：</span>
+                                    <span class="text-gray-600">要拿最高分 (30分)，必須看到「錢 (NT$)」或「人 (FTE)」。這反映了前面設定的 "CFO" 角色——只看具體效益，不看抽象百分比。</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-sm font-medium">Demo Verification</span>
+                            </div>
+                            <code class="text-sm text-amber-600 font-mono block mb-3 bg-amber-50 p-2 rounded">給 10 分的必要條件：必須提供可點擊的連結（URL）</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-amber-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">驗證性 (Verifiability)：</span>
+                                    <span class="text-gray-600">區分「影片」與「實作連結」。這是為了過濾掉只有漂亮的 Demo 影片但實際無法運作的專案。</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded text-sm font-medium">Future Extension</span>
+                            </div>
+                            <code class="text-sm text-amber-600 font-mono block mb-3 bg-amber-50 p-2 rounded">必須同時有「SOP化」且有「Phase 1/2/3」階段規劃</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-amber-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">可複製性 (Scalability)：</span>
+                                    <span class="text-gray-600">這裡強調的不只是「做完」，而是「能複製」。要求 AI 尋找 SOP 或 Phase 1/2/3 的證據。</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 4: Output Format & Validation -->
+                <div class="tech-card rounded-2xl p-8 border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-lg">📤</div>
+                        <div>
+                            <h3 class="font-bold text-xl text-dark">第四部分：輸出格式與驗證</h3>
+                            <span class="tech-badge bg-green-100 text-green-700 px-2 py-0.5 rounded uppercase">Structured Output + Chain of Thought</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">這部分是為了確保 AI 輸出的內容可以被程式讀取（JSON），並且強迫 AI 進行自我反思。</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-green-600 font-mono block mb-3 bg-green-50 p-2 rounded">"evidence": "引用簡報頁碼或逐字稿具體內容"</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-green-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">強迫引用 (Citational Requirement)：</span>
+                                    <span class="text-gray-600">evidence 欄位強迫 AI 必須從文本中「複製貼上」證據，不能憑空捏造。這是防止 AI 幻覺的關鍵機制。</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-green-600 font-mono block mb-3 bg-green-50 p-2 rounded">"boundary_check": "說明為何不是更高/更低一級"</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-green-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">思維鏈輸出 (Chain of Thought Output)：</span>
+                                    <span class="text-gray-600">boundary_check 和 rationale 欄位要求 AI 寫下「為什麼我給這個分數，而不是另一個分數」。這迫使 AI 在給分前先進行邏輯辯證。</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-green-600 font-mono block mb-3 bg-green-50 p-2 rounded">若無法找到自動化關鍵詞，**強制降為 35 分**</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-green-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">防禦性編程 (Defensive Programming)：</span>
+                                    <span class="text-gray-600">這是一套「If-Then」的邏輯檢查。如果 AI 給了高分卻沒填寫證據欄位，這條規則會命令 AI 自我修正並降分。這是避免 AI 當「爛好人」的關鍵機制。</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 5: Conservative Default -->
+                <div class="tech-card rounded-2xl p-8 border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-lg">⚖️</div>
+                        <div>
+                            <h3 class="font-bold text-xl text-dark">第五部分：保守原則與解讀</h3>
+                            <span class="tech-badge bg-red-100 text-red-700 px-2 py-0.5 rounded uppercase">Default Behavior Override</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">最後的防線，確保評分風格是嚴格的。</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-red-600 font-mono block mb-3 bg-red-50 p-2 rounded">當證據模糊時，一律採取保守判定（較低級別）</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-red-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">預設行為 (Default Behavior)：</span>
+                                    <span class="text-gray-600">AI 模型通常傾向於討好使用者（給高分）。這段指令明確重寫了這個偏好，設定預設值為「嚴格」。當證據 50/50 時，強制往下評分。</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-5 border border-gray-100">
+                            <code class="text-sm text-red-600 font-mono block mb-3 bg-red-50 p-2 rounded">Score Interpretation: &lt;60 概念階段... 90-100 頂尖執行</code>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-red-500 mt-1">→</span>
+                                <div>
+                                    <span class="font-medium text-gray-800">最終定性：</span>
+                                    <span class="text-gray-600">將冷冰冰的分數轉換為人類可讀的評語（Verdict），幫助使用者快速理解專案所處的階段。</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Line-by-Line Annotation Section -->
+    <section id="annotation" class="py-20 px-6 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-4xl mb-4 block">📝</span>
+                <h2 class="text-3xl font-bold text-dark mb-4">逐行設計解析</h2>
+                <p class="text-gray-600 text-lg">每一行設計背後的策略思考與 v7.1 新增理由</p>
             </div>
             
             <div class="space-y-6">
                 
-                <!-- Section: Role -->
+                <!-- Role Section -->
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
                     <div class="bg-indigo-600 text-white px-6 py-4">
                         <h3 class="font-bold text-lg flex items-center space-x-2">
                             <span>🎭</span>
-                            <span>Section 1: Role (角色設定)</span>
+                            <span>Role & Mental Model</span>
                         </h3>
                     </div>
                     <div class="p-6 space-y-4">
@@ -1310,81 +1624,63 @@ Evaluate the user submission based on the "5-Dimension Scoring Criteria" using *
                             </p>
                         </div>
                         <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-indigo-600 font-mono block mb-2">You care less about "Storytelling" and significantly more about "Execution"</code>
+                            <code class="text-sm text-indigo-600 font-mono block mb-2">The Architect (40%)... Is it automated?</code>
                             <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>明確告訴 AI 權重分配——不要被華麗的問題描述打動，要看實際解決方案和數據。這對應到 DAO (40%) > Results (30%) > Problem (10%) 的權重設計。
+                                <strong>v7.1 新增「Is it automated?」：</strong>明確將「是否自動化」作為 35 vs 40 的判定標準，這是 v7.0 測試後發現的最大模糊地帶。
+                            </p>
+                        </div>
+                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
+                            <code class="text-sm text-indigo-600 font-mono block mb-2">The CFO (30%)... with actual currency or man-day conversion</code>
+                            <p class="text-gray-700 text-sm">
+                                <strong>v7.1 強化「actual currency」：</strong>比 v6.5 更嚴格，確保 ROI 是可被財務驗證的數字（NT$ 或 FTE），而非模糊的百分比。
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section: Mental Model -->
-                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="bg-purple-600 text-white px-6 py-4">
-                        <h3 class="font-bold text-lg flex items-center space-x-2">
-                            <span>🧠</span>
-                            <span>Section 2: Mental Model (思考框架)</span>
-                        </h3>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-purple-600 font-mono block mb-2">The Architect (40%): Is there a Loop? Is it automated?</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>「架構師思維」強調系統設計，特別點出 <strong>Loop</strong> 和 <strong>automated</strong> 是因為這是區分 Level A/B+/B 的關鍵——v7.1 新增「是否自動化」作為 35 vs 40 的判定標準。
-                            </p>
-                        </div>
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-purple-600 font-mono block mb-2">The CFO (30%): with actual currency or man-day conversion</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>v7.1 新增「必須有金額或人天換算」才能給 Level A (30分)。這比 v6.5 更嚴格，確保 ROI 是可被財務驗證的數字，而非模糊的百分比。
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section: Material Classification (NEW) -->
+                <!-- Material Classification -->
                 <div class="bg-white rounded-2xl border border-green-200 overflow-hidden ring-2 ring-green-100">
                     <div class="bg-green-600 text-white px-6 py-4">
                         <h3 class="font-bold text-lg flex items-center space-x-2">
                             <span>📁</span>
-                            <span>Section 3: Material Classification (素材分類)</span>
-                            <span class="new-badge text-xs bg-white text-green-600 px-2 py-0.5 rounded-full font-medium ml-2">v7.1 新增</span>
+                            <span>Material Classification & Rescue Clause</span>
+                            <span class="text-xs bg-white text-green-600 px-2 py-0.5 rounded-full font-medium ml-2">v7.1 新增</span>
                         </h3>
                     </div>
                     <div class="p-6 space-y-4">
                         <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
                             <code class="text-sm text-green-600 font-mono block mb-2">Slides/PDF: 100% | Transcript: 80% | AI Audio: 0%</code>
                             <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>區分「願景 (Story)」與「實證 (Proof)」。告訴評審 AI 生成的對話（如 NotebookLM Podcast）不等於系統實作，避免被流暢的 AI 音檔誤導。
+                                <strong>為什麼：</strong>區分「願景 (Story)」與「實證 (Proof)」。AI 生成的對話（如 NotebookLM Podcast）不等於系統實作，避免被流暢的 AI 音檔誤導給出虛高的 Demo 分數。
                             </p>
                         </div>
                         <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
                             <code class="text-sm text-green-600 font-mono block mb-2">補救條款：口頭數據給予 80% 分數</code>
                             <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>模擬人類主管在聽簡報時的注意力，捕捉「口頭承諾的績效」。避免因為簡報技巧拙劣而抹殺一個高執行力的好專案，讓評分更貼近真實績效。
+                                <strong>為什麼：</strong>模擬人類主管在聽簡報時的注意力，捕捉「口頭承諾的績效」。避免因為簡報技巧拙劣而抹殺一個高執行力的好專案。v6.2 的「No Data = No Bonus」過於嚴格，會誤殺好專案。
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section: Boundary Rules (NEW) -->
-                <div class="bg-white rounded-2xl border border-green-200 overflow-hidden ring-2 ring-green-100">
+                <!-- Boundary Rules -->
+                <div class="bg-white rounded-2xl border border-amber-200 overflow-hidden ring-2 ring-amber-100">
                     <div class="bg-amber-600 text-white px-6 py-4">
                         <h3 class="font-bold text-lg flex items-center space-x-2">
                             <span>🚧</span>
-                            <span>Section 4: Boundary Decision Rules (邊界判定規則)</span>
-                            <span class="new-badge text-xs bg-white text-amber-600 px-2 py-0.5 rounded-full font-medium ml-2">v7.1 新增</span>
+                            <span>Boundary Decision Rules</span>
+                            <span class="text-xs bg-white text-amber-600 px-2 py-0.5 rounded-full font-medium ml-2">v7.1 核心</span>
                         </h3>
                     </div>
                     <div class="p-6 space-y-4">
                         <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-amber-600 font-mono block mb-2">✓ 給 40 分的必要條件：必須出現「自動觸發」「無需人工」等關鍵詞</code>
+                            <code class="text-sm text-amber-600 font-mono block mb-2">✓ 給 40 分：必須出現「自動觸發」「Webhook」等關鍵詞</code>
                             <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>v7.0 測試發現同一專案 5 輪評分差異達 12 分（78-90），主因是「35 vs 40」判定模糊。v7.1 設定明確關鍵詞作為「升級門檻」，消除評審主觀判斷空間。
+                                <strong>為什麼：</strong>v7.0 測試發現同一專案 5 輪評分差異達 12 分（78-90），主因是「35 vs 40」判定模糊。設定明確關鍵詞作為「升級門檻」，消除評審主觀判斷空間。
                             </p>
                         </div>
                         <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-amber-600 font-mono block mb-2">✗ 降為 35 分的情況：使用「可以形成 Loop」等未來式描述</code>
+                            <code class="text-sm text-amber-600 font-mono block mb-2">✗ 降為 35 分：使用「可以形成 Loop」等未來式描述</code>
                             <p class="text-gray-700 text-sm">
                                 <strong>為什麼：</strong>區分「已實作」與「計畫中」。許多專案會說「設計上可以形成 Loop」，但實際上尚未自動化。這類案例應給 35 分而非 40 分。
                             </p>
@@ -1392,146 +1688,37 @@ Evaluate the user submission based on the "5-Dimension Scoring Criteria" using *
                         <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
                             <code class="text-sm text-amber-600 font-mono block mb-2">【預設】：當證據模糊時，一律給較低分</code>
                             <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>這是「保守預設原則」的核心——寧可低估，不可高估。若 AI 在 35 vs 40 之間猶豫，預設給 35，除非有明確證據升級。這確保評分穩定性。
+                                <strong>為什麼：</strong>這是「保守預設原則」的核心——寧可低估，不可高估。若 AI 在 35 vs 40 之間猶豫，預設給 35，除非有明確證據升級。這是 v7.1 穩定性的基石。
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section: 5-Level System (NEW) -->
+                <!-- Output Format -->
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="bg-blue-600 text-white px-6 py-4">
-                        <h3 class="font-bold text-lg flex items-center space-x-2">
-                            <span>📊</span>
-                            <span>Section 5: 5-Level Discrete Grading (5 檔離散評分)</span>
-                        </h3>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-blue-600 font-mono block mb-2">[5 Levels: 10 / 20 / 30 / 35 / 40 pts] — 新增 B+ (35分)</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>v6.5 的 4 檔制（10/20/30/40）導致 30→40 跨度過大，無法區分「有 Loop 但人工觸發」與「全自動」。新增 35 分級別填補這個鑑別度缺口。
-                            </p>
-                        </div>
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-blue-600 font-mono block mb-2">Level B+ (35分): 有 Pipeline/Loop 設計，但需人工觸發</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>這是最常見的邊界案例——專案有完整的工作流設計，但需要人工「按按鈕」啟動。這類專案比 Level B 更好，但還不到 Level A 的全自動程度。
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section: Output Format -->
-                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="bg-indigo-600 text-white px-6 py-4">
-                        <h3 class="font-bold text-lg flex items-center space-x-2">
-                            <span>📤</span>
-                            <span>Section 6: Output Format (輸出格式)</span>
-                        </h3>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-indigo-600 font-mono block mb-2">"boundary_check": "說明為何不是更高/更低一級"</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>v7.1 新增欄位，強制 AI 解釋為何選擇此級別而非相鄰級別。這實現了<strong>可追蹤性</strong>——人工複核時可以驗證 AI 的邊界判定是否合理。
-                            </p>
-                        </div>
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-indigo-600 font-mono block mb-2">"automation_keywords_found": ["列出找到的自動化關鍵詞"]</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>v7.1 新增欄位，用於驗證 DAO 40 分的判定。若 AI 給 40 分但此欄位為空，則自動觸發校驗失敗，強制降為 35 分。
-                            </p>
-                        </div>
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-indigo-600 font-mono block mb-2">"roi_numbers_found": ["列出找到的金額或人天數字"]</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>v7.1 新增欄位，用於驗證量化結果 30 分的判定。必須列出具體的「NT$」或「FTE/人天」數字，否則強制降為 26 分。
-                            </p>
-                        </div>
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-indigo-600 font-mono block mb-2">"is_rescue": Boolean, "rescue_quote": "引用逐字稿原文"</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>當使用補救條款時，必須標註來源是逐字稿，並引用具體口頭內容。這讓評分結果可被驗證，避免 AI 憑空捏造「口頭數據」。
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section: Validation Rules -->
-                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="bg-red-600 text-white px-6 py-4">
-                        <h3 class="font-bold text-lg flex items-center space-x-2">
-                            <span>🔒</span>
-                            <span>Section 7: Scoring Validation Rules (一致性校驗)</span>
-                        </h3>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-red-600 font-mono block mb-2">DAO 給 40 分：必須在 automation_keywords_found 列出至少一個自動化關鍵詞</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>這是「強制引用機制」的核心——高分必須有證據支撐。若 AI 聲稱專案是「全自動」，就必須指出簡報中哪裡提到「自動」。無法引用則強制降級。
-                            </p>
-                        </div>
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-red-600 font-mono block mb-2">未來發展給 10 分：必須 has_replicability_mechanism = true 且 has_phase_planning = true</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>Level A (10分) 需要同時滿足「可複製性」和「階段規劃」兩個條件。這避免了專案僅說「未來可擴展」就拿滿分的情況——必須有具體的機制和時程。
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section: Conservative Default -->
-                <div class="bg-white rounded-2xl border border-green-200 overflow-hidden ring-2 ring-green-100">
                     <div class="bg-slate-700 text-white px-6 py-4">
                         <h3 class="font-bold text-lg flex items-center space-x-2">
-                            <span>⚖️</span>
-                            <span>Section 8: Conservative Default Principle (保守預設原則)</span>
-                            <span class="new-badge text-xs bg-green-500 text-white px-2 py-0.5 rounded-full font-medium ml-2">v7.1 核心</span>
+                            <span>📤</span>
+                            <span>Output Format & Validation</span>
                         </h3>
                     </div>
                     <div class="p-6 space-y-4">
                         <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-slate-600 font-mono block mb-2">當評審對於應該給哪個級別感到猶豫時，必須選擇較低的級別</code>
+                            <code class="text-sm text-slate-600 font-mono block mb-2">"boundary_check": "說明為何不是更高/更低一級"</code>
                             <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>這是 v7.1 的核心哲學——「寧缺勿濫」。AI 評分的最大風險是「虛高」（被華麗包裝欺騙），而非「虛低」。保守預設確保高分的含金量。
+                                <strong>v7.1 新增：</strong>強制 AI 解釋為何選擇此級別而非相鄰級別。這實現了<strong>可追蹤性</strong>——人工複核時可以驗證 AI 的邊界判定是否合理。這是「思考引導」，讓 AI 在評分前必須考慮「為何不給更高/更低」。
                             </p>
                         </div>
                         <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-slate-600 font-mono block mb-2">判定順序：先假設給較低分 → 檢查是否有明確證據支持升級</code>
+                            <code class="text-sm text-slate-600 font-mono block mb-2">"automation_keywords_found": ["列出找到的自動化關鍵詞"]</code>
                             <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>這是「舉證責任倒置」——不是證明專案「不夠好」才扣分，而是專案必須證明「夠好」才能升級。這對應法律上的「無罪推定」邏輯。
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section: Constraints -->
-                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="bg-gray-800 text-white px-6 py-4">
-                        <h3 class="font-bold text-lg flex items-center space-x-2">
-                            <span>🚫</span>
-                            <span>Section 9: Constraints (硬性約束)</span>
-                        </h3>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-gray-600 font-mono block mb-2">Boundary-Check-Required: 每個維度必須說明為何不是相鄰級別</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>v7.1 新增約束，強制 AI 進行邊界思考。這不只是輸出格式要求，更是一種「思考引導」——讓 AI 在評分前必須考慮「為何不給更高/更低」。
+                                <strong>v7.1 新增：</strong>用於驗證 DAO 40 分的判定。若 AI 給 40 分但此欄位為空，則自動觸發校驗失敗，強制降為 35 分。這是「防禦性編程」的實作。
                             </p>
                         </div>
                         <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-gray-600 font-mono block mb-2">Conservative Default: 當證據模糊時，一律採取保守判定（較低級別）</code>
+                            <code class="text-sm text-slate-600 font-mono block mb-2">若無法找到自動化關鍵詞，**強制降為 35 分**</code>
                             <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>這是最終的安全網——即使前面所有規則都未生效，這條約束確保 AI 不會因為「不確定」就隨便給高分。這是 v7.1 穩定性的基石。
-                            </p>
-                        </div>
-                        <div class="annotation bg-gray-50 rounded-lg p-4 pl-6">
-                            <code class="text-sm text-gray-600 font-mono block mb-2">AI Audio Warning: NotebookLM Podcast 等 AI 生成音檔嚴禁作為 Demo 或實作證據</code>
-                            <p class="text-gray-700 text-sm">
-                                <strong>為什麼：</strong>AI 生成的 Podcast 聽起來非常流暢專業，容易誤導評審以為系統已經實作完成。明確禁止將其作為 Demo 證據，確保評分基於真實的系統展示。
+                                <strong>為什麼：</strong>這是「強制引用機制」的核心——高分必須有證據支撐。若 AI 聲稱專案是「全自動」，就必須指出簡報中哪裡提到「自動」。無法引用則強制降級，避免 AI 當「爛好人」。
                             </p>
                         </div>
                     </div>
