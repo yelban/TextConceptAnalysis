@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Demo Day 戰力總覽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .grade-A { @apply bg-green-100 text-green-700 border-green-200; }
+        .grade-B-plus { @apply bg-blue-100 text-blue-700 border-blue-200; }
+        .grade-B { @apply bg-gray-100 text-gray-700 border-gray-200; }
+        .grade-C { @apply bg-orange-50 text-orange-600 border-orange-200; }
+        .grade-D { @apply bg-red-50 text-red-600 border-red-200; }
+        
+        .score-tier-top { @apply bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg; }
+        .score-tier-high { @apply bg-white border-l-4 border-emerald-500 shadow-sm; }
+        .score-tier-mid { @apply bg-white border-l-4 border-blue-400 shadow-sm; }
+    </style>
+</head>
+<body class="bg-slate-50 p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8 text-center md:text-left">
+            <h1 class="text-3xl font-bold text-slate-800">🚀 AI 轉型實作・戰力總覽表</h1>
+            <p class="text-slate-500 mt-2">第二屆天來集團 AI Demo Day 評選結果 | 排序依據：總分 (降序)</p>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                <div class="text-slate-500 text-sm font-medium">總參賽隊伍</div>
+                <div class="text-3xl font-bold text-slate-800">7 組</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                <div class="text-slate-500 text-sm font-medium">頂尖執行 (90+)</div>
+                <div class="text-3xl font-bold text-emerald-600">2 組</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                <div class="text-slate-500 text-sm font-medium">Pipeline 完整 (80-89)</div>
+                <div class="text-3xl font-bold text-blue-600">5 組</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                <div class="text-slate-500 text-sm font-medium">最高 ROI 價值</div>
+                <div class="text-3xl font-bold text-indigo-600">NT$ 89k<span class="text-sm font-normal text-slate-400">/週</span></div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 text-xs uppercase text-slate-500 tracking-wider">
+                            <th class="p-4 w-16 text-center">排名</th>
+                            <th class="p-4 w-1/5">專案名稱 / 團隊</th>
+                            <th class="p-4 w-24 text-center">總分</th>
+                            <th class="p-4">五維度評級 (P / D / R / V / F)</th>
+                            <th class="p-4 w-1/4">核心亮點 (Killer Feature)</th>
+                            <th class="p-4 w-1/4">進化建議 (Next Step)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm divide-y divide-slate-100">
+                        
+                        <!-- Rank 1: Group 3 -->
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-4 text-center font-bold text-2xl text-yellow-500">🥇</td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-800 text-lg">打造企業級 AI 武器庫</div>
+                                <div class="text-slate-500 text-xs">第3組 AI Cloud</div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="inline-block px-3 py-1 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-xl">95</span>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex gap-1">
+                                    <span title="Problem: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="DAO: B+" class="px-2 py-0.5 rounded border text-xs font-bold grade-B-plus">B+</span>
+                                    <span title="Result: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="Demo: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="Future: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                </div>
+                            </td>
+                            <td class="p-4 text-slate-600">
+                                <ul class="list-disc list-inside text-xs space-y-1">
+                                    <li>YAML 任務鏈技術落地</li>
+                                    <li>ROI 明確：NT$89k 價值</li>
+                                    <li>Demo 連結可實際操作</li>
+                                </ul>
+                            </td>
+                            <td class="p-4 text-slate-500 text-xs border-l border-slate-100 italic">
+                                串接 API (如 Slack/Zapier) 取代手動觸發，實現全自動化。
+                            </td>
+                        </tr>
+
+                        <!-- Rank 2: Group 4 -->
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-4 text-center font-bold text-2xl text-slate-400">🥈</td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-800 text-lg">生產效率與機台健康監測</div>
+                                <div class="text-slate-500 text-xs">第4組 生產效率隊</div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="inline-block px-3 py-1 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-xl">93</span>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex gap-1">
+                                    <span title="Problem: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="DAO: B+" class="px-2 py-0.5 rounded border text-xs font-bold grade-B-plus">B+</span>
+                                    <span title="Result: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="Demo: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                    <span title="Future: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                </div>
+                            </td>
+                            <td class="p-4 text-slate-600">
+                                <ul class="list-disc list-inside text-xs space-y-1">
+                                    <li>Line Bot OCR 解決老舊機台痛點</li>
+                                    <li>年省 156 小時/人 (ROI 紮實)</li>
+                                    <li>低成本高回報的傳產轉型典範</li>
+                                </ul>
+                            </td>
+                            <td class="p-4 text-slate-500 text-xs border-l border-slate-100 italic">
+                                導入固定式鏡頭或 IoT 感測器，從「定時拍照」升級為「全天候監控」。
+                            </td>
+                        </tr>
+
+                        <!-- Rank 3 (Tie): Group 5 -->
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-4 text-center font-bold text-2xl text-amber-700">🥉</td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-800 text-lg">貝式優化驅動開發</div>
+                                <div class="text-slate-500 text-xs">第5組 FA 貝氏優化隊</div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="inline-block px-3 py-1 rounded-lg bg-blue-50 text-blue-700 font-bold text-xl">89</span>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex gap-1">
+                                    <span title="Problem: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="DAO: B+" class="px-2 py-0.5 rounded border text-xs font-bold grade-B-plus">B+</span>
+                                    <span title="Result: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="Demo: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                    <span title="Future: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                </div>
+                            </td>
+                            <td class="p-4 text-slate-600">
+                                <ul class="list-disc list-inside text-xs space-y-1">
+                                    <li>實驗次數減少 60%</li>
+                                    <li>先進演算法 (Bayesian Optimization)</li>
+                                    <li>材料費節省 50%</li>
+                                </ul>
+                            </td>
+                            <td class="p-4 text-slate-500 text-xs border-l border-slate-100 italic">
+                                串接機台 API 實現自動回傳，並將「節省費用」換算為具體金額。
+                            </td>
+                        </tr>
+
+                        <!-- Rank 3 (Tie): Group 6 -->
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-4 text-center font-bold text-2xl text-amber-700">🥉</td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-800 text-lg">Sputter 點檢 AI 革新</div>
+                                <div class="text-slate-500 text-xs">第6組 設備玩家隊</div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="inline-block px-3 py-1 rounded-lg bg-blue-50 text-blue-700 font-bold text-xl">89</span>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex gap-1">
+                                    <span title="Problem: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="DAO: B+" class="px-2 py-0.5 rounded border text-xs font-bold grade-B-plus">B+</span>
+                                    <span title="Result: B+" class="px-2 py-0.5 rounded border text-xs font-bold grade-B-plus">B+</span>
+                                    <span title="Demo: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                    <span title="Future: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                </div>
+                            </td>
+                            <td class="p-4 text-slate-600">
+                                <ul class="list-disc list-inside text-xs space-y-1">
+                                    <li>4小時作業 → 10分鐘 (Ragic應用)</li>
+                                    <li>決策延遲從 1天 → 即時</li>
+                                    <li>低代碼高彈性，複製性高</li>
+                                </ul>
+                            </td>
+                            <td class="p-4 text-slate-500 text-xs border-l border-slate-100 italic">
+                                設定自動排程取代人工點擊，並將省下的時間換算為財務成本。
+                            </td>
+                        </tr>
+
+                        <!-- Rank 5: Group 1 -->
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-4 text-center font-bold text-xl text-slate-400">5</td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-800 text-lg">Power Drop 真因尋找</div>
+                                <div class="text-slate-500 text-xs">第1組 製程診斷自動化隊</div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="inline-block px-3 py-1 rounded-lg bg-blue-50 text-blue-700 font-bold text-xl">87</span>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex gap-1">
+                                    <span title="Problem: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                    <span title="DAO: B+" class="px-2 py-0.5 rounded border text-xs font-bold grade-B-plus">B+</span>
+                                    <span title="Result: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="Demo: C" class="px-2 py-0.5 rounded border text-xs font-bold grade-C">C</span>
+                                    <span title="Future: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                </div>
+                            </td>
+                            <td class="p-4 text-slate-600">
+                                <ul class="list-disc list-inside text-xs space-y-1">
+                                    <li>釋放 0.5 FTE 人力資源</li>
+                                    <li>將隱性知識轉為 SOP/Wiki</li>
+                                    <li>報告時間 4hr → 1hr</li>
+                                </ul>
+                            </td>
+                            <td class="p-4 text-slate-500 text-xs border-l border-slate-100 italic">
+                                減少人工「指揮官」介入，串接工具數據流；加強動態 Demo 展示。
+                            </td>
+                        </tr>
+
+                        <!-- Rank 6 (Tie): Group 2 -->
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-4 text-center font-bold text-xl text-slate-400">6</td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-800 text-lg">智慧履歷篩選系統</div>
+                                <div class="text-slate-500 text-xs">第2組 資資不倦隊</div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="inline-block px-3 py-1 rounded-lg bg-blue-50 text-blue-700 font-bold text-xl">84</span>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex gap-1">
+                                    <span title="Problem: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="DAO: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                    <span title="Result: B+" class="px-2 py-0.5 rounded border text-xs font-bold grade-B-plus">B+</span>
+                                    <span title="Demo: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                    <span title="Future: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                </div>
+                            </td>
+                            <td class="p-4 text-slate-600">
+                                <ul class="list-disc list-inside text-xs space-y-1">
+                                    <li>篩選時間 30min → 1.3min</li>
+                                    <li>成熟工具 (NotebookLM) 快速落地</li>
+                                    <li>標準化 Prompt 模板</li>
+                                </ul>
+                            </td>
+                            <td class="p-4 text-slate-500 text-xs border-l border-slate-100 italic">
+                                研究 API 或 RPA 減少手動上傳操作，將效率提升轉化為具體金額 ROI。
+                            </td>
+                        </tr>
+
+                         <!-- Rank 6 (Tie): Group 7 -->
+                         <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-4 text-center font-bold text-xl text-slate-400">6</td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-800 text-lg">PSC 業務整合</div>
+                                <div class="text-slate-500 text-xs">第7組 鈣鈦礦業務整合隊</div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="inline-block px-3 py-1 rounded-lg bg-blue-50 text-blue-700 font-bold text-xl">84</span>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex gap-1">
+                                    <span title="Problem: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="DAO: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                    <span title="Result: A" class="px-2 py-0.5 rounded border text-xs font-bold grade-A">A</span>
+                                    <span title="Demo: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                    <span title="Future: B" class="px-2 py-0.5 rounded border text-xs font-bold grade-B">B</span>
+                                </div>
+                            </td>
+                            <td class="p-4 text-slate-600">
+                                <ul class="list-disc list-inside text-xs space-y-1">
+                                    <li>外包成本歸零 (省 NT$1萬/張)</li>
+                                    <li>效率提升 400 倍</li>
+                                    <li>解決真實昂貴痛點</li>
+                                </ul>
+                            </td>
+                            <td class="p-4 text-slate-500 text-xs border-l border-slate-100 italic">
+                                將獨立工具整合進 CRM 系統，從「好用工具」升級為「自動化業務系統」。
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-slate-50 p-4 border-t border-slate-200 text-xs text-slate-500 flex justify-between items-center">
+                <div>
+                    <strong>評分圖例：</strong>
+                    <span class="px-2 py-0.5 rounded bg-green-100 text-green-700 border border-green-200 ml-2">A 頂尖</span>
+                    <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 border border-blue-200 ml-1">B+ 優良</span>
+                    <span class="px-2 py-0.5 rounded bg-gray-100 text-gray-700 border border-gray-200 ml-1">B 完整</span>
+                    <span class="px-2 py-0.5 rounded bg-orange-50 text-orange-600 border border-orange-200 ml-1">C 基礎</span>
+                </div>
+                <div>五維度：P=問題定義, D=DAO架構, R=量化成果, V=驗證Demo, F=未來擴展</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
