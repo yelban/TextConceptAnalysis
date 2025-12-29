@@ -144,7 +144,7 @@
                 </div>
                 <p class="mt-6 text-gray-600 flex items-start gap-2">
                     <span class="text-2xl">💡</span>
-                    <span>Claude Code 會自動生成腳本並設定好一切。簡單的天氣顯示（依 IP 定位）這樣就夠了！</span>
+                    <span>Claude Code 會自動生成程式碼並設定好一切。簡單的天氣顯示（依 IP 定位）這樣就夠了！</span>
                 </p>
             </div>
         </div>
@@ -352,7 +352,7 @@
                 <div class="flex items-center gap-4 mb-6">
                     <div class="step-number w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl">3</div>
                     <div>
-                        <h3 class="text-xl font-bold">建立腳本檔案</h3>
+                        <h3 class="text-xl font-bold">建立程式碼檔案</h3>
                         <p class="text-gray-500">~/.claude/statusline-command.sh</p>
                     </div>
                 </div>
@@ -361,7 +361,7 @@
                     <div class="code-block rounded-2xl p-6 text-white overflow-x-auto text-sm leading-relaxed">
 <pre><code class="text-gray-300"><span class="text-purple-400">#!/bin/bash</span>
 <span class="text-gray-500"># ============================================</span>
-<span class="text-gray-500"># Claude Code 狀態列腳本</span>
+<span class="text-gray-500"># Claude Code 狀態列程式碼</span>
 <span class="text-gray-500"># 顯示：模型名稱 | Context 使用量 | 天氣</span>
 <span class="text-gray-500"># ============================================</span>
 
@@ -465,7 +465,7 @@ printf <span class="text-green-400">'%s'</span> <span class="text-green-400">"${
                     <button onclick="copyScript()" 
                             class="copy-btn absolute top-3 right-3 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg text-sm transition-all flex items-center gap-2">
                         <span>📋</span>
-                        <span>複製腳本</span>
+                        <span>複製程式碼</span>
                     </button>
                 </div>
 
@@ -476,7 +476,7 @@ printf <span class="text-green-400">'%s'</span> <span class="text-green-400">"${
 <pre><code><span class="text-gray-500"># 建立資料夾</span>
 mkdir -p ~/.claude
 
-<span class="text-gray-500"># 建立腳本檔案（貼上後按 Ctrl+D 結束）</span>
+<span class="text-gray-500"># 建立程式碼檔案（貼上後按 Ctrl+D 結束）</span>
 cat > ~/.claude/statusline-command.sh
 
 <span class="text-gray-500"># 設定執行權限</span>
@@ -581,11 +581,11 @@ chmod +x ~/.claude/statusline-command.sh</code></pre>
             });
         }
 
-        // 複製完整腳本
+        // 複製完整程式碼
         function copyScript() {
             const script = `#!/bin/bash
 # ============================================
-# Claude Code 狀態列腳本
+# Claude Code 狀態列程式碼
 # 顯示：模型名稱 | Context 使用量 | 天氣
 # ============================================
 
