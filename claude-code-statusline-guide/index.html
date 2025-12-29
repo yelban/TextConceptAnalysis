@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code 狀態列完全攻略 | Vibe Coding 必備</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Noto Sans TC', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .card-shadow-lg {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        pre { tab-size: 4; }
+        .code-block {
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d3a 100%);
+        }
+        .copy-btn:active { transform: scale(0.95); }
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center px-6 py-12 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+        <div class="max-w-5xl mx-auto">
+            <!-- 封面圖 -->
+            <div class="mb-12 rounded-3xl overflow-hidden card-shadow-lg">
+                <img src="cover.png" alt="Claude Code 狀態列完全攻略" class="w-full h-auto">
+            </div>
+            
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-black mb-6 leading-tight">
+                    讓你的 <span class="gradient-text">Claude Code</span><br>
+                    顯示天氣與使用量
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
+                    Vibe Coding 不只是寫程式，更是一種生活態度。<br>
+                    狀態列讓你隨時掌握 AI 對話脈絡，還能看天氣決定要不要出門買咖啡 ☕
+                </p>
+                <div class="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full card-shadow text-gray-700">
+                    <span class="text-green-500">●</span>
+                    <code class="text-sm">Sonnet 4.5 | Context:[████░░░░] 23% | 新竹市: +22°C 晴</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before / After -->
+    <section class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
+                ✨ 有沒有差很多
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Before -->
+                <div class="bg-white rounded-3xl p-8 card-shadow-lg border-2 border-red-100">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-3xl">😵</span>
+                        <h3 class="text-2xl font-bold text-red-500">Before</h3>
+                    </div>
+                    <div class="bg-gray-900 rounded-xl p-4 mb-6 font-mono text-sm text-gray-400">
+                        <div class="text-gray-600">> 輸入指令...</div>
+                        <div class="mt-2 text-gray-500">（什麼資訊都沒有）</div>
+                    </div>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-400">✗</span>
+                            <span>不知道現在用哪個模型</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-400">✗</span>
+                            <span>Context 快爆了也不知道</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-400">✗</span>
+                            <span>要開另一個 App 看天氣</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- After -->
+                <div class="bg-white rounded-3xl p-8 card-shadow-lg border-2 border-green-100">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-3xl">🎯</span>
+                        <h3 class="text-2xl font-bold text-green-500">After</h3>
+                    </div>
+                    <div class="bg-gray-900 rounded-xl p-4 mb-6 font-mono text-sm">
+                        <div class="text-gray-400">> 輸入指令...</div>
+                        <div class="mt-2 text-green-400">Opus 4.5 | Context:[████████░░] 42% | 台北市: +28°C 晴</div>
+                    </div>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500">✓</span>
+                            <span>即時顯示模型名稱</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500">✓</span>
+                            <span>視覺化 Context 使用量</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500">✓</span>
+                            <span>自動定位顯示即時天氣</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="py-20 px-6 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+                ⚡ 30 秒快速啟用
+            </h2>
+            <p class="text-center text-gray-500 mb-12">最簡單的方式，讓 Claude Code 自動幫你設定</p>
+            
+            <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl p-8 md:p-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="step-number w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                    <h3 class="text-xl font-bold">在 Claude Code 輸入這行指令</h3>
+                </div>
+                <div class="relative">
+                    <div class="code-block rounded-2xl p-6 text-white overflow-x-auto">
+                        <code class="text-green-400">/statusline show model name, context usage, and weather</code>
+                    </div>
+                    <button onclick="copyCode(this, '/statusline show model name, context usage, and weather')" 
+                            class="copy-btn absolute top-3 right-3 bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm transition-all">
+                        📋 複製
+                    </button>
+                </div>
+                <p class="mt-6 text-gray-600 flex items-start gap-2">
+                    <span class="text-2xl">💡</span>
+                    <span>Claude Code 會自動生成腳本並設定好一切。簡單的天氣顯示（依 IP 定位）這樣就夠了！</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshot Preview -->
+    <section class="py-20 px-6 bg-gradient-to-br from-gray-900 to-slate-800">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">
+                📸 實際效果
+            </h2>
+            <p class="text-center text-gray-400 mb-10">設定完成後，狀態列會顯示在終端機底部</p>
+            
+            <div class="rounded-2xl overflow-hidden card-shadow-lg border border-gray-700">
+                <img src="screenshot.png" alt="Claude Code 狀態列實際效果截圖" class="w-full h-auto">
+            </div>
+            
+            <p class="mt-6 text-center text-gray-400 text-sm">
+                紅框處即為自訂狀態列：模型名稱 | Context 使用量進度條 | 所在城市天氣
+            </p>
+        </div>
+    </section>
+
+    <!-- System Requirements -->
+    <section class="py-20 px-6 bg-gradient-to-br from-slate-50 to-gray-100">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+                🖥️ 系統需求
+            </h2>
+            <p class="text-center text-gray-500 mb-12">開始前請確認你的環境</p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-10">
+                <!-- macOS -->
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-4xl">🍎</span>
+                        <div>
+                            <h3 class="font-bold text-lg">macOS</h3>
+                            <p class="text-gray-500 text-sm">本教學針對 macOS 設計</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm">需要 macOS 12 (Monterey) 或更新版本，以支援「捷徑」App 的 CLI 功能。</p>
+                </div>
+
+                <!-- Homebrew -->
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-4xl">🍺</span>
+                        <div>
+                            <h3 class="font-bold text-lg">Homebrew</h3>
+                            <p class="text-gray-500 text-sm">macOS 套件管理器</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm">用於安裝 jq、coreutils 等相依套件。</p>
+                </div>
+            </div>
+
+            <!-- Homebrew Installation -->
+            <div class="bg-white rounded-3xl p-8 card-shadow-lg">
+                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <span>🍺</span>
+                    <span>安裝 Homebrew</span>
+                </h3>
+                <p class="text-gray-600 mb-4">如果你還沒有安裝 Homebrew，打開終端機執行：</p>
+                
+                <div class="relative mb-6">
+                    <div class="code-block rounded-xl p-4 text-white overflow-x-auto">
+                        <code class="text-green-400 text-sm">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code>
+                    </div>
+                    <button onclick="copyCode(this, '/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"')" 
+                            class="copy-btn absolute top-2 right-2 bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded text-sm transition-all">
+                        📋
+                    </button>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+                    <p class="text-amber-800 text-sm">
+                        <span class="font-medium">⚠️ Apple Silicon (M1/M2/M3) 用戶注意：</span><br>
+                        安裝完成後，需將 Homebrew 加入 PATH。依照終端機顯示的指示執行，通常是：
+                    </p>
+                    <div class="relative mt-3">
+                        <div class="bg-amber-100 rounded-lg p-3 text-amber-900 font-mono text-xs overflow-x-auto">
+                            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile<br>
+                            eval "$(/opt/homebrew/bin/brew shellenv)"
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-gray-600 mb-4">驗證安裝成功：</p>
+                <div class="relative">
+                    <div class="code-block rounded-xl p-4 text-white">
+                        <code>brew --version</code>
+                    </div>
+                    <button onclick="copyCode(this, 'brew --version')" 
+                            class="copy-btn absolute top-2 right-2 bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded text-sm transition-all">
+                        📋
+                    </button>
+                </div>
+                <p class="mt-3 text-sm text-gray-500">應該顯示類似：<code class="bg-gray-100 px-2 py-0.5 rounded">Homebrew 4.x.x</code></p>
+            </div>
+
+            <!-- 架構流程圖 -->
+            <div class="mt-12 bg-white rounded-3xl p-8 card-shadow-lg">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <span>🗺️</span>
+                    <span>整體架構</span>
+                </h3>
+                <div class="rounded-2xl overflow-hidden">
+                    <img src="flowchart.png" alt="Claude Code 狀態列架構流程圖" class="w-full h-auto">
+                </div>
+                <p class="mt-4 text-gray-500 text-sm text-center">從系統準備到最終呈現的完整流程</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Setup -->
+    <section class="py-20 px-6 bg-gray-50">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+                🔧 進階設定：GPS 精準定位
+            </h2>
+            <p class="text-center text-gray-500 mb-12">透過 macOS 捷徑取得真實位置，不受 VPN 影響</p>
+
+            <!-- Step 1: Create Shortcut -->
+            <div class="bg-white rounded-3xl p-8 card-shadow-lg mb-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="step-number w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl">1</div>
+                    <div>
+                        <h3 class="text-xl font-bold">建立 macOS 捷徑</h3>
+                        <p class="text-gray-500">讓系統取得 GPS 位置</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 ml-16">
+                    <div class="flex items-start gap-3">
+                        <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm font-medium">a</span>
+                        <span>打開「<strong>捷徑</strong>」App，點「+」新增捷徑</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm font-medium">b</span>
+                        <span>搜尋「位置」，拖入「<strong>取得目前的位置</strong>」</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm font-medium">c</span>
+                        <span>搜尋「文字」，拖入「<strong>文字</strong>」</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm font-medium">d</span>
+                        <div>
+                            <span>點進文字框，點「<strong>選取變數</strong>」→ 選「目前的位置」</span>
+                            <div class="mt-2 bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm">
+                                <span class="text-amber-600 font-medium">⚠️ 重要：</span>
+                                <span class="text-amber-800">要選變數（藍色標籤），不是打字！點插入的變數後選「<strong>完整街道地址</strong>」</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm font-medium">e</span>
+                        <span>拖入「<strong>停止並輸出</strong>」，輸出選「文字」</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm font-medium">f</span>
+                        <span>右鍵重新命名捷徑為 <code class="bg-gray-100 px-2 py-0.5 rounded">GetLocation</code></span>
+                    </div>
+                </div>
+
+                <div class="mt-8 ml-16">
+                    <p class="text-gray-600 mb-3">測試是否成功：</p>
+                    <div class="relative">
+                        <div class="code-block rounded-xl p-4 text-white">
+                            <code>shortcuts run "GetLocation"</code>
+                        </div>
+                        <button onclick="copyCode(this, 'shortcuts run \"GetLocation\"')" 
+                                class="copy-btn absolute top-2 right-2 bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded text-sm transition-all">
+                            📋
+                        </button>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-500">應該輸出類似：<code class="bg-gray-100 px-2 py-0.5 rounded">台灣新竹市香山區...</code></p>
+                </div>
+            </div>
+
+            <!-- Step 2: Install Dependencies -->
+            <div class="bg-white rounded-3xl p-8 card-shadow-lg mb-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="step-number w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl">2</div>
+                    <div>
+                        <h3 class="text-xl font-bold">安裝相依套件</h3>
+                        <p class="text-gray-500">確保 jq 和 coreutils 已安裝</p>
+                    </div>
+                </div>
+                
+                <div class="relative ml-16">
+                    <div class="code-block rounded-xl p-4 text-white">
+                        <code>brew install jq coreutils</code>
+                    </div>
+                    <button onclick="copyCode(this, 'brew install jq coreutils')" 
+                            class="copy-btn absolute top-2 right-2 bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded text-sm transition-all">
+                        📋
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Create Script -->
+            <div class="bg-white rounded-3xl p-8 card-shadow-lg mb-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="step-number w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl">3</div>
+                    <div>
+                        <h3 class="text-xl font-bold">建立腳本檔案</h3>
+                        <p class="text-gray-500">~/.claude/statusline-command.sh</p>
+                    </div>
+                </div>
+                
+                <div class="relative ml-16">
+                    <div class="code-block rounded-2xl p-6 text-white overflow-x-auto text-sm leading-relaxed">
+<pre><code class="text-gray-300"><span class="text-purple-400">#!/bin/bash</span>
+<span class="text-gray-500"># ============================================</span>
+<span class="text-gray-500"># Claude Code 狀態列腳本</span>
+<span class="text-gray-500"># 顯示：模型名稱 | Context 使用量 | 天氣</span>
+<span class="text-gray-500"># ============================================</span>
+
+<span class="text-gray-500"># 快取設定</span>
+<span class="text-blue-400">WEATHER_CACHE</span>=<span class="text-green-400">"/tmp/weather_cache"</span>
+<span class="text-blue-400">LOCATION_CACHE</span>=<span class="text-green-400">"/tmp/weather_location_cache"</span>
+<span class="text-blue-400">CACHE_TTL</span>=<span class="text-orange-400">3600</span>  <span class="text-gray-500"># 快取 1 小時</span>
+
+<span class="text-gray-500"># 強制更新（設定環境變數 FORCE_REFRESH=1）</span>
+[[ <span class="text-green-400">"$FORCE_REFRESH"</span> == <span class="text-green-400">"1"</span> ]] && rm -f <span class="text-green-400">"$WEATHER_CACHE"</span> <span class="text-green-400">"$LOCATION_CACHE"</span> 2>/dev/null
+
+<span class="text-gray-500"># 讀取 Claude Code 傳來的 JSON（加超時避免卡住）</span>
+<span class="text-blue-400">input</span>=$(timeout 1 cat 2>/dev/null || echo <span class="text-green-400">'{}'</span>)
+
+<span class="text-gray-500"># 解析模型名稱</span>
+<span class="text-blue-400">model_name</span>=$(echo <span class="text-green-400">"$input"</span> | jq -r <span class="text-green-400">'.model.display_name // "Sonnet 4.5"'</span> 2>/dev/null || echo <span class="text-green-400">"Sonnet 4.5"</span>)
+
+<span class="text-gray-500"># 解析 Context 使用量</span>
+<span class="text-blue-400">usage</span>=$(echo <span class="text-green-400">"$input"</span> | jq <span class="text-green-400">'.context_window.current_usage'</span> 2>/dev/null)
+
+<span class="text-purple-400">if</span> [[ <span class="text-green-400">"$usage"</span> != <span class="text-green-400">"null"</span> && -n <span class="text-green-400">"$usage"</span> ]]; <span class="text-purple-400">then</span>
+    <span class="text-blue-400">current</span>=$(echo <span class="text-green-400">"$usage"</span> | jq <span class="text-green-400">'.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens'</span> 2>/dev/null || echo 0)
+    <span class="text-blue-400">size</span>=$(echo <span class="text-green-400">"$input"</span> | jq <span class="text-green-400">'.context_window.context_window_size'</span> 2>/dev/null || echo 200000)
+    <span class="text-blue-400">pct</span>=$((current * 100 / size))
+    
+    <span class="text-gray-500"># 繪製 20 格進度條</span>
+    <span class="text-blue-400">filled</span>=$((pct * 20 / 100))
+    <span class="text-blue-400">empty</span>=$((20 - filled))
+    <span class="text-blue-400">bar</span>=$(printf <span class="text-green-400">"%${filled}s"</span> | tr <span class="text-green-400">' '</span> <span class="text-green-400">'█'</span>)$(printf <span class="text-green-400">"%${empty}s"</span> | tr <span class="text-green-400">' '</span> <span class="text-green-400">'░'</span>)
+    <span class="text-blue-400">context_info</span>=$(printf <span class="text-green-400">'[%s] %d%%'</span> <span class="text-green-400">"$bar"</span> <span class="text-green-400">"$pct"</span>)
+<span class="text-purple-400">else</span>
+    <span class="text-blue-400">context_info</span>=<span class="text-green-400">"[░░░░░░░░░░░░░░░░░░░░] 0%"</span>
+<span class="text-purple-400">fi</span>
+
+<span class="text-gray-500"># 讀取天氣快取（不阻塞）</span>
+<span class="text-yellow-400">get_weather_cached</span>() {
+    <span class="text-purple-400">if</span> [[ -f <span class="text-green-400">"$WEATHER_CACHE"</span> ]]; <span class="text-purple-400">then</span>
+        <span class="text-blue-400">cache_age</span>=$(($(date +%s) - $(stat -f %m <span class="text-green-400">"$WEATHER_CACHE"</span> 2>/dev/null || echo 99999)))
+        [[ $cache_age -lt $CACHE_TTL ]] && cat <span class="text-green-400">"$WEATHER_CACHE"</span> && <span class="text-purple-400">return</span> 0
+    <span class="text-purple-400">fi</span>
+    echo <span class="text-green-400">""</span>
+}
+
+<span class="text-gray-500"># 讀取位置快取</span>
+<span class="text-yellow-400">get_location_cached</span>() {
+    <span class="text-purple-400">if</span> [[ -f <span class="text-green-400">"$LOCATION_CACHE"</span> ]]; <span class="text-purple-400">then</span>
+        <span class="text-blue-400">cache_age</span>=$(($(date +%s) - $(stat -f %m <span class="text-green-400">"$LOCATION_CACHE"</span> 2>/dev/null || echo 99999)))
+        [[ $cache_age -lt $CACHE_TTL ]] && cat <span class="text-green-400">"$LOCATION_CACHE"</span> && <span class="text-purple-400">return</span> 0
+    <span class="text-purple-400">fi</span>
+    echo <span class="text-green-400">""</span>
+}
+
+<span class="text-gray-500"># 背景更新天氣（不阻塞主流程）</span>
+<span class="text-yellow-400">update_weather_bg</span>() {
+    (
+        <span class="text-gray-500"># 簡易鎖，避免重複執行</span>
+        <span class="text-blue-400">lockfile</span>=<span class="text-green-400">"/tmp/weather_update.lock"</span>
+        <span class="text-purple-400">if</span> [[ -f <span class="text-green-400">"$lockfile"</span> ]]; <span class="text-purple-400">then</span>
+            <span class="text-blue-400">lock_age</span>=$(($(date +%s) - $(stat -f %m <span class="text-green-400">"$lockfile"</span> 2>/dev/null || echo 99999)))
+            [[ $lock_age -lt 10 ]] && exit 0
+        <span class="text-purple-400">fi</span>
+        touch <span class="text-green-400">"$lockfile"</span>
+        trap <span class="text-green-400">"rm -f '$lockfile'"</span> EXIT
+        
+        <span class="text-gray-500"># 透過 macOS Shortcuts 取得位置</span>
+        <span class="text-blue-400">loc_data</span>=$(get_location_cached)
+        <span class="text-purple-400">if</span> [[ -z <span class="text-green-400">"$loc_data"</span> ]]; <span class="text-purple-400">then</span>
+            <span class="text-blue-400">addr</span>=$(timeout 10 shortcuts run <span class="text-green-400">"GetLocation"</span> 2>/dev/null)
+            <span class="text-purple-400">if</span> [[ -n <span class="text-green-400">"$addr"</span> ]]; <span class="text-purple-400">then</span>
+                <span class="text-gray-500"># 從地址擷取縣市名稱</span>
+                <span class="text-blue-400">city</span>=$(echo <span class="text-green-400">"$addr"</span> | grep -oE <span class="text-green-400">'(台北市|新北市|桃園市|台中市|台南市|高雄市|新竹市|新竹縣|基隆市|嘉義市|嘉義縣|苗栗縣|彰化縣|南投縣|雲林縣|屏東縣|宜蘭縣|花蓮縣|台東縣|澎湖縣|金門縣|連江縣)'</span> | head -1)
+                [[ -n <span class="text-green-400">"$city"</span> ]] && echo <span class="text-green-400">"$city"</span> > <span class="text-green-400">"$LOCATION_CACHE"</span>
+            <span class="text-purple-400">fi</span>
+        <span class="text-purple-400">else</span>
+            <span class="text-blue-400">city</span>=<span class="text-green-400">"$loc_data"</span>
+        <span class="text-purple-400">fi</span>
+        
+        <span class="text-gray-500"># 從 wttr.in 取得天氣</span>
+        <span class="text-purple-400">if</span> [[ -n <span class="text-green-400">"$city"</span> ]]; <span class="text-purple-400">then</span>
+            <span class="text-blue-400">weather</span>=$(timeout 3 curl -s --max-time 3 <span class="text-green-400">"wttr.in/${city}?format=%l:+%t+%C&lang=zh-tw"</span> 2>/dev/null)
+        <span class="text-purple-400">else</span>
+            <span class="text-blue-400">weather</span>=$(timeout 3 curl -s --max-time 3 <span class="text-green-400">"wttr.in/?format=%l:+%t+%C&lang=zh-tw"</span> 2>/dev/null)
+        <span class="text-purple-400">fi</span>
+        [[ -n <span class="text-green-400">"$weather"</span> ]] && echo <span class="text-green-400">"$weather"</span> > <span class="text-green-400">"$WEATHER_CACHE"</span>
+    ) &
+}
+
+<span class="text-gray-500"># 讀取快取，若無則觸發背景更新</span>
+<span class="text-blue-400">weather</span>=$(get_weather_cached)
+[[ -z <span class="text-green-400">"$weather"</span> ]] && update_weather_bg
+
+<span class="text-gray-500"># 組合輸出</span>
+<span class="text-blue-400">parts</span>=(<span class="text-green-400">"$model_name"</span> <span class="text-green-400">"Context:$context_info"</span>)
+[[ -n <span class="text-green-400">"$weather"</span> ]] && <span class="text-blue-400">parts</span>+=(<span class="text-green-400">"$weather"</span>)
+
+printf <span class="text-green-400">'%s'</span> <span class="text-green-400">"${parts[0]}"</span>
+<span class="text-purple-400">for</span> ((i=1; i<${#parts[@]}; i++)); <span class="text-purple-400">do</span>
+    printf <span class="text-green-400">' | %s'</span> <span class="text-green-400">"${parts[$i]}"</span>
+<span class="text-purple-400">done</span></code></pre>
+                    </div>
+                    <button onclick="copyScript()" 
+                            class="copy-btn absolute top-3 right-3 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg text-sm transition-all flex items-center gap-2">
+                        <span>📋</span>
+                        <span>複製腳本</span>
+                    </button>
+                </div>
+
+                <div class="mt-6 ml-16 space-y-3">
+                    <p class="text-gray-600">建立並設定執行權限：</p>
+                    <div class="relative">
+                        <div class="code-block rounded-xl p-4 text-white text-sm">
+<pre><code><span class="text-gray-500"># 建立資料夾</span>
+mkdir -p ~/.claude
+
+<span class="text-gray-500"># 建立腳本檔案（貼上後按 Ctrl+D 結束）</span>
+cat > ~/.claude/statusline-command.sh
+
+<span class="text-gray-500"># 設定執行權限</span>
+chmod +x ~/.claude/statusline-command.sh</code></pre>
+                        </div>
+                        <button onclick="copyCode(this, 'mkdir -p ~/.claude\ncat > ~/.claude/statusline-command.sh\nchmod +x ~/.claude/statusline-command.sh')" 
+                                class="copy-btn absolute top-2 right-2 bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded text-sm transition-all">
+                            📋
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Configure -->
+            <div class="bg-white rounded-3xl p-8 card-shadow-lg">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="step-number w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl">4</div>
+                    <div>
+                        <h3 class="text-xl font-bold">設定 Claude Code</h3>
+                        <p class="text-gray-500">~/.claude/settings.json</p>
+                    </div>
+                </div>
+                
+                <div class="relative ml-16">
+                    <div class="code-block rounded-xl p-4 text-white">
+<pre><code>{
+  <span class="text-blue-400">"statusline"</span>: {
+    <span class="text-blue-400">"command"</span>: <span class="text-green-400">"~/.claude/statusline-command.sh"</span>
+  }
+}</code></pre>
+                    </div>
+                    <button onclick="copyCode(this, '{\n  \"statusline\": {\n    \"command\": \"~/.claude/statusline-command.sh\"\n  }\n}')" 
+                            class="copy-btn absolute top-2 right-2 bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded text-sm transition-all">
+                        📋
+                    </button>
+                </div>
+                
+                <div class="mt-6 ml-16 bg-green-50 border border-green-200 rounded-xl p-4">
+                    <p class="text-green-800 flex items-center gap-2">
+                        <span class="text-xl">✅</span>
+                        <span>重新啟動 Claude Code，狀態列就會出現了！</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips -->
+    <section class="py-20 px-6 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
+                💡 小技巧
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6">
+                    <div class="text-2xl mb-3">🔄</div>
+                    <h3 class="font-bold mb-2">強制更新天氣</h3>
+                    <code class="text-sm bg-white px-3 py-1 rounded">FORCE_REFRESH=1 ~/.claude/statusline-command.sh</code>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6">
+                    <div class="text-2xl mb-3">🗑️</div>
+                    <h3 class="font-bold mb-2">清除快取</h3>
+                    <code class="text-sm bg-white px-3 py-1 rounded">rm /tmp/weather_cache /tmp/weather_location_cache</code>
+                </div>
+                
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6">
+                    <div class="text-2xl mb-3">🌐</div>
+                    <h3 class="font-bold mb-2">使用 VPN 時</h3>
+                    <p class="text-sm text-gray-600">IP 定位會顯示 VPN 伺服器位置，建議用 GPS 定位方案</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6">
+                    <div class="text-2xl mb-3">⏱️</div>
+                    <h3 class="font-bold mb-2">調整快取時間</h3>
+                    <p class="text-sm text-gray-600">修改 <code class="bg-white px-1 rounded">CACHE_TTL=3600</code>（秒）</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 bg-gray-900 text-gray-400">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="mb-4">Made with 💜 for Vibe Coders</p>
+            <p class="text-sm">天氣資料來源：<a href="https://wttr.in" class="text-indigo-400 hover:underline">wttr.in</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // 複製功能
+        function copyCode(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ 已複製';
+                btn.classList.add('bg-green-500/20');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-green-500/20');
+                }, 2000);
+            });
+        }
+
+        // 複製完整腳本
+        function copyScript() {
+            const script = `#!/bin/bash
+# ============================================
+# Claude Code 狀態列腳本
+# 顯示：模型名稱 | Context 使用量 | 天氣
+# ============================================
+
+# 快取設定
+WEATHER_CACHE="/tmp/weather_cache"
+LOCATION_CACHE="/tmp/weather_location_cache"
+CACHE_TTL=3600  # 快取 1 小時
+
+# 強制更新（設定環境變數 FORCE_REFRESH=1）
+[[ "$FORCE_REFRESH" == "1" ]] && rm -f "$WEATHER_CACHE" "$LOCATION_CACHE" 2>/dev/null
+
+# 讀取 Claude Code 傳來的 JSON（加超時避免卡住）
+input=$(timeout 1 cat 2>/dev/null || echo '{}')
+
+# 解析模型名稱
+model_name=$(echo "$input" | jq -r '.model.display_name // "Sonnet 4.5"' 2>/dev/null || echo "Sonnet 4.5")
+
+# 解析 Context 使用量
+usage=$(echo "$input" | jq '.context_window.current_usage' 2>/dev/null)
+
+if [[ "$usage" != "null" && -n "$usage" ]]; then
+    current=$(echo "$usage" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens' 2>/dev/null || echo 0)
+    size=$(echo "$input" | jq '.context_window.context_window_size' 2>/dev/null || echo 200000)
+    pct=$((current * 100 / size))
+    
+    # 繪製 20 格進度條
+    filled=$((pct * 20 / 100))
+    empty=$((20 - filled))
+    bar=$(printf "%\${filled}s" | tr ' ' '█')$(printf "%\${empty}s" | tr ' ' '░')
+    context_info=$(printf '[%s] %d%%' "$bar" "$pct")
+else
+    context_info="[░░░░░░░░░░░░░░░░░░░░] 0%"
+fi
+
+# 讀取天氣快取（不阻塞）
+get_weather_cached() {
+    if [[ -f "$WEATHER_CACHE" ]]; then
+        cache_age=$(($(date +%s) - $(stat -f %m "$WEATHER_CACHE" 2>/dev/null || echo 99999)))
+        [[ $cache_age -lt $CACHE_TTL ]] && cat "$WEATHER_CACHE" && return 0
+    fi
+    echo ""
+}
+
+# 讀取位置快取
+get_location_cached() {
+    if [[ -f "$LOCATION_CACHE" ]]; then
+        cache_age=$(($(date +%s) - $(stat -f %m "$LOCATION_CACHE" 2>/dev/null || echo 99999)))
+        [[ $cache_age -lt $CACHE_TTL ]] && cat "$LOCATION_CACHE" && return 0
+    fi
+    echo ""
+}
+
+# 背景更新天氣（不阻塞主流程）
+update_weather_bg() {
+    (
+        # 簡易鎖，避免重複執行
+        lockfile="/tmp/weather_update.lock"
+        if [[ -f "$lockfile" ]]; then
+            lock_age=$(($(date +%s) - $(stat -f %m "$lockfile" 2>/dev/null || echo 99999)))
+            [[ $lock_age -lt 10 ]] && exit 0
+        fi
+        touch "$lockfile"
+        trap "rm -f '$lockfile'" EXIT
+        
+        # 透過 macOS Shortcuts 取得位置
+        loc_data=$(get_location_cached)
+        if [[ -z "$loc_data" ]]; then
+            addr=$(timeout 10 shortcuts run "GetLocation" 2>/dev/null)
+            if [[ -n "$addr" ]]; then
+                # 從地址擷取縣市名稱
+                city=$(echo "$addr" | grep -oE '(台北市|新北市|桃園市|台中市|台南市|高雄市|新竹市|新竹縣|基隆市|嘉義市|嘉義縣|苗栗縣|彰化縣|南投縣|雲林縣|屏東縣|宜蘭縣|花蓮縣|台東縣|澎湖縣|金門縣|連江縣)' | head -1)
+                [[ -n "$city" ]] && echo "$city" > "$LOCATION_CACHE"
+            fi
+        else
+            city="$loc_data"
+        fi
+        
+        # 從 wttr.in 取得天氣
+        if [[ -n "$city" ]]; then
+            weather=$(timeout 3 curl -s --max-time 3 "wttr.in/\${city}?format=%l:+%t+%C&lang=zh-tw" 2>/dev/null)
+        else
+            weather=$(timeout 3 curl -s --max-time 3 "wttr.in/?format=%l:+%t+%C&lang=zh-tw" 2>/dev/null)
+        fi
+        [[ -n "$weather" ]] && echo "$weather" > "$WEATHER_CACHE"
+    ) &
+}
+
+# 讀取快取，若無則觸發背景更新
+weather=$(get_weather_cached)
+[[ -z "$weather" ]] && update_weather_bg
+
+# 組合輸出
+parts=("$model_name" "Context:$context_info")
+[[ -n "$weather" ]] && parts+=("$weather")
+
+printf '%s' "\${parts[0]}"
+for ((i=1; i<\${#parts[@]}; i++)); do
+    printf ' | %s' "\${parts[$i]}"
+done`;
+
+            navigator.clipboard.writeText(script).then(() => {
+                const btn = document.querySelector('[onclick="copyScript()"]');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span>✅</span><span>已複製</span>';
+                btn.classList.add('bg-green-500/20');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-green-500/20');
+                }, 2000);
+            });
+        }
+    </script>
+
+</body>
+</html>
