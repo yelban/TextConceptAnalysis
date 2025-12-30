@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TPSC AI Demo Day 完整報告 | 2025.12.23</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand': {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        'accent': {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .team-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        }
+        
+        .award-gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+        }
+        
+        .award-silver {
+            background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 50%, #64748b 100%);
+        }
+        
+        .award-bronze {
+            background: linear-gradient(135deg, #fed7aa 0%, #fb923c 50%, #ea580c 100%);
+        }
+        
+        .stat-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, #e2e8f0 50%, transparent 100%);
+        }
+        
+        .quote-mark {
+            font-family: Georgia, serif;
+            font-size: 4rem;
+            line-height: 1;
+            opacity: 0.15;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #22c55e;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .highlight-box {
+            border-left: 4px solid #22c55e;
+            background: linear-gradient(90deg, rgba(34, 197, 94, 0.08) 0%, transparent 100%);
+        }
+        
+        .dao-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        
+        .toc-item {
+            transition: all 0.2s ease;
+        }
+        
+        .toc-item:hover {
+            padding-left: 1rem;
+            color: #16a34a;
+        }
+        
+        .score-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            overflow: hidden;
+        }
+        
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #22c55e 0%, #4ade80 100%);
+        }
+        
+        .ai-review-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body class="text-slate-800 leading-relaxed">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200/50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">🏆</span>
+                    <span class="font-bold text-lg text-slate-900">TPSC AI Demo Day</span>
+                </div>
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                    <a href="#overview" class="nav-link hover:text-slate-900">總覽</a>
+                    <a href="#awards" class="nav-link hover:text-slate-900">得獎名單</a>
+                    <a href="#teams" class="nav-link hover:text-slate-900">各組報告</a>
+                    <a href="#dao" class="nav-link hover:text-slate-900">DAO方法論</a>
+                    <a href="#future" class="nav-link hover:text-slate-900">未來展望</a>
+                </div>
+                <div class="text-sm text-slate-500">
+                    2025.12.23
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white pt-24 pb-20 px-4">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-8">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                <span class="text-sm font-medium text-slate-200">台灣鈣鈦礦科技 · 全員AI</span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">
+                組織智慧的啟航
+            </h1>
+            
+            <p class="text-xl sm:text-2xl text-slate-300 mb-4 font-light">
+                AI Demo Day 完整報告
+            </p>
+            
+            <p class="text-lg text-slate-400 mb-12 max-w-2xl mx-auto">
+                從點狀探索到流程再造的里程碑 — 七組團隊展現 AI 轉型的無限可能
+            </p>
+            
+            <!-- Key Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+                <div class="stat-card rounded-2xl p-5 text-slate-900">
+                    <div class="text-3xl font-black text-brand-600">7</div>
+                    <div class="text-sm text-slate-600 mt-1">參賽團隊</div>
+                </div>
+                <div class="stat-card rounded-2xl p-5 text-slate-900">
+                    <div class="text-3xl font-black text-brand-600">8.82</div>
+                    <div class="text-sm text-slate-600 mt-1">最高得分</div>
+                </div>
+                <div class="stat-card rounded-2xl p-5 text-slate-900">
+                    <div class="text-3xl font-black text-brand-600">DAO</div>
+                    <div class="text-sm text-slate-600 mt-1">核心方法論</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+        <!-- Executive Summary -->
+        <section id="overview" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-12">
+                <span class="inline-block px-4 py-1 bg-brand-100 text-brand-700 rounded-full text-sm font-medium mb-4">
+                    Executive Summary
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">活動總覽</h2>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Left Column - Overview -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                        <h3 class="text-xl font-bold mb-4 flex items-center gap-3">
+                            <span class="text-2xl">🎯</span>
+                            本次 Demo Day 核心成就
+                        </h3>
+                        <div class="space-y-4 text-slate-700">
+                            <p>
+                                本次 AI Demo Day 成功驗證了 AI 在台鈣科集團的巨大潛力。七組來自不同部門的團隊，從工程、研發、生產到業務行銷，全面展現了 AI 在各業務領域的落地應用。
+                            </p>
+                            <p>
+                                最重要的突破在於：我們確立了<strong class="text-brand-700">從個人賦能到組織流程化的可行路徑</strong>。透過 DAO（Data, Automation, Output）方法論，讓 AI 從「個人神器」轉變為「團隊標配」。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Scoring Criteria -->
+                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                            <span class="text-2xl">📊</span>
+                            評分標準
+                        </h3>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div class="bg-slate-50 rounded-xl p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-slate-900">簡報</span>
+                                    <span class="text-brand-600 font-bold">40%</span>
+                                </div>
+                                <div class="score-bar"><div class="score-bar-fill" style="width: 40%"></div></div>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-slate-900">書審</span>
+                                    <span class="text-brand-600 font-bold">30%</span>
+                                </div>
+                                <div class="score-bar"><div class="score-bar-fill" style="width: 30%"></div></div>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-slate-900">投票</span>
+                                    <span class="text-brand-600 font-bold">20%</span>
+                                </div>
+                                <div class="score-bar"><div class="score-bar-fill" style="width: 20%"></div></div>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-slate-900">資料完整性</span>
+                                    <span class="text-brand-600 font-bold">10%</span>
+                                </div>
+                                <div class="score-bar"><div class="score-bar-fill" style="width: 10%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Table of Contents -->
+                <div class="lg:col-span-1">
+                    <div class="bg-slate-900 text-white rounded-2xl p-8 sticky top-24">
+                        <h3 class="font-bold text-lg mb-6 flex items-center gap-2">
+                            <span>📑</span>
+                            報告目錄
+                        </h3>
+                        <nav class="space-y-3 text-sm">
+                            <a href="#team-1" class="toc-item block text-slate-300 hover:text-white">
+                                第1組 製程診斷自動化隊
+                            </a>
+                            <a href="#team-2" class="toc-item block text-slate-300 hover:text-white">
+                                第2組 資資不倦隊
+                            </a>
+                            <a href="#team-3" class="toc-item block text-slate-300 hover:text-white">
+                                🥇 第3組 AI Cloud 隊
+                            </a>
+                            <a href="#team-4" class="toc-item block text-slate-300 hover:text-white">
+                                第4組 生產效率隊
+                            </a>
+                            <a href="#team-5" class="toc-item block text-slate-300 hover:text-white">
+                                🥉 第5組 FA 貝氏優化隊
+                            </a>
+                            <a href="#team-6" class="toc-item block text-slate-300 hover:text-white">
+                                第6組 設備玩家隊
+                            </a>
+                            <a href="#team-7" class="toc-item block text-slate-300 hover:text-white">
+                                🥈 第7組 鈣鈦礦業務整合隊
+                            </a>
+                            <div class="border-t border-slate-700 my-4"></div>
+                            <a href="#dao" class="toc-item block text-brand-400 hover:text-brand-300 font-medium">
+                                DAO 方法論
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section Divider -->
+        <div class="section-divider my-16"></div>
+        
+        <!-- Awards Section -->
+        <section id="awards" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-12">
+                <span class="inline-block px-4 py-1 bg-accent-100 text-accent-700 rounded-full text-sm font-medium mb-4">
+                    Final Rankings
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">🏆 得獎名單</h2>
+                <p class="text-slate-600 mt-3">加權總分排名</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+                <!-- 1st Place -->
+                <div class="relative bg-white rounded-3xl p-8 shadow-lg border-2 border-amber-200 text-center card-hover md:order-2 md:-mt-4">
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2">
+                        <div class="award-gold w-20 h-20 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                            <span class="text-4xl">🥇</span>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <div class="text-5xl font-black text-amber-500 mb-2">8.82</div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-1">第 1 名</h3>
+                        <p class="text-2xl font-black text-slate-800 mb-2">AI Cloud 隊</p>
+                        <p class="text-sm text-slate-500 mb-4">舞雲智網</p>
+                        <div class="grid grid-cols-4 gap-2 text-xs">
+                            <div class="bg-amber-50 rounded-lg p-2">
+                                <div class="font-bold text-amber-700">8.59</div>
+                                <div class="text-slate-500">簡報</div>
+                            </div>
+                            <div class="bg-amber-50 rounded-lg p-2">
+                                <div class="font-bold text-amber-700">8.61</div>
+                                <div class="text-slate-500">書審</div>
+                            </div>
+                            <div class="bg-amber-50 rounded-lg p-2">
+                                <div class="font-bold text-amber-700">10.00</div>
+                                <div class="text-slate-500">完整</div>
+                            </div>
+                            <div class="bg-amber-50 rounded-lg p-2">
+                                <div class="font-bold text-amber-700">9.00</div>
+                                <div class="text-slate-500">投票</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 2nd Place -->
+                <div class="relative bg-white rounded-3xl p-8 shadow-lg border border-slate-200 text-center card-hover md:order-1">
+                    <div class="absolute -top-5 left-1/2 -translate-x-1/2">
+                        <div class="award-silver w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                            <span class="text-3xl">🥈</span>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <div class="text-4xl font-black text-slate-400 mb-2">8.71</div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">第 2 名</h3>
+                        <p class="text-xl font-black text-slate-700 mb-2">鈣鈦礦業務整合隊</p>
+                        <p class="text-sm text-slate-500 mb-4">業務行銷</p>
+                        <div class="grid grid-cols-4 gap-2 text-xs">
+                            <div class="bg-slate-50 rounded-lg p-2">
+                                <div class="font-bold text-slate-600">8.49</div>
+                                <div class="text-slate-500">簡報</div>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-2">
+                                <div class="font-bold text-slate-600">8.06</div>
+                                <div class="text-slate-500">書審</div>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-2">
+                                <div class="font-bold text-slate-600">10.00</div>
+                                <div class="text-slate-500">完整</div>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-2">
+                                <div class="font-bold text-slate-600">9.50</div>
+                                <div class="text-slate-500">投票</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 3rd Place -->
+                <div class="relative bg-white rounded-3xl p-8 shadow-lg border border-slate-200 text-center card-hover md:order-3">
+                    <div class="absolute -top-5 left-1/2 -translate-x-1/2">
+                        <div class="award-bronze w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                            <span class="text-3xl">🥉</span>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <div class="text-4xl font-black text-orange-400 mb-2">8.70</div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">第 3 名</h3>
+                        <p class="text-xl font-black text-slate-700 mb-2">FA 貝氏優化隊</p>
+                        <p class="text-sm text-slate-500 mb-4">研發</p>
+                        <div class="grid grid-cols-4 gap-2 text-xs">
+                            <div class="bg-orange-50 rounded-lg p-2">
+                                <div class="font-bold text-orange-600">8.16</div>
+                                <div class="text-slate-500">簡報</div>
+                            </div>
+                            <div class="bg-orange-50 rounded-lg p-2">
+                                <div class="font-bold text-orange-600">8.11</div>
+                                <div class="text-slate-500">書審</div>
+                            </div>
+                            <div class="bg-orange-50 rounded-lg p-2">
+                                <div class="font-bold text-orange-600">10.00</div>
+                                <div class="text-slate-500">完整</div>
+                            </div>
+                            <div class="bg-orange-50 rounded-lg p-2">
+                                <div class="font-bold text-orange-600">10.00</div>
+                                <div class="text-slate-500">投票</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section Divider -->
+        <div class="section-divider my-16"></div>
+        
+        <!-- Teams Section -->
+        <section id="teams" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-12">
+                <span class="inline-block px-4 py-1 bg-brand-100 text-brand-700 rounded-full text-sm font-medium mb-4">
+                    Team Reports
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">各組團隊報告</h2>
+                <p class="text-slate-600 mt-3 max-w-2xl mx-auto">
+                    多點開花，各戰場的創新實踐（含 AI 評審意見）
+                </p>
+            </div>
+            
+            <!-- Team 1 -->
+            <article id="team-1" class="team-card rounded-3xl p-8 shadow-sm border border-slate-100 mb-8 card-hover scroll-mt-24">
+                <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                            1
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">製程診斷自動化隊</h3>
+                            <p class="text-slate-500">工程單位</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-rose-500">◆</span>
+                            專案主題
+                        </h4>
+                        <p class="text-slate-700 mb-4">
+                            <strong>AI 加速 Power Drop 真因尋找與改善</strong> — 運用 DAO 框架結合 LLM 與代理工具（Manus、NotebookLM），分析太陽能製造中的複合性根因。
+                        </p>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-rose-500">◆</span>
+                            創新亮點
+                        </h4>
+                        <ul class="text-slate-700 space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>數位人簡報</strong>：導入虛擬講師「小嚴」進行 24 小時全天候簡報</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>GPT 群聊功能</strong>：突破一對一模式，實現多人同時在線協作決策</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>混血團隊</strong>：人類專家 + AI 工程師「小智」的深度結合</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-rose-500">◆</span>
+                            技術架構
+                        </h4>
+                        <div class="bg-slate-50 rounded-xl p-4 mb-4">
+                            <div class="flex flex-wrap gap-2 text-sm">
+                                <span class="px-2 py-1 bg-white rounded border border-slate-200">Meeting Ink</span>
+                                <span class="text-slate-400">→</span>
+                                <span class="px-2 py-1 bg-white rounded border border-slate-200">GPT + Gemini</span>
+                                <span class="text-slate-400">→</span>
+                                <span class="px-2 py-1 bg-white rounded border border-slate-200">NotebookLM</span>
+                                <span class="text-slate-400">→</span>
+                                <span class="px-2 py-1 bg-white rounded border border-slate-200">Manus</span>
+                            </div>
+                        </div>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-rose-500">◆</span>
+                            關鍵效益
+                        </h4>
+                        <ul class="text-slate-700 space-y-2">
+                            <li>• 報告生成時間：4hr → 1hr（-75%）</li>
+                            <li>• 釋放人力：0.5 FTE</li>
+                            <li>• 試錯成本節省：20% NRE</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- AI Review -->
+                <div class="ai-review-box rounded-xl p-5 mt-4">
+                    <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span>🤖</span>
+                        AI 評審意見
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-brand-700 font-medium mb-1">✓ 優點</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 量化效益極為紮實，涵蓋 FTE 與 NRE 指標</li>
+                                <li>• 將 AI 轉化為「知識資產」與「護城河」的戰略思維</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-amber-700 font-medium mb-1">△ 待改進</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• Demo 證據較弱，多為靜態圖表而非操作流程</li>
+                                <li>• 工具鏈整合鬆散，各工具間需手動觸發</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Team 2 -->
+            <article id="team-2" class="team-card rounded-3xl p-8 shadow-sm border border-slate-100 mb-8 card-hover scroll-mt-24">
+                <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                            2
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">資資不倦隊</h3>
+                            <p class="text-slate-500">人資單位</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-violet-500">◆</span>
+                            專案主題
+                        </h4>
+                        <p class="text-slate-700 mb-4">
+                            <strong>智慧履歷篩選系統</strong> — 利用 NotebookLM 建構履歷篩選與評分流程，透過 RAG 技術大幅縮減篩選時間。
+                        </p>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-violet-500">◆</span>
+                            系統功能
+                        </h4>
+                        <ul class="text-slate-700 space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>精準提示詞工程</strong>：針對技術技能與必備條件進行權重比對</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>批次處理</strong>：單次可處理 50 份履歷輸入</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>雙版本輸出</strong>：簡報版 + 文字版結果報告</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-violet-500">◆</span>
+                            痛點量化
+                        </h4>
+                        <div class="bg-violet-50 rounded-xl p-4 mb-4">
+                            <p class="text-sm text-slate-700">
+                                原痛點：單份履歷篩選 <strong>30 分鐘</strong>、單一職缺總耗時 <strong>4 小時+</strong>
+                            </p>
+                        </div>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-violet-500">◆</span>
+                            效益數據
+                        </h4>
+                        <ul class="text-slate-700 space-y-2">
+                            <li>• 單份履歷：30min → 1.3min（-96%）</li>
+                            <li>• 三份履歷合計僅需 4 分鐘</li>
+                            <li>• 雙重提效：篩選 + 減少面試次數</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- AI Review -->
+                <div class="ai-review-box rounded-xl p-5 mt-4">
+                    <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span>🤖</span>
+                        AI 評審意見
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-brand-700 font-medium mb-1">✓ 優點</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 痛點與成效量化明確（30min → 1.3min）</li>
+                                <li>• 未來規劃邏輯嚴密，含標準化模板與 SOP 設計</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-amber-700 font-medium mb-1">△ 待改進</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 依賴人工操作 NotebookLM，缺乏自動化串接</li>
+                                <li>• 建議將節省時間換算為具體金額（NT$）或 FTE</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Team 3 - Winner -->
+            <article id="team-3" class="team-card rounded-3xl p-8 shadow-sm border-2 border-amber-300 mb-8 card-hover scroll-mt-24 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-amber-400 text-white px-4 py-1 text-sm font-bold rounded-bl-xl">
+                    🥇 第 1 名
+                </div>
+                <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                            3
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">AI Cloud 隊（舞雲智網）</h3>
+                            <p class="text-slate-500">資訊單位</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-cyan-500">◆</span>
+                            專案主題
+                        </h4>
+                        <p class="text-slate-700 mb-4">
+                            <strong>從個人工具到組織武器庫</strong> — 利用 ChatGPT Project 功能結合 YAML 定義的任務鏈，將個人化 Prompt 轉化為標準化、可管理的組織資產。
+                        </p>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-cyan-500">◆</span>
+                            四大痛點
+                        </h4>
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="bg-slate-50 rounded-lg p-3 text-center text-sm">
+                                <div class="font-medium text-slate-900">語意失靈</div>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3 text-center text-sm">
+                                <div class="font-medium text-slate-900">品質失控</div>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3 text-center text-sm">
+                                <div class="font-medium text-slate-900">流程失序</div>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3 text-center text-sm">
+                                <div class="font-medium text-slate-900">管理失明</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-cyan-500">◆</span>
+                            核心解法
+                        </h4>
+                        <div class="bg-cyan-50 rounded-xl p-4 mb-4">
+                            <p class="font-medium text-cyan-800 mb-2">ChatGPT 專案 + 任務鏈（Task Chain）</p>
+                            <ul class="text-sm text-slate-700 space-y-1">
+                                <li>• 專案可分享給團隊成員</li>
+                                <li>• 編輯指令封裝品牌風格</li>
+                                <li>• YAML 定義標準執行步驟</li>
+                                <li>• 可互動體驗連結</li>
+                            </ul>
+                        </div>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-cyan-500">◆</span>
+                            商業價值
+                        </h4>
+                        <p class="text-slate-700">
+                            協助 CLI 產出文章專案，獲得等值服務價值 <strong class="text-cyan-600">NT$ 89,000</strong>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-xl p-4 mb-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-cyan-600">3-10倍</div>
+                        <div class="text-sm text-slate-600">效率提升</div>
+                    </div>
+                    <div class="text-center border-x border-cyan-200">
+                        <div class="text-2xl font-black text-cyan-600">50-70%</div>
+                        <div class="text-sm text-slate-600">重工降低</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-cyan-600">1-3天</div>
+                        <div class="text-sm text-slate-600">新人上手</div>
+                    </div>
+                </div>
+                
+                <!-- AI Review -->
+                <div class="ai-review-box rounded-xl p-5 mt-4">
+                    <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span>🤖</span>
+                        AI 評審意見
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-brand-700 font-medium mb-1">✓ 優點</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 極佳的產品化思維：將 Prompt 工程透過 YAML 轉化為可管理的「任務鏈」資產</li>
+                                <li>• 量化成果紮實：具備明確的 Before/After 對比與具體金額效益</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-amber-700 font-medium mb-1">△ 待改進</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 目前依賴 ChatGPT 介面手動操作，尚未達成完全自動化</li>
+                                <li>• 高度依賴特定平台，若功能變動可能影響運作</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-slate-700 mt-3 text-sm border-t border-slate-200 pt-3">
+                        <strong>總評：</strong>執行力極高且具備高度實用性的專案，成功解決企業導入 GenAI 時最頭痛的「標準化」問題，證明了 AI 可以從個人工具轉變為組織資產。
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Team 4 -->
+            <article id="team-4" class="team-card rounded-3xl p-8 shadow-sm border border-slate-100 mb-8 card-hover scroll-mt-24">
+                <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                            4
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">生產效率隊</h3>
+                            <p class="text-slate-500">生產單位</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-amber-500">◆</span>
+                            專案主題
+                        </h4>
+                        <p class="text-slate-700 mb-4">
+                            <strong>Sputter 生產效率與機台健康監測</strong> — 以功率數據規則化分析實現自動化 OEE 監測，成功預警真空泵異常。
+                        </p>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-amber-500">◆</span>
+                            分析維度
+                        </h4>
+                        <ul class="text-slate-700 space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>曝光效率</strong>：全年 36 萬筆數據的波形分析</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>切換成本</strong>：計算每次換線的時間成本</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>PM 效果</strong>：分析保養前後功率差異</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-amber-500">◆</span>
+                            痛點量化
+                        </h4>
+                        <div class="bg-amber-50 rounded-xl p-4 mb-4">
+                            <p class="text-sm text-slate-700">
+                                原痛點：人工彙整 <strong>180 min/日</strong>、PM 前後差異難以量化
+                            </p>
+                        </div>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-amber-500">◆</span>
+                            效益數據
+                        </h4>
+                        <ul class="text-slate-700 space-y-2">
+                            <li>• 節省 170 min/日 ≈ <strong>56.7 hr/月</strong></li>
+                            <li>• 避免 72 hr 停機損失（122.4 cycles, 914.4 kWh）</li>
+                            <li>• 回收 12 min/日產能</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- AI Review -->
+                <div class="ai-review-box rounded-xl p-5 mt-4">
+                    <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span>🤖</span>
+                        AI 評審意見
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-brand-700 font-medium mb-1">✓ 優點</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 量化效益極為紮實，涵蓋人力工時、電力能耗與產能損失</li>
+                                <li>• 利用規則引擎解決 CSV 資料缺乏標籤的實務難題，展現極強落地執行力</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-amber-700 font-medium mb-1">△ 待改進</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• Demo 形式較為靜態，多為分析圖表堆疊</li>
+                                <li>• AI 用電模型 R² 僅 0.36，主要依賴規則運算</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-slate-700 mt-3 text-sm border-t border-slate-200 pt-3">
+                        <strong>總評：</strong>極具實務價值的專案，透過精準的數據工程與規則分析，解決了高價值的製造業痛點。強烈建議投資推廣。
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Team 5 - 3rd Place -->
+            <article id="team-5" class="team-card rounded-3xl p-8 shadow-sm border-2 border-orange-200 mb-8 card-hover scroll-mt-24 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-orange-400 text-white px-4 py-1 text-sm font-bold rounded-bl-xl">
+                    🥉 第 3 名
+                </div>
+                <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                            5
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">FA 貝氏優化隊</h3>
+                            <p class="text-slate-500">研發單位</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-emerald-500">◆</span>
+                            專案主題
+                        </h4>
+                        <p class="text-slate-700 mb-4">
+                            <strong>貝氏優化驅動智能開發流程</strong> — 整合 BoTorch 貝氏優化與 Gemini LLM 建立雙引擎實驗設計平台，將鈣鈦礦材料開發流程標準化。
+                        </p>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-emerald-500">◆</span>
+                            為何不用大型語言模型？
+                        </h4>
+                        <div class="bg-emerald-50 rounded-xl p-4 mb-4">
+                            <p class="text-sm text-slate-700">
+                                LLM 適合處理<strong>已知知識</strong>，但對於<strong>未知問題</strong>只能發散無法收斂。貝氏優化提供數學上絕對的精確度，可將問題收斂。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-emerald-500">◆</span>
+                            雙引擎架構
+                        </h4>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center gap-3 bg-slate-50 rounded-lg p-3">
+                                <span class="w-8 h-8 rounded bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold">B</span>
+                                <div>
+                                    <p class="font-medium text-slate-900">BoTorch 貝氏優化</p>
+                                    <p class="text-sm text-slate-500">數學模型收斂問題</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 bg-slate-50 rounded-lg p-3">
+                                <span class="w-8 h-8 rounded bg-blue-100 flex items-center justify-center text-blue-600 font-bold">G</span>
+                                <div>
+                                    <p class="font-medium text-slate-900">Gemini 2.5</p>
+                                    <p class="text-sm text-slate-500">分析與建議新參數</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-4 mb-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-emerald-600">60%</div>
+                        <div class="text-sm text-slate-600">實驗次數減少</div>
+                    </div>
+                    <div class="text-center border-l border-emerald-200">
+                        <div class="text-2xl font-black text-emerald-600">L9 正交表</div>
+                        <div class="text-sm text-slate-600">結合貝氏優化</div>
+                    </div>
+                </div>
+                
+                <!-- AI Review -->
+                <div class="ai-review-box rounded-xl p-5 mt-4">
+                    <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span>🤖</span>
+                        AI 評審意見
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-brand-700 font-medium mb-1">✓ 優點</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 技術架構完整：結合貝氏優化的數學精確性與 LLM 的推理能力</li>
+                                <li>• 具體的「實驗次數減少 60%」數據，有力證明方法論有效性</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-amber-700 font-medium mb-1">△ 待改進</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 實體實驗環節限制了全自動化的實現</li>
+                                <li>• 建議將「減少 60%」換算成具體研發費用節省金額</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-slate-700 mt-3 text-sm border-t border-slate-200 pt-3">
+                        <strong>總評：</strong>執行度極高且邏輯清晰的 AI 轉型專案，成功將 AI 引入傳統材料研發流程。若能補充具體節省金額，將具備極高商業價值。
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Team 6 -->
+            <article id="team-6" class="team-card rounded-3xl p-8 shadow-sm border border-slate-100 mb-8 card-hover scroll-mt-24">
+                <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                            6
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">設備玩家隊</h3>
+                            <p class="text-slate-500">友來新能源・設備單位</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-indigo-500">◆</span>
+                            專案主題
+                        </h4>
+                        <p class="text-slate-700 mb-4">
+                            <strong>Sputter 點檢 AI 智能革新</strong> — 利用 Ragic 表單結合 GPT 自動化腳本，將每日設備點檢報告產出時間從 4 小時縮短至 2 分鐘。
+                        </p>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-indigo-500">◆</span>
+                            三大困境解決
+                        </h4>
+                        <ul class="text-slate-700 space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>資料泥沼</strong> → Ragic 結構化輸入</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>經驗孤島</strong> → AI 統一解讀標準</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-500 mt-1">✓</span>
+                                <span><strong>決策延遲</strong> → T+0 即時預警</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-indigo-500">◆</span>
+                            雙層分析引擎
+                        </h4>
+                        <div class="space-y-2 mb-4">
+                            <div class="bg-indigo-50 rounded-lg p-3">
+                                <p class="font-medium text-indigo-800">第一層：規則層</p>
+                                <p class="text-sm text-slate-600">設定設備商提供的參數上下限</p>
+                            </div>
+                            <div class="bg-indigo-50 rounded-lg p-3">
+                                <p class="font-medium text-indigo-800">第二層：AI 分析層</p>
+                                <p class="text-sm text-slate-600">自訂版 GPT 進行異常診斷</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-4 mb-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-indigo-600">4hr→2min</div>
+                        <div class="text-sm text-slate-600">報告產出時間</div>
+                    </div>
+                    <div class="text-center border-x border-indigo-200">
+                        <div class="text-2xl font-black text-indigo-600">T+0</div>
+                        <div class="text-sm text-slate-600">異常反應速度</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-indigo-600">100%</div>
+                        <div class="text-sm text-slate-600">判讀一致性</div>
+                    </div>
+                </div>
+                
+                <!-- AI Review -->
+                <div class="ai-review-box rounded-xl p-5 mt-4">
+                    <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span>🤖</span>
+                        AI 評審意見
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-brand-700 font-medium mb-1">✓ 優點</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 痛點與效益量化非常具體（4小時縮減至2分鐘）</li>
+                                <li>• DAO 架構清晰，用 Ragic 解決 AI 導入常見的 Data Garbage 問題</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-amber-700 font-medium mb-1">△ 待改進</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 需人工下載 Excel 再上傳至 AI，非 API 自動串接</li>
+                                <li>• 建議將節省時間轉化為財務價值（NT$）或人力（FTE）</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-slate-700 mt-3 text-sm border-t border-slate-200 pt-3">
+                        <strong>總評：</strong>執行度極高且成效顯著的專案。從資料源頭治理到 AI 分析的邏輯非常穩健。只需打通 API 自動化並計算出具體 ROI 金額，即為頂尖案例。
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Team 7 - 2nd Place -->
+            <article id="team-7" class="team-card rounded-3xl p-8 shadow-sm border-2 border-slate-300 mb-8 card-hover scroll-mt-24 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-slate-400 text-white px-4 py-1 text-sm font-bold rounded-bl-xl">
+                    🥈 第 2 名
+                </div>
+                <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-fuchsia-500 to-pink-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                            7
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">鈣鈦礦業務整合隊</h3>
+                            <p class="text-slate-500">業務行銷單位</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-fuchsia-500">◆</span>
+                            專案主題
+                        </h4>
+                        <p class="text-slate-700 mb-4">
+                            <strong>PSC 業務整合 AI 口袋工具</strong> — 透過整合 AOI 瑕疵檢測與 Gemini Canvas 生成式 AI，建立業務「口袋小工具」。本次從「使用 AI」進化到「用 AI 創造工具」。
+                        </p>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-fuchsia-500">◆</span>
+                            工具一：AOI 霧面檢測
+                        </h4>
+                        <ul class="text-slate-700 space-y-2">
+                            <li>• 智慧自動識別異常區域</li>
+                            <li>• 可手動框選微小孔洞</li>
+                            <li>• 自動計算寬度、高度、面積</li>
+                            <li>• 產出異常報告供下載</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-fuchsia-500">◆</span>
+                            工具二：AI 提案圖生成
+                        </h4>
+                        <ul class="text-slate-700 space-y-2 mb-4">
+                            <li>• 選擇橫擺/直擺排列設計</li>
+                            <li>• 風格選擇（科技感/高級感/寫實）</li>
+                            <li>• 光影選擇（清晨/黃昏/陽光直射）</li>
+                            <li>• 一次輸出四張不同角度圖片</li>
+                        </ul>
+                        
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-fuchsia-500">◆</span>
+                            技術實現
+                        </h4>
+                        <p class="text-slate-700">
+                            使用 Cursor 作為核心開發工具，透過概念描述自動生成程式碼，產出一頁式網頁工具
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 bg-gradient-to-r from-fuchsia-50 to-pink-50 rounded-xl p-4 mb-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-fuchsia-600">90%</div>
+                        <div class="text-sm text-slate-600">一次性準確率</div>
+                    </div>
+                    <div class="text-center border-l border-fuchsia-200">
+                        <div class="text-2xl font-black text-fuchsia-600">95%</div>
+                        <div class="text-sm text-slate-600">時間減少（2hr→5min）</div>
+                    </div>
+                </div>
+                
+                <!-- AI Review -->
+                <div class="ai-review-box rounded-xl p-5 mt-4">
+                    <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span>🤖</span>
+                        AI 評審意見
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-brand-700 font-medium mb-1">✓ 優點</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 痛點與解決方案對應精準，針對業務實際場景開發實用工具</li>
+                                <li>• Demo 展示詳盡，介面友善且流程清晰，證明概念已落地為可用軟體</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-amber-700 font-medium mb-1">△ 待改進</p>
+                            <ul class="text-slate-600 space-y-1">
+                                <li>• 缺乏全自動化流程設計，目前仍依賴人工單次操作</li>
+                                <li>• ROI 僅停留在單次任務的時間節省比例，缺乏總體財務影響換算</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-slate-700 mt-3 text-sm border-t border-slate-200 pt-3">
+                        <strong>總評：</strong>務實且完成度高的業務賦能專案。雖然技術上未達全自動化 Pipeline，但作為輔助工具已具備極高的實用性與落地價值。建議推動其 API 化以擴大影響力。
+                    </p>
+                </div>
+            </article>
+        </section>
+        
+        <!-- Section Divider -->
+        <div class="section-divider my-16"></div>
+        
+        <!-- DAO Methodology Section -->
+        <section id="dao" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-12">
+                <span class="inline-block px-4 py-1 bg-brand-100 text-brand-700 rounded-full text-sm font-medium mb-4">
+                    Core Methodology
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">DAO 方法論</h2>
+                <p class="text-slate-600 mt-3 max-w-2xl mx-auto">
+                    把厲害的人變成厲害的系統
+                </p>
+            </div>
+            
+            <div class="bg-white rounded-3xl p-8 lg:p-12 shadow-lg border border-slate-100 mb-8">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Problem Statement -->
+                    <div class="mb-12">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center text-red-500">⚠️</span>
+                            共同的挑戰：如何規模化 AI 的成功？
+                        </h3>
+                        <div class="grid sm:grid-cols-3 gap-4">
+                            <div class="bg-red-50 rounded-xl p-5 border border-red-100">
+                                <h4 class="font-bold text-red-800 mb-2">經驗蒸發</h4>
+                                <p class="text-sm text-slate-600">關鍵 AI 能力綁在個人身上，人才離職即消失</p>
+                            </div>
+                            <div class="bg-red-50 rounded-xl p-5 border border-red-100">
+                                <h4 class="font-bold text-red-800 mb-2">品質斷鏈</h4>
+                                <p class="text-sm text-slate-600">不同人產出結果差異甚大，品質不穩定</p>
+                            </div>
+                            <div class="bg-red-50 rounded-xl p-5 border border-red-100">
+                                <h4 class="font-bold text-red-800 mb-2">管理失明</h4>
+                                <p class="text-sm text-slate-600">管理層無法掌握 AI 運作的邏輯與標準</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- DAO Framework -->
+                    <div class="mb-12">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center text-brand-600">💡</span>
+                            成功的方程式：DAO
+                        </h3>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="dao-card rounded-2xl p-6">
+                                <div class="w-12 h-12 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold text-xl mb-4">D</div>
+                                <h4 class="font-bold text-slate-900 mb-2">Data Anchoring</h4>
+                                <p class="text-sm text-slate-600 mb-3">資料定錨</p>
+                                <p class="text-slate-700">建立共享專案，將品牌風格、知識庫與角色定位封裝其中</p>
+                            </div>
+                            <div class="dao-card rounded-2xl p-6">
+                                <div class="w-12 h-12 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold text-xl mb-4">A</div>
+                                <h4 class="font-bold text-slate-900 mb-2">Automation</h4>
+                                <p class="text-sm text-slate-600 mb-3">任務鏈自動化</p>
+                                <p class="text-slate-700">將專家經驗拆解為標準執行步驟，封裝成 AI 可重複執行的流程</p>
+                            </div>
+                            <div class="dao-card rounded-2xl p-6">
+                                <div class="w-12 h-12 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold text-xl mb-4">O</div>
+                                <h4 class="font-bold text-slate-900 mb-2">Output</h4>
+                                <p class="text-sm text-slate-600 mb-3">標準化輸出</p>
+                                <p class="text-slate-700">確保不同人執行相同任務鏈，產出一致、可控的高品質成果</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Why DAO Matters -->
+                    <div class="bg-gradient-to-r from-brand-50 to-emerald-50 rounded-2xl p-8">
+                        <h3 class="text-lg font-bold text-slate-900 mb-6">DAO 方程式為何至關重要？</h3>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="text-center">
+                                <div class="text-3xl mb-2">✅</div>
+                                <p class="font-medium text-slate-900">確保品質</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl mb-2">📚</div>
+                                <p class="font-medium text-slate-900">知識傳承</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl mb-2">⚡</div>
+                                <p class="font-medium text-slate-900">提升效率</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl mb-2">📊</div>
+                                <p class="font-medium text-slate-900">賦能管理</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Before/After Comparison -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-slate-100 rounded-2xl p-8 border-2 border-slate-200">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-10 h-10 rounded-full bg-slate-300 flex items-center justify-center text-slate-600 font-bold">前</span>
+                        <h3 class="text-xl font-bold text-slate-700">個人工具時代</h3>
+                    </div>
+                    <ul class="space-y-4 text-slate-600">
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✗</span>
+                            <span>AI 互動能力依賴個人經驗</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✗</span>
+                            <span>產出品質高度不穩定</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✗</span>
+                            <span>內容產出需 2-5 小時</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✗</span>
+                            <span>校稿修改 3-5 輪</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✗</span>
+                            <span>新人學習需 2-4 週</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-brand-50 rounded-2xl p-8 border-2 border-brand-200">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-10 h-10 rounded-full bg-brand-500 flex items-center justify-center text-white font-bold">後</span>
+                        <h3 class="text-xl font-bold text-brand-800">組織武器庫時代</h3>
+                    </div>
+                    <ul class="space-y-4 text-slate-700">
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-500 mt-1">✓</span>
+                            <span>同一專案統一互動標準</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-500 mt-1">✓</span>
+                            <span>品質與標準可靠可控</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-500 mt-1">✓</span>
+                            <span>內容產出僅需 15-40 分鐘</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-500 mt-1">✓</span>
+                            <span>校稿修改 1-2 輪</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-500 mt-1">✓</span>
+                            <span>新人學習僅需 1-3 天</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section Divider -->
+        <div class="section-divider my-16"></div>
+        
+        <!-- Future Section -->
+        <section id="future" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-12">
+                <span class="inline-block px-4 py-1 bg-brand-100 text-brand-700 rounded-full text-sm font-medium mb-4">
+                    Next Steps
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">未來展望</h2>
+                <p class="text-slate-600 mt-3 max-w-2xl mx-auto">
+                    從流程化到制度化 — 建立 AI 卓越中心 (CoE)
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <!-- Strategic Directions -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="text-2xl">🎯</span>
+                        策略方向
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center text-brand-600 font-bold shrink-0">1</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">分享與共創</h4>
+                                <p class="text-slate-600 text-sm">建立集團級的「任務鏈」資料庫，分享最佳實踐</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center text-brand-600 font-bold shrink-0">2</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">建立規範</h4>
+                                <p class="text-slate-600 text-sm">制定 AI 使用指南與品質檢核標準</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center text-brand-600 font-bold shrink-0">3</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">賦能擴散</h4>
+                                <p class="text-slate-600 text-sm">系統性地將 DAO 方法論推廣至更多業務場景</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Key Improvements -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="text-2xl">📈</span>
+                        精益求精
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-bold text-slate-900 mb-2">建立量化指標</h4>
+                            <p class="text-slate-600 text-sm">除了效率提升，更要關注 AI 導入對業務結果（如良率、營收、客戶滿意度）的實質影響</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 mb-2">形成反饋閉環</h4>
+                            <p class="text-slate-600 text-sm">建立機制，讓業務端的使用反饋能持續優化 AI 模型與任務鏈的設計</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 mb-2">打破數據孤島</h4>
+                            <p class="text-slate-600 text-sm">讓不同團隊的 AI 應用能共享數據，產生 1+1>2 的加乘效應</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Call to Action -->
+            <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-8 lg:p-12 text-white text-center">
+                <h3 class="text-2xl lg:text-3xl font-bold mb-4">讓今天的種子，長成明天的森林</h3>
+                <p class="text-slate-300 mb-8 max-w-2xl mx-auto">
+                    記錄與標準化您的成功經驗，轉化為可分享的任務鏈。開放與交流，跨團隊分享 AI 應用成果。持續探索，勇敢挑戰更複雜的業務問題。
+                </p>
+                <div class="inline-flex items-center gap-2 px-6 py-3 bg-brand-500 rounded-full font-medium">
+                    <span>🚀</span>
+                    <span>組織將全力支持，讓創新遍地開花</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Closing Quote -->
+        <section class="mb-16">
+            <div class="relative bg-brand-50 rounded-3xl p-12 text-center overflow-hidden">
+                <div class="quote-mark absolute top-4 left-8 text-brand-300">"</div>
+                <div class="quote-mark absolute bottom-4 right-8 text-brand-300">"</div>
+                <blockquote class="relative z-10">
+                    <p class="text-2xl lg:text-3xl font-bold text-slate-900 mb-6 max-w-3xl mx-auto leading-relaxed">
+                        這趟旅程才剛開始，<br class="hidden sm:block">最精彩的風景還在前方。
+                    </p>
+                    <footer class="text-slate-600">
+                        — AI Demo Day 總評
+                    </footer>
+                </blockquote>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-16 px-4">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <span class="text-4xl">🌱</span>
+            </div>
+            <h2 class="text-2xl lg:text-3xl font-bold mb-4">智慧天來，共創未來</h2>
+            <p class="text-slate-400 mb-8">
+                TPSC AI Demo Day 2025 完整報告
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-500">
+                <span>📅 2025 年 12 月 23 日</span>
+                <span class="hidden sm:inline">•</span>
+                <span>📍 台灣鈣鈦礦科技股份有限公司</span>
+                <span class="hidden sm:inline">•</span>
+                <span>🏢 全員 AI 轉型計畫</span>
+            </div>
+            <div class="mt-12 pt-8 border-t border-slate-800 text-sm text-slate-600">
+                <p>本報告由 AI Director 彙整編製 | TPSC AI Transformation Office</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <a href="#" class="fixed bottom-8 right-8 w-12 h-12 bg-brand-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-brand-600 transition-colors z-50">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </a>
+    
+</body>
+</html>
