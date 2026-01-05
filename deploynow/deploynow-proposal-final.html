@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeployNow - AI Web App 託管平台完整規劃</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
+                        accent: { 400: '#a78bfa', 500: '#8b5cf6', 600: '#7c3aed' },
+                        permanent: { 400: '#f59e0b', 500: '#d97706', 600: '#b45309' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-size: 17px; line-height: 1.8; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #312e81 50%, #1e40af 100%); }
+        .gradient-permanent { background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%); }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .card-shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .card-shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .pulse-dot { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .float-animation { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .glow-permanent { box-shadow: 0 0 30px rgba(245, 158, 11, 0.3); }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #3b82f6; transition: width 0.3s ease; }
+        .nav-link:hover::after { width: 100%; }
+        .code-block { background: #1e293b; border-radius: 12px; overflow: hidden; }
+        .code-header { background: #334155; padding: 8px 16px; font-size: 12px; color: #94a3b8; font-family: monospace; }
+        .code-content { padding: 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 14px; color: #e2e8f0; overflow-x: auto; }
+        .pricing-enterprise { position: relative; }
+        .pricing-enterprise::before { content: '最高價值'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .pricing-popular { position: relative; }
+        .pricing-popular::before { content: '最受歡迎'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .stack-layer { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .stack-layer:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .upload-zone { border: 2px dashed #cbd5e1; transition: all 0.3s ease; }
+        .upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+        .mockup-window { background: linear-gradient(180deg, #f1f5f9 0%, #ffffff 100%); border: 1px solid #e2e8f0; }
+        .mockup-dots { display: flex; gap: 6px; }
+        .mockup-dots span { width: 12px; height: 12px; border-radius: 50%; }
+        .tab-active { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">🚀</span>
+                    <span class="font-bold text-lg text-gray-900">DeployNow</span>
+                    <span class="px-2 py-0.5 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-700 text-xs rounded-full font-medium">完整規劃</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6 text-sm">
+                    <a href="#market" class="nav-link text-gray-600 hover:text-gray-900">市場機會</a>
+                    <a href="#product" class="nav-link text-gray-600 hover:text-gray-900">產品功能</a>
+                    <a href="#stack" class="nav-link text-gray-600 hover:text-gray-900">技術堆疊</a>
+                    <a href="#permanent" class="nav-link text-gray-600 hover:text-gray-900">永久儲存</a>
+                    <a href="#pricing" class="nav-link text-gray-600 hover:text-gray-900">商業模式</a>
+                    <a href="#marketing" class="nav-link text-gray-600 hover:text-gray-900">市場策略</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cover Image -->
+    <section class="pt-16">
+        <img src="cover.png" alt="DeployNow - AI 應用一鍵上線" class="w-full h-auto">
+    </section>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg flex items-center overflow-hidden relative py-20">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 left-1/2 w-60 h-60 bg-amber-500/10 rounded-full blur-3xl"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 text-white/90 text-sm mb-8">
+                        <span class="pulse-dot w-2 h-2 bg-amber-400 rounded-full mr-2"></span>
+                        AI Web App 託管平台完整規劃
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
+                        部署一次，<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-yellow-300">永久存在</span>
+                    </h1>
+                    <p class="text-xl text-blue-100 mb-8 leading-relaxed">
+                        讓 Gemini、AI Studio、Claude 生成的 Web 應用<br>
+                        從「程式碼」到「上線」只需 <span class="text-cyan-300 font-bold">30 秒</span>
+                    </p>
+                    
+                    <!-- Key Value Props -->
+                    <div class="flex flex-wrap gap-4 mb-12">
+                        <div class="flex items-center bg-white/10 backdrop-blur rounded-xl px-4 py-3">
+                            <span class="text-3xl mr-3">📋</span>
+                            <div class="text-white">
+                                <div class="text-sm text-blue-200">貼上程式碼</div>
+                                <div class="font-bold">即時部署</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-white/10 backdrop-blur rounded-xl px-4 py-3">
+                            <span class="text-3xl mr-3">🔗</span>
+                            <div class="text-white">
+                                <div class="text-sm text-blue-200">短網址</div>
+                                <div class="font-bold">流量追蹤</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-white/10 backdrop-blur rounded-xl px-4 py-3 glow-permanent">
+                            <span class="text-3xl mr-3">♾️</span>
+                            <div class="text-white">
+                                <div class="text-sm text-amber-200">一次付費</div>
+                                <div class="font-bold text-amber-300">永久存在</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="flex flex-wrap gap-6">
+                        <div class="text-center">
+                            <div class="text-4xl font-black text-cyan-300">NT$0</div>
+                            <div class="text-sm text-blue-200">免費開始</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-black text-cyan-300">99%+</div>
+                            <div class="text-sm text-blue-200">毛利率</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-black text-amber-300">200+ 年</div>
+                            <div class="text-sm text-amber-200">Arweave 保存</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden lg:block float-animation">
+                    <!-- Deploy UI Mockup -->
+                    <div class="mockup-window rounded-2xl overflow-hidden card-shadow-xl">
+                        <div class="bg-gray-100 px-4 py-3 flex items-center justify-between border-b border-gray-200">
+                            <div class="mockup-dots">
+                                <span class="bg-red-400"></span>
+                                <span class="bg-yellow-400"></span>
+                                <span class="bg-green-400"></span>
+                            </div>
+                            <div class="text-xs text-gray-500 bg-white px-3 py-1 rounded-full">deploynow.tw</div>
+                            <div class="w-16"></div>
+                        </div>
+                        <div class="bg-white p-6">
+                            <div class="text-center mb-4">
+                                <div class="text-lg font-bold text-gray-900">🚀 立即部署您的 AI 應用</div>
+                            </div>
+                            <div class="upload-zone rounded-xl p-6 text-center mb-4">
+                                <div class="text-4xl mb-2">📤</div>
+                                <div class="text-sm text-gray-600">拖拽 HTML/ZIP 到這裡</div>
+                                <div class="text-xs text-gray-400 mt-1">或點擊選擇檔案</div>
+                            </div>
+                            <div class="text-center text-xs text-gray-400 mb-4">— 或 —</div>
+                            <div class="bg-gray-50 rounded-lg p-3 mb-4">
+                                <div class="text-xs text-gray-500 mb-1">貼上 HTML 程式碼</div>
+                                <div class="bg-white border border-gray-200 rounded p-2 text-xs text-gray-400 font-mono">
+                                    &lt;!DOCTYPE html&gt;...
+                                </div>
+                            </div>
+                            <button class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-bold text-sm">
+                                🚀 部署上線
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Executive Summary -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">執行摘要</h2>
+                <p class="text-xl text-gray-600">一分鐘掌握方案核心</p>
+            </div>
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 sm:p-12">
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="bg-white rounded-2xl p-6 card-shadow-lg">
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
+                            <span class="text-2xl">🔥</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">市場痛點</h3>
+                        <p class="text-gray-600 text-sm">
+                            AI 工具每天生成數百萬行程式碼，但「從程式碼到上線」的最後一哩路仍是瓶頸
+                        </p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 card-shadow-lg">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                            <span class="text-2xl">💡</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">解決方案</h3>
+                        <p class="text-gray-600 text-sm">
+                            一站式部署平台：貼上程式碼 / 上傳檔案 → 30 秒獲得可分享網址，含短網址與流量追蹤
+                        </p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 card-shadow-lg">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
+                            <span class="text-2xl">♾️</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">獨特賣點</h3>
+                        <p class="text-gray-600 text-sm">
+                            Arweave 永久儲存：一次付費，內容永久存在於區塊鏈，無需續費
+                        </p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 card-shadow-lg">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                            <span class="text-2xl">💰</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">商業價值</h3>
+                        <p class="text-gray-600 text-sm">
+                            四級定價 + 永久儲存加購，多元營收來源，毛利率 99%+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Opportunity -->
+    <section id="market" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1 rounded-full bg-red-100 text-red-700 text-sm font-medium mb-4">市場機會</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">AI 程式碼生成的「最後一哩路」危機</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    我們正處於 AI 程式碼生成的爆發期，但部署瓶頸正在扼殺創新速度
+                </p>
+            </div>
+
+            <!-- AI Code Generation Explosion -->
+            <div class="bg-white rounded-3xl p-8 sm:p-12 card-shadow-lg mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">🚀 AI 程式碼生成正在爆發</h3>
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-4xl">🤖</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2">Gemini 2.5 / AI Studio</h4>
+                        <p class="text-gray-600 text-sm">Google 最新 AI 可在 Canvas 中直接生成完整的互動式 Web 應用，包含 HTML、CSS、JavaScript</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-4xl">🧠</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2">Claude Artifacts</h4>
+                        <p class="text-gray-600 text-sm">Anthropic 的 Claude 可即時生成 React 組件與完整網頁，但輸出後難以分享給他人</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-teal-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-4xl">⚡</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2">ChatGPT Canvas / v0</h4>
+                        <p class="text-gray-600 text-sm">OpenAI 與 Vercel 的工具讓任何人都能用自然語言「說」出一個網頁</p>
+                    </div>
+                </div>
+
+                <!-- The Gap -->
+                <div class="bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl p-8 border border-red-100">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/3 text-center">
+                            <div class="text-6xl font-black text-green-500">10 秒</div>
+                            <div class="text-gray-600">AI 生成程式碼</div>
+                        </div>
+                        <div class="text-4xl text-gray-300">→</div>
+                        <div class="md:w-1/3 text-center">
+                            <div class="text-6xl font-black text-red-500">30+ 分鐘</div>
+                            <div class="text-gray-600">傳統部署上線</div>
+                        </div>
+                        <div class="text-4xl text-gray-300">→</div>
+                        <div class="md:w-1/3 text-center">
+                            <div class="text-6xl">😤</div>
+                            <div class="text-gray-600">創新被阻塞</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pain Points Detail -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <!-- Current Pain -->
+                <div class="bg-white rounded-3xl p-8 border-2 border-red-100">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-2xl">😫</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">現狀：AI 生成後的困境</h3>
+                            <p class="text-red-600 text-sm">每天重複發生的場景</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-red-50 rounded-xl p-4">
+                            <div class="flex items-start">
+                                <span class="text-red-500 mr-3">✗</span>
+                                <div>
+                                    <strong class="text-gray-900">「我用 Gemini 做了一個超棒的 Demo，但我不知道怎麼讓客戶看到」</strong>
+                                    <p class="text-gray-600 text-sm mt-1">只能截圖或錄影，失去互動性</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-4">
+                            <div class="flex items-start">
+                                <span class="text-red-500 mr-3">✗</span>
+                                <div>
+                                    <strong class="text-gray-900">「AI Studio 生成的網頁下載後，我要怎麼放上網？」</strong>
+                                    <p class="text-gray-600 text-sm mt-1">需要買伺服器、設定 DNS、搞 SSL...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-4">
+                            <div class="flex items-start">
+                                <span class="text-red-500 mr-3">✗</span>
+                                <div>
+                                    <strong class="text-gray-900">「每次 Demo 都要重新部署，太麻煩了」</strong>
+                                    <p class="text-gray-600 text-sm mt-1">傳統流程：Git push → CI/CD → 等待建置...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-4">
+                            <div class="flex items-start">
+                                <span class="text-red-500 mr-3">✗</span>
+                                <div>
+                                    <strong class="text-gray-900">「ZIP 檔裡有圖片和字型，上傳後都壞掉了」</strong>
+                                    <p class="text-gray-600 text-sm mt-1">路徑問題、MIME type 問題、CORS 問題...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Our Solution -->
+                <div class="bg-white rounded-3xl p-8 border-2 border-green-100">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-2xl">🎉</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">我們的解決方案</h3>
+                            <p class="text-green-600 text-sm">讓 AI 輸出直接變成網站</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-green-50 rounded-xl p-4">
+                            <div class="flex items-start">
+                                <span class="text-green-500 mr-3">✓</span>
+                                <div>
+                                    <strong class="text-gray-900">直接貼上程式碼，30 秒上線</strong>
+                                    <p class="text-gray-600 text-sm mt-1">從 AI 工具複製 → 貼上 → 獲得網址</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-4">
+                            <div class="flex items-start">
+                                <span class="text-green-500 mr-3">✓</span>
+                                <div>
+                                    <strong class="text-gray-900">上傳 ZIP 檔，自動解析部署</strong>
+                                    <p class="text-gray-600 text-sm mt-1">HTML + CSS + JS + 圖片 + 字型，全部正確處理</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-4">
+                            <div class="flex items-start">
+                                <span class="text-green-500 mr-3">✓</span>
+                                <div>
+                                    <strong class="text-gray-900">即時短網址 + 流量追蹤</strong>
+                                    <p class="text-gray-600 text-sm mt-1">dply.tw/abc123 立即可用，附帶訪問統計</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-4 border-2 border-amber-200">
+                            <div class="flex items-start">
+                                <span class="text-amber-500 mr-3">♾️</span>
+                                <div>
+                                    <strong class="text-amber-600">一次付費，永久存在</strong>
+                                    <p class="text-gray-600 text-sm mt-1">Arweave 區塊鏈永久儲存，200+ 年保存保證</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Target Users -->
+            <div class="bg-white rounded-3xl p-8 sm:p-12 card-shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">🎯 目標用戶群</h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl mb-4">👨‍💼</div>
+                        <h4 class="font-bold text-gray-900 mb-2">企業 AI 導入團隊</h4>
+                        <p class="text-sm text-gray-600">需要快速展示 AI POC 給主管/客戶</p>
+                        <div class="mt-3 text-xs text-blue-600 font-medium">付費意願：高</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl mb-4">🎨</div>
+                        <h4 class="font-bold text-gray-900 mb-2">設計師 / PM</h4>
+                        <p class="text-sm text-gray-600">用 AI 快速出互動原型</p>
+                        <div class="mt-3 text-xs text-purple-600 font-medium">付費意願：中</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl mb-4">👨‍🎓</div>
+                        <h4 class="font-bold text-gray-900 mb-2">學生 / 學習者</h4>
+                        <p class="text-sm text-gray-600">學習程式，想分享作品</p>
+                        <div class="mt-3 text-xs text-green-600 font-medium">付費意願：低（免費增值）</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl mb-4">🏢</div>
+                        <h4 class="font-bold text-gray-900 mb-2">中小企業</h4>
+                        <p class="text-sm text-gray-600">活動頁、產品介紹頁快速上線</p>
+                        <div class="mt-3 text-xs text-orange-600 font-medium">付費意願：高</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Features -->
+    <section id="product" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">產品功能</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">三大核心功能模組</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    從程式碼到上線，從短網址到數據分析，一站搞定
+                </p>
+            </div>
+
+            <!-- Feature 1: Deploy UI -->
+            <div class="mb-20">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
+                            模組一
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">🖥️ 智慧部署介面</h3>
+                        <p class="text-gray-600 mb-8">
+                            專為 AI 生成程式碼設計的部署體驗。支援多種輸入方式，自動處理各種檔案格式，讓非技術人員也能輕鬆上線網站。
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">📋</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">剪貼簿貼上</h4>
+                                    <p class="text-gray-600 text-sm">直接從 Gemini Canvas、Claude Artifacts 複製 HTML，貼上即部署</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">📄</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">單檔上傳</h4>
+                                    <p class="text-gray-600 text-sm">上傳從 AI Studio 下載的 .html 檔案，自動處理</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">📦</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">ZIP 專案上傳</h4>
+                                    <p class="text-gray-600 text-sm">完整專案包：HTML + CSS + JS + 圖片 + 字型，自動解壓並正確部署</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">🔍</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">即時預覽</h4>
+                                    <p class="text-gray-600 text-sm">部署前即時預覽效果，確認無誤再上線</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Deploy UI Mockup -->
+                        <div class="mockup-window rounded-2xl overflow-hidden card-shadow-xl">
+                            <div class="bg-gray-100 px-4 py-3 flex items-center justify-between border-b border-gray-200">
+                                <div class="mockup-dots">
+                                    <span class="bg-red-400"></span>
+                                    <span class="bg-yellow-400"></span>
+                                    <span class="bg-green-400"></span>
+                                </div>
+                                <div class="text-xs text-gray-500">deploynow.tw/new</div>
+                                <div class="w-16"></div>
+                            </div>
+                            <div class="bg-white p-6">
+                                <!-- Tabs -->
+                                <div class="flex bg-gray-100 rounded-lg p-1 mb-6">
+                                    <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium tab-active">📋 貼上程式碼</button>
+                                    <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500">📤 上傳檔案</button>
+                                </div>
+                                
+                                <!-- Code Input -->
+                                <div class="bg-gray-900 rounded-xl p-4 mb-4 font-mono text-sm">
+                                    <div class="text-gray-500 text-xs mb-2">貼上您的 HTML 程式碼</div>
+                                    <div class="text-green-400">&lt;!DOCTYPE html&gt;</div>
+                                    <div class="text-blue-400">&lt;html lang="zh-TW"&gt;</div>
+                                    <div class="text-gray-400 pl-4">&lt;head&gt;...&lt;/head&gt;</div>
+                                    <div class="text-gray-400 pl-4">&lt;body&gt;</div>
+                                    <div class="text-yellow-400 pl-8">&lt;h1&gt;我的 AI 應用&lt;/h1&gt;</div>
+                                    <div class="text-gray-500 pl-8">...</div>
+                                </div>
+
+                                <!-- Domain Input -->
+                                <div class="mb-4">
+                                    <label class="text-xs text-gray-500 mb-1 block">自訂網址（選填）</label>
+                                    <div class="flex">
+                                        <input type="text" placeholder="my-app" class="flex-1 border border-gray-200 rounded-l-lg px-3 py-2 text-sm">
+                                        <span class="bg-gray-100 border border-l-0 border-gray-200 rounded-r-lg px-3 py-2 text-sm text-gray-500">.dply.tw</span>
+                                    </div>
+                                </div>
+
+                                <!-- Deploy Button -->
+                                <button class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold flex items-center justify-center">
+                                    <span class="mr-2">🚀</span> 立即部署
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: Short URL -->
+            <div class="mb-20">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1">
+                        <!-- Short URL Mockup -->
+                        <div class="mockup-window rounded-2xl overflow-hidden card-shadow-xl">
+                            <div class="bg-gray-100 px-4 py-3 flex items-center justify-between border-b border-gray-200">
+                                <div class="mockup-dots">
+                                    <span class="bg-red-400"></span>
+                                    <span class="bg-yellow-400"></span>
+                                    <span class="bg-green-400"></span>
+                                </div>
+                                <div class="text-xs text-gray-500">deploynow.tw/dashboard</div>
+                                <div class="w-16"></div>
+                            </div>
+                            <div class="bg-white p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h4 class="font-bold text-gray-900">我的應用</h4>
+                                    <button class="text-sm text-blue-600">+ 新增</button>
+                                </div>
+                                
+                                <!-- App List -->
+                                <div class="space-y-3">
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="text-xl mr-2">🎨</span>
+                                                <span class="font-medium text-gray-900">AI 圖表產生器</span>
+                                            </div>
+                                            <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">線上</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <a href="#" class="text-blue-600">dply.tw/chart</a>
+                                            <span class="text-gray-500">👁 1,234 次訪問</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="text-xl mr-2">📊</span>
+                                                <span class="font-medium text-gray-900">Q3 銷售報告</span>
+                                            </div>
+                                            <span class="text-xs text-amber-600 bg-amber-100 px-2 py-1 rounded-full">♾️ 永久</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <a href="#" class="text-blue-600">dply.tw/q3rep</a>
+                                            <span class="text-gray-500">👁 892 次訪問</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="text-xl mr-2">🛠️</span>
+                                                <span class="font-medium text-gray-900">單位換算工具</span>
+                                            </div>
+                                            <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">線上</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <a href="#" class="text-blue-600">dply.tw/conv</a>
+                                            <span class="text-gray-500">👁 5,678 次訪問</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2">
+                        <div class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-sm font-medium mb-4">
+                            模組二
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">🔗 短網址平台</h3>
+                        <p class="text-gray-600 mb-8">
+                            每個部署的應用自動獲得短網址，方便分享。免費用戶享有基本功能，付費用戶解鎖進階統計與自訂網址。
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">⚡</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">即時短網址</h4>
+                                    <p class="text-gray-600 text-sm">部署完成立即獲得 dply.tw/xxxxx 短網址</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">✏️</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">自訂短網址</h4>
+                                    <p class="text-gray-600 text-sm">付費用戶可自訂如 dply.tw/my-brand</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">🔐</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">密碼保護</h4>
+                                    <p class="text-gray-600 text-sm">敏感內容可設定密碼，僅授權者可訪問</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">⏰</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">有效期限</h4>
+                                    <p class="text-gray-600 text-sm">可設定連結有效期限，過期自動失效</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3: Analytics -->
+            <div class="mb-12">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-4">
+                            模組三
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">📊 流量追蹤與分析</h3>
+                        <p class="text-gray-600 mb-8">
+                            內建訪問統計功能，無需額外設定 Google Analytics。了解您的 AI 應用被誰、何時、從哪裡訪問。
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">👁</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">訪問次數追蹤</h4>
+                                    <p class="text-gray-600 text-sm">即時統計頁面瀏覽量（PV）與獨立訪客（UV）</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">🌍</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">地理位置分析</h4>
+                                    <p class="text-gray-600 text-sm">訪客來自哪些國家/城市</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">📱</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">裝置與瀏覽器</h4>
+                                    <p class="text-gray-600 text-sm">桌機 vs 手機、Chrome vs Safari 等分布</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <span class="text-xl">📈</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">UTM 參數支援</h4>
+                                    <p class="text-gray-600 text-sm">支援 utm_source、utm_medium 等行銷追蹤參數</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Analytics Mockup -->
+                        <div class="mockup-window rounded-2xl overflow-hidden card-shadow-xl">
+                            <div class="bg-gray-100 px-4 py-3 flex items-center justify-between border-b border-gray-200">
+                                <div class="mockup-dots">
+                                    <span class="bg-red-400"></span>
+                                    <span class="bg-yellow-400"></span>
+                                    <span class="bg-green-400"></span>
+                                </div>
+                                <div class="text-xs text-gray-500">deploynow.tw/analytics</div>
+                                <div class="w-16"></div>
+                            </div>
+                            <div class="bg-white p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">AI 圖表產生器</h4>
+                                        <p class="text-sm text-gray-500">dply.tw/chart</p>
+                                    </div>
+                                    <select class="text-sm border border-gray-200 rounded-lg px-3 py-1">
+                                        <option>過去 7 天</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Stats Grid -->
+                                <div class="grid grid-cols-3 gap-4 mb-6">
+                                    <div class="bg-blue-50 rounded-xl p-3 text-center">
+                                        <div class="text-2xl font-bold text-blue-600">1,234</div>
+                                        <div class="text-xs text-gray-500">總訪問</div>
+                                    </div>
+                                    <div class="bg-green-50 rounded-xl p-3 text-center">
+                                        <div class="text-2xl font-bold text-green-600">892</div>
+                                        <div class="text-xs text-gray-500">獨立訪客</div>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-xl p-3 text-center">
+                                        <div class="text-2xl font-bold text-purple-600">2:34</div>
+                                        <div class="text-xs text-gray-500">平均停留</div>
+                                    </div>
+                                </div>
+
+                                <!-- Chart Placeholder -->
+                                <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                                    <div class="text-xs text-gray-500 mb-3">訪問趨勢</div>
+                                    <div class="flex items-end justify-between h-24 gap-1">
+                                        <div class="bg-blue-200 rounded-t w-full" style="height: 30%"></div>
+                                        <div class="bg-blue-300 rounded-t w-full" style="height: 45%"></div>
+                                        <div class="bg-blue-400 rounded-t w-full" style="height: 60%"></div>
+                                        <div class="bg-blue-500 rounded-t w-full" style="height: 80%"></div>
+                                        <div class="bg-blue-400 rounded-t w-full" style="height: 55%"></div>
+                                        <div class="bg-blue-500 rounded-t w-full" style="height: 90%"></div>
+                                        <div class="bg-blue-600 rounded-t w-full" style="height: 100%"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs text-gray-400 mt-2">
+                                        <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+                                    </div>
+                                </div>
+
+                                <!-- Top Sources -->
+                                <div class="text-xs">
+                                    <div class="text-gray-500 mb-2">流量來源</div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-700">📱 LINE</span>
+                                            <span class="text-gray-500">42%</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-700">🔍 Google</span>
+                                            <span class="text-gray-500">28%</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-700">📧 Email</span>
+                                            <span class="text-gray-500">18%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI-Specific Features -->
+            <div class="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-3xl p-8 sm:p-12 text-white">
+                <div class="text-center mb-12">
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-4">🤖 專為 AI 生成程式碼優化</h3>
+                    <p class="text-indigo-200 max-w-2xl mx-auto">
+                        不只是普通的靜態託管，而是深度理解 AI 工具輸出特性的智慧平台
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white/10 backdrop-blur rounded-2xl p-6">
+                        <div class="text-3xl mb-4">🔧</div>
+                        <h4 class="font-bold text-lg mb-2">智慧依賴注入</h4>
+                        <p class="text-indigo-200 text-sm mb-4">
+                            自動檢測程式碼中使用的框架，注入必要的 CDN 依賴
+                        </p>
+                        <div class="text-xs text-indigo-300 space-y-1">
+                            <div>• 偵測到 Tailwind → 自動加入 CDN</div>
+                            <div>• 偵測到 React → 注入 React runtime</div>
+                            <div>• 偵測到 Vue → 注入 Vue CDN</div>
+                        </div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur rounded-2xl p-6">
+                        <div class="text-3xl mb-4">📦</div>
+                        <h4 class="font-bold text-lg mb-2">ZIP 智慧解析</h4>
+                        <p class="text-indigo-200 text-sm mb-4">
+                            自動處理 AI Studio 匯出的複雜專案結構
+                        </p>
+                        <div class="text-xs text-indigo-300 space-y-1">
+                            <div>• 自動識別入口檔案 (index.html)</div>
+                            <div>• 正確處理相對路徑</div>
+                            <div>• 自動設定 MIME types</div>
+                        </div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur rounded-2xl p-6">
+                        <div class="text-3xl mb-4">🩹</div>
+                        <h4 class="font-bold text-lg mb-2">常見問題自動修復</h4>
+                        <p class="text-indigo-200 text-sm mb-4">
+                            AI 生成程式碼常見的小問題，系統自動修正
+                        </p>
+                        <div class="text-xs text-indigo-300 space-y-1">
+                            <div>• base path 問題 → 自動修正為 ./</div>
+                            <div>• 缺少 DOCTYPE → 自動補上</div>
+                            <div>• charset 問題 → 強制 UTF-8</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack Analysis -->
+    <section id="stack" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1 rounded-full bg-purple-100 text-purple-700 text-sm font-medium mb-4">產品架構師觀點</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">三層技術堆疊的戰略優勢</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    部署平台 + 短網址 + 永久儲存，三者結合創造獨特競爭壁壘
+                </p>
+            </div>
+
+            <!-- Stack Visualization -->
+            <div class="max-w-4xl mx-auto mb-16">
+                <div class="relative">
+                    <!-- Layer 3: Permanent Storage -->
+                    <div class="stack-layer bg-gradient-to-r from-amber-500 to-orange-500 rounded-3xl p-8 text-white mb-4 relative z-30">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm opacity-80 mb-1">Layer 3 - 永久儲存層</div>
+                                <h3 class="text-2xl font-bold mb-2">Irys + Arweave</h3>
+                                <p class="text-amber-100">一次付費，永久存在於區塊鏈，無法被刪除或篡改</p>
+                            </div>
+                            <div class="text-6xl">♾️</div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">200+ 年保存</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">去中心化</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">不可篡改</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">無需續費</span>
+                        </div>
+                    </div>
+
+                    <!-- Layer 2: Short URL -->
+                    <div class="stack-layer bg-gradient-to-r from-purple-500 to-indigo-500 rounded-3xl p-8 text-white mb-4 relative z-20">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm opacity-80 mb-1">Layer 2 - 短網址層</div>
+                                <h3 class="text-2xl font-bold mb-2">KV Store + Analytics</h3>
+                                <p class="text-purple-100">智慧路由、流量追蹤、UTM 分析、訪問統計</p>
+                            </div>
+                            <div class="text-6xl">🔗</div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">自訂短網址</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">來源追蹤</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">地理分析</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">即時統計</span>
+                        </div>
+                    </div>
+
+                    <!-- Layer 1: Deploy Platform -->
+                    <div class="stack-layer bg-gradient-to-r from-blue-500 to-cyan-500 rounded-3xl p-8 text-white relative z-10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm opacity-80 mb-1">Layer 1 - 部署平台層</div>
+                                <h3 class="text-2xl font-bold mb-2">Cloudflare Workers + R2</h3>
+                                <p class="text-blue-100">全球邊緣運算、即時部署、自動 SSL、CDN 加速</p>
+                            </div>
+                            <div class="text-6xl">⚡</div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">300+ 節點</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">自動 HTTPS</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">ZIP 解析</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">版本管理</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategic Advantages -->
+            <div class="bg-white rounded-3xl p-8 sm:p-12 card-shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">🎯 架構師觀點：這個堆疊的戰略優勢</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-xl">🔒</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">競爭壁壘：技術整合難度高</h4>
+                                <p class="text-gray-600 text-sm">將 Cloudflare 邊緣運算、短網址系統、Arweave 永久儲存整合成無縫體驗，需要深厚的技術積累。競爭對手難以快速複製。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-xl">📊</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">數據護城河：用戶黏性極高</h4>
+                                <p class="text-gray-600 text-sm">短網址一旦分享出去，用戶就不會輕易遷移。訪問統計數據積累越多，平台價值越高。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-xl">💰</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">成本結構：邊際成本趨近於零</h4>
+                                <p class="text-gray-600 text-sm">Cloudflare 免費額度極高，Arweave 一次性成本可轉嫁給用戶。新增用戶幾乎不增加成本。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-xl">♾️</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">獨特賣點：永久儲存無可取代</h4>
+                                <p class="text-gray-600 text-sm">市面上沒有其他部署平台提供「一次付費永久存在」的選項。這是殺手級功能差異化。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-xl">🔄</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">雙軌收入：訂閱 + 一次性</h4>
+                                <p class="text-gray-600 text-sm">標準功能走訂閱制創造穩定現金流；永久儲存走一次性收費創造高毛利收入。兩種模式互補。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-xl">🚀</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">擴展性：多層變現機會</h4>
+                                <p class="text-gray-600 text-sm">每一層都可以獨立變現：部署收訂閱費、短網址收進階功能費、永久儲存收一次性費用。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Architect Quote -->
+                <div class="mt-8 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 border-l-4 border-blue-500">
+                    <div class="flex items-start">
+                        <div class="text-3xl mr-4">👨‍💻</div>
+                        <div>
+                            <p class="text-gray-700 italic mb-2">
+                                「這個架構的精妙之處在於：三層各自獨立運作，但組合起來創造了 1+1+1 > 10 的價值。用戶為了永久儲存而來，卻離不開短網址追蹤；為了部署便利而來，卻愛上了數據分析。這是典型的『飛輪效應』設計。」
+                            </p>
+                            <p class="text-gray-500 text-sm">— 產品架構師觀點</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Permanent Storage Deep Dive -->
+    <section id="permanent" class="py-20 bg-gradient-to-br from-gray-900 to-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1 rounded-full bg-amber-500/20 text-amber-400 text-sm font-medium mb-4">核心差異化功能</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-300">Irys + Arweave 永久儲存</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    一次付費，您的 AI 創作將永久存在於區塊鏈上，無需擔心續費或伺服器關閉
+                </p>
+            </div>
+
+            <!-- What is Arweave -->
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <div class="bg-white/5 backdrop-blur rounded-3xl p-8 border border-white/10">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center">
+                        <span class="text-2xl mr-3">🏛️</span>
+                        什麼是 Arweave？
+                    </h3>
+                    <p class="text-gray-300 mb-6">
+                        Arweave 是一個專為「永久儲存」設計的區塊鏈網路。不同於傳統雲端儲存需要持續付費，Arweave 採用「一次付費，永久儲存」的經濟模型。
+                    </p>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-3">✓</span>
+                            <span>去中心化儲存，無單點故障</span>
+                        </div>
+                        <div class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-3">✓</span>
+                            <span>資料複製到全球數百個節點</span>
+                        </div>
+                        <div class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-3">✓</span>
+                            <span>經濟模型保證 200+ 年儲存</span>
+                        </div>
+                        <div class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-3">✓</span>
+                            <span>內容不可被刪除或篡改</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/5 backdrop-blur rounded-3xl p-8 border border-white/10">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center">
+                        <span class="text-2xl mr-3">⚡</span>
+                        什麼是 Irys？
+                    </h3>
+                    <p class="text-gray-300 mb-6">
+                        Irys（前身 Bundlr）是 Arweave 的 Layer 2 解決方案，讓上傳更快、成本更低、體驗更好。我們透過 Irys 將用戶內容寫入 Arweave。
+                    </p>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-3">✓</span>
+                            <span>即時上傳確認（毫秒級）</span>
+                        </div>
+                        <div class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-3">✓</span>
+                            <span>成本比直接上傳 Arweave 更低</span>
+                        </div>
+                        <div class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-3">✓</span>
+                            <span>支援多種支付方式</span>
+                        </div>
+                        <div class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-3">✓</span>
+                            <span>開發者友善的 API</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison: Traditional vs Permanent -->
+            <div class="bg-white/5 backdrop-blur rounded-3xl p-8 sm:p-12 border border-white/10 mb-16">
+                <h3 class="text-2xl font-bold text-white mb-8 text-center">傳統託管 vs 永久儲存</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="border-b border-white/20">
+                                <th class="py-4 px-4 text-gray-400 font-medium">比較項目</th>
+                                <th class="py-4 px-4 text-gray-400 font-medium">傳統雲端託管</th>
+                                <th class="py-4 px-4 text-amber-400 font-medium">Arweave 永久儲存</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-300">
+                            <tr class="border-b border-white/10">
+                                <td class="py-4 px-4">付費模式</td>
+                                <td class="py-4 px-4">月費/年費訂閱</td>
+                                <td class="py-4 px-4 text-amber-400 font-medium">一次性付費</td>
+                            </tr>
+                            <tr class="border-b border-white/10">
+                                <td class="py-4 px-4">存續期限</td>
+                                <td class="py-4 px-4">停止付費即消失</td>
+                                <td class="py-4 px-4 text-amber-400 font-medium">200+ 年保證</td>
+                            </tr>
+                            <tr class="border-b border-white/10">
+                                <td class="py-4 px-4">資料可靠性</td>
+                                <td class="py-4 px-4">依賴單一供應商</td>
+                                <td class="py-4 px-4 text-amber-400 font-medium">全球數百節點複製</td>
+                            </tr>
+                            <tr class="border-b border-white/10">
+                                <td class="py-4 px-4">內容控制</td>
+                                <td class="py-4 px-4">供應商可刪除/修改</td>
+                                <td class="py-4 px-4 text-amber-400 font-medium">不可刪除、不可篡改</td>
+                            </tr>
+                            <tr class="border-b border-white/10">
+                                <td class="py-4 px-4">10 年總成本 (10MB)</td>
+                                <td class="py-4 px-4">NT$3,600+ (月費累積)</td>
+                                <td class="py-4 px-4 text-amber-400 font-medium">≈ NT$15 (一次性)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-4">供應商風險</td>
+                                <td class="py-4 px-4">公司倒閉 = 資料消失</td>
+                                <td class="py-4 px-4 text-amber-400 font-medium">去中心化，無此風險</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Use Cases for Permanent Storage -->
+            <div class="grid md:grid-cols-4 gap-6 mb-16">
+                <div class="bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl p-6 border border-amber-500/30 text-center">
+                    <div class="text-4xl mb-4">🎨</div>
+                    <h4 class="font-bold text-white mb-2">數位作品集</h4>
+                    <p class="text-gray-400 text-sm">設計師、藝術家的作品永久展示，不怕平台關閉</p>
+                </div>
+                <div class="bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl p-6 border border-amber-500/30 text-center">
+                    <div class="text-4xl mb-4">📄</div>
+                    <h4 class="font-bold text-white mb-2">重要報告</h4>
+                    <p class="text-gray-400 text-sm">年度報告、研究成果、里程碑文件永久保存</p>
+                </div>
+                <div class="bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl p-6 border border-amber-500/30 text-center">
+                    <div class="text-4xl mb-4">🏆</div>
+                    <h4 class="font-bold text-white mb-2">紀念頁面</h4>
+                    <p class="text-gray-400 text-sm">活動紀錄、婚禮頁面、畢業專題永久留存</p>
+                </div>
+                <div class="bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl p-6 border border-amber-500/30 text-center">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h4 class="font-bold text-white mb-2">AI 創作典藏</h4>
+                    <p class="text-gray-400 text-sm">最佳 AI 生成作品永久保存，成為數位遺產</p>
+                </div>
+            </div>
+
+            <!-- Pricing for Permanent Storage -->
+            <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-3xl p-8 sm:p-12 text-center">
+                <h3 class="text-2xl font-bold text-white mb-4">永久儲存定價</h3>
+                <p class="text-amber-100 mb-8">基於 Arweave 網路成本 + 平台服務費</p>
+                <div class="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                    <div class="bg-white/20 backdrop-blur rounded-2xl p-6">
+                        <div class="text-3xl font-black text-white mb-1">NT$99</div>
+                        <div class="text-amber-100 text-sm mb-2">單一 HTML 頁面</div>
+                        <div class="text-xs text-amber-200">最大 500KB</div>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur rounded-2xl p-6">
+                        <div class="text-3xl font-black text-white mb-1">NT$299</div>
+                        <div class="text-amber-100 text-sm mb-2">完整專案</div>
+                        <div class="text-xs text-amber-200">最大 5MB（含圖片）</div>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur rounded-2xl p-6">
+                        <div class="text-3xl font-black text-white mb-1">NT$999</div>
+                        <div class="text-amber-100 text-sm mb-2">大型專案</div>
+                        <div class="text-xs text-amber-200">最大 50MB</div>
+                    </div>
+                </div>
+                <p class="text-amber-100 text-sm mt-6">
+                    💡 一次付費，永久存在。無隱藏費用，無需續費。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Model -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-4">商業模式</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">四級定價策略</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    從免費用戶到企業客戶，完整覆蓋所有市場區隔
+                </p>
+            </div>
+
+            <!-- Pricing Cards -->
+            <div class="grid lg:grid-cols-4 gap-6 mb-16">
+                <!-- Free -->
+                <div class="bg-white rounded-3xl p-6 card-shadow-lg border border-gray-200">
+                    <div class="text-center mb-6">
+                        <div class="text-sm text-gray-500 mb-1">入門</div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">免費版</h3>
+                        <div class="text-4xl font-black text-gray-900">NT$0</div>
+                        <div class="text-gray-500 text-sm">永久免費</div>
+                    </div>
+                    <ul class="space-y-3 mb-6 text-sm">
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            最多 3 個站點
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            每站 5MB 儲存
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <strong>自訂短網址（10+ 字元）</strong>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            基本訪問統計
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <span class="mr-2">✗</span>
+                            更短的網址後綴
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <span class="mr-2">✗</span>
+                            永久儲存
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <span class="mr-2">✗</span>
+                            自訂網域
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-xs text-gray-500">適合：學生、初學者、臨時測試</span>
+                    </div>
+                </div>
+
+                <!-- Personal -->
+                <div class="bg-white rounded-3xl p-6 card-shadow-xl pricing-popular relative border-2 border-blue-500">
+                    <div class="text-center mb-6">
+                        <div class="text-sm text-blue-600 mb-1">個人</div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">個人版</h3>
+                        <div class="text-4xl font-black text-blue-600">NT$299</div>
+                        <div class="text-gray-500 text-sm">/月</div>
+                    </div>
+                    <ul class="space-y-3 mb-6 text-sm">
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            最多 20 個站點
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            每站 50MB 儲存
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <strong>自訂短網址（4+ 字元）</strong>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            完整訪問統計
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <strong class="text-amber-600">永久儲存（加購）</strong>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            密碼保護
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <span class="mr-2">✗</span>
+                            自訂網域
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-xs text-gray-500">適合：個人開發者、自由工作者</span>
+                    </div>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="bg-white rounded-3xl p-6 card-shadow-lg border border-gray-200">
+                    <div class="text-center mb-6">
+                        <div class="text-sm text-purple-600 mb-1">企業</div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">企業版</h3>
+                        <div class="text-4xl font-black text-purple-600">NT$1,499</div>
+                        <div class="text-gray-500 text-sm">/月</div>
+                    </div>
+                    <ul class="space-y-3 mb-6 text-sm">
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <strong>無限站點</strong>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            每站 500MB 儲存
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            自訂短網址（2+ 字元）
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <strong>自訂網域</strong>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <strong class="text-amber-600">永久儲存（加購）</strong>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            團隊協作（5 人）
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="text-green-500 mr-2">✓</span>
+                            API 存取
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-xs text-gray-500">適合：中小企業、團隊、代理商</span>
+                    </div>
+                </div>
+
+                <!-- White Label -->
+                <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-6 card-shadow-xl pricing-enterprise relative text-white">
+                    <div class="text-center mb-6">
+                        <div class="text-sm text-amber-400 mb-1">私有部署</div>
+                        <h3 class="text-xl font-bold mb-2">白牌授權</h3>
+                        <div class="text-4xl font-black text-amber-400">NT$150,000+</div>
+                        <div class="text-gray-400 text-sm">一次性授權</div>
+                    </div>
+                    <ul class="space-y-3 mb-6 text-sm">
+                        <li class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-2">✓</span>
+                            <strong>完整原始碼</strong>
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-2">✓</span>
+                            部署到客戶自己的 Cloudflare
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-2">✓</span>
+                            <strong>完全品牌客製化</strong>
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-2">✓</span>
+                            無限站點/用戶
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-2">✓</span>
+                            永久儲存整合
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-2">✓</span>
+                            技術支援與培訓
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <span class="text-amber-400 mr-2">✓</span>
+                            年維護 NT$30,000+
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-xs text-gray-400">適合：大型企業、自建 SaaS 平台</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Short URL Suffix Comparison -->
+            <div class="bg-white rounded-3xl p-8 card-shadow-lg mb-12">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">短網址後綴長度對照</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-center">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="py-3 px-4 text-gray-500 font-medium">方案</th>
+                                <th class="py-3 px-4 text-gray-500 font-medium">最短後綴</th>
+                                <th class="py-3 px-4 text-gray-500 font-medium">範例</th>
+                                <th class="py-3 px-4 text-gray-500 font-medium">可用組合數</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700">免費版</td>
+                                <td class="py-3 px-4 text-gray-700">10 字元（可自訂）</td>
+                                <td class="py-3 px-4 font-mono text-sm text-gray-500">dply.tw/myproject01</td>
+                                <td class="py-3 px-4 text-gray-400">充足</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700">個人版</td>
+                                <td class="py-3 px-4 text-blue-600 font-bold">4 字元</td>
+                                <td class="py-3 px-4 font-mono text-sm text-blue-600">dply.tw/demo</td>
+                                <td class="py-3 px-4 text-gray-600">1,679,616</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700">企業版</td>
+                                <td class="py-3 px-4 text-purple-600 font-bold">2 字元</td>
+                                <td class="py-3 px-4 font-mono text-sm text-purple-600">dply.tw/ai</td>
+                                <td class="py-3 px-4 text-gray-600">1,296（稀缺）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-4">
+                    💡 短後綴更好記、更專業，是付費的重要動機之一
+                </p>
+            </div>
+
+            <!-- Revenue Model -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-3xl p-8 card-shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">訂閱收入（MRR）</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                            <span class="text-gray-600">個人版 × 100 人</span>
+                            <span class="font-bold text-gray-900">NT$29,900/月</span>
+                        </div>
+                        <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                            <span class="text-gray-600">企業版 × 20 家</span>
+                            <span class="font-bold text-gray-900">NT$29,980/月</span>
+                        </div>
+                        <div class="flex justify-between items-center py-3 bg-blue-50 rounded-lg px-3">
+                            <span class="font-bold text-gray-900">月經常性收入</span>
+                            <span class="font-bold text-blue-600">≈ NT$60,000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl p-8 card-shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">一次性收入</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                            <span class="text-gray-600">永久儲存費（月均）</span>
+                            <span class="font-bold text-amber-600">NT$15,000+</span>
+                        </div>
+                        <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                            <span class="text-gray-600">白牌授權（年均）</span>
+                            <span class="font-bold text-gray-900">NT$300,000+</span>
+                        </div>
+                        <div class="flex justify-between items-center py-3 bg-amber-50 rounded-lg px-3">
+                            <span class="font-bold text-gray-900">額外收入</span>
+                            <span class="font-bold text-amber-600">顯著增長空間</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketing Expert Analysis -->
+    <section id="marketing" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1 rounded-full bg-pink-100 text-pink-700 text-sm font-medium mb-4">產品行銷專家觀點</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">市場定位與競爭策略分析</h2>
+            </div>
+
+            <!-- Positioning Matrix -->
+            <div class="bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-8 sm:p-12 mb-12 border border-pink-100">
+                <h3 class="text-xl font-bold text-gray-900 mb-8 text-center">🎯 市場定位矩陣</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-gray-700 mb-4">我們的定位</h4>
+                        <div class="bg-white rounded-2xl p-6 card-shadow">
+                            <div class="text-center mb-4">
+                                <span class="text-4xl">🚀</span>
+                            </div>
+                            <h5 class="font-bold text-gray-900 text-center mb-4">
+                                「AI 創作的永久展示櫃」
+                            </h5>
+                            <p class="text-gray-600 text-sm text-center">
+                                不只是部署工具，而是讓 AI 創作得以永久保存、追蹤成效的完整解決方案
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-700 mb-4">競爭者定位</h4>
+                        <div class="space-y-3">
+                            <div class="bg-white rounded-xl p-4 card-shadow flex items-center">
+                                <span class="text-2xl mr-3">▲</span>
+                                <div>
+                                    <div class="font-bold text-gray-900">Vercel</div>
+                                    <div class="text-xs text-gray-500">「專業開發者的前端平台」</div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 card-shadow flex items-center">
+                                <span class="text-2xl mr-3">◆</span>
+                                <div>
+                                    <div class="font-bold text-gray-900">Netlify</div>
+                                    <div class="text-xs text-gray-500">「現代網頁的自動化部署」</div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 card-shadow flex items-center">
+                                <span class="text-2xl mr-3">📌</span>
+                                <div>
+                                    <div class="font-bold text-gray-900">PinMe (IPFS)</div>
+                                    <div class="text-xs text-gray-500">「去中心化靜態託管」</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competitive Advantages -->
+            <div class="bg-white rounded-3xl p-8 sm:p-12 card-shadow-lg mb-12">
+                <h3 class="text-xl font-bold text-gray-900 mb-8 text-center">💪 競爭優勢分析</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-3xl">🎯</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2">精準細分市場</h4>
+                        <p class="text-gray-600 text-sm">
+                            專注「AI 生成程式碼」這個快速成長的細分市場，而非與 Vercel/Netlify 在通用市場正面競爭
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-amber-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-3xl">♾️</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2">獨特功能差異化</h4>
+                        <p class="text-gray-600 text-sm">
+                            「永久儲存」是市場上無人提供的功能，創造無可取代的價值主張
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-3xl">🌏</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2">在地化優勢</h4>
+                        <p class="text-gray-600 text-sm">
+                            繁體中文介面、台灣在地支援、台幣計價，針對亞洲市場優化
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketing Strategy -->
+            <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 sm:p-12 text-white mb-12">
+                <h3 class="text-xl font-bold mb-8 text-center">📢 行銷策略建議</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-amber-400 mb-4">獲客策略</h4>
+                        <div class="space-y-4">
+                            <div class="bg-white/10 rounded-xl p-4">
+                                <div class="font-bold text-white mb-1">1. 內容行銷</div>
+                                <p class="text-gray-300 text-sm">
+                                    製作「如何部署 Gemini 生成的網頁」教學文章/影片，SEO 長尾關鍵字流量
+                                </p>
+                            </div>
+                            <div class="bg-white/10 rounded-xl p-4">
+                                <div class="font-bold text-white mb-1">2. 社群經營</div>
+                                <p class="text-gray-300 text-sm">
+                                    在 AI 相關社群（PTT、Facebook、Discord）分享使用案例，建立口碑
+                                </p>
+                            </div>
+                            <div class="bg-white/10 rounded-xl p-4">
+                                <div class="font-bold text-white mb-1">3. 免費增值漏斗</div>
+                                <p class="text-gray-300 text-sm">
+                                    免費版無需註冊即可使用，降低試用門檻，再透過功能限制轉化付費
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-cyan-400 mb-4">轉化策略</h4>
+                        <div class="space-y-4">
+                            <div class="bg-white/10 rounded-xl p-4">
+                                <div class="font-bold text-white mb-1">1. 短網址限制</div>
+                                <p class="text-gray-300 text-sm">
+                                    免費版短網址太長不好記，付費解鎖更短的網址是強烈動機
+                                </p>
+                            </div>
+                            <div class="bg-white/10 rounded-xl p-4">
+                                <div class="font-bold text-white mb-1">2. 永久儲存吸引力</div>
+                                <p class="text-gray-300 text-sm">
+                                    「一次付費，永久存在」的心理訴求極強，比訂閱更容易決策
+                                </p>
+                            </div>
+                            <div class="bg-white/10 rounded-xl p-4">
+                                <div class="font-bold text-white mb-1">3. 企業 Demo Day</div>
+                                <p class="text-gray-300 text-sm">
+                                    針對企業 AI 導入團隊，提供「AI Demo Day」專屬方案，快速展示 POC
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketing Expert Quote -->
+            <div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-3xl p-8 border-l-4 border-pink-500">
+                <div class="flex items-start">
+                    <div class="text-4xl mr-4">💼</div>
+                    <div>
+                        <p class="text-gray-700 italic text-lg mb-4">
+                            「這個產品的定價策略非常聰明。免費版吸引流量、個人版創造穩定現金流、永久儲存創造高毛利一次性收入、白牌授權則是高客單價的長尾收入。四種收入模式互補，風險分散且成長潛力大。」
+                        </p>
+                        <p class="text-gray-700 italic mb-4">
+                            「特別是『永久儲存』這個功能，它解決了一個真實但被忽視的痛點——人們花時間創作的數位內容，不應該因為忘記續費就消失。這是強烈的情感訴求，轉化率會很高。」
+                        </p>
+                        <p class="text-gray-500">— 產品行銷專家觀點</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Architecture -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1 rounded-full bg-orange-100 text-orange-700 text-sm font-medium mb-4">技術架構</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">系統架構設計</h2>
+            </div>
+
+            <!-- Architecture Diagram -->
+            <div class="bg-gray-50 rounded-3xl p-8 sm:p-12 card-shadow-lg mb-12">
+                <div class="max-w-4xl mx-auto">
+                    <!-- User Layer -->
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center gap-4">
+                            <div class="bg-white rounded-xl px-4 py-2 text-sm card-shadow">👨‍💻 用戶上傳</div>
+                            <div class="bg-white rounded-xl px-4 py-2 text-sm card-shadow">👥 訪客瀏覽</div>
+                        </div>
+                        <div class="text-gray-400 mt-2">↓</div>
+                    </div>
+
+                    <!-- Cloudflare Layer -->
+                    <div class="bg-gradient-to-r from-orange-100 to-amber-100 rounded-2xl p-6 mb-4 border-2 border-orange-200">
+                        <div class="text-center mb-4">
+                            <span class="px-4 py-1 bg-orange-500 text-white rounded-full text-sm font-bold">Cloudflare 邊緣網路</span>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div class="bg-white rounded-xl p-3 text-center text-sm card-shadow">
+                                <div class="text-xl mb-1">⚡</div>
+                                <div class="font-bold">Workers</div>
+                                <div class="text-xs text-gray-500">API & 路由</div>
+                            </div>
+                            <div class="bg-white rounded-xl p-3 text-center text-sm card-shadow">
+                                <div class="text-xl mb-1">📦</div>
+                                <div class="font-bold">R2</div>
+                                <div class="text-xs text-gray-500">檔案儲存</div>
+                            </div>
+                            <div class="bg-white rounded-xl p-3 text-center text-sm card-shadow">
+                                <div class="text-xl mb-1">🔑</div>
+                                <div class="font-bold">KV</div>
+                                <div class="text-xs text-gray-500">短網址映射</div>
+                            </div>
+                            <div class="bg-white rounded-xl p-3 text-center text-sm card-shadow">
+                                <div class="text-xl mb-1">📊</div>
+                                <div class="font-bold">Analytics</div>
+                                <div class="text-xs text-gray-500">訪問統計</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-gray-400 my-2">↓ 永久儲存請求</div>
+
+                    <!-- Arweave Layer -->
+                    <div class="bg-gradient-to-r from-amber-100 to-orange-100 rounded-2xl p-6 border-2 border-amber-300">
+                        <div class="text-center mb-4">
+                            <span class="px-4 py-1 bg-amber-500 text-white rounded-full text-sm font-bold">Irys → Arweave 網路</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="bg-white rounded-xl p-3 text-center text-sm card-shadow">
+                                <div class="text-xl mb-1">⬆️</div>
+                                <div class="font-bold">Irys SDK</div>
+                                <div class="text-xs text-gray-500">快速上傳</div>
+                            </div>
+                            <div class="bg-white rounded-xl p-3 text-center text-sm card-shadow">
+                                <div class="text-xl mb-1">🔗</div>
+                                <div class="font-bold">Arweave</div>
+                                <div class="text-xs text-gray-500">永久儲存</div>
+                            </div>
+                            <div class="bg-white rounded-xl p-3 text-center text-sm card-shadow">
+                                <div class="text-xl mb-1">🌐</div>
+                                <div class="font-bold">AR Gateway</div>
+                                <div class="text-xs text-gray-500">內容分發</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Flow -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl p-6 card-shadow-lg">
+                    <h4 class="font-bold text-gray-900 mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm mr-3">1</span>
+                        標準部署流程
+                    </h4>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div>1. 用戶上傳 HTML/ZIP</div>
+                        <div>2. Worker 解析、生成 ID</div>
+                        <div>3. 檔案寫入 R2</div>
+                        <div>4. 短網址寫入 KV</div>
+                        <div>5. 返回短網址給用戶</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 card-shadow-lg">
+                    <h4 class="font-bold text-gray-900 mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-amber-500 text-white rounded-full flex items-center justify-center text-sm mr-3">2</span>
+                        永久儲存流程
+                    </h4>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div>1. 用戶選擇「永久儲存」</div>
+                        <div>2. 計算 Arweave 成本</div>
+                        <div>3. 用戶付款確認</div>
+                        <div>4. 透過 Irys 上傳到 Arweave</div>
+                        <div>5. 記錄 TX ID，更新 KV 映射</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Roadmap -->
+    <section id="roadmap" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1 rounded-full bg-cyan-100 text-cyan-700 text-sm font-medium mb-4">實施計畫</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">開發路線圖</h2>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <!-- Phase 1 -->
+                <div class="flex gap-6 mb-8">
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                        <div class="w-1 h-full bg-blue-200 mt-2"></div>
+                    </div>
+                    <div class="flex-1 bg-white rounded-2xl p-6 border border-blue-100 card-shadow">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-gray-900">Phase 1：MVP</h4>
+                            <span class="text-sm text-blue-600">2-3 週</span>
+                        </div>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>✓ HTML 貼上/上傳部署</li>
+                            <li>✓ 隨機短網址生成</li>
+                            <li>✓ 基本檔案服務</li>
+                            <li>✓ 簡易管理介面</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="flex gap-6 mb-8">
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                        <div class="w-1 h-full bg-purple-200 mt-2"></div>
+                    </div>
+                    <div class="flex-1 bg-white rounded-2xl p-6 border border-purple-100 card-shadow">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-gray-900">Phase 2：完整功能</h4>
+                            <span class="text-sm text-purple-600">3-4 週</span>
+                        </div>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>✓ ZIP 上傳解析</li>
+                            <li>✓ 自訂短網址</li>
+                            <li>✓ 訪問統計</li>
+                            <li>✓ 帳號系統與付費整合</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="flex gap-6 mb-8">
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold">3</div>
+                        <div class="w-1 h-full bg-amber-200 mt-2"></div>
+                    </div>
+                    <div class="flex-1 bg-white rounded-2xl p-6 border border-amber-100 card-shadow">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-gray-900">Phase 3：永久儲存</h4>
+                            <span class="text-sm text-amber-600">2-3 週</span>
+                        </div>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>✓ Irys/Arweave 整合</li>
+                            <li>✓ 永久儲存付款流程</li>
+                            <li>✓ 區塊鏈交易證明</li>
+                            <li>✓ 永久網址映射</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 4 -->
+                <div class="flex gap-6">
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">4</div>
+                    </div>
+                    <div class="flex-1 bg-white rounded-2xl p-6 border border-green-100 card-shadow">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-gray-900">Phase 4：商業化</h4>
+                            <span class="text-sm text-green-600">持續迭代</span>
+                        </div>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>○ 自訂網域</li>
+                            <li>○ 團隊協作</li>
+                            <li>○ API & CLI</li>
+                            <li>○ 白牌授權方案</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risk Assessment -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1 rounded-full bg-red-100 text-red-700 text-sm font-medium mb-4">風險評估</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">潛在風險與因應對策</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-red-50 px-6 py-4 flex items-center">
+                        <span class="text-xl mr-3">⚠️</span>
+                        <h3 class="font-bold text-gray-900">平台依賴風險</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-4">完全依賴 Cloudflare 服務，若政策或價格變動可能影響營運。</p>
+                        <div class="bg-green-50 rounded-xl p-4">
+                            <p class="text-sm text-green-700">
+                                <strong>對策：</strong>架構設計保持可移植性，核心邏輯可遷移至 AWS/GCP。Cloudflare 為大型上市公司，服務穩定性有保障。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-red-50 px-6 py-4 flex items-center">
+                        <span class="text-xl mr-3">⚠️</span>
+                        <h3 class="font-bold text-gray-900">內容安全風險</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-4">用戶上傳的內容可能包含惡意程式碼或違規內容。</p>
+                        <div class="bg-green-50 rounded-xl p-4">
+                            <p class="text-sm text-green-700">
+                                <strong>對策：</strong>實施 CSP 策略、內容掃描、檢舉機制、明確 TOS。嚴重違規者停用帳號並保留證據。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-red-50 px-6 py-4 flex items-center">
+                        <span class="text-xl mr-3">⚠️</span>
+                        <h3 class="font-bold text-gray-900">市場競爭風險</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-4">Vercel、Netlify 等大型平台可能推出類似功能。</p>
+                        <div class="bg-green-50 rounded-xl p-4">
+                            <p class="text-sm text-green-700">
+                                <strong>對策：</strong>專注 AI 程式碼優化的差異化定位、永久儲存獨特功能、在地化服務（繁中、台灣支援）、更低價格策略。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-red-50 px-6 py-4 flex items-center">
+                        <span class="text-xl mr-3">⚠️</span>
+                        <h3 class="font-bold text-gray-900">Arweave 風險</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-4">區塊鏈網路的長期穩定性與成本波動。</p>
+                        <div class="bg-green-50 rounded-xl p-4">
+                            <p class="text-sm text-green-700">
+                                <strong>對策：</strong>Arweave 已運行多年，經濟模型經過驗證。定價預留緩衝空間，動態調整以應對成本變化。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="py-20 gradient-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">結論與建議</h2>
+            </div>
+
+            <div class="bg-white/10 backdrop-blur rounded-3xl p-8 sm:p-12 mb-12">
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div>
+                        <div class="text-5xl font-black text-cyan-300 mb-2">NT$150</div>
+                        <div class="text-blue-200">月營運成本</div>
+                    </div>
+                    <div>
+                        <div class="text-5xl font-black text-amber-300 mb-2">99%+</div>
+                        <div class="text-amber-200">毛利率</div>
+                    </div>
+                    <div>
+                        <div class="text-5xl font-black text-green-300 mb-2">NT$720K+</div>
+                        <div class="text-green-200">預估年營收</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <div class="inline-block bg-white rounded-3xl p-8 sm:p-12 card-shadow-xl">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">建議決策</h3>
+                    <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                        「部署平台 + 短網址 + 永久儲存」三層架構創造獨特競爭優勢。<br>
+                        建議立即啟動 MVP 開發，搶佔 AI 程式碼部署市場先機。
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <div class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold">
+                            ✓ 建議：立即啟動
+                        </div>
+                        <div class="px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-bold">
+                            ♾️ 含永久儲存功能
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="text-gray-400 text-sm mb-2">
+                DeployNow - AI Web App 託管平台完整規劃
+            </div>
+            <div class="text-gray-500 text-xs">
+                含永久儲存方案 | 產品架構師 + 行銷專家觀點 | 2025
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg hover:opacity-90 transition-opacity">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </a>
+</body>
+</html>
