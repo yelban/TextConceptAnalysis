@@ -110,10 +110,15 @@
         .character {
             font-weight: 900;
             color: var(--primary-color);
-            display: block;
+            display: inline;
             margin-bottom: 5px;
             font-size: 1.1em;
             text-transform: uppercase;
+        }
+
+        .character-line {
+            display: block;
+            margin-bottom: 5px;
         }
 
         .english {
@@ -195,10 +200,52 @@
         }
 
         /* Print Styles */
+        /* Play Button */
+        .play-btn {
+            background: var(--accent-color);
+            border: none;
+            cursor: pointer;
+            vertical-align: middle;
+            margin-left: 8px;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            top: -1px;
+        }
+        .play-btn::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 5px 0 5px 8px;
+            border-color: transparent transparent transparent white;
+            margin-left: 2px;
+        }
+        .play-btn:hover {
+            transform: scale(1.15);
+            background: var(--primary-color);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        }
+        .play-btn.playing {
+            animation: pulse 0.5s infinite;
+            background: #e74c3c;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
         @media print {
             body { background: white; }
             .container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; padding: 0; }
-            .print-btn, .guide-grid, h2#guide-heading { display: none; } /* Hide guide when printing script */
+            .print-btn, .guide-grid, h2#guide-heading, .play-btn { display: none; } /* Hide guide and play buttons when printing */
             header { background: white; color: black; border-bottom: 2px solid black; padding: 10px 0; }
             header h1 { font-size: 20pt; text-shadow: none; color: black; }
             .cover-image { display: none; } /* Optional: Hide large image when printing to save ink */
@@ -224,72 +271,72 @@
     <h2>📜 劇本內容 (Script)</h2>
 
     <div class="script-block">
-        <span class="character">Archie & Mera:</span>
+        <div class="character-line"><span class="character">Archie & Mera:</span> <button class="play-btn" data-audio="01" title="播放"></button></div>
         <span class="english">A pleasant day everyone!</span>
         <span class="chinese">大家好，祝大家有個美好的一天！</span>
     </div>
 
     <div class="script-block">
-        <span class="character">Archie:</span>
+        <div class="character-line"><span class="character">Archie:</span> <button class="play-btn" data-audio="02" title="播放"></button></div>
         <span class="english">My name is Archie.</span>
         <span class="chinese">我是 Archie。</span>
     </div>
 
     <div class="script-block">
-        <span class="character">Mera:</span>
+        <div class="character-line"><span class="character">Mera:</span> <button class="play-btn" data-audio="03" title="播放"></button></div>
         <span class="english">My name is Mera.</span>
         <span class="chinese">我是 Mera。</span>
     </div>
 
     <div class="script-block">
-        <span class="character">Archie:</span>
+        <div class="character-line"><span class="character">Archie:</span> <button class="play-btn" data-audio="04" title="播放"></button></div>
         <span class="english">That was amazing! Grade 1 gave us shakes and wiggles this morning.</span>
         <span class="chinese">剛剛真是太精彩了！一年級的小朋友今天早上帶來了超有活力的動感表演。</span>
     </div>
 
     <div class="script-block">
-        <span class="character">Mera:</span>
-        <span class="english">Yes, you’re right, Archie. That was energy!</span>
+        <div class="character-line"><span class="character">Mera:</span> <button class="play-btn" data-audio="05" title="播放"></button></div>
+        <span class="english">Yes, you're right, Archie. That was energy!</span>
         <span class="chinese">是啊，你說得對，Archie。那真是充滿了能量！</span>
     </div>
 
     <div class="stage-direction">Pause (停頓)</div>
 
     <div class="script-block">
-        <span class="character">Archie:</span>
-        <span class="english">Well… to conclude this event, we will celebrate one of Roald Dahl’s famous children’s books -</span>
+        <div class="character-line"><span class="character">Archie:</span> <button class="play-btn" data-audio="06" title="播放"></button></div>
+        <span class="english">Well… to conclude this event, we will celebrate one of Roald Dahl's famous children's books -</span>
         <span class="chinese">那麼……為了替這場活動畫下完美的句點，我們將要慶祝羅爾德·達爾筆下最著名的兒童故事之一——</span>
     </div>
 
     <div class="script-block">
-        <span class="character">Mera:</span>
+        <div class="character-line"><span class="character">Mera:</span> <button class="play-btn" data-audio="07" title="播放"></button></div>
         <span class="english">And we will witness on stage, the story of a young boy who believes -</span>
         <span class="chinese">我們將會在舞台上見證一個小男孩的故事，他相信——</span>
     </div>
 
     <div class="script-block">
-        <span class="character">Archie & Mera:</span>
-        <span class="english">“Nothing is impossible!”</span>
+        <div class="character-line"><span class="character">Archie & Mera:</span> <button class="play-btn" data-audio="08" title="播放"></button></div>
+        <span class="english">"Nothing is impossible!"</span>
         <span class="chinese">「凡事皆有可能！」</span>
     </div>
 
     <div class="stage-direction">Pause (停頓)</div>
 
     <div class="script-block">
-        <span class="character">Mera:</span>
+        <div class="character-line"><span class="character">Mera:</span> <button class="play-btn" data-audio="09" title="播放"></button></div>
         <span class="english">Ladies and gentlemen, we are proudly present -</span>
         <span class="chinese">各位女士先生，我們很榮幸為大家呈現——</span>
     </div>
 
     <div class="script-block">
-        <span class="character">Archie:</span>
+        <div class="character-line"><span class="character">Archie:</span> <button class="play-btn" data-audio="10" title="播放"></button></div>
         <span class="english">Grades 4, 5 and 6 in the story of -</span>
         <span class="chinese">由四、五、六年級帶來的精彩故事——</span>
     </div>
 
     <div class="script-block">
-        <span class="character">Archie & Mera:</span>
-        <span class="english">“Charlie and the Chocolate Factory!”</span>
+        <div class="character-line"><span class="character">Archie & Mera:</span> <button class="play-btn" data-audio="11" title="播放"></button></div>
+        <span class="english">"Charlie and the Chocolate Factory!"</span>
         <span class="chinese">《查理與巧克力工廠》！</span>
     </div>
 
@@ -373,6 +420,31 @@
         Grade 5 Drama Script - Prepared for You
     </div>
 </div>
+
+<script>
+let currentAudio = null;
+
+document.querySelectorAll('.play-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const id = this.dataset.audio;
+
+        // Stop currently playing audio
+        if (currentAudio) {
+            currentAudio.pause();
+            document.querySelectorAll('.play-btn').forEach(b => b.classList.remove('playing'));
+        }
+
+        // Play new audio
+        currentAudio = new Audio(`audio/${id}.mp3`);
+        this.classList.add('playing');
+
+        currentAudio.play();
+        currentAudio.onended = () => {
+            this.classList.remove('playing');
+        };
+    });
+});
+</script>
 
 </body>
 </html>
