@@ -1,2 +1,5 @@
 # Ignore files starting with double underscore (temporary/export versions)
 __*
+
+# Environment variables
+.env
