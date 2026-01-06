@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查理與巧克力工廠 - 英語舞台劇排練手冊</title>
+    <style>
+        :root {
+            --primary-color: #4b0082; /* Wonka Purple */
+            --accent-color: #d4af37; /* Golden Ticket */
+            --bg-color: #fdfbf7;
+            --text-color: #333;
+            --guide-bg: #fff0f5;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Header Design */
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            border-bottom: 5px solid var(--accent-color);
+            margin-bottom: 30px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+
+        /* Cover Image Style */
+        .cover-image {
+            max-width: 100%;
+            height: auto;
+            max-height: 300px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 4px solid var(--accent-color);
+            object-fit: cover;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .print-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        .print-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Section Titles */
+        h2 {
+            color: var(--primary-color);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+
+        /* Script Formatting */
+        .script-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .script-block:hover {
+            background-color: #f9f9f9;
+        }
+
+        .character {
+            font-weight: 900;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+
+        .english {
+            font-size: 1.3em;
+            font-family: "Arial", sans-serif;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .chinese {
+            color: #666;
+            font-size: 1em;
+            display: block;
+        }
+
+        .stage-direction {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+            margin: 20px 0;
+            background: #eee;
+            padding: 5px;
+            border-radius: 20px;
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Acting Guide Cards */
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .guide-card {
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            padding: 20px;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .guide-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+        }
+
+        .guide-icon {
+            font-size: 1.5em;
+            float: right;
+        }
+
+        .tips {
+            font-size: 0.95em;
+            color: #444;
+        }
+        
+        .tips strong {
+            color: #d35400;
+            background: #fff3e0;
+            padding: 0 4px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            font-size: 0.8em;
+        }
+
+        /* Print Styles */
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; padding: 0; }
+            .print-btn, .guide-grid, h2#guide-heading { display: none; } /* Hide guide when printing script */
+            header { background: white; color: black; border-bottom: 2px solid black; padding: 10px 0; }
+            header h1 { font-size: 20pt; text-shadow: none; color: black; }
+            .cover-image { display: none; } /* Optional: Hide large image when printing to save ink */
+            .script-block { page-break-inside: avoid; border-bottom: 1px solid #ddd; padding: 10pt 0; margin: 0; }
+            .english { font-size: 14pt; }
+            .chinese { font-size: 12pt; }
+            .character { font-size: 12pt; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <!-- Cover Image Added Here -->
+        <img src="./Charlie_and_the_Chocolate_Factory.png" alt="Charlie and the Chocolate Factory Cover" class="cover-image">
+        
+        <h1>Charlie and the Chocolate Factory</h1>
+        <p>查理與巧克力工廠 - 英語舞台劇排練手冊</p>
+        <button class="print-btn" onclick="window.print()">🖨️ 列印劇本</button>
+    </header>
+
+    <h2>📜 劇本內容 (Script)</h2>
+
+    <div class="script-block">
+        <span class="character">Archie & Mera:</span>
+        <span class="english">A pleasant day everyone!</span>
+        <span class="chinese">大家好，祝大家有個美好的一天！</span>
+    </div>
+
+    <div class="script-block">
+        <span class="character">Archie:</span>
+        <span class="english">My name is Archie.</span>
+        <span class="chinese">我是 Archie。</span>
+    </div>
+
+    <div class="script-block">
+        <span class="character">Mera:</span>
+        <span class="english">My name is Mera.</span>
+        <span class="chinese">我是 Mera。</span>
+    </div>
+
+    <div class="script-block">
+        <span class="character">Archie:</span>
+        <span class="english">That was amazing! Grade 1 gave us shakes and wiggles this morning.</span>
+        <span class="chinese">剛剛真是太精彩了！一年級的小朋友今天早上帶來了超有活力的動感表演。</span>
+    </div>
+
+    <div class="script-block">
+        <span class="character">Mera:</span>
+        <span class="english">Yes, you’re right, Archie. That was energy!</span>
+        <span class="chinese">是啊，你說得對，Archie。那真是充滿了能量！</span>
+    </div>
+
+    <div class="stage-direction">Pause (停頓)</div>
+
+    <div class="script-block">
+        <span class="character">Archie:</span>
+        <span class="english">Well… to conclude this event, we will celebrate one of Roald Dahl’s famous children’s books -</span>
+        <span class="chinese">那麼……為了替這場活動畫下完美的句點，我們將要慶祝羅爾德·達爾筆下最著名的兒童故事之一——</span>
+    </div>
+
+    <div class="script-block">
+        <span class="character">Mera:</span>
+        <span class="english">And we will witness on stage, the story of a young boy who believes -</span>
+        <span class="chinese">我們將會在舞台上見證一個小男孩的故事，他相信——</span>
+    </div>
+
+    <div class="script-block">
+        <span class="character">Archie & Mera:</span>
+        <span class="english">“Nothing is impossible!”</span>
+        <span class="chinese">「凡事皆有可能！」</span>
+    </div>
+
+    <div class="stage-direction">Pause (停頓)</div>
+
+    <div class="script-block">
+        <span class="character">Mera:</span>
+        <span class="english">Ladies and gentlemen, we are proudly present -</span>
+        <span class="chinese">各位女士先生，我們很榮幸為大家呈現——</span>
+    </div>
+
+    <div class="script-block">
+        <span class="character">Archie:</span>
+        <span class="english">Grades 4, 5 and 6 in the story of -</span>
+        <span class="chinese">由四、五、六年級帶來的精彩故事——</span>
+    </div>
+
+    <div class="script-block">
+        <span class="character">Archie & Mera:</span>
+        <span class="english">“Charlie and the Chocolate Factory!”</span>
+        <span class="chinese">《查理與巧克力工廠》！</span>
+    </div>
+
+    <h2 id="guide-heading">🎭 聲音導演筆記 (Voice Acting Guide)</h2>
+    <p style="color: #666; margin-bottom: 20px;">給小小演員的提示：想像你在百老匯的舞台上，每一個字都要「丟」給最後一排的觀眾喔！</p>
+
+    <div class="guide-grid">
+        
+        <!-- Scene 1 -->
+        <div class="guide-card">
+            <div class="guide-title">開場：陽光般的笑容 <span class="guide-icon">😄</span></div>
+            <div class="tips">
+                <p><strong>台詞：</strong> A pleasant day everyone!</p>
+                <p><strong>表情：</strong> 像看到好久不見的朋友一樣驚喜。</p>
+                <p><strong>技巧：</strong> 聲音拉高 (High Pitch)，雙手張開，讓觀眾聽得出你在笑。</p>
+            </div>
+        </div>
+
+        <!-- Scene 2 -->
+        <div class="guide-card">
+            <div class="guide-title">自我介紹：自信滿分 <span class="guide-icon">🎤</span></div>
+            <div class="tips">
+                <p><strong>台詞：</strong> My name is...</p>
+                <p><strong>表情：</strong> 抬頭挺胸，非常驕傲。</p>
+                <p><strong>技巧：</strong> 名字要唸得特別大聲、清楚。像是 "My name is <strong>ARCHIE</strong>!"</p>
+            </div>
+        </div>
+
+        <!-- Scene 3 -->
+        <div class="guide-card">
+            <div class="guide-title">讚嘆：不可思議 <span class="guide-icon">✨</span></div>
+            <div class="tips">
+                <p><strong>台詞：</strong> That was amazing!</p>
+                <p><strong>技巧：</strong> 把 amazing 拉長，變成 "That was <strong>A-MA-ZING</strong>!"</p>
+                <p><strong>動作：</strong> 講到 "shakes and wiggles" 時，肩膀可以稍微調皮地抖動一下。</p>
+            </div>
+        </div>
+
+        <!-- Scene 4 -->
+        <div class="guide-card">
+            <div class="guide-title">能量爆發 <span class="guide-icon">🔥</span></div>
+            <div class="tips">
+                <p><strong>台詞：</strong> That was energy!</p>
+                <p><strong>技巧：</strong> 重音放在 <strong>ENERGY</strong>，最後一個字要像爆炸一樣唸出來。語速稍微快一點，展現興奮感。</p>
+            </div>
+        </div>
+
+        <!-- Scene 5 -->
+        <div class="guide-card">
+            <div class="guide-title">轉折：講秘密的氣氛 <span class="guide-icon">🤫</span></div>
+            <div class="tips">
+                <p><strong>台詞：</strong> Well… to conclude...</p>
+                <p><strong>表情：</strong> 稍微冷靜，變得正式又神秘。</p>
+                <p><strong>技巧：</strong> "Well..." 拉長音，像是在吊觀眾胃口。</p>
+            </div>
+        </div>
+
+        <!-- Scene 6 -->
+        <div class="guide-card">
+            <div class="guide-title">金句：全場重點 <span class="guide-icon">🌟</span></div>
+            <div class="tips">
+                <p><strong>台詞：</strong> Nothing is impossible!</p>
+                <p><strong>技巧：</strong> 兩人完全同步，斷句清楚："Nothing. Is. <strong>IMPOSSIBLE</strong>!"</p>
+                <p><strong>眼神：</strong> 堅定地看著遠方，傳遞信念。</p>
+            </div>
+        </div>
+
+        <!-- Scene 7 -->
+        <div class="guide-card">
+            <div class="guide-title">高潮：隆重登場 <span class="guide-icon">🎪</span></div>
+            <div class="tips">
+                <p><strong>台詞：</strong> Ladies and gentlemen...</p>
+                <p><strong>技巧：</strong> 聲音壓低一點增加磁性，像馬戲團主持人。</p>
+                <p><strong>結尾：</strong> 最後大家一起喊劇名時，雙手高舉，聲音要傳到禮堂最後一排！</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Grade 5 Drama Script - Prepared for You
+    </div>
+</div>
+
+</body>
+</html>
