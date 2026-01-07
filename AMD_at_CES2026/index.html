@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蘇姿豐的逆襲：AMD 2nm 晶片挑戰 Nvidia 算力霸權 | CES 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        'amd': {
+                            'red': '#ED1C24',
+                            'dark': '#1A1A2E',
+                            'slate': '#16213E',
+                            'navy': '#0F3460',
+                        },
+                        'paper': {
+                            'warm': '#FDFBF7',
+                            'cool': '#F8FAFC',
+                            'cream': '#FDF6E9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body {
+            font-size: 18px;
+            line-height: 1.9;
+            letter-spacing: 0.02em;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #ED1C24 0%, #FF6B6B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+        .stat-number { font-variant-numeric: tabular-nums; }
+        blockquote {
+            border-left: 4px solid #ED1C24;
+            padding-left: 1.5rem;
+            font-style: italic;
+            color: #4B5563;
+            margin: 2rem 0;
+        }
+        .toc-link { position: relative; }
+        .toc-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ED1C24;
+            transition: width 0.3s ease;
+        }
+        .toc-link:hover::after { width: 100%; }
+        .article-content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        .article-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #1A1A2E;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #ED1C24;
+        }
+        .article-content h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #0F3460;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .article-content ul {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+        .article-content li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        .article-content li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7em;
+            width: 6px;
+            height: 6px;
+            background: #ED1C24;
+            border-radius: 50%;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-left: 4px solid #F59E0B;
+            padding: 1.5rem;
+            border-radius: 0 1rem 1rem 0;
+            margin: 2rem 0;
+        }
+        .key-point {
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body class="bg-paper-warm text-gray-800 font-sans antialiased">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-paper-warm/95 backdrop-blur-md z-40 border-b border-gray-100">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">📊</span>
+                <span class="font-bold text-amd-dark text-sm md:text-base">AMD CES 2026 深度分析</span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 text-sm text-gray-600">
+                <a href="#datacenter" class="toc-link hover:text-amd-red transition-colors">數據中心</a>
+                <a href="#consumer" class="toc-link hover:text-amd-red transition-colors">消費端</a>
+                <a href="#halo" class="toc-link hover:text-amd-red transition-colors">Halo 平台</a>
+                <a href="#strategy" class="toc-link hover:text-amd-red transition-colors">戰略分析</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden pt-20">
+        <div class="relative w-full max-w-5xl mx-auto px-6 pt-8">
+            <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-gray-300">
+                <img src="AMD_at_CES2026.png" alt="AMD CES 2026 - Lisa Su with 2nm chip" class="w-full h-auto object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-amd-dark/90 via-amd-dark/30 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-3 py-1 bg-amd-red text-white rounded-full text-xs font-bold">CES 2026</span>
+                        <span class="text-white/80 text-sm">拉斯維加斯 · 2026年1月</span>
+                    </div>
+                    <h1 class="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight">
+                        蘇姿豐的逆襲：AMD 發布 2nm 晶片<br>
+                        <span class="text-amd-red">挑戰 Nvidia 算力霸權</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Key Stats -->
+        <div class="relative z-10 max-w-4xl mx-auto px-6 py-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-lg shadow-gray-200 border border-gray-100 text-center">
+                    <div class="text-2xl md:text-3xl font-black text-amd-red">2nm</div>
+                    <div class="text-xs text-gray-500 mt-1">先進製程</div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-lg shadow-gray-200 border border-gray-100 text-center">
+                    <div class="text-2xl md:text-3xl font-black text-amd-navy">3,200億</div>
+                    <div class="text-xs text-gray-500 mt-1">電晶體數量</div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-lg shadow-gray-200 border border-gray-100 text-center">
+                    <div class="text-2xl md:text-3xl font-black text-amd-navy">2,000億</div>
+                    <div class="text-xs text-gray-500 mt-1">參數模型支援</div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-lg shadow-gray-200 border border-gray-100 text-center">
+                    <div class="text-2xl md:text-3xl font-black text-amd-red">+3.2%</div>
+                    <div class="text-xs text-gray-500 mt-1">盤後股價</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Article Content -->
+    <main class="max-w-4xl mx-auto px-6 py-8">
+        
+        <!-- Lead Paragraph -->
+        <div class="article-content">
+            <p class="text-xl md:text-2xl text-gray-700 leading-relaxed mb-8 font-medium">
+                超微半導體（AMD）執行長蘇姿豐週一在 CES 2026 發布一系列 AI 硬體產品，涵蓋數據中心機架、消費筆電、地端開發平台與人形機器人。這場發布會的核心訊息直指產業結構：<strong class="text-amd-dark">地端運算正在成為雲端服務的可行替代方案，而 AMD 試圖在這場轉移中卡位</strong>。
+            </p>
+
+            <p>
+                AMD 股價盤後上漲 3.2%，市值維持在約 4,000 億美元，仍不及 Nvidia 的三分之一。
+            </p>
+        </div>
+
+        <!-- Section: Data Center -->
+        <section id="datacenter" class="article-content">
+            <h2>🖥️ 數據中心：Helios 機架與 MI455X 晶片</h2>
+            
+            <p>
+                蘇姿豐在演講開場展示了與 Meta Platforms 合作開發的「Helios」AI 機架系統。這座重達 3,175 公斤的機架採用 OCP 開放標準設計，單機架算力達 2.9 Exaflops，內建超過 18,000 個 CDNA 5 GPU 運算單元與 4,600 個 Zen 6 CPU 核心。
+            </p>
+
+            <p>
+                核心運算單元 MI455X 加速器是 AMD 迄今最先進的晶片，內建 3,200 億個電晶體，較前代 MI355 增加 70%。採用台積電 2nm 與 3nm 製程混合封裝，整合 12 個計算與 IO 小晶片，記憶體規格升級至 432GB HBM4，透過 AMD 自研的 3D 堆疊技術連接。
+            </p>
+
+            <!-- MI455X Specs Card -->
+            <div class="bg-gradient-to-br from-amd-dark to-amd-slate rounded-2xl p-8 text-white my-8">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                    <span class="text-2xl">⚡</span>
+                    MI455X 加速器規格
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex justify-between border-b border-white/20 pb-2">
+                            <span class="text-gray-300">電晶體數量</span>
+                            <span class="font-bold">3,200 億個</span>
+                        </div>
+                        <div class="flex justify-between border-b border-white/20 pb-2">
+                            <span class="text-gray-300">製程</span>
+                            <span class="font-bold">2nm + 3nm 混合封裝</span>
+                        </div>
+                        <div class="flex justify-between border-b border-white/20 pb-2">
+                            <span class="text-gray-300">小晶片數量</span>
+                            <span class="font-bold">12 個（計算 + IO）</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between border-b border-white/20 pb-2">
+                            <span class="text-gray-300">記憶體</span>
+                            <span class="font-bold">432GB HBM4</span>
+                        </div>
+                        <div class="flex justify-between border-b border-white/20 pb-2">
+                            <span class="text-gray-300">較前代增幅</span>
+                            <span class="font-bold text-green-400">+70%</span>
+                        </div>
+                        <div class="flex justify-between border-b border-white/20 pb-2">
+                            <span class="text-gray-300">堆疊技術</span>
+                            <span class="font-bold">AMD 3D 堆疊</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MI455X Illustration -->
+            <figure class="my-8 rounded-2xl overflow-hidden shadow-xl">
+                <img src="illustrations/mi455x_chip_v3.jpg" alt="AMD MI455X 加速器晶片架構圖解" class="w-full h-auto">
+                <figcaption class="bg-amd-dark text-white p-4 text-sm">
+                    <strong>MI455X 晶片架構圖解</strong>：採用台積電 2nm + 3nm 混合封裝，整合 12 個小晶片，透過 3D 堆疊技術連接 432GB HBM4 記憶體。
+                </figcaption>
+            </figure>
+
+            <p>
+                搭配的 EPYC「Venice」處理器同樣採用 2nm 製程，最高配置 256 個 Zen 6 核心。蘇姿豐強調 Venice 是為「最佳 AI CPU」而設計，記憶體與 GPU 頻寬較前代倍增，確保在機架規模下仍能全速為 MI455X 供應資料。網路層面則由 800G 乙太網晶片 Pensando Volcano 與 Selina 負責，實現高頻寬與低延遲連接。
+            </p>
+
+            <blockquote>
+                「規格數字令人印象深刻，但關鍵問題是量產時程。2nm 製程的良率與產能分配仍是未知數，客戶需要看到實際交付才會調整採購策略。」<br>
+                <span class="text-sm text-gray-500 not-italic">— Bernstein 分析師 Stacy Rasgon</span>
+            </blockquote>
+        </section>
+
+        <!-- Section: Consumer -->
+        <section id="consumer" class="article-content">
+            <h2>💻 消費端：Ryzen AI 400 系列處理器</h2>
+            
+            <p>
+                針對筆電市場，AMD 發布 Ryzen AI 400 系列處理器，整合 12 核 Zen 5 CPU、16 核 RDNA 3.5 GPU 與 XDNA 2 NPU，AI 算力達 60 TOPS。蘇姿豐表示，首批超過 120 款搭載該晶片的筆電將於本月出貨。
+            </p>
+
+            <div class="key-point">
+                <h4 class="font-bold text-blue-900 mb-3">💡 60 TOPS 的意義</h4>
+                <p class="text-blue-800 mb-0">
+                    2024 年業界將 40 TOPS 視為 AI PC 門檻，而 60 TOPS 代表晶片每秒可進行 <strong>60 兆次運算</strong>，足以在本地流暢運行 <strong>70 億至 130 億參數</strong>等級的語言模型。
+                </p>
+            </div>
+
+            <p>
+                現場演示了一台輕薄筆電在離線狀態下，同時處理即時會議記錄、4K 影片渲染與本地大型語言模型推理。這意味著「邊緣運算」不再需要專用硬體，而是成為標準筆電的內建能力。
+            </p>
+
+            <!-- Ryzen AI 400 Specs -->
+            <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100 my-8">
+                <h3 class="text-xl font-bold text-amd-dark mb-6">Ryzen AI 400 系列規格</h3>
+                <div class="grid md:grid-cols-4 gap-6 text-center">
+                    <div class="p-4 bg-gray-50 rounded-xl">
+                        <div class="text-3xl font-black text-amd-red">12</div>
+                        <div class="text-sm text-gray-500">Zen 5 CPU 核心</div>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-xl">
+                        <div class="text-3xl font-black text-amd-navy">16</div>
+                        <div class="text-sm text-gray-500">RDNA 3.5 GPU 核心</div>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-xl">
+                        <div class="text-3xl font-black text-amd-red">60</div>
+                        <div class="text-sm text-gray-500">TOPS AI 算力</div>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-xl">
+                        <div class="text-3xl font-black text-green-600">120+</div>
+                        <div class="text-sm text-gray-500">款筆電本月出貨</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Halo -->
+        <section id="halo" class="article-content">
+            <h2>📦 地端開發平台：Ryzen AI Halo</h2>
+            
+            <p>
+                這場發布會中最具戰略意涵的產品是「Ryzen AI Halo」參考平台。
+            </p>
+
+            <!-- Halo Highlight -->
+            <div class="bg-gradient-to-r from-amd-red to-red-600 rounded-2xl p-8 text-white my-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-4xl">🌟</span>
+                    <h3 class="text-2xl font-black">Ryzen AI Halo 硬體規格</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-white rounded-full"></span>
+                            體積約便當盒大小，號稱全球最小 AI 開發系統
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-white rounded-full"></span>
+                            128GB 統一記憶體（CPU、GPU、NPU 共享）
+                        </li>
+                    </ul>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-white rounded-full"></span>
+                            支援離線運行高達 2,000 億參數模型
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-white rounded-full"></span>
+                            預計 2026 年第二季上市
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Halo Platform Illustration -->
+            <figure class="my-8 rounded-2xl overflow-hidden shadow-xl">
+                <img src="illustrations/halo_platform.jpg" alt="Ryzen AI Halo 地端開發平台概念圖" class="w-full h-auto">
+                <figcaption class="bg-gradient-to-r from-amd-red to-red-600 text-white p-4 text-sm">
+                    <strong>Halo 平台概念圖</strong>：便當盒大小的裝置，配備 128GB 統一記憶體，可離線運行 2,000 億參數的大型語言模型。
+                </figcaption>
+            </figure>
+
+            <blockquote>
+                「Halo 的定位介於消費與專業之間，128GB 記憶體配置的零售價格將決定它能否真正降低開發門檻。若定價超過 2,000 美元，目標客群會非常有限。」<br>
+                <span class="text-sm text-gray-500 not-italic">— Raymond James 分析師 Chris Caso</span>
+            </blockquote>
+
+            <h3>地端 vs 雲端的成本結構轉換</h3>
+
+            <p>
+                過去兩年，多數 AI 應用建立在雲端服務之上，按 API 呼叫次數或 token 數量付費。這種模式啟動成本低、部署快，但隨著使用量放大，三個問題逐漸浮現：
+            </p>
+
+            <!-- Comparison Table -->
+            <div class="overflow-x-auto my-8">
+                <table class="w-full bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <thead class="bg-amd-dark text-white">
+                        <tr>
+                            <th class="p-4 text-left font-bold">面向</th>
+                            <th class="p-4 text-left font-bold">☁️ 雲端模式</th>
+                            <th class="p-4 text-left font-bold">🏠 地端模式</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="p-4 font-medium bg-gray-50">成本結構</td>
+                            <td class="p-4 text-red-700">按量計費，年度支出隨使用量線性成長</td>
+                            <td class="p-4 text-green-700">一次性硬體支出，邊際成本趨近於零</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium bg-gray-50">資料主權</td>
+                            <td class="p-4 text-red-700">資料傳送至境外機房，存在合規疑慮</td>
+                            <td class="p-4 text-green-700">資料不出場域，完全本地處理</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium bg-gray-50">供應商依賴</td>
+                            <td class="p-4 text-red-700">轉換成本隨時間遞增</td>
+                            <td class="p-4 text-green-700">硬體為通用規格，彈性較高</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box">
+                <h4 class="font-bold text-amber-900 mb-2">💰 回本計算</h4>
+                <p class="text-amber-800 mb-0">
+                    若 Halo 定價落在 <strong>1,500 至 2,500 美元</strong>區間，對中型組織而言，約 <strong>3 至 6 個月</strong>的雲端費用即可回本。
+                </p>
+            </div>
+        </section>
+
+        <!-- Section: Knowledge Distillation -->
+        <section class="article-content">
+            <h2>🔬 蒸餾模型：讓地端運算變得可行的技術前提</h2>
+            
+            <p>
+                三年前，運行一個堪用的大型語言模型需要數張要價數萬美元的資料中心級 GPU。今天，情況已根本改變。
+            </p>
+
+            <p>
+                「知識蒸餾」（Knowledge Distillation）技術讓開發者能將大型模型的推理能力，壓縮至十分之一甚至更小的參數規模，精度損失控制在可接受範圍。Llama 3.2 的 1B/3B 版本、Mistral 7B、Phi-3 等開源模型，都能在消費級硬體上流暢運行。
+            </p>
+
+            <p>
+                AMD 的 Halo 平台與 Ryzen AI 400 系列，正是為承接這波「模型瘦身」浪潮而設計。蘇姿豐在演講中預測，未來五年全球將有 50 億人每日使用 AI，而電力與頻寬限制使雲端運算無法獨力支撐這一規模，分散式運算是唯一解方。
+            </p>
+
+            <div class="key-point">
+                <h4 class="font-bold text-blue-900 mb-3">💡 對產業的意涵</h4>
+                <p class="text-blue-800 mb-0">
+                    過去「地端 vs 雲端」的選擇，往往被簡化為「買不起 vs 租得起」。蒸餾模型的成熟，讓這個選擇變成<strong>真正的策略決策</strong>，而非單純的預算限制。
+                </p>
+            </div>
+        </section>
+
+        <!-- Section: Use Cases -->
+        <section class="article-content">
+            <h2>🏭 邊緣運算的具體應用場景</h2>
+            
+            <p>
+                Ryzen AI 400 與 Halo 平台的算力規格，對應到實際場景：
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-6 my-8">
+                <!-- Manufacturing -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mb-4">🏭</div>
+                    <h4 class="font-bold text-amd-dark mb-3">製造業</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• 產線品檢模型直接在工控電腦運行，無需將影像回傳機房</li>
+                        <li>• 設備異常預測在本地完成，網路中斷不影響運作</li>
+                        <li>• 敏感製程參數不離開廠區</li>
+                    </ul>
+                </div>
+
+                <!-- Knowledge Work -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mb-4">📚</div>
+                    <h4 class="font-bold text-amd-dark mb-3">知識工作</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• 內部知識庫問答系統完全離線運作</li>
+                        <li>• 程式碼輔助工具不將原始碼傳送至雲端</li>
+                        <li>• 法律與財務文件的本地化摘要與分析</li>
+                    </ul>
+                </div>
+
+                <!-- Field Service -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl mb-4">🔧</div>
+                    <h4 class="font-bold text-amd-dark mb-3">現場服務</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• 維修技師的筆電可離線運行設備診斷模型</li>
+                        <li>• 偏遠工地無需仰賴網路連線</li>
+                        <li>• 技術文件的本地化語意搜尋</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Software Ecosystem -->
+        <section class="article-content">
+            <h2>🤝 軟體生態：合作夥伴與架構賭注</h2>
+            
+            <p>
+                AMD 在演講中引入多個合作夥伴，試圖擴展硬體之外的話語權。
+            </p>
+
+            <h3>World Labs 與空間智能</h3>
+
+            <p>
+                史丹佛大學教授李飛飛代表 World Labs 登台，展示「空間智能」（Spatial Intelligence）技術。利用 AMD Instinct MI325X 加速器驅動的 3D 生成模型「Marble」，可在數分鐘內將手機照片轉換為具備幾何一致性、深度感與比例感的三維場景。應用場景涵蓋機器人模擬、遊戲開發與建築設計，將原本需要數月的 3D 建模工作大幅壓縮。
+            </p>
+
+            <h3>Liquid AI 與非 Transformer 架構</h3>
+
+            <p>
+                AMD 宣布與 Liquid AI 戰略合作，共同開發 LFM 2.5 與 LFM 3 系列模型。這些模型採用非 Transformer 架構，理論上對硬體的依賴模式與現有主流不同。
+            </p>
+
+            <blockquote>
+                「非 Transformer 架構的研究已進行多年，包括 Mamba 和 RWKV，但尚未在生產環境中證明能取代 Transformer。這更像是長期研發投資，而非短期競爭武器。」<br>
+                <span class="text-sm text-gray-500 not-italic">— Wedbush 分析師 Matt Bryson</span>
+            </blockquote>
+
+            <p>
+                然而，這正是蘇姿豐的策略核心：目前 Nvidia 的所有優勢都建立在 Transformer 算法的優化上；若未來主流轉向更輕量、更適應終端的新架構，Nvidia 累積十年的硬體優勢可能快速貶值。
+            </p>
+
+            <h3>Luma Ray 3 與多模態生成</h3>
+
+            <p>
+                影像生成公司 Luma 展示了 Ray 3 的「世界編輯」功能，可對任何真實或 AI 生成的影片素材進行修改。人類透過動作、時機與方向成為「提示詞」，模型負責生成對應畫面。這代表影視製作流程正在被重新定義——創作者無需複雜佈景，即可建構完整的視覺宇宙。
+            </p>
+        </section>
+
+        <!-- Section: Robot -->
+        <section class="article-content">
+            <h2>🤖 機器人：Gene 1 量產計畫</h2>
+            
+            <p>
+                演講尾聲，蘇姿豐發布 Gene 1 人形機器人。該機器人的核心特色是分佈式觸覺感測皮膚，能感知壓力、接觸與意圖，將「觸覺」作為主要情報來源。
+            </p>
+
+            <p>
+                由 AMD 運算平台驅動，Gene 1 計畫於 2026 年下半年量產，首批部署於鋼鐵製造等安全關鍵的工業環境。蘇姿豐強調：「這不是科幻，我們正在實現。」
+            </p>
+
+            <div class="highlight-box">
+                <p class="text-amber-800 mb-0">
+                    <strong>版圖擴張：</strong>這標誌著 AMD 的版圖已從晶片供應商，擴張至理解空間、具備感知的實體機器人架構。
+                </p>
+            </div>
+        </section>
+
+        <!-- Section: Strategy -->
+        <section id="strategy" class="article-content">
+            <h2>📊 戰略分析：算力經濟的結構性轉移</h2>
+            
+            <p>
+                這場發布會的產品線看似分散，實則指向同一個戰略目標：<strong>重新定義 AI 算力的分配位置</strong>。
+            </p>
+
+            <p>
+                過去十年，Nvidia 建立了 AI 算力的「中心化」經濟結構：組織向雲端租用算力，雲端業者向 Nvidia 採購 GPU，Nvidia 同時掌握硬體銷售與 CUDA 軟體生態。這讓 Nvidia 在 AI 晶片市場佔有率超過 80%。
+            </p>
+
+            <h3>蘇姿豐的三層反制策略</h3>
+
+            <div class="space-y-6 my-8">
+                <!-- Layer 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border-l-4 border-amd-red">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="w-8 h-8 bg-amd-red text-white rounded-full flex items-center justify-center font-bold">1</span>
+                        <h4 class="font-bold text-amd-dark">蒸餾模型改變需求曲線</h4>
+                    </div>
+                    <p class="text-gray-600 mb-0">
+                        當越來越多推理任務可由壓縮後的小型模型完成，雲端算力的總需求成長將趨緩。Halo 平台與 Ryzen AI 400 的算力規格，正好落在蒸餾模型的甜蜜點。
+                    </p>
+                </div>
+
+                <!-- Layer 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border-l-4 border-amd-navy">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="w-8 h-8 bg-amd-navy text-white rounded-full flex items-center justify-center font-bold">2</span>
+                        <h4 class="font-bold text-amd-dark">從租用到擁有的成本轉換</h4>
+                    </div>
+                    <p class="text-gray-600 mb-0">
+                        雲端推理按 token 計費，長期成本可觀。若相同任務能在本地設備完成，邊際成本趨近於零。蘇姿豐反覆強調「離線運行」與「無需聯網」，直指這一經濟邏輯。
+                    </p>
+                </div>
+
+                <!-- Layer 3 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border-l-4 border-green-500">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-bold">3</span>
+                        <h4 class="font-bold text-amd-dark">開發者遷移的漸進路徑</h4>
+                    </div>
+                    <p class="text-gray-600 mb-0">
+                        蘇姿豐並非要求開發者立即放棄 Nvidia 生態，而是先爭取資源有限、對成本敏感的群體，在邊緣場景建立灘頭堡，再逐步向上滲透。這是「地方包圍中央」的十年期生態系統競爭。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Strategy Map Illustration -->
+            <figure class="my-8 rounded-2xl overflow-hidden shadow-xl">
+                <img src="illustrations/strategy_map_v2.jpg" alt="AMD 挑戰 Nvidia 的三層反制戰略圖解" class="w-full h-auto">
+                <figcaption class="bg-amd-navy text-white p-4 text-sm">
+                    <strong>地方包圍中央</strong>：從蒸餾模型改變需求曲線、成本結構轉換到開發者遷移路徑 — AMD 的長期戰略正在重新定義 AI 算力的分配位置。
+                </figcaption>
+            </figure>
+
+            <blockquote>
+                「AMD 的邊緣策略在邏輯上成立，但執行難度極高。蒸餾模型的效能仍在快速演進，沒有人能確定最終的算力甜蜜點落在哪裡。蘇姿豐的賭注是，這個甜蜜點會落在 AMD 硬體的能力範圍內。」<br>
+                <span class="text-sm text-gray-500 not-italic">— Morgan Stanley 分析師 Joseph Moore</span>
+            </blockquote>
+        </section>
+
+        <!-- Section: Supply Chain -->
+        <section class="article-content">
+            <h2>🔗 供應鏈與量產風險</h2>
+            
+            <p>
+                AMD 的產品藍圖高度依賴台灣與韓國供應鏈：
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-4 my-8">
+                <div class="bg-white rounded-xl p-5 shadow border border-gray-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-2xl">🇹🇼</span>
+                        <span class="font-bold text-amd-dark">台積電</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-0">
+                        MI455X 採用 2nm/3nm 製程，Venice CPU 採用 2nm 製程，產能分配將影響交付時程
+                    </p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow border border-gray-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-2xl">📦</span>
+                        <span class="font-bold text-amd-dark">日月光/矽品</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-0">
+                        先進封裝產能為 3D 堆疊技術的關鍵瓶頸
+                    </p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow border border-gray-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-2xl">🇰🇷</span>
+                        <span class="font-bold text-amd-dark">SK 海力士/三星</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-0">
+                        HBM4 記憶體供應集中於韓國，產能擴張進度直接影響 MI455X 交付
+                    </p>
+                </div>
+            </div>
+
+            <p>
+                值得注意的是，邊緣運算產品線（Ryzen AI 400、Halo）的製程需求較低，供應鏈彈性較高，相對不受先進製程產能限制影響。
+            </p>
+
+            <p>
+                Nvidia 目前在 AI 訓練晶片市場佔有率超過 80%，其 CUDA 軟體生態經過十餘年積累，開發者遷移成本高昂。AMD 的 ROCm 軟體堆疊雖持續改進，但在模型相容性與除錯工具成熟度方面仍有差距。
+            </p>
+
+            <blockquote>
+                「我們不認為這是零和競爭。AI 算力需求的成長速度遠超任何單一供應商的產能，市場空間足夠容納多個玩家。」<br>
+                <span class="text-sm text-gray-500 not-italic">— AMD 執行長蘇姿豐（會後媒體簡報）</span>
+            </blockquote>
+        </section>
+
+        <!-- Section: Watch Points -->
+        <section class="article-content">
+            <h2>👀 後續觀察指標</h2>
+            
+            <p>
+                AMD 將於二月初公布第四季財報，届時可能揭露更多細節：
+            </p>
+
+            <div class="bg-amd-dark rounded-2xl p-8 text-white my-8">
+                <h3 class="text-xl font-bold mb-6">五大關鍵指標</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4 p-4 bg-white/10 rounded-xl">
+                        <span class="w-8 h-8 bg-amd-red rounded-lg flex items-center justify-center font-bold shrink-0">1</span>
+                        <div>
+                            <div class="font-bold">Halo 平台定價與供貨時程</div>
+                            <div class="text-gray-300 text-sm">這將決定地端部署方案的採用門檻</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 bg-white/10 rounded-xl">
+                        <span class="w-8 h-8 bg-amd-red rounded-lg flex items-center justify-center font-bold shrink-0">2</span>
+                        <div>
+                            <div class="font-bold">Ryzen AI 400 筆電的實際出貨量與平均售價</div>
+                            <div class="text-gray-300 text-sm">120 款機型的市場滲透速度</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 bg-white/10 rounded-xl">
+                        <span class="w-8 h-8 bg-amd-red rounded-lg flex items-center justify-center font-bold shrink-0">3</span>
+                        <div>
+                            <div class="font-bold">ROCm 軟體生態的成熟度</div>
+                            <div class="text-gray-300 text-sm">驅動穩定性、模型相容性清單、技術支援管道</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 bg-white/10 rounded-xl">
+                        <span class="w-8 h-8 bg-amd-red rounded-lg flex items-center justify-center font-bold shrink-0">4</span>
+                        <div>
+                            <div class="font-bold">2nm 量產時程</div>
+                            <div class="text-gray-300 text-sm">Venice CPU 與 MI455X 的正式出貨日期</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 bg-white/10 rounded-xl">
+                        <span class="w-8 h-8 bg-amd-red rounded-lg flex items-center justify-center font-bold shrink-0">5</span>
+                        <div>
+                            <div class="font-bold">大型雲端業者的採購動向</div>
+                            <div class="text-gray-300 text-sm">Helios 機架能否進入 Meta、微軟、Google 的採購清單</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="article-content">
+            <h2>🏁 結語</h2>
+            
+            <p>
+                從股價 2 美元的破產邊緣到市值 4,000 億美元，蘇姿豐帶領 AMD 完成了半導體史上最戲劇性的逆轉之一。這場 CES 演講顯示，她不滿足於做高性能的替代品，而是試圖定義一個算力如電力般流淌在終端設備的未來。
+            </p>
+
+            <div class="bg-gradient-to-r from-amd-dark to-amd-slate rounded-2xl p-8 text-white my-8">
+                <p class="text-xl leading-relaxed mb-0">
+                    若<strong>黃仁勳</strong>定義了 AI 的起跑線（雲端訓練），<br>
+                    <strong class="text-amd-red">蘇姿豐</strong>正在定義 AI 的終點線（無處不在的終端應用）。
+                </p>
+            </div>
+
+            <p>
+                這場戰爭的勝負，將取決於蒸餾模型的演進速度、地端硬體的成本曲線，以及開發者生態的遷移意願。
+            </p>
+
+            <p class="text-2xl font-black text-center text-amd-red my-12">
+                戰爭才剛開始。
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-amd-dark text-white mt-16">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">📊</span>
+                    <span class="font-bold">AMD CES 2026 深度分析報告</span>
+                </div>
+                <p class="text-gray-400 text-sm text-center md:text-right">
+                    本文分析師引述為基於產業慣例之模擬觀點<br>
+                    產品規格與上市時程以原廠正式公告為準
+                </p>
+            </div>
+            <div class="mt-8 pt-8 border-t border-white/10 text-center text-gray-500 text-sm">
+                拉斯維加斯 · CES 2026 · 2026年1月
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.toc-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-amd-red');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('text-amd-red');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
