@@ -42,7 +42,7 @@ LINES = [
     {
         "id": "09",
         "character": "mera",
-        "text": "Ladies and gentlemen... we are PROUDLY present...",
+        "text": "Ladies and gentlemen... we PROUDLY present...",
     },
     {
         "id": "10",
