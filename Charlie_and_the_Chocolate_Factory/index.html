@@ -242,10 +242,36 @@
             50% { transform: scale(1.2); }
         }
 
+        /* Play All Button */
+        .play-all-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        .play-all-btn:hover {
+            transform: scale(1.05);
+            background: #3a006b;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .play-all-btn.playing {
+            background: #e74c3c;
+        }
+        .play-all-btn.playing::before {
+            content: '⏹ ';
+        }
+
         @media print {
             body { background: white; }
             .container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; padding: 0; }
-            .print-btn, .guide-grid, h2#guide-heading, .play-btn { display: none; } /* Hide guide and play buttons when printing */
+            .print-btn, .guide-grid, h2#guide-heading, .play-btn, .play-all-btn { display: none; } /* Hide guide and play buttons when printing */
             header { background: white; color: black; border-bottom: 2px solid black; padding: 10px 0; }
             header h1 { font-size: 20pt; text-shadow: none; color: black; }
             .cover-image { display: none; } /* Optional: Hide large image when printing to save ink */
@@ -269,6 +295,7 @@
     </header>
 
     <h2>📜 劇本內容 (Script)</h2>
+    <button class="play-all-btn" id="playAllBtn">▶ 全部播放</button>
 
     <div class="script-block">
         <div class="character-line"><span class="character">Archie & Mera:</span> <button class="play-btn" data-audio="01" title="播放"></button></div>
@@ -423,26 +450,82 @@
 
 <script>
 let currentAudio = null;
+let isPlayingAll = false;
+let playAllIndex = 0;
+const audioIds = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'];
+const playAllBtn = document.getElementById('playAllBtn');
+const playBtns = document.querySelectorAll('.play-btn');
 
-document.querySelectorAll('.play-btn').forEach(btn => {
+// Stop all playback
+function stopAll() {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+    }
+    isPlayingAll = false;
+    playAllIndex = 0;
+    playAllBtn.classList.remove('playing');
+    playAllBtn.textContent = '▶ 全部播放';
+    playBtns.forEach(b => b.classList.remove('playing'));
+}
+
+// Play single audio
+function playSingle(id, btn) {
+    stopAll();
+    currentAudio = new Audio(`audio/${id}.mp3`);
+    btn.classList.add('playing');
+    currentAudio.play();
+    currentAudio.onended = () => {
+        btn.classList.remove('playing');
+        currentAudio = null;
+    };
+}
+
+// Play next in sequence
+function playNext() {
+    if (!isPlayingAll || playAllIndex >= audioIds.length) {
+        stopAll();
+        return;
+    }
+
+    const id = audioIds[playAllIndex];
+    const btn = document.querySelector(`.play-btn[data-audio="${id}"]`);
+
+    // Remove playing class from all buttons
+    playBtns.forEach(b => b.classList.remove('playing'));
+
+    // Highlight current button
+    if (btn) btn.classList.add('playing');
+
+    currentAudio = new Audio(`audio/${id}.mp3`);
+    currentAudio.play();
+    currentAudio.onended = () => {
+        if (btn) btn.classList.remove('playing');
+        playAllIndex++;
+        playNext();
+    };
+}
+
+// Individual play buttons
+playBtns.forEach(btn => {
     btn.addEventListener('click', function() {
-        const id = this.dataset.audio;
-
-        // Stop currently playing audio
-        if (currentAudio) {
-            currentAudio.pause();
-            document.querySelectorAll('.play-btn').forEach(b => b.classList.remove('playing'));
-        }
-
-        // Play new audio
-        currentAudio = new Audio(`audio/${id}.mp3`);
-        this.classList.add('playing');
-
-        currentAudio.play();
-        currentAudio.onended = () => {
-            this.classList.remove('playing');
-        };
+        if (isPlayingAll) stopAll();
+        playSingle(this.dataset.audio, this);
     });
+});
+
+// Play All button
+playAllBtn.addEventListener('click', function() {
+    if (isPlayingAll) {
+        stopAll();
+    } else {
+        stopAll();
+        isPlayingAll = true;
+        playAllIndex = 0;
+        playAllBtn.classList.add('playing');
+        playAllBtn.textContent = '停止播放';
+        playNext();
+    }
 });
 </script>
 
