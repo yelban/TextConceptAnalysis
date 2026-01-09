@@ -194,7 +194,7 @@
     /* Subtitle Overlay - 必須在 .video-js 內部以支援全螢幕 */
     .video-js .subtitle-overlay {
       position: absolute;
-      bottom: 60px;
+      bottom: 50px;
       left: 0;
       right: 0;
       text-align: center;
@@ -281,7 +281,7 @@
       border-color: #ff4757;
     }
 
-    /* Responsive */
+    /* Responsive - 平板 */
     @media (max-width: 768px) {
       .header h1 {
         font-size: 1.5rem;
@@ -292,16 +292,128 @@
         font-size: 0.9rem;
       }
 
-      .subtitle-overlay .subtitle-text {
+      .video-js .subtitle-overlay {
+        bottom: 20px;
+      }
+
+      .video-js .subtitle-overlay .subtitle-text {
+        font-size: 16px;
+        padding: 6px 12px;
+      }
+
+      .video-js .subtitle-overlay .ja-line {
+        font-size: 14px;
+        margin-bottom: -3px;
+      }
+
+      .video-js .subtitle-overlay .zh-line {
+        font-size: 13px;
+      }
+
+      .video-js .subtitle-overlay rt {
+        font-size: 0.5em;
+      }
+
+      /* 平板全螢幕 */
+      .video-js.vjs-fullscreen .subtitle-overlay .subtitle-text {
+        font-size: 20px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .ja-line {
         font-size: 18px;
       }
 
-      .subtitle-overlay .ja-line {
+      .video-js.vjs-fullscreen .subtitle-overlay .zh-line {
         font-size: 16px;
       }
+    }
 
-      .subtitle-overlay .zh-line {
+    /* Responsive - 手機 */
+    @media (max-width: 480px) {
+      .video-js .subtitle-overlay {
+        bottom: 15px;
+        padding: 0 8px;
+      }
+
+      .video-js .subtitle-overlay .subtitle-text {
+        font-size: 12px;
+        padding: 4px 8px;
+        max-width: 95%;
+      }
+
+      .video-js .subtitle-overlay .ja-line {
+        font-size: 11px;
+        margin-bottom: -2px;
+      }
+
+      .video-js .subtitle-overlay .zh-line {
+        font-size: 10px;
+      }
+
+      .video-js .subtitle-overlay rt {
+        font-size: 0.45em;
+      }
+
+      /* 手機全螢幕（橫向） */
+      .video-js.vjs-fullscreen .subtitle-overlay {
+        bottom: 35px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .subtitle-text {
+        font-size: 12px;
+        padding: 4px 8px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .ja-line {
+        font-size: 11px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .zh-line {
+        font-size: 10px;
+      }
+    }
+
+    /* 手機橫向全螢幕 - 更精確偵測 */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .video-js.vjs-fullscreen .subtitle-overlay {
+        bottom: 35px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .subtitle-text {
         font-size: 14px;
+        padding: 4px 8px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .ja-line {
+        font-size: 13px;
+        margin-bottom: -2px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .zh-line {
+        font-size: 12px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay rt {
+        font-size: 0.45em;
+      }
+    }
+
+    /* 手機直立全螢幕特殊處理 */
+    @media (max-width: 480px) and (orientation: portrait) {
+      .video-js.vjs-fullscreen .subtitle-overlay {
+        bottom: 60px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .subtitle-text {
+        font-size: 13px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .ja-line {
+        font-size: 12px;
+      }
+
+      .video-js.vjs-fullscreen .subtitle-overlay .zh-line {
+        font-size: 11px;
       }
     }
 
