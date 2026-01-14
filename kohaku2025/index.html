@@ -515,10 +515,10 @@
   </div>
 
   <div class="player-container">
-    <!-- Playlist buttons -->
+    <!-- 格式選擇按鈕 -->
     <div class="playlist">
-      <button class="playlist-btn active" data-index="0">Part 1</button>
-      <button class="playlist-btn white-team" data-index="1">Part 2</button>
+      <button class="playlist-btn format-btn active" data-format="hevc">完整版 (4K)</button>
+      <button class="playlist-btn format-btn white-team" data-format="h264">完整版 (1080p)</button>
     </div>
 
     <!-- Video Player -->
@@ -537,16 +537,16 @@
     <!-- Now Playing Info -->
     <div class="now-playing">
       <div>
-        <div class="now-playing-title" id="nowPlayingTitle">Part 1 - 紅白歌合戰 2025</div>
+        <div class="now-playing-title" id="nowPlayingTitle">紅白歌合戰 2025</div>
         <div class="now-playing-status" id="nowPlayingStatus">準備播放</div>
       </div>
       <div class="subtitle-select">
         <label>字幕</label>
         <select id="subtitleSelect">
           <option value="off">關閉</option>
-          <option value="zh" selected>繁體中文</option>
+          <option value="zh">繁體中文</option>
           <option value="ja">日本語（假名）</option>
-          <option value="bilingual">雙語對照</option>
+          <option value="bilingual" selected>雙語對照</option>
         </select>
       </div>
       <label class="auto-play-toggle">
@@ -577,29 +577,45 @@
     // ============================================
     const VIDEOS = [
       {
-        url: 'https://filedn.com/lpKhCAdafRpuyxFglX13S94/Video/kohaku2025/%E3%80%90NHK%20BSP4K%E3%80%91%E7%AC%AC76%E5%9B%9ENHK%E7%B4%85%E7%99%BD%E6%AD%8C%E5%90%88%E6%88%B0%20%E5%85%A8%E5%A0%B4%2020251231%EF%BC%88%E7%94%9F%E8%82%89%EF%BC%89%20p01%20part1%20%5BBV1GoiVBEE6Z_p1%5D.mp4',  // 替換為實際連結
-        title: 'Part 1 - 紅白歌合戰 2025',
+        url_hevc: 'https://filedn.com/lpKhCAdafRpuyxFglX13S94/Video/kohaku2025/kohaku_4k_final.mp4',  // 本地測試 - HEVC 4K (hvc1 tag + 音訊修復)
+        url_h264: 'https://filedn.com/lpKhCAdafRpuyxFglX13S94/Video/kohaku2025/kohaku_1080p.mp4',  // H.264 1080p (99% 瀏覽器)
+        title_hevc: '紅白歌合戰 2025 (4K HEVC)',
+        title_h264: '紅白歌合戰 2025 (1080p)',
         subtitles: {
-          zh: './subtitles/vtt/part1_v4_new-zh.vtt',
-          ja: './subtitles/vtt/part1_v4_new-ja.vtt',
-          bilingual: './subtitles/vtt/part1_v4_new-bilingual.vtt'
-        }
-      },
-      {
-        url: 'https://filedn.com/lpKhCAdafRpuyxFglX13S94/Video/kohaku2025/%E3%80%90NHK%20BSP4K%E3%80%91%E7%AC%AC76%E5%9B%9ENHK%E7%B4%85%E7%99%BD%E6%AD%8C%E5%90%88%E6%88%B0%20%E5%85%A8%E5%A0%B4%2020251231%EF%BC%88%E7%94%9F%E8%82%89%EF%BC%89%20p02%20part2%20%5BBV1GoiVBEE6Z_p2%5D.mp4',  // 替換為實際連結
-        title: 'Part 2 - 紅白歌合戰 2025',
-        subtitles: {
-          zh: './subtitles/vtt/part2_v4_new-zh.vtt',
-          ja: './subtitles/vtt/part2_v4_new-ja.vtt',
-          bilingual: './subtitles/vtt/part2_v4_new-bilingual.vtt'
+          zh: '../subtitles/vtt/kohaku_v9_fixed_v3-zh.vtt',
+          ja: '../subtitles/vtt/kohaku_v9_fixed_v3-ja.vtt',
+          bilingual: '../subtitles/vtt/kohaku_v9_fixed_v3-bilingual.vtt'
         }
       }
     ];
     // ============================================
 
+    // HEVC 支援檢測（只有 Safari 完整支援 Main 10 HDR）
+    function canPlayHEVC() {
+      const video = document.createElement('video');
+      // hvc1 codec tag - 瀏覽器相容格式
+      const canPlay = video.canPlayType('video/mp4; codecs="hvc1.2.4.L153.B0"') !== '' ||
+                      video.canPlayType('video/mp4; codecs="hvc1.1.6.L153.B0"') !== '';
+      console.log('[Player] HEVC 支援檢測:', canPlay);
+      return canPlay;
+    }
+
+    // 取得適合的影片來源
+    function getVideoSource(videoConfig) {
+      const useHEVC = canPlayHEVC();
+      return {
+        url: useHEVC ? videoConfig.url_hevc : videoConfig.url_h264,
+        title: useHEVC ? videoConfig.title_hevc : videoConfig.title_h264,
+        isHEVC: useHEVC
+      };
+    }
+
+    let currentVideoIsHEVC = false;  // 追蹤當前使用的格式
+    // ============================================
+
     let currentIndex = 0;
     let player;
-    let currentSubtitleMode = 'zh';  // 預設繁體中文
+    let currentSubtitleMode = 'bilingual';  // 預設雙語對照
     let subtitleTracks = {};  // 儲存載入的字幕軌道
     let subtitleOverlay;
     let subtitleText;
@@ -661,11 +677,24 @@
         }
       });
 
-      // Handle errors
+      // Handle errors - 嘗試切換到 H.264 備用
       player.on('error', function() {
         const error = player.error();
-        console.error('Video error:', error);
-        updateStatus('播放錯誤 - 請檢查影片連結是否正確');
+        const errorCodes = {
+          1: 'MEDIA_ERR_ABORTED (用戶中止)',
+          2: 'MEDIA_ERR_NETWORK (網路錯誤)',
+          3: 'MEDIA_ERR_DECODE (解碼錯誤)',
+          4: 'MEDIA_ERR_SRC_NOT_SUPPORTED (格式不支援)'
+        };
+        console.error('[Player] 影片錯誤:', errorCodes[error?.code] || error?.code, error?.message);
+        console.error('[Player] 當前格式:', currentVideoIsHEVC ? 'HEVC 4K' : 'H.264 1080p');
+
+        // 如果是 HEVC 播放失敗，嘗試切換到 H.264
+        if (currentVideoIsHEVC) {
+          fallbackToH264();
+        } else {
+          updateStatus('播放錯誤 - 請檢查影片連結是否正確');
+        }
       });
 
       // Update status on play/pause
@@ -693,20 +722,64 @@
       if (index < 0 || index >= VIDEOS.length) return;
 
       currentIndex = index;
-      const video = VIDEOS[index];
+      const videoConfig = VIDEOS[index];
+      const source = getVideoSource(videoConfig);
+
+      currentVideoIsHEVC = source.isHEVC;
 
       player.src({
-        src: video.url,
+        src: source.url,
         type: 'video/mp4'
       });
 
       // Update UI
-      document.getElementById('nowPlayingTitle').textContent = video.title;
-      updateStatus('載入中...');
+      document.getElementById('nowPlayingTitle').textContent = source.title;
+      updateStatus(source.isHEVC ? '載入中 (4K HEVC)...' : '載入中 (1080p)...');
       updatePlaylistButtons();
 
       // Load subtitles
-      loadSubtitles(video.subtitles);
+      loadSubtitles(videoConfig.subtitles);
+
+      // 顯示格式資訊
+      console.log(`[Player] 使用 ${source.isHEVC ? 'HEVC 4K' : 'H.264 1080p'} 格式`);
+    }
+
+    // HEVC 播放失敗時切換到 H.264
+    function fallbackToH264() {
+      if (!currentVideoIsHEVC) return;  // 已經是 H.264
+
+      const videoConfig = VIDEOS[currentIndex];
+      const currentTime = player.currentTime() || 0;  // 保存播放進度
+      const wasPlaying = !player.paused();
+
+      console.warn('[Player] HEVC 播放失敗，切換到 H.264 1080p');
+      console.log('[Player] 保存進度:', currentTime, '秒，播放狀態:', wasPlaying);
+
+      currentVideoIsHEVC = false;
+
+      player.src({
+        src: videoConfig.url_h264,
+        type: 'video/mp4'
+      });
+
+      document.getElementById('nowPlayingTitle').textContent = videoConfig.title_h264;
+      updateStatus('切換到 1080p...');
+
+      // 同步更新格式按鈕狀態
+      document.querySelectorAll('.format-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.format === 'h264');
+      });
+
+      // 載入完成後恢復進度並繼續播放
+      player.one('loadedmetadata', function() {
+        if (currentTime > 0) {
+          player.currentTime(currentTime);
+          console.log('[Player] 恢復進度到:', currentTime, '秒');
+        }
+        if (wasPlaying) {
+          player.play().catch(e => console.warn('[Player] 自動播放失敗:', e));
+        }
+      });
     }
 
     // ============================================
@@ -852,14 +925,40 @@
       document.getElementById('nowPlayingStatus').textContent = status;
     }
 
-    // Playlist button click handlers
-    document.querySelectorAll('.playlist-btn').forEach(btn => {
+    // 格式選擇按鈕點擊處理
+    document.querySelectorAll('.format-btn').forEach(btn => {
       btn.addEventListener('click', function() {
-        const index = parseInt(this.dataset.index);
-        if (index !== currentIndex) {
-          loadVideo(index);
-          player.play();
+        const format = this.dataset.format;
+        const currentTime = player.currentTime() || 0;
+        const wasPlaying = !player.paused();
+
+        // 更新按鈕狀態
+        document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        const videoConfig = VIDEOS[0];
+
+        if (format === 'hevc') {
+          currentVideoIsHEVC = true;
+          player.src({ src: videoConfig.url_hevc, type: 'video/mp4' });
+          document.getElementById('nowPlayingTitle').textContent = videoConfig.title_hevc;
+        } else {
+          currentVideoIsHEVC = false;
+          player.src({ src: videoConfig.url_h264, type: 'video/mp4' });
+          document.getElementById('nowPlayingTitle').textContent = videoConfig.title_h264;
         }
+
+        // 恢復播放進度
+        player.one('loadedmetadata', function() {
+          if (currentTime > 1) {
+            player.currentTime(currentTime);
+          }
+          if (wasPlaying) {
+            player.play().catch(e => console.warn('[Player] 自動播放失敗:', e));
+          }
+        });
+
+        console.log(`[Player] 手動切換到 ${format === 'hevc' ? '4K HEVC' : '1080p H.264'}`);
       });
     });
 
