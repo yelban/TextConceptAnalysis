@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE WORKS 導入評估報告 | 台灣鈣鈦礦科技</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'noto': ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        'lw-green': '#00C300',
+                        'lw-dark': '#1E1E1E',
+                        'lw-accent': '#06C755',
+                        'warm-cream': '#FFFBF5',
+                        'warm-gray': '#F5F3EF',
+                        'deep-navy': '#1a2744',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #00C300 0%, #06C755 50%, #00B900 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #f8fdf8 0%, #e8f5e9 50%, #f1f8e9 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 195, 0, 0.15);
+        }
+        
+        .verdict-card {
+            background: linear-gradient(145deg, #1a2744 0%, #243656 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .verdict-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00C300, #06C755, #00B900);
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00C30030, transparent);
+        }
+        
+        .floating-emoji {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-emoji:nth-child(2) {
+            animation-delay: 1s;
+        }
+        
+        .floating-emoji:nth-child(3) {
+            animation-delay: 2s;
+        }
+        
+        .comparison-card {
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .comparison-card.bad {
+            border-color: #FEE2E2;
+            background: linear-gradient(180deg, #FEF2F2 0%, #FFFFFF 100%);
+        }
+        
+        .comparison-card.good {
+            border-color: #D1FAE5;
+            background: linear-gradient(180deg, #ECFDF5 0%, #FFFFFF 100%);
+        }
+        
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #00C300;
+            position: relative;
+        }
+        
+        .timeline-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #00C300, transparent);
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.02;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum";
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+        .stagger-6 { animation-delay: 0.6s; }
+        
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .price-tag {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border: 2px solid #F59E0B;
+        }
+        
+        .highlight-box {
+            position: relative;
+            display: inline;
+            background: linear-gradient(180deg, transparent 60%, rgba(0, 195, 0, 0.2) 60%);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00C300, #06C755);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #00A300, #05B755);
+        }
+    </style>
+</head>
+<body class="bg-warm-cream text-lw-dark">
+    <div class="noise-overlay"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200/50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">📊</span>
+                <span class="font-bold text-lg text-gray-800">TPSC 導入評估</span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+                <a href="#verdict" class="hover:text-lw-green transition-colors">結論</a>
+                <a href="#why" class="hover:text-lw-green transition-colors">為什麼要導入</a>
+                <a href="#gws" class="hover:text-lw-green transition-colors">vs Google</a>
+                <a href="#comparison" class="hover:text-lw-green transition-colors">真實場景</a>
+                <a href="#action" class="hover:text-lw-green transition-colors">行動方案</a>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-gray-500">
+                <span>💰 報告價值</span>
+                <span class="font-bold text-lw-green">$300,000 USD</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cover Image Section -->
+    <section class="pt-16 bg-gradient-to-b from-slate-100 to-slate-50">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl animate-fade-in">
+                <img src="header.png" alt="LINE WORKS 企業通訊導入評估報告" class="w-full h-auto">
+                <!-- Subtle overlay gradient for depth -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-b from-slate-50 to-warm-cream py-12 md:py-20">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div class="space-y-6 md:space-y-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm animate-slide-up">
+                        <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                        <span class="text-sm font-medium text-gray-700">問題核心</span>
+                    </div>
+                    
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight animate-slide-up stagger-1">
+                        用個人 LINE 談公事<br>
+                        <span class="gradient-text">就是在裸奔</span>
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-gray-600 leading-relaxed animate-slide-up stagger-2">
+                        你公司的客戶資料、商業機密，全部存在員工的私人手機裡。<br>
+                        <strong class="text-lw-dark">他離職的那天，這些全部帶走。</strong>
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 animate-slide-up stagger-3">
+                        <a href="#verdict" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-lw-green text-white font-bold rounded-2xl hover:bg-lw-accent transition-all hover:scale-105 shadow-lg shadow-lw-green/30">
+                            <span>看結論</span>
+                            <span>👇</span>
+                        </a>
+                        <a href="#why" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-lw-dark font-bold rounded-2xl hover:bg-gray-50 transition-all border-2 border-gray-200">
+                            <span>詳細分析</span>
+                            <span>📖</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="absolute -top-10 -left-10 w-32 h-32 bg-lw-green/10 rounded-full blur-3xl"></div>
+                    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-300/20 rounded-full blur-3xl"></div>
+                    
+                    <div class="relative bg-white rounded-3xl shadow-2xl p-6 md:p-8 space-y-6 border border-gray-100">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-lw-green to-lw-accent rounded-2xl flex items-center justify-center text-white text-2xl md:text-3xl shadow-lg">
+                                🏢
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg md:text-xl">台灣鈣鈦礦科技</h3>
+                                <p class="text-gray-500 text-sm">50 人規模・材料研發</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-3 md:gap-4">
+                            <div class="text-center p-3 md:p-4 bg-slate-50 rounded-xl">
+                                <div class="text-2xl md:text-3xl font-black text-lw-green stat-number">50</div>
+                                <div class="text-xs text-gray-500 mt-1">員工人數</div>
+                            </div>
+                            <div class="text-center p-3 md:p-4 bg-slate-50 rounded-xl">
+                                <div class="text-2xl md:text-3xl font-black text-amber-500 stat-number">99.4%</div>
+                                <div class="text-xs text-gray-500 mt-1">LINE 使用率</div>
+                            </div>
+                            <div class="text-center p-3 md:p-4 bg-slate-50 rounded-xl">
+                                <div class="text-2xl md:text-3xl font-black text-red-500 stat-number">∞</div>
+                                <div class="text-xs text-gray-500 mt-1">潛在風險</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 p-4 bg-amber-50 rounded-xl border border-amber-200">
+                            <span class="text-2xl">⚠️</span>
+                            <p class="text-sm text-amber-800">
+                                <strong>高價值研發技術</strong>在個人 LINE 裡飄<br>
+                                這是資安控管的「剛需」
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verdict Section -->
+    <section id="verdict" class="py-16 md:py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="verdict-card rounded-3xl p-8 md:p-12 text-white scroll-reveal">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8 mb-8">
+                    <div class="text-6xl md:text-8xl floating-emoji">✅</div>
+                    <div>
+                        <div class="text-sm uppercase tracking-widest text-lw-green mb-2">最終結論</div>
+                        <h2 class="text-3xl md:text-5xl font-black">非常值得導入</h2>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white/10 backdrop-blur rounded-2xl p-6">
+                        <div class="text-4xl mb-4">🎯</div>
+                        <h3 class="font-bold text-xl mb-2">解決剛需</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            研發機密從員工私人手機，轉移到公司可控系統
+                        </p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur rounded-2xl p-6">
+                        <div class="text-4xl mb-4">💰</div>
+                        <h3 class="font-bold text-xl mb-2">成本可控</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            50 人規模，導入成本遠低於一次資料外洩的損失
+                        </p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur rounded-2xl p-6">
+                        <div class="text-4xl mb-4">🚀</div>
+                        <h3 class="font-bold text-xl mb-2">零門檻</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            介面和 LINE 一樣，員工第一天就會用
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+                    <p class="text-lg md:text-xl leading-relaxed">
+                        <span class="text-lw-green font-bold">講白了：</span>
+                        你不是在換一個通訊軟體，你是在<span class="highlight-box text-white">把散落在 50 個人手機裡的公司資產，收回來</span>。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Section with Metaphor -->
+    <section id="why" class="py-16 md:py-24 bg-warm-gray">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12 md:mb-16 scroll-reveal">
+                <span class="inline-block px-4 py-2 bg-lw-green/10 text-lw-green rounded-full text-sm font-bold mb-4">🧠 零基礎也聽得懂</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-4">用個人 LINE 談公事<br>就像在百貨公司廣場談生意</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">路人甲乙隨時可能撞見你的商業機密</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <!-- Before Card -->
+                <div class="comparison-card bad rounded-3xl p-6 md:p-8 scroll-reveal">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-4xl">😰</span>
+                        <div>
+                            <h3 class="font-bold text-xl text-red-700">現在的狀況</h3>
+                            <p class="text-sm text-red-600">在百貨公司廣場談生意</p>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 text-xl">✗</span>
+                            <div>
+                                <p class="font-medium">員工離職 = 帶走客戶</p>
+                                <p class="text-sm text-gray-500">所有對話紀錄、聯絡方式，跟著他消失</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 text-xl">✗</span>
+                            <div>
+                                <p class="font-medium">無法審計追蹤</p>
+                                <p class="text-sm text-gray-500">出事了才發現，什麼紀錄都沒有</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 text-xl">✗</span>
+                            <div>
+                                <p class="font-medium">公私不分</p>
+                                <p class="text-sm text-gray-500">員工下班被 LINE 轟炸，工作生活全混在一起</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 text-xl">✗</span>
+                            <div>
+                                <p class="font-medium">研發機密裸奔</p>
+                                <p class="text-sm text-gray-500">鈣鈦礦技術資料在私人手機裡飄</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- After Card -->
+                <div class="comparison-card good rounded-3xl p-6 md:p-8 scroll-reveal stagger-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-4xl">🏢</span>
+                        <div>
+                            <h3 class="font-bold text-xl text-green-700">導入 LINE WORKS 後</h3>
+                            <p class="text-sm text-green-600">搬進專屬私人辦公大樓</p>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">離職收回權限</p>
+                                <p class="text-sm text-gray-500">客戶資料鎖在公司雲端，一筆都帶不走</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">完整稽核日誌</p>
+                                <p class="text-sm text-gray-500">誰說了什麼、什麼時候說的，全部可追溯</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">下班自動回覆</p>
+                                <p class="text-sm text-gray-500">換下「數位制服」，私人生活不被打擾</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">金融級資安</p>
+                                <p class="text-sm text-gray-500">ISO 27001 + SOC 2/3 認證，研發機密有保障</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Metaphor Visual -->
+            <div class="bg-white rounded-3xl p-6 md:p-10 shadow-lg scroll-reveal">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-bold mb-2">💡 一句話說清楚</h3>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6 items-center">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">🛍️</div>
+                        <p class="font-bold text-lg">百貨公司廣場</p>
+                        <p class="text-sm text-gray-500">（用個人 LINE）</p>
+                        <p class="text-xs text-red-500 mt-2">路人都聽得見</p>
+                    </div>
+                    <div class="text-center text-4xl">
+                        →
+                    </div>
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">🏢</div>
+                        <p class="font-bold text-lg">私人辦公大樓</p>
+                        <p class="text-sm text-gray-500">（用 LINE WORKS）</p>
+                        <p class="text-xs text-green-500 mt-2">門口有保全</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features Section -->
+    <section class="py-16 md:py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12 md:mb-16 scroll-reveal">
+                <span class="inline-block px-4 py-2 bg-amber-100 text-amber-700 rounded-full text-sm font-bold mb-4">🔥 核心賣點</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-4">日本 52 萬家公司選它<br>不是沒有原因</h2>
+                <p class="text-gray-600">連續 8 年市占率第一</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card-hover bg-gradient-to-br from-green-50 to-white rounded-3xl p-6 border border-green-100 scroll-reveal stagger-1">
+                    <div class="w-14 h-14 bg-lw-green rounded-2xl flex items-center justify-center text-white text-2xl mb-4">
+                        🔗
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">唯一能跟 LINE 互通</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        客戶用個人 LINE，你用公司帳號回覆。<br>
+                        <strong>對話紀錄留在公司系統。</strong>
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-gradient-to-br from-blue-50 to-white rounded-3xl p-6 border border-blue-100 scroll-reveal stagger-2">
+                    <div class="w-14 h-14 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-4">
+                        🎯
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">零學習成本</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        介面跟 LINE 一模一樣。<br>
+                        <strong>阿公阿嬤也會用。</strong>
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 border border-purple-100 scroll-reveal stagger-3">
+                    <div class="w-14 h-14 bg-purple-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-4">
+                        🛡️
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">金融級資安</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        日本銀行都在用。<br>
+                        <strong>ISO 27001 + SOC 2/3 認證。</strong>
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-gradient-to-br from-amber-50 to-white rounded-3xl p-6 border border-amber-100 scroll-reveal stagger-4">
+                    <div class="w-14 h-14 bg-amber-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-4">
+                        📦
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">一站式工具箱</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        聊天、行事曆、雲端、問卷、視訊。<br>
+                        <strong>一個 APP 全搞定。</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real Scenarios Section -->
+    <section id="comparison" class="py-16 md:py-24 bg-deep-navy text-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12 md:mb-16 scroll-reveal">
+                <span class="inline-block px-4 py-2 bg-white/10 text-lw-green rounded-full text-sm font-bold mb-4">🎬 真實場景</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-4">這些情況，你一定遇過</h2>
+            </div>
+            
+            <div class="space-y-8">
+                <!-- Scenario 1 -->
+                <div class="bg-white/5 rounded-3xl p-6 md:p-8 border border-white/10 scroll-reveal">
+                    <div class="flex items-start gap-4 md:gap-6">
+                        <div class="text-4xl md:text-5xl shrink-0">🚪</div>
+                        <div class="space-y-4">
+                            <h3 class="text-xl md:text-2xl font-bold">場景一：業務離職那天</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-red-500/10 rounded-xl p-4 border border-red-500/20">
+                                    <p class="text-red-300 text-sm font-medium mb-2">❌ 用個人 LINE</p>
+                                    <p class="text-gray-300 text-sm">
+                                        小王離職，順便把 200 個客戶的 LINE 全帶走。<br>
+                                        三個月後，他在競爭對手那邊開始聯繫這些客戶。
+                                    </p>
+                                </div>
+                                <div class="bg-green-500/10 rounded-xl p-4 border border-green-500/20">
+                                    <p class="text-lw-green text-sm font-medium mb-2">✓ 用 LINE WORKS</p>
+                                    <p class="text-gray-300 text-sm">
+                                        小王離職，HR 按一個鍵收回權限。<br>
+                                        客戶資料、對話紀錄，全部留在公司系統。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scenario 2 -->
+                <div class="bg-white/5 rounded-3xl p-6 md:p-8 border border-white/10 scroll-reveal stagger-2">
+                    <div class="flex items-start gap-4 md:gap-6">
+                        <div class="text-4xl md:text-5xl shrink-0">🌙</div>
+                        <div class="space-y-4">
+                            <h3 class="text-xl md:text-2xl font-bold">場景二：晚上 11 點</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-red-500/10 rounded-xl p-4 border border-red-500/20">
+                                    <p class="text-red-300 text-sm font-medium mb-2">❌ 用個人 LINE</p>
+                                    <p class="text-gray-300 text-sm">
+                                        主管在家庭群組旁邊傳工作訊息。<br>
+                                        已讀不回會被念，回了等於加班。
+                                    </p>
+                                </div>
+                                <div class="bg-green-500/10 rounded-xl p-4 border border-green-500/20">
+                                    <p class="text-lw-green text-sm font-medium mb-2">✓ 用 LINE WORKS</p>
+                                    <p class="text-gray-300 text-sm">
+                                        下班模式自動開啟，系統自動回覆：<br>
+                                        「已收到，明天上班處理。」
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scenario 3 -->
+                <div class="bg-white/5 rounded-3xl p-6 md:p-8 border border-white/10 scroll-reveal stagger-3">
+                    <div class="flex items-start gap-4 md:gap-6">
+                        <div class="text-4xl md:text-5xl shrink-0">🌋</div>
+                        <div class="space-y-4">
+                            <h3 class="text-xl md:text-2xl font-bold">場景三：地震發生</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-red-500/10 rounded-xl p-4 border border-red-500/20">
+                                    <p class="text-red-300 text-sm font-medium mb-2">❌ 用個人 LINE</p>
+                                    <p class="text-gray-300 text-sm">
+                                        HR 在群組問「大家都平安嗎？」<br>
+                                        50 個人的回覆混在一起，根本數不清誰沒回。
+                                    </p>
+                                </div>
+                                <div class="bg-green-500/10 rounded-xl p-4 border border-green-500/20">
+                                    <p class="text-lw-green text-sm font-medium mb-2">✓ 用 LINE WORKS</p>
+                                    <p class="text-gray-300 text-sm">
+                                        一鍵發送安全確認，系統自動統計：<br>
+                                        「48 人已回報平安，2 人待確認」
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Workspace Comparison Section -->
+    <section id="gws" class="py-16 md:py-24 bg-warm-cream">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12 md:mb-16 scroll-reveal">
+                <span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-bold mb-4">🔄 關鍵抉擇</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-4">LINE WORKS vs Google Workspace</h2>
+                <p class="text-gray-600 text-lg">是二選一，還是可以一起用？</p>
+            </div>
+            
+            <!-- Quick Answer -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-6 md:p-10 text-white mb-12 scroll-reveal">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="text-6xl md:text-7xl">🤝</div>
+                    <div>
+                        <h3 class="text-2xl md:text-3xl font-black mb-3">結論：互補，不是取捨</h3>
+                        <p class="text-blue-100 text-lg leading-relaxed">
+                            Google Workspace 是<strong class="text-white">「辦公桌上的工具」</strong>——文件、試算表、Email、雲端儲存。<br>
+                            LINE WORKS 是<strong class="text-white">「口袋裡的對講機」</strong>——即時通訊、客戶聯繫、現場協作。<br>
+                            <span class="text-yellow-300">兩者解決的是不同問題，最佳策略是一起用。</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Detailed Comparison -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <!-- Google Workspace Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 shadow-lg border-2 border-blue-100 scroll-reveal">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white text-3xl shadow-lg">
+                            📝
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl">Google Workspace</h3>
+                            <p class="text-sm text-gray-500">生產力套件・辦公室工具箱</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-start gap-3">
+                            <span class="text-blue-500 text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">文件協作無敵</p>
+                                <p class="text-sm text-gray-500">Docs、Sheets、Slides 即時共同編輯</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-blue-500 text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">企業郵件 Gmail</p>
+                                <p class="text-sm text-gray-500">@yourcompany.com 專業域名</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-blue-500 text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">雲端儲存 Google Drive</p>
+                                <p class="text-sm text-gray-500">檔案管理、搜尋、分享</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-blue-500 text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">Gemini AI 整合</p>
+                                <p class="text-sm text-gray-500">文件生成、資料分析</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                        <p class="text-sm text-amber-800">
+                            <strong>⚠️ 弱點：</strong>Google Chat 在台灣普及度極低，員工和客戶都不習慣用，對外溝通幾乎派不上用場。
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- LINE WORKS Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 shadow-lg border-2 border-green-100 scroll-reveal stagger-2">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-lw-green to-lw-accent rounded-2xl flex items-center justify-center text-white text-3xl shadow-lg">
+                            💬
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl">LINE WORKS</h3>
+                            <p class="text-sm text-gray-500">通訊協作・客戶連結</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-start gap-3">
+                            <span class="text-lw-green text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">與 LINE 互通</p>
+                                <p class="text-sm text-gray-500">99.4% 台灣人都用 LINE，無縫對接客戶</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-lw-green text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">零學習成本</p>
+                                <p class="text-sm text-gray-500">介面跟 LINE 一樣，阿公阿嬤都會</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-lw-green text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">即時通訊 + 審計</p>
+                                <p class="text-sm text-gray-500">所有對話紀錄可追蹤、可控管</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-lw-green text-xl">✓</span>
+                            <div>
+                                <p class="font-medium">現場協作利器</p>
+                                <p class="text-sm text-gray-500">行動優先設計，外勤、業務最適合</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                        <p class="text-sm text-amber-800">
+                            <strong>⚠️ 弱點：</strong>文件協作功能較基礎，複雜的試算表、簡報還是 Google Workspace 強。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Use Case Matrix -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-lg mb-12 scroll-reveal">
+                <h3 class="text-xl font-bold mb-6 text-center">📊 什麼情況用什麼工具？</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[500px] text-sm">
+                        <thead>
+                            <tr class="border-b-2 border-gray-200">
+                                <th class="py-3 px-4 text-left">場景</th>
+                                <th class="py-3 px-4 text-center">Google Workspace</th>
+                                <th class="py-3 px-4 text-center">LINE WORKS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 font-medium">寫報告、做簡報</td>
+                                <td class="py-3 px-4 text-center"><span class="text-blue-500 font-bold text-lg">✓</span></td>
+                                <td class="py-3 px-4 text-center text-gray-400">—</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 bg-gray-50">
+                                <td class="py-3 px-4 font-medium">跟客戶聯絡</td>
+                                <td class="py-3 px-4 text-center text-gray-400">—</td>
+                                <td class="py-3 px-4 text-center"><span class="text-lw-green font-bold text-lg">✓</span></td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 font-medium">團隊即時討論</td>
+                                <td class="py-3 px-4 text-center text-gray-400">△</td>
+                                <td class="py-3 px-4 text-center"><span class="text-lw-green font-bold text-lg">✓</span></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 bg-gray-50">
+                                <td class="py-3 px-4 font-medium">多人共同編輯文件</td>
+                                <td class="py-3 px-4 text-center"><span class="text-blue-500 font-bold text-lg">✓</span></td>
+                                <td class="py-3 px-4 text-center text-gray-400">—</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 font-medium">業務外出回報</td>
+                                <td class="py-3 px-4 text-center text-gray-400">—</td>
+                                <td class="py-3 px-4 text-center"><span class="text-lw-green font-bold text-lg">✓</span></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 bg-gray-50">
+                                <td class="py-3 px-4 font-medium">企業郵件收發</td>
+                                <td class="py-3 px-4 text-center"><span class="text-blue-500 font-bold text-lg">✓</span></td>
+                                <td class="py-3 px-4 text-center text-gray-400">△</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 font-medium">供應商群組溝通</td>
+                                <td class="py-3 px-4 text-center text-gray-400">—</td>
+                                <td class="py-3 px-4 text-center"><span class="text-lw-green font-bold text-lg">✓</span></td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-3 px-4 font-medium">大型檔案儲存管理</td>
+                                <td class="py-3 px-4 text-center"><span class="text-blue-500 font-bold text-lg">✓</span></td>
+                                <td class="py-3 px-4 text-center text-gray-400">△</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-4">✓ 最適合 ｜ △ 可用但非強項 ｜ — 不適合</p>
+            </div>
+            
+            <!-- Integration Scenario -->
+            <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-6 md:p-10 text-white scroll-reveal">
+                <div class="text-center mb-8">
+                    <span class="text-4xl mb-4 block">🔗</span>
+                    <h3 class="text-2xl font-bold mb-2">最佳組合策略</h3>
+                    <p class="text-gray-400">兩套系統各司其職，效益最大化</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+                        <div class="text-3xl mb-4">📧</div>
+                        <h4 class="font-bold text-lg mb-2">正式文書</h4>
+                        <p class="text-gray-300 text-sm">
+                            用 <span class="text-blue-400">Google Workspace</span><br>
+                            寄合約、報價單、正式 Email
+                        </p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+                        <div class="text-3xl mb-4">💬</div>
+                        <h4 class="font-bold text-lg mb-2">日常溝通</h4>
+                        <p class="text-gray-300 text-sm">
+                            用 <span class="text-lw-green">LINE WORKS</span><br>
+                            團隊討論、客戶聯繫、即時回報
+                        </p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+                        <div class="text-3xl mb-4">📁</div>
+                        <h4 class="font-bold text-lg mb-2">檔案協作</h4>
+                        <p class="text-gray-300 text-sm">
+                            用 <span class="text-blue-400">Google Drive</span><br>
+                            把連結丟到 <span class="text-lw-green">LINE WORKS</span> 群組
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 p-6 bg-white/5 rounded-2xl border border-lw-green/30">
+                    <p class="text-center text-lg">
+                        <span class="text-lw-green font-bold">💡 實際操作：</span><br>
+                        研發部在 Google Docs 寫技術文件 → 討論連結丟到 LINE WORKS 群組 → 業務用 LINE WORKS 跟客戶確認需求 → 最終版本存 Google Drive
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Cost Comparison -->
+            <div class="mt-12 bg-white rounded-3xl p-6 md:p-8 shadow-lg scroll-reveal">
+                <h3 class="text-xl font-bold mb-6 text-center">💰 成本參考（50 人規模）</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="p-6 bg-blue-50 rounded-2xl border border-blue-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">📝</span>
+                            <span class="font-bold text-lg">Google Workspace</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Business Starter 方案</p>
+                        <p class="text-2xl font-black text-blue-600">約 NT$ 10,000 ~ 15,000/月</p>
+                        <p class="text-xs text-gray-500 mt-2">（視方案等級而定）</p>
+                    </div>
+                    <div class="p-6 bg-green-50 rounded-2xl border border-green-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">💬</span>
+                            <span class="font-bold text-lg">LINE WORKS</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Standard / Advanced 方案（日本定價）</p>
+                        <p class="text-2xl font-black text-lw-green">約 NT$ 5,000 ~ 9,000/月</p>
+                        <p class="text-xs text-gray-500 mt-2">Standard ¥450 / Advanced ¥800 per user</p>
+                        <p class="text-xs text-amber-600 mt-1">⚠️ 台灣報價請洽富士軟片</p>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-gray-50 rounded-xl text-center">
+                    <p class="text-gray-700">
+                        <strong>兩套加起來：</strong>約 NT$ 15,000 ~ 24,000/月<br>
+                        <span class="text-sm text-gray-500">相當於請一個工讀生的薪水，但能讓 50 人效率翻倍、資安風險歸零</span><br>
+                        <span class="text-xs text-amber-600">※ LINE WORKS 費用依日本官網定價估算，台灣實際報價請洽富士軟片</span>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Final Verdict -->
+            <div class="mt-12 text-center scroll-reveal">
+                <div class="inline-block p-8 bg-gradient-to-r from-lw-green/10 to-blue-50 rounded-3xl border border-lw-green/20">
+                    <p class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+                        🎯 對台灣鈣鈦礦科技的建議
+                    </p>
+                    <p class="text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                        如果公司已經在用 Google Workspace，<strong class="text-lw-dark">不需要取捨</strong>。<br>
+                        繼續用 Google 處理文件和郵件，<strong class="text-lw-green">加上 LINE WORKS 補強通訊</strong>。<br>
+                        這是<strong>「辦公桌 + 對講機」</strong>的組合，不是二選一。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SWOT Analysis Section -->
+    <section class="py-16 md:py-24 bg-warm-gray">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12 md:mb-16 scroll-reveal">
+                <span class="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-bold mb-4">📊 戰略分析</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-4">SWOT 快速掃描</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-green-50 rounded-3xl p-6 md:p-8 border-2 border-green-200 scroll-reveal">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">💪</span>
+                        <h3 class="font-bold text-xl text-green-700">優勢 Strengths</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500">•</span>
+                            <span>介面熟悉度極高，99.4% 台灣人會用 LINE</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500">•</span>
+                            <span>唯一可與個人 LINE 雙向互通</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500">•</span>
+                            <span>內建完整商務工具（日曆、雲端、問卷）</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-amber-50 rounded-3xl p-6 md:p-8 border-2 border-amber-200 scroll-reveal stagger-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">⚠️</span>
+                        <h3 class="font-bold text-xl text-amber-700">劣勢 Weaknesses</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-500">•</span>
+                            <span>需付費訂閱（但比資料外洩便宜太多）</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-500">•</span>
+                            <span>需與現有系統做 API 整合</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-500">•</span>
+                            <span>初期需建立內部使用規範</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-blue-50 rounded-3xl p-6 md:p-8 border-2 border-blue-200 scroll-reveal stagger-3">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">🚀</span>
+                        <h3 class="font-bold text-xl text-blue-700">機會 Opportunities</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500">•</span>
+                            <span>AI 功能即將上線（自動會議摘要、OCR）</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500">•</span>
+                            <span>台灣數位轉型需求強勁</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500">•</span>
+                            <span>台灣富士軟片提供在地技術支援</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-red-50 rounded-3xl p-6 md:p-8 border-2 border-red-200 scroll-reveal stagger-4">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">⚡</span>
+                        <h3 class="font-bold text-xl text-red-700">威脅 Threats</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500">•</span>
+                            <span>MS Teams / Slack 生態系競爭</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500">•</span>
+                            <span>員工習慣改變需要推動</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500">•</span>
+                            <span>個人 LINE 免費的慣性思維</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitor Comparison -->
+    <section class="py-16 md:py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12 md:mb-16 scroll-reveal">
+                <span class="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-bold mb-4">⚔️ 競品對比</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-4">跟其他選擇比一比</h2>
+            </div>
+            
+            <div class="overflow-x-auto scroll-reveal">
+                <table class="w-full min-w-[600px]">
+                    <thead>
+                        <tr class="border-b-2 border-gray-200">
+                            <th class="py-4 px-4 text-left font-bold">對比項目</th>
+                            <th class="py-4 px-4 text-center">
+                                <div class="inline-flex items-center gap-2 px-4 py-2 bg-lw-green/10 rounded-xl">
+                                    <span class="text-lw-green font-bold">LINE WORKS</span>
+                                    <span class="text-xs bg-lw-green text-white px-2 py-1 rounded-full">推薦</span>
+                                </div>
+                            </th>
+                            <th class="py-4 px-4 text-center text-gray-600">個人 LINE</th>
+                            <th class="py-4 px-4 text-center text-gray-600">MS Teams</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-gray-100">
+                            <td class="py-4 px-4 font-medium">與客戶 LINE 互通</td>
+                            <td class="py-4 px-4 text-center text-lw-green font-bold">✓ 支援</td>
+                            <td class="py-4 px-4 text-center text-gray-400">本身就是</td>
+                            <td class="py-4 px-4 text-center text-red-500">✗ 不支援</td>
+                        </tr>
+                        <tr class="border-b border-gray-100 bg-gray-50">
+                            <td class="py-4 px-4 font-medium">學習成本</td>
+                            <td class="py-4 px-4 text-center text-lw-green font-bold">零門檻</td>
+                            <td class="py-4 px-4 text-center text-gray-600">零門檻</td>
+                            <td class="py-4 px-4 text-center text-amber-600">需培訓</td>
+                        </tr>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-4 px-4 font-medium">資料審計追蹤</td>
+                            <td class="py-4 px-4 text-center text-lw-green font-bold">✓ 完整日誌</td>
+                            <td class="py-4 px-4 text-center text-red-500">✗ 無</td>
+                            <td class="py-4 px-4 text-center text-lw-green">✓ 支援</td>
+                        </tr>
+                        <tr class="border-b border-gray-100 bg-gray-50">
+                            <td class="py-4 px-4 font-medium">離職權限控管</td>
+                            <td class="py-4 px-4 text-center text-lw-green font-bold">✓ 一鍵收回</td>
+                            <td class="py-4 px-4 text-center text-red-500">✗ 帶走一切</td>
+                            <td class="py-4 px-4 text-center text-lw-green">✓ 支援</td>
+                        </tr>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-4 px-4 font-medium">下班模式</td>
+                            <td class="py-4 px-4 text-center text-lw-green font-bold">✓ 自動回覆</td>
+                            <td class="py-4 px-4 text-center text-red-500">✗ 無</td>
+                            <td class="py-4 px-4 text-center text-gray-600">需手動設定</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="py-4 px-4 font-medium">台灣在地支援</td>
+                            <td class="py-4 px-4 text-center text-lw-green font-bold">✓ 富士軟片</td>
+                            <td class="py-4 px-4 text-center text-gray-400">無企業支援</td>
+                            <td class="py-4 px-4 text-center text-gray-600">微軟代理商</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-8 p-6 bg-lw-green/5 rounded-2xl border border-lw-green/20 scroll-reveal">
+                <p class="text-center text-gray-700">
+                    <span class="font-bold text-lw-green">結論：</span>
+                    對台灣中小企業來說，LINE WORKS 是「最適合」的選擇——
+                    它同時具備<strong>低學習成本</strong>和<strong>企業級安全</strong>，還能跟客戶的個人 LINE 無縫互通。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Action Plan Section -->
+    <section id="action" class="py-16 md:py-24 bg-gradient-to-br from-deep-navy to-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12 md:mb-16 scroll-reveal">
+                <span class="inline-block px-4 py-2 bg-lw-green/20 text-lw-green rounded-full text-sm font-bold mb-4">🎯 行動方案</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-4">四步驟導入指南</h2>
+                <p class="text-gray-400">從小處起步，快速累積成功案例</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white/5 backdrop-blur rounded-3xl p-6 border border-white/10 scroll-reveal stagger-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-lw-green rounded-full flex items-center justify-center text-white font-bold">1</div>
+                        <h3 class="font-bold text-lg">解決 Shadow IT</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                        強制公務通訊從個人 LINE 移轉至 LINE WORKS
+                    </p>
+                    <div class="text-xs text-gray-500 border-t border-white/10 pt-4">
+                        👤 負責人：IT + HR<br>
+                        ⏱️ 預計時間：2-4 週
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur rounded-3xl p-6 border border-white/10 scroll-reveal stagger-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-lw-green rounded-full flex items-center justify-center text-white font-bold">2</div>
+                        <h3 class="font-bold text-lg">制定使用規範</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                        明確規定：公事一律用 LINE WORKS，私事用個人 LINE
+                    </p>
+                    <div class="text-xs text-gray-500 border-t border-white/10 pt-4">
+                        👤 負責人：管理部門<br>
+                        ⏱️ 預計時間：1 週
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur rounded-3xl p-6 border border-white/10 scroll-reveal stagger-3">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-lw-green rounded-full flex items-center justify-center text-white font-bold">3</div>
+                        <h3 class="font-bold text-lg">試點部門先行</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                        從「業務部門」或「跨部門專案組」開始，快速累積 Quick Wins
+                    </p>
+                    <div class="text-xs text-gray-500 border-t border-white/10 pt-4">
+                        👤 負責人：各部門主管<br>
+                        ⏱️ 預計時間：1-2 個月
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur rounded-3xl p-6 border border-white/10 scroll-reveal stagger-4">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-lw-green rounded-full flex items-center justify-center text-white font-bold">4</div>
+                        <h3 class="font-bold text-lg">全面推廣</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                        分享成功案例，全公司統一採用，建立 BCP 機制
+                    </p>
+                    <div class="text-xs text-gray-500 border-t border-white/10 pt-4">
+                        👤 負責人：IT + 全體主管<br>
+                        ⏱️ 預計時間：1-3 個月
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-white/5 rounded-3xl p-6 md:p-8 border border-white/10 scroll-reveal">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="text-6xl">💡</div>
+                    <div>
+                        <h4 class="font-bold text-xl mb-2">貼心提醒</h4>
+                        <p class="text-gray-300 leading-relaxed">
+                            台灣富士軟片資訊是 LINE WORKS 的官方授權經銷商，可以協助進行<strong class="text-white">在地化導入與技術諮詢</strong>，大幅降低 IT 部門的負擔。導入前建議先洽詢，他們有豐富的日本經驗可以參考。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary Section -->
+    <section class="py-16 md:py-24 bg-warm-cream">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12 scroll-reveal">
+                <span class="inline-block px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-bold mb-4">📝 總結</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-6">一句話說完</h2>
+            </div>
+            
+            <div class="bg-white rounded-3xl p-8 md:p-12 shadow-xl text-center scroll-reveal">
+                <p class="text-xl md:text-2xl leading-relaxed mb-8">
+                    導入 LINE WORKS 不是在「換通訊軟體」，<br>
+                    <span class="font-black text-lw-green text-2xl md:text-3xl">是在把公司資產收回來。</span>
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-3 mb-8">
+                    <span class="px-4 py-2 bg-lw-green/10 text-lw-green rounded-full text-sm font-medium">✓ 資安可控</span>
+                    <span class="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">✓ 零學習成本</span>
+                    <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">✓ LINE 互通</span>
+                    <span class="px-4 py-2 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">✓ 在地支援</span>
+                </div>
+                
+                <div class="p-6 bg-gradient-to-r from-lw-green/10 to-blue-50 rounded-2xl">
+                    <p class="text-gray-700">
+                        對於<strong>台灣鈣鈦礦科技</strong>這樣 50 人規模、擁有高價值研發技術的公司來說，
+                        這不是「可以考慮」，而是<strong class="text-lw-green">資安控管的剛需</strong>。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-deep-navy text-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="font-bold text-lg mb-4">📄 報告資訊</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>分析對象：台灣鈣鈦礦科技（50人）</li>
+                        <li>分析框架：麥肯錫 / BCG / Bain</li>
+                        <li>報告價值：USD $300,000</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">🔗 相關資源</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="https://line-works.com/tw/" target="_blank" class="hover:text-lw-green transition-colors">LINE WORKS 台灣官網</a></li>
+                        <li>台灣富士軟片資訊（官方經銷商）</li>
+                        <li>日本 52 萬家企業實證</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">📊 數據來源</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>商周 / 今周刊 / ETtoday</li>
+                        <li>MIC / IDC 市場研究</li>
+                        <li>富士凱美萊總研</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 text-center text-sm text-gray-500">
+                <p>本報告由 AI 協助整理，基於公開資訊與專業分析框架產出</p>
+                <p class="mt-2">© 2025 TPSC AI Director Office</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
