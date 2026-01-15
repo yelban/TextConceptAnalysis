@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>思銳科技本地推理環境導入評估報告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --grain-opacity: 0.03;
+        }
+        
+        * {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: #FAFAFA;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: var(--grain-opacity);
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .gradient-mesh {
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(120, 119, 198, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255, 119, 80, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 30% at 40% 80%, rgba(78, 205, 196, 0.06) 0%, transparent 50%);
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 15s infinite linear;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .stat-number {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+        }
+        
+        .quote-mark {
+            font-size: 4rem;
+            line-height: 1;
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+        
+        .comparison-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comparison-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: currentColor;
+            opacity: 0.6;
+        }
+        
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #667eea;
+            position: relative;
+        }
+        
+        .timeline-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 100vw;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea 0%, transparent 100%);
+            transform: translateY(-50%);
+        }
+        
+        .roi-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #E5E7EB;
+            overflow: hidden;
+        }
+        
+        .roi-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .floating-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+        
+        .icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+        
+        .prose-content p {
+            margin-bottom: 1.5em;
+            line-height: 1.9;
+            color: #374151;
+        }
+        
+        .prose-content strong {
+            color: #1F2937;
+            font-weight: 600;
+        }
+        
+        .number-highlight {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+        
+        .sticky-nav {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #667eea;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .insight-callout {
+            border-left: 4px solid #667eea;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.05) 0%, transparent 100%);
+        }
+        
+        @media (max-width: 768px) {
+            .quote-mark {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="gradient-mesh min-h-screen">
+    
+    <!-- 導航列 -->
+    <nav class="sticky-nav fixed top-0 left-0 right-0 z-50 border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                        思銳
+                    </div>
+                    <span class="font-medium text-gray-700 hidden sm:block">思銳科技 · 策略評估報告</span>
+                </div>
+                <div class="flex items-center gap-6 text-sm text-gray-500">
+                    <a href="#summary" class="nav-link hover:text-gray-900 hidden md:block">核心洞察</a>
+                    <a href="#market" class="nav-link hover:text-gray-900 hidden md:block">市場現況</a>
+                    <a href="#strategy" class="nav-link hover:text-gray-900 hidden md:block">落地策略</a>
+                    <a href="#action" class="nav-link hover:text-gray-900 hidden md:block">行動方案</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 封面圖片 -->
+    <section class="pt-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="rounded-3xl overflow-hidden shadow-2xl">
+                <img src="header.png" alt="思銳本地推理環境應用報告" class="w-full h-auto">
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <header class="pt-16 pb-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-gray-200 text-sm text-gray-600 mb-8">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                2026 戰略評估
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight mb-8">
+                本地推理環境<br>
+                <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    不是買主機，是買一條生產線
+                </span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-3xl mx-auto mb-12">
+                台灣 92% 的中小企業還在觀望 AI。這份報告告訴你：<br class="hidden md:block">
+                <strong class="text-gray-800">怎麼用一台 48GB 顯存的主機，把重複性工作自動化——而且資料不用出公司。</strong>
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#summary" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium hover:shadow-lg hover:shadow-indigo-500/30 transition-all">
+                    開始閱讀 ↓
+                </a>
+                <div class="text-sm text-gray-500">
+                    預估閱讀時間：15 分鐘
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 核心數據區塊 -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="card rounded-3xl p-6 text-center">
+                    <div class="text-4xl md:text-5xl font-black stat-number mb-2">92%</div>
+                    <div class="text-sm text-gray-500">中小企業僅粗淺了解 AI</div>
+                </div>
+                <div class="card rounded-3xl p-6 text-center">
+                    <div class="text-4xl md:text-5xl font-black stat-number mb-2">171.6萬</div>
+                    <div class="text-sm text-gray-500">台灣中小企業家數（創新高）</div>
+                </div>
+                <div class="card rounded-3xl p-6 text-center">
+                    <div class="text-4xl md:text-5xl font-black stat-number mb-2">30-60%</div>
+                    <div class="text-sm text-gray-500">預期效率提升幅度</div>
+                </div>
+                <div class="card rounded-3xl p-6 text-center">
+                    <div class="text-4xl md:text-5xl font-black stat-number mb-2">48GB</div>
+                    <div class="text-sm text-gray-500">VRAM 門檻（RTX Pro 6000）</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分隔線 -->
+    <div class="section-divider max-w-4xl mx-auto"></div>
+
+    <!-- 核心洞察 -->
+    <section id="summary" class="py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="icon-circle">💡</div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">一句話講完這份報告</h2>
+                    <p class="text-gray-500 mt-1">麥肯錫顧問會怎麼說</p>
+                </div>
+            </div>
+            
+            <div class="highlight-box rounded-3xl p-8 md:p-12 text-white mb-12">
+                <div class="quote-mark absolute top-4 left-6">"</div>
+                <p class="text-xl md:text-2xl leading-relaxed relative z-10">
+                    本地推理環境的真正價值，不在於「模型有多強」，而在於能否把<strong>可驗證的自動化</strong>嵌入既有流程——讓人力從「抄、貼、對、找」這些重複勞動中解放，同時確保敏感資料不離開公司網路。
+                </p>
+                <div class="mt-8 flex items-center gap-4 text-white/80 text-sm">
+                    <span>核心觀點</span>
+                    <span class="w-1 h-1 rounded-full bg-white/50"></span>
+                    <span>基於第一性原理分析</span>
+                </div>
+            </div>
+            
+            <div class="prose-content text-lg">
+                <p>
+                    說起來有點諷刺。經濟部 2025 年的調查結果擺在眼前：超過九成的台灣中小企業對 AI 的理解還停留在「聽過、大概知道」的階段。這不是技術問題，是<strong>認知斷層</strong>。
+                </p>
+                
+                <p>
+                    很多人以為「買大主機就等於擁有 AI 能力」，這跟「買了健身器材就會變壯」的邏輯一樣天真。真正讓 AI 落地的關鍵在於：你有沒有把它變成一條可以重複運轉、可以被驗證對錯的生產線。
+                </p>
+                
+                <div class="insight-callout rounded-2xl p-6 my-8">
+                    <p class="text-gray-700 m-0">
+                        <strong>洞察：</strong>大企業買 AI 是為了「scale」，中小企業買 AI 應該是為了「省人」。兩者的投資邏輯完全不同。前者追求市場規模，後者追求成本結構。
+                    </p>
+                </div>
+                
+                <p>
+                    思銳科技打算推的本地推理環境，本質上是在賣一個承諾：「你的資料不用出公司，但你可以享受 AI 帶來的效率紅利。」這個承諾在醫療、金融、製造這些對資料隱私敏感的產業裡，或許比任何雲端 AI 都來得有吸引力。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before/After 對比 -->
+    <section class="py-20 px-6 bg-white/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">導入前 vs 導入後</h2>
+                <p class="text-gray-500 text-lg">同一家公司，兩種完全不同的運作方式</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Before -->
+                <div class="comparison-card card rounded-3xl p-8 text-red-600">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-3xl">😰</span>
+                        <h3 class="text-2xl font-bold text-gray-900">導入前的日常</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✕</span>
+                            <span>業務花 2 小時從 PDF 報價單抄數字到 Excel，抄錯一個零就是大災難</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✕</span>
+                            <span>工程師改一支程式要先讀三天舊 code，然後祈禱不要改壞其他地方</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✕</span>
+                            <span>客服每天回答同樣的問題 50 遍，人都快瘋了</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✕</span>
+                            <span>主管問「上次跟那個客戶談的條件是什麼」，翻 email 翻到天荒地老</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">✕</span>
+                            <span>想做教育訓練影片，報價一支 15 萬，做完還不確定能不能用</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- After -->
+                <div class="comparison-card card rounded-3xl p-8 text-emerald-600">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-3xl">🚀</span>
+                        <h3 class="text-2xl font-bold text-gray-900">導入後的轉變</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 mt-1">✓</span>
+                            <span>PDF 丟進去，3 秒後欄位自動抽出、金額自動校驗、異常自動標紅</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 mt-1">✓</span>
+                            <span>Agent 自動掃 repo、產出改動方案、跑完測試才敢提交，工程師只需覆核</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 mt-1">✓</span>
+                            <span>常見問題自動生成 60 秒短片，客戶自己看完就懂，工單量砍半</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 mt-1">✓</span>
+                            <span>內網知識庫一問就有，還會附上「這段話出自哪份文件第幾頁」</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 mt-1">✓</span>
+                            <span>腳本寫好丟進流水線，數字人影片批次產出，成本是外包的 1/10</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 市場現況分析 -->
+    <section id="market" class="py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="icon-circle">📊</div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">台灣市場現況</h2>
+                    <p class="text-gray-500 mt-1">為什麼現在是切入的好時機</p>
+                </div>
+            </div>
+            
+            <div class="prose-content text-lg mb-12">
+                <p>
+                    2025 年底的數據給了我們一個很清楚的畫面：台灣中小企業數量創下歷史新高（171.6 萬家），但對 AI 的認知還停在非常初期的階段。這代表什麼？代表<strong>市場還沒被教育完，但需求已經存在</strong>。
+                </p>
+                
+                <p>
+                    經濟部的調查點出了幾個關鍵障礙：「尚無明確應用需求」排第一，接著是「對 AI 不理解」和「導入成本高」。實際上這三件事是同一件事的不同說法——企業主不知道 AI 能幫他做什麼，所以覺得沒需求；不理解，所以覺得貴。
+                </p>
+                
+                <p>
+                    但有意思的是，同一份調查也顯示：15% 的中小企業已經把關鍵營運資料做到「可視化」甚至「可預測」的程度。這 15% 不是不存在，只是還沒找到對的工具。
+                </p>
+            </div>
+            
+            <!-- 市場痛點卡片 -->
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="card rounded-2xl p-6">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="font-bold text-gray-900 mb-2">痛點 #1</h3>
+                    <p class="text-gray-600 text-sm">「我知道 AI 很厲害，但不知道能幫我做什麼」——這是最常聽到的話。</p>
+                </div>
+                <div class="card rounded-2xl p-6">
+                    <div class="text-4xl mb-4">🔒</div>
+                    <h3 class="font-bold text-gray-900 mb-2">痛點 #2</h3>
+                    <p class="text-gray-600 text-sm">「我們的資料很敏感，不敢丟雲端」——尤其是製造業的配方、模具參數。</p>
+                </div>
+                <div class="card rounded-2xl p-6">
+                    <div class="text-4xl mb-4">💸</div>
+                    <h3 class="font-bold text-gray-900 mb-2">痛點 #3</h3>
+                    <p class="text-gray-600 text-sm">「用 API 算下來一年要幾十萬，划不來」——尤其是高頻使用場景。</p>
+                </div>
+            </div>
+            
+            <div class="insight-callout rounded-2xl p-6">
+                <p class="text-gray-700 m-0">
+                    <strong>市場機會：</strong>思銳科技切入的不是「最大的市場」，而是「最痛的市場」。對資料隱私敏感、有高頻 AI 使用需求、但又請不起專職 AI 團隊的中小企業——這個族群的需求是真實存在的，只是還沒被好好滿足。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 資料主權專區 -->
+    <section class="py-20 px-6 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 rounded-full bg-white/10 text-sm mb-6">🔒 核心價值主張</span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">資料主權：為什麼「不出網」這麼重要</h2>
+                <p class="text-slate-300 text-lg max-w-3xl mx-auto">本地推理的真正賣點，不是「比雲端便宜」，而是「敏感資料永遠不離開你的控制範圍」</p>
+            </div>
+            
+            <!-- 核心論點 -->
+            <div class="max-w-4xl mx-auto mb-16">
+                <div class="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur">
+                    <p class="text-xl leading-relaxed text-slate-200">
+                        說起來，很多企業選擇雲端 AI 是因為「方便」。但方便的代價是什麼？你的客戶資料、合約條款、產品配方、財務數字、員工個資——全部都要經過別人的伺服器。就算服務商承諾「不會看、不會存」，<strong class="text-white">你能證明嗎？出事的時候，誰負責？</strong>
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <p class="text-slate-400 text-sm">
+                            這不是paranoia，是風險管理的基本功。尤其對製造業的配方參數、金融業的交易資料、醫療業的病歷、法律業的合約——這些東西一旦外洩，損失的不只是錢，還有信任。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 三大支柱 -->
+            <div class="grid md:grid-cols-3 gap-6 mb-16">
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="w-14 h-14 rounded-xl bg-red-500/20 flex items-center justify-center mb-4">
+                        <span class="text-2xl">🛡️</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">資料不出境</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        所有運算都在內網完成。原始資料、中間產物、最終結果——全部留在你的機房或辦公室。沒有 API call，沒有雲端 log，沒有第三方能碰到你的資料。
+                    </p>
+                </div>
+                
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="w-14 h-14 rounded-xl bg-amber-500/20 flex items-center justify-center mb-4">
+                        <span class="text-2xl">📋</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">合規可稽核</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        個資法、GDPR、產業特定規範——本地部署讓你能完整掌握資料處理的每一步。稽核來的時候，你可以明確說明資料在哪、誰能存取、怎麼處理。
+                    </p>
+                </div>
+                
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="w-14 h-14 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-4">
+                        <span class="text-2xl">🔐</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">供應商中立</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        不被單一雲端服務綁定。模型可以換、框架可以改、服務商可以談——但你的資料永遠是你的。這是長期競爭力的基礎。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- 高敏感產業應用 -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold mb-8 text-center">哪些產業「非本地不可」？</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 製造業 -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🏭</span>
+                            <h4 class="text-lg font-bold">製造業</h4>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>製程配方、模具參數、良率數據</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>設備維護紀錄、異常檢測模型</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>供應商報價、成本結構分析</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-blue-500/20">
+                            <p class="text-xs text-slate-400">風險：配方外洩 = 競爭優勢歸零</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 金融業 -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border border-emerald-500/20">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🏦</span>
+                            <h4 class="text-lg font-bold">金融業</h4>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-emerald-400 mt-1">•</span>
+                                <span>客戶交易紀錄、信用評估資料</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-emerald-400 mt-1">•</span>
+                                <span>風控模型、反洗錢偵測邏輯</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-emerald-400 mt-1">•</span>
+                                <span>投資策略、市場分析報告</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-emerald-500/20">
+                            <p class="text-xs text-slate-400">風險：金管會合規 + 客戶信任崩盤</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 醫療業 -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-rose-500/10 to-rose-600/5 border border-rose-500/20">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🏥</span>
+                            <h4 class="text-lg font-bold">醫療業</h4>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>病歷、診斷紀錄、醫療影像</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>臨床試驗數據、研究資料</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>藥品配方、治療方案優化</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-rose-500/20">
+                            <p class="text-xs text-slate-400">風險：HIPAA/個資法 + 醫療倫理</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 法律業 -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-600/5 border border-purple-500/20">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">⚖️</span>
+                            <h4 class="text-lg font-bold">法律業</h4>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-purple-400 mt-1">•</span>
+                                <span>合約條款、訴訟策略文件</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-purple-400 mt-1">•</span>
+                                <span>客戶機密資訊、盡職調查報告</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-purple-400 mt-1">•</span>
+                                <span>智慧財產權文件、專利分析</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-purple-500/20">
+                            <p class="text-xs text-slate-400">風險：律師保密義務 + 利益衝突</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 政府/國防 -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-slate-500/10 to-slate-600/5 border border-slate-500/20">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🏛️</span>
+                            <h4 class="text-lg font-bold">政府 / 國防</h4>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-slate-400 mt-1">•</span>
+                                <span>公文、政策草案、內部簽呈</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-slate-400 mt-1">•</span>
+                                <span>國防相關技術文件、採購資料</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-slate-400 mt-1">•</span>
+                                <span>人員資料、安全等級分類</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-slate-500/20">
+                            <p class="text-xs text-slate-400">風險：國家安全 + 資安法規</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 研發/科技 -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🔬</span>
+                            <h4 class="text-lg font-bold">研發 / 科技</h4>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-amber-400 mt-1">•</span>
+                                <span>專利申請前的技術文件</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-amber-400 mt-1">•</span>
+                                <span>演算法、模型架構、訓練資料</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-amber-400 mt-1">•</span>
+                                <span>競爭分析、市場情報</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-amber-500/20">
+                            <p class="text-xs text-slate-400">風險：營業秘密 + 先發優勢喪失</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 本地 vs 雲端對比 -->
+            <div class="max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold mb-8 text-center">本地推理 vs 雲端 API：資料安全面向對比</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-white/10">
+                                <th class="py-4 px-4 text-left text-slate-400 font-medium">面向</th>
+                                <th class="py-4 px-4 text-left text-emerald-400 font-medium">本地推理</th>
+                                <th class="py-4 px-4 text-left text-rose-400 font-medium">雲端 API</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300">
+                            <tr class="border-b border-white/5">
+                                <td class="py-4 px-4 font-medium text-white">資料傳輸</td>
+                                <td class="py-4 px-4">✅ 完全不出內網</td>
+                                <td class="py-4 px-4">⚠️ 經過網際網路傳輸</td>
+                            </tr>
+                            <tr class="border-b border-white/5">
+                                <td class="py-4 px-4 font-medium text-white">存取紀錄</td>
+                                <td class="py-4 px-4">✅ 完整掌握在自己手上</td>
+                                <td class="py-4 px-4">⚠️ 依賴供應商提供</td>
+                            </tr>
+                            <tr class="border-b border-white/5">
+                                <td class="py-4 px-4 font-medium text-white">資料留存</td>
+                                <td class="py-4 px-4">✅ 自主決定保留或刪除</td>
+                                <td class="py-4 px-4">⚠️ 供應商政策可能變動</td>
+                            </tr>
+                            <tr class="border-b border-white/5">
+                                <td class="py-4 px-4 font-medium text-white">模型訓練</td>
+                                <td class="py-4 px-4">✅ 資料不會被用於訓練</td>
+                                <td class="py-4 px-4">⚠️ 需確認 opt-out 條款</td>
+                            </tr>
+                            <tr class="border-b border-white/5">
+                                <td class="py-4 px-4 font-medium text-white">第三方存取</td>
+                                <td class="py-4 px-4">✅ 完全排除</td>
+                                <td class="py-4 px-4">⚠️ 供應商員工、承包商</td>
+                            </tr>
+                            <tr class="border-b border-white/5">
+                                <td class="py-4 px-4 font-medium text-white">法規傳喚</td>
+                                <td class="py-4 px-4">✅ 只需回應本地法規</td>
+                                <td class="py-4 px-4">⚠️ 可能受境外法規管轄</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-4 font-medium text-white">服務中斷</td>
+                                <td class="py-4 px-4">✅ 斷網也能繼續運作</td>
+                                <td class="py-4 px-4">⚠️ 依賴網路與供應商</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 資料主權應用場景 -->
+            <div class="mt-16 max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold mb-8 text-center">資料主權驅動的 AI 應用場景</h3>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                        <h4 class="font-bold text-lg mb-4 flex items-center gap-2">
+                            <span class="text-xl">📄</span>
+                            敏感文件處理
+                        </h4>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>合約審閱：條款比對、風險標註、修改建議——全在內網完成</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>財報分析：數字抽取、趨勢比對、異常偵測——不經雲端</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>專利搜尋：技術比對、前案分析——保護申請前的秘密</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                        <h4 class="font-bold text-lg mb-4 flex items-center gap-2">
+                            <span class="text-xl">💬</span>
+                            內部溝通分析
+                        </h4>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>會議紀錄：逐字稿、摘要、待辦——不讓第三方聽到內部討論</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>客訴分析：情緒偵測、問題分類——客戶資料留在內部</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>員工回饋：意見彙整、趨勢分析——保護員工隱私</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                        <h4 class="font-bold text-lg mb-4 flex items-center gap-2">
+                            <span class="text-xl">🔧</span>
+                            核心系統整合
+                        </h4>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>ERP/MES 對接：訂單、庫存、排程——不讓營運資料外流</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>CRM 分析：客戶行為、銷售預測——客戶關係是核心資產</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>程式碼庫：自動文件、Bug 修復——原始碼不出公司</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                        <h4 class="font-bold text-lg mb-4 flex items-center gap-2">
+                            <span class="text-xl">🛡️</span>
+                            合規自動化
+                        </h4>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>PII 遮罩：自動偵測並遮蔽身分證、信用卡、地址</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>文件分級：機密/內部/公開自動標註</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-indigo-400">→</span>
+                                <span>稽核追蹤：誰存取了什麼、做了什麼改動——完整日誌</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 結論 -->
+            <div class="mt-16 max-w-3xl mx-auto text-center">
+                <div class="p-8 rounded-3xl bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20">
+                    <p class="text-xl leading-relaxed text-slate-200">
+                        「資料主權不是paranoia，是<strong class="text-white">基本的風險管理</strong>。<br>
+                        本地推理讓你在享受 AI 效率的同時，不用把家門鑰匙交給別人。」
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI 評估 -->
+    <section class="py-20 px-6 bg-white/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">ROI 評估矩陣</h2>
+                <p class="text-gray-500 text-lg">什麼該做、什麼不該做——用數字說話</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- 高 ROI 項目 -->
+                <div class="card rounded-3xl p-8">
+                    <div class="flex items-center gap-3 mb-8">
+                        <span class="text-2xl">✅</span>
+                        <h3 class="text-xl font-bold text-gray-900">高槓桿行動（優先投入）</h3>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">OpenCode + GLM 開發代理</span>
+                                <span class="text-sm text-indigo-600 font-medium">ROI 9/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill" style="width: 90%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">維運類工單處理時間降低 30-60%</p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">內網 RAG 知識檢索</span>
+                                <span class="text-sm text-indigo-600 font-medium">ROI 8/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill" style="width: 80%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">查資料時間下降 50-80%</p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">文件 ETL 自動化</span>
+                                <span class="text-sm text-indigo-600 font-medium">ROI 8/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill" style="width: 80%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">對帳/報表工時下降 40-70%</p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">會議/客服轉錄摘要</span>
+                                <span class="text-sm text-indigo-600 font-medium">ROI 8/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill" style="width: 80%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">固定輸出格式、低導入成本</p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">LTX-2 數字人短影音</span>
+                                <span class="text-sm text-indigo-600 font-medium">ROI 7/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill" style="width: 70%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">客服工單量下降 10-30%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 低 ROI 項目 -->
+                <div class="card rounded-3xl p-8">
+                    <div class="flex items-center gap-3 mb-8">
+                        <span class="text-2xl">⛔</span>
+                        <h3 class="text-xl font-bold text-gray-900">低槓桿陷阱（避免投入）</h3>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">先做平台 UI / 工作台</span>
+                                <span class="text-sm text-red-500 font-medium">ROI 3/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill bg-gradient-to-r from-red-400 to-red-500" style="width: 30%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">高投入、低即時回報</p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">多代理編排 (Swarm)</span>
+                                <span class="text-sm text-red-500 font-medium">ROI 2/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill bg-gradient-to-r from-red-400 to-red-500" style="width: 20%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">技術複雜度高、穩定性差</p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">先做 LoRA / 微調</span>
+                                <span class="text-sm text-red-500 font-medium">ROI 2/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill bg-gradient-to-r from-red-400 to-red-500" style="width: 20%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">未先驗證任務就微調 = 浪費</p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">追求通用聊天助理</span>
+                                <span class="text-sm text-red-500 font-medium">ROI 1/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill bg-gradient-to-r from-red-400 to-red-500" style="width: 10%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">雲端 API 已經夠好，不需本地做</p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-700">電影級擬真數字人</span>
+                                <span class="text-sm text-red-500 font-medium">ROI 1/10</span>
+                            </div>
+                            <div class="roi-bar">
+                                <div class="roi-fill bg-gradient-to-r from-red-400 to-red-500" style="width: 10%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">投入產出比極低，中小企業用不到</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 落地策略 -->
+    <section id="strategy" class="py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="icon-circle">🎯</div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">兩條核心生產線</h2>
+                    <p class="text-gray-500 mt-1">不是功能清單，是可以跑起來的流水線</p>
+                </div>
+            </div>
+            
+            <div class="prose-content text-lg mb-12">
+                <p>
+                    我花了很多時間研究這份報告的底層邏輯，得出一個結論：思銳科技要賣的不是「主機」，而是「生產線」。這兩件事差很多。
+                </p>
+                
+                <p>
+                    主機是資產，買了就放在那裡，用不用得起來是你的事。生產線是流程，每個環節都有輸入、有輸出、有驗證機制。企業買的應該是後者。
+                </p>
+            </div>
+            
+            <!-- 生產線 A -->
+            <div class="card rounded-3xl p-8 mb-8 relative">
+                <div class="floating-badge">核心產品</div>
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-4xl">⚙️</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">生產線 A：Coding Agent</h3>
+                        <p class="text-gray-500">OpenCode + GLM-4.7 本地推理</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+                    <h4 class="font-bold text-gray-800 mb-4">這條線能做什麼：</h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <span class="text-indigo-500">→</span>
+                            <span>新專案接手：自動生成架構圖、模組責任、風險清單</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-indigo-500">→</span>
+                            <span>Bug 修復：讀 log → 寫測試 → 修正 → 跑 CI 直到綠燈</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-indigo-500">→</span>
+                            <span>大量重構：框架升級、lint 修復、API 調整</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-indigo-500">→</span>
+                            <span>測試補齊：針對關鍵模組自動補單元測試</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-indigo-500">→</span>
+                            <span>DevOps 代理：Dockerfile、CI pipeline 自動修正</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-indigo-500">→</span>
+                            <span>API 文件：從程式碼自動抽 API、例子、錯誤碼</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-bold text-gray-800 mb-4">硬性門檻（沒通過不准合）：</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm">必須產出可讀 diff</span>
+                        <span class="px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm">必須跑過 tests</span>
+                        <span class="px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm">必須 lint 通過</span>
+                        <span class="px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm">必須有回滾指令</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 生產線 B -->
+            <div class="card rounded-3xl p-8 relative">
+                <div class="floating-badge">選配產品</div>
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-4xl">🎬</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">生產線 B：數字人影音工廠</h3>
+                        <p class="text-gray-500">LTX-2 + XTTS + 工作流整合</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+                    <h4 class="font-bold text-gray-800 mb-4">這條線能做什麼：</h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <span class="text-purple-500">→</span>
+                            <span>業務個人化影片：同腳本批次產出不同客戶版本</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-purple-500">→</span>
+                            <span>客服教學：SOP 變成會講話的教學片</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-purple-500">→</span>
+                            <span>內訓短片：制度、資安、流程系列化產出</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-purple-500">→</span>
+                            <span>產品上架：商品說明、安裝教學多平台尺寸</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-purple-500">→</span>
+                            <span>多語版本：同影片改語音字幕做日/英/東南亞版</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-purple-500">→</span>
+                            <span>展場導覽：迎賓/產品亮點數字人循環播放</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-bold text-gray-800 mb-4">技術堆疊：</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 rounded-full bg-purple-50 text-purple-700 text-sm">LTX-2 影像生成</span>
+                        <span class="px-4 py-2 rounded-full bg-purple-50 text-purple-700 text-sm">XTTS 語音合成</span>
+                        <span class="px-4 py-2 rounded-full bg-purple-50 text-purple-700 text-sm">Wav2Lip 嘴型同步</span>
+                        <span class="px-4 py-2 rounded-full bg-purple-50 text-purple-700 text-sm">ComfyUI 工作流</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 應用版圖：10 大能力模組 -->
+    <section class="py-20 px-6 bg-white/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 text-sm font-medium mb-6">48GB VRAM 能做什麼</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">十大能力模組全景圖</h2>
+                <p class="text-gray-500 text-lg max-w-2xl mx-auto">核心價值不是「聊天最強」，而是：內網資料、可控流程、可批次化、可嵌入既有系統</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 模組 1 -->
+                <div class="card rounded-2xl p-6 relative group">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">1</div>
+                    <div class="text-3xl mb-4">📄</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">文件 / OCR / 結構化抽取</h3>
+                    <p class="text-gray-500 text-sm mb-4">合約、規格書、發票、報關單——條款/數字/表格抽欄位，產出 JSON/Excel，自動比對差異</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">Qwen2.5-VL</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">DocVQA</span>
+                    </div>
+                </div>
+                
+                <!-- 模組 2 -->
+                <div class="card rounded-2xl p-6 relative group">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">2</div>
+                    <div class="text-3xl mb-4">💻</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">程式開發 / Coding Agent</h3>
+                    <p class="text-gray-500 text-sm mb-4">內網程式碼庫自動讀 repo、生成設計說明、API 文件、測試、Migration 腳本</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">GLM-4.7</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">OpenCode</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">DeepSeek-R1</span>
+                    </div>
+                </div>
+                
+                <!-- 模組 3 -->
+                <div class="card rounded-2xl p-6 relative group">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">3</div>
+                    <div class="text-3xl mb-4">👁️</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">多模態「聽+看+讀」</h3>
+                    <p class="text-gray-500 text-sm mb-4">通話錄音→逐字稿→情緒分析→知識庫引用→建議回覆；拍照判讀設備狀態</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">Qwen2.5-Omni</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">端到端多模態</span>
+                    </div>
+                </div>
+                
+                <!-- 模組 4 -->
+                <div class="card rounded-2xl p-6 relative group">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">4</div>
+                    <div class="text-3xl mb-4">🎙️</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">語音 / ASR / 會議系統</h3>
+                    <p class="text-gray-500 text-sm mb-4">會議逐字稿、重點、待辦、決策紀錄；客服錄音稽核：關鍵字、SOP 違規</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">Whisper large-v3</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">多語轉錄</span>
+                    </div>
+                </div>
+                
+                <!-- 模組 5 -->
+                <div class="card rounded-2xl p-6 relative group">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">5</div>
+                    <div class="text-3xl mb-4">🎨</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">影像生成 / 修圖</h3>
+                    <p class="text-gray-500 text-sm mb-4">商品圖背景替換、行銷素材批次產生、品牌圖庫、icon set、情境示意圖</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">Z-Image 6B</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">ComfyUI</span>
+                    </div>
+                </div>
+                
+                <!-- 模組 6 -->
+                <div class="card rounded-2xl p-6 relative group">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">6</div>
+                    <div class="text-3xl mb-4">🎬</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">影片生成 / 數字人</h3>
+                    <p class="text-gray-500 text-sm mb-4">產品示範短片、內訓 SOP 影片、展場輪播；影片局部重做、字幕替換</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">LTX-2</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">32GB+ VRAM</span>
+                    </div>
+                </div>
+                
+                <!-- 模組 7 -->
+                <div class="card rounded-2xl p-6 relative group">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm font-bold">★</div>
+                    <div class="text-3xl mb-4">🔍</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">企業知識庫 / RAG</h3>
+                    <p class="text-gray-500 text-sm mb-4">NAS/SharePoint 變成可問可查可引用；文件變更追蹤、跨資料源合併檢索</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-emerald-100 text-emerald-600 text-xs">主戰場</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">Qdrant/FAISS</span>
+                    </div>
+                </div>
+                
+                <!-- 模組 8 -->
+                <div class="card rounded-2xl p-6 relative group">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">8</div>
+                    <div class="text-3xl mb-4">🔧</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">專業領域微調</h3>
+                    <p class="text-gray-500 text-sm mb-4">把模型訓練成公司格式：報表模板、稽核模板、固定輸出 JSON schema</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">LoRA</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">48GB 跑得動</span>
+                    </div>
+                </div>
+                
+                <!-- 模組 9 -->
+                <div class="card rounded-2xl p-6 relative group">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">9</div>
+                    <div class="text-3xl mb-4">🛡️</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">內網治理 / DLP / 合規</h3>
+                    <p class="text-gray-500 text-sm mb-4">文件自動分級、PII 敏感資訊遮罩、對外發送前自動稽核</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-amber-100 text-amber-600 text-xs">常被忽略</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">很值錢</span>
+                    </div>
+                </div>
+                
+                <!-- 模組 10 -->
+                <div class="card rounded-2xl p-6 relative group md:col-span-2 lg:col-span-1">
+                    <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">10</div>
+                    <div class="text-3xl mb-4">🔬</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">視覺檢測 / AOI</h3>
+                    <p class="text-gray-500 text-sm mb-4">瑕疵分類、尺寸外觀檢測、序號辨識；用 VLM 做弱監督標註快速建資料集</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">製造業</span>
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs">少樣本學習</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 額外補充 -->
+            <div class="mt-12 p-6 rounded-2xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100">
+                <div class="flex items-start gap-4">
+                    <span class="text-2xl">💡</span>
+                    <div>
+                        <h4 class="font-bold text-gray-900 mb-2">額外選項：Llama 4 Scout / Maverick</h4>
+                        <p class="text-gray-600 text-sm">Meta 釋出的原生多模態與超長上下文模型，屬於「可走私有部署」的模型系，適合需要處理超長文件或多模態場景的企業。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coding Agent 詳細工作流 -->
+    <section class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="icon-circle">⚙️</div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">Coding Agent 深度拆解</h2>
+                    <p class="text-gray-500 mt-1">OpenCode + GLM-4.7 能幫你做什麼</p>
+                </div>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <!-- 左側：技術定位 -->
+                <div class="card rounded-3xl p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">這套組合的正確定位</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl">🛠️</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-1">OpenCode</h4>
+                                <p class="text-gray-600 text-sm">開源 coding agent（CLI/TUI），內建 <strong>plan（唯讀分析）</strong>與 <strong>build（可改檔/可跑指令）</strong>模式；支援把外部工具接成 MCP tools</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl">🧠</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-1">GLM-4.7（32B active）</h4>
+                                <p class="text-gray-600 text-sm">開源權重模型，主打 coding agent 場景的 tool calling 與「多輪保留思路/降低資訊流失」；支援 vLLM / SGLang 本地部署</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 p-4 rounded-xl bg-gray-50">
+                        <h4 class="font-bold text-gray-800 mb-3">48GB 顯存的價值</h4>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center gap-2">
+                                <span class="text-indigo-500">→</span>
+                                同時跑 LLM + embedding + reranker + 索引/測試
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-indigo-500">→</span>
+                                更長上下文：大 repo 掃描、長 log、長規格
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-indigo-500">→</span>
+                                多工批次：一晚跑完掃 repo → 產文件 → 補測試 → 產 PR
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 右側：10 種工作流 -->
+                <div class="card rounded-3xl p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">中小企業最有用的 10 種 Agent 工作流</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">1</span>
+                            <div>
+                                <span class="font-medium text-gray-800">新專案接手/讀舊系統</span>
+                                <p class="text-xs text-gray-500 mt-1">自動生成架構圖、模組責任、關鍵資料流、風險清單</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">2</span>
+                            <div>
+                                <span class="font-medium text-gray-800">規格 → 實作</span>
+                                <p class="text-xs text-gray-500 mt-1">需求文件拆成 task list、建分支、改程式、補測試、開 PR</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">3</span>
+                            <div>
+                                <span class="font-medium text-gray-800">Bug 重現 → 修到綠燈</span>
+                                <p class="text-xs text-gray-500 mt-1">讀 log/stack trace、寫最小重現測試、反覆修正直到 CI pass</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">4</span>
+                            <div>
+                                <span class="font-medium text-gray-800">大量重構/框架升級</span>
+                                <p class="text-xs text-gray-500 mt-1">Python/Node/Java 版本升級、API 調整、批次 lint/format</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">5</span>
+                            <div>
+                                <span class="font-medium text-gray-800">自動補齊測試</span>
+                                <p class="text-xs text-gray-500 mt-1">關鍵模組補單元測試、產生測資、生成 mock、跑 coverage</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">6</span>
+                            <div>
+                                <span class="font-medium text-gray-800">DevOps/容器化代理</span>
+                                <p class="text-xs text-gray-500 mt-1">Dockerfile、compose、k8s manifests、CI pipeline 修正</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">7</span>
+                            <div>
+                                <span class="font-medium text-gray-800">資料工程代理</span>
+                                <p class="text-xs text-gray-500 mt-1">SQL/ETL pipeline、欄位血緣、資料品質檢查、異常規則</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">8</span>
+                            <div>
+                                <span class="font-medium text-gray-800">SDK / API 文件自動化</span>
+                                <p class="text-xs text-gray-500 mt-1">從程式碼抽 API、例子、錯誤碼、變更摘要</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">9</span>
+                            <div>
+                                <span class="font-medium text-gray-800">工具串接型任務（MCP）</span>
+                                <p class="text-xs text-gray-500 mt-1">Jira/GitHub/GitLab/DB/內網 API 接成工具，agent 直接執行</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                            <span class="number-highlight text-xs w-6 h-6 flex-shrink-0">10</span>
+                            <div>
+                                <span class="font-medium text-gray-800">內網合規開發</span>
+                                <p class="text-xs text-gray-500 mt-1">原始碼不出公司；配合稽核紀錄（命令/diff/工具呼叫紀錄）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 部署路線圖 -->
+            <div class="card rounded-3xl p-8 bg-gradient-to-r from-indigo-50 to-purple-50 border-0">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">部署路線：plan → build 分段控風險</h3>
+                
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+                    <div class="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white shadow-sm">
+                        <span class="text-2xl">🔍</span>
+                        <div>
+                            <div class="font-bold text-gray-800">Plan 模式</div>
+                            <div class="text-sm text-gray-500">唯讀分析、掃 repo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-2xl text-indigo-300">→</div>
+                    
+                    <div class="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white shadow-sm">
+                        <span class="text-2xl">🔧</span>
+                        <div>
+                            <div class="font-bold text-gray-800">Build 模式</div>
+                            <div class="text-sm text-gray-500">可改檔、跑指令</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-2xl text-indigo-300">→</div>
+                    
+                    <div class="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white shadow-sm">
+                        <span class="text-2xl">✅</span>
+                        <div>
+                            <div class="font-bold text-gray-800">MCP 工具層</div>
+                            <div class="text-sm text-gray-500">Git/Issue/DB/CI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 數字人詳細拆解 -->
+    <section class="py-20 px-6 bg-gradient-to-b from-purple-50 to-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="icon-circle bg-purple-100">🎬</div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">數字人工廠深度拆解</h2>
+                    <p class="text-gray-500 mt-1">LTX-2 為核心的影音流水線</p>
+                </div>
+            </div>
+            
+            <div class="prose-content text-lg mb-12 max-w-4xl">
+                <p>
+                    說到數字人，很多人第一反應是「那不是要做得跟真人一樣嗎？很貴吧？」實際上，中小企業需要的不是電影級特效，而是<strong>能批次產出、能快速迭代、成本可控</strong>的內容工廠。LTX-2 的定位剛好就是這個——同步音訊＋影像的開源模型，48GB 顯存跑得動。
+                </p>
+            </div>
+            
+            <!-- 10 大落地場景 -->
+            <div class="mb-12">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">數字人最強的 10 個落地場景（中小企業版）</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">🎯</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">業務個人化影片</h4>
+                        <p class="text-xs text-gray-500">同腳本批次產出不同客戶版本</p>
+                    </div>
+                    
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">🎧</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">客服/售後教學</h4>
+                        <p class="text-xs text-gray-500">SOP 變成會講話的教學片</p>
+                    </div>
+                    
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">📚</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">內訓/新人訓練</h4>
+                        <p class="text-xs text-gray-500">制度、資安、流程系列化</p>
+                    </div>
+                    
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">🛒</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">產品上架工廠</h4>
+                        <p class="text-xs text-gray-500">商品說明多平台尺寸</p>
+                    </div>
+                    
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">🌏</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">多語在地化</h4>
+                        <p class="text-xs text-gray-500">同影片改語音字幕</p>
+                    </div>
+                    
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">🏪</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">展場/門市導覽</h4>
+                        <p class="text-xs text-gray-500">迎賓導覽循環播放</p>
+                    </div>
+                    
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">📝</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">技術型行銷</h4>
+                        <p class="text-xs text-gray-500">白皮書變 60 秒短片</p>
+                    </div>
+                    
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">👥</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">HR 溝通</h4>
+                        <p class="text-xs text-gray-500">招募介紹快速多版本</p>
+                    </div>
+                    
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">⚠️</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">危機/公告影片</h4>
+                        <p class="text-xs text-gray-500">統一口徑快速出片</p>
+                    </div>
+                    
+                    <div class="card rounded-2xl p-5 text-center hover:border-purple-200 transition-colors">
+                        <div class="text-3xl mb-3">🎭</div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-2">情境模擬</h4>
+                        <p class="text-xs text-gray-500">話術演練訓練素材庫</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 技術堆疊 -->
+            <div class="card rounded-3xl p-8">
+                <h3 class="text-xl font-bold text-gray-900 mb-6">數字人技術堆疊（全部可本地跑）</h3>
+                
+                <div class="grid md:grid-cols-5 gap-4 mb-8">
+                    <div class="p-4 rounded-xl bg-purple-50 text-center">
+                        <div class="text-2xl mb-2">🎬</div>
+                        <div class="font-bold text-gray-800 text-sm">影片生成</div>
+                        <div class="text-xs text-purple-600 mt-1">LTX-2</div>
+                    </div>
+                    
+                    <div class="p-4 rounded-xl bg-purple-50 text-center">
+                        <div class="text-2xl mb-2">👤</div>
+                        <div class="font-bold text-gray-800 text-sm">人像驅動</div>
+                        <div class="text-xs text-purple-600 mt-1">LivePortrait</div>
+                    </div>
+                    
+                    <div class="p-4 rounded-xl bg-purple-50 text-center">
+                        <div class="text-2xl mb-2">👄</div>
+                        <div class="font-bold text-gray-800 text-sm">嘴型同步</div>
+                        <div class="text-xs text-purple-600 mt-1">Wav2Lip</div>
+                    </div>
+                    
+                    <div class="p-4 rounded-xl bg-purple-50 text-center">
+                        <div class="text-2xl mb-2">🔊</div>
+                        <div class="font-bold text-gray-800 text-sm">語音合成</div>
+                        <div class="text-xs text-purple-600 mt-1">XTTS v2</div>
+                    </div>
+                    
+                    <div class="p-4 rounded-xl bg-purple-50 text-center">
+                        <div class="text-2xl mb-2">🎙️</div>
+                        <div class="font-bold text-gray-800 text-sm">聲線轉移</div>
+                        <div class="text-xs text-purple-600 mt-1">OpenVoice</div>
+                    </div>
+                </div>
+                
+                <!-- 流程圖 -->
+                <div class="p-6 rounded-2xl bg-gray-50">
+                    <h4 class="font-bold text-gray-800 mb-4 text-center">影音流水線流程</h4>
+                    <div class="flex flex-wrap items-center justify-center gap-3 text-sm">
+                        <span class="px-4 py-2 rounded-full bg-white border border-gray-200">📝 腳本（LLM）</span>
+                        <span class="text-gray-300">→</span>
+                        <span class="px-4 py-2 rounded-full bg-white border border-gray-200">🎙️ 配音（XTTS）</span>
+                        <span class="text-gray-300">→</span>
+                        <span class="px-4 py-2 rounded-full bg-white border border-gray-200">🎬 影像（LTX-2）</span>
+                        <span class="text-gray-300">→</span>
+                        <span class="px-4 py-2 rounded-full bg-white border border-gray-200">✂️ 合成/字幕</span>
+                        <span class="text-gray-300">→</span>
+                        <span class="px-4 py-2 rounded-full bg-purple-100 border border-purple-200 text-purple-700">📤 批次輸出</span>
+                    </div>
+                </div>
+                
+                <!-- 實務提醒 -->
+                <div class="mt-6 p-4 rounded-xl bg-amber-50 border border-amber-100">
+                    <div class="flex items-start gap-3">
+                        <span class="text-xl">⚠️</span>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">實務底線</h4>
+                            <p class="text-gray-600 text-sm mt-1">不要做「冒充真實個人/未授權肖像或聲音」的數字人。商用一定要有權利與告知。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第一性原理解析 -->
+    <section class="py-20 px-6 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 rounded-full bg-white/10 text-sm mb-6">第一性原理</span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">往下挖五層，找到真正的「為什麼」</h2>
+                <p class="text-gray-400 text-lg">從「買主機」一路問到「企業為什麼存在」</p>
+            </div>
+            
+            <div class="space-y-8">
+                <div class="flex items-start gap-6">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-300 font-bold">1</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">表層需求</h3>
+                        <p class="text-gray-300">「用一台高顯存 GPU 主機把模型推理、工具執行、內容生成做成內網可重複運轉的生產線。」</p>
+                    </div>
+                </div>
+                
+                <div class="w-px h-8 bg-gray-700 ml-6"></div>
+                
+                <div class="flex items-start gap-6">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-300 font-bold">2</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">真正在解決的問題</h3>
+                        <p class="text-gray-300">「把企業內部的非結構化訊號（文件、對話、畫面、程式碼）轉成可執行的結構（指令、差異、決策、流程）。」</p>
+                    </div>
+                </div>
+                
+                <div class="w-px h-8 bg-gray-700 ml-6"></div>
+                
+                <div class="flex items-start gap-6">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-300 font-bold">3</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">為什麼這件事值錢</h3>
+                        <p class="text-gray-300">「用算力替代稀缺的人類認知資源（注意力、工作記憶、搜尋與比對能力）。48GB 顯存讓代理能同時處理大 repo、長規格、長 log 而不退化。」</p>
+                    </div>
+                </div>
+                
+                <div class="w-px h-8 bg-gray-700 ml-6"></div>
+                
+                <div class="flex items-start gap-6">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-300 font-bold">4</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">更底層的物理意義</h3>
+                        <p class="text-gray-300">「把電能轉成對資訊的操作（壓縮、排序、對齊、生成、校驗），降低不確定性帶來的成本——錯誤、延遲、返工、溝通摩擦、版本混亂。」</p>
+                    </div>
+                </div>
+                
+                <div class="w-px h-8 bg-gray-700 ml-6"></div>
+                
+                <div class="flex items-start gap-6">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold">∞</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2 text-indigo-300">終極本質</h3>
+                        <p class="text-gray-300">「<strong class="text-white">生存約束下的能量—資訊交換</strong>：任何系統要延續存在，就必須消耗能量處理資訊以降低不確定性（熵）。本地推理環境，本質上是一種局部熵減的手段。」</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 p-8 rounded-2xl bg-white/5 border border-white/10">
+                <p class="text-gray-300 text-lg leading-relaxed">
+                    講白了，企業買這套系統不是在買「AI」，是在買「秩序」。把混亂的輸入變成可追蹤的輸出，把人腦做不完的比對工作交給機器，然後把省下來的時間拿去做真正需要創造力的事。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 行動方案 -->
+    <section id="action" class="py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="icon-circle">🚀</div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">90 天落地藍圖</h2>
+                    <p class="text-gray-500 mt-1">不是一步到位，是一步一步來</p>
+                </div>
+            </div>
+            
+            <div class="prose-content text-lg mb-12">
+                <p>
+                    很多 AI 專案失敗的原因不是技術不行，是野心太大。想一次解決所有問題，結果什麼都沒解決。這份報告給出的建議是：<strong>先把 2-3 個高頻工作做成可重複的流水線，介面最後再補。</strong>
+                </p>
+            </div>
+            
+            <div class="space-y-6">
+                <!-- Phase 1 -->
+                <div class="card rounded-3xl overflow-hidden">
+                    <div class="bg-gradient-to-r from-emerald-500 to-teal-500 p-6 text-white">
+                        <div class="flex items-center gap-4">
+                            <span class="text-3xl font-black">01</span>
+                            <div>
+                                <h3 class="text-xl font-bold">第 1-30 天：選定戰場</h3>
+                                <p class="text-emerald-100">不要什麼都想做，先找最痛的那一個</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">1</span>
+                                <span>盤點公司裡「花最多人力在抄、貼、對、找」的工作</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">2</span>
+                                <span>從中選出 1 個最高頻、最痛、資料格式最固定的任務</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">3</span>
+                                <span>定義「成功長什麼樣」——要有可量化的指標</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">4</span>
+                                <span>準備 10-20 個真實案例作為測試資料</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Phase 2 -->
+                <div class="card rounded-3xl overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-indigo-500 p-6 text-white">
+                        <div class="flex items-center gap-4">
+                            <span class="text-3xl font-black">02</span>
+                            <div>
+                                <h3 class="text-xl font-bold">第 31-60 天：做出 MVP</h3>
+                                <p class="text-blue-100">先跑通一條線，再想怎麼擴張</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">1</span>
+                                <span>部署本地推理服務（GLM-4.7 或 Qwen），確認硬體正常</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">2</span>
+                                <span>把選定的任務拆成「輸入 → 處理 → 驗證 → 輸出」四個步驟</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">3</span>
+                                <span>每個步驟都要有「怎樣算通過」的檢查機制</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">4</span>
+                                <span>用測試資料跑 10 次，記錄成功率與失敗原因</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Phase 3 -->
+                <div class="card rounded-3xl overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-6 text-white">
+                        <div class="flex items-center gap-4">
+                            <span class="text-3xl font-black">03</span>
+                            <div>
+                                <h3 class="text-xl font-bold">第 61-90 天：上線與迭代</h3>
+                                <p class="text-purple-100">讓它真的跑起來，然後收集回饋</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">1</span>
+                                <span>找 2-3 個內部使用者做 beta 測試</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">2</span>
+                                <span>建立「回報問題 → 修正 → 重測」的迴圈</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">3</span>
+                                <span>記錄實際省下的時間 / 減少的錯誤 / 提升的產出</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="number-highlight">4</span>
+                                <span>決定下一個要自動化的任務</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 風險提醒 -->
+    <section class="py-20 px-6 bg-amber-50">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="icon-circle bg-amber-100">⚠️</div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">五個常見的坑</h2>
+                    <p class="text-gray-500 mt-1">別人踩過的，你就不用再踩一次</p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-2xl p-6 border-l-4 border-amber-400">
+                    <h3 class="font-bold text-gray-900 mb-2">坑 #1：以為買大主機就會變強</h3>
+                    <p class="text-gray-600 text-sm">強的是吞吐量，不是智商。品質主要靠任務設計、檢索、驗證。</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 border-l-4 border-amber-400">
+                    <h3 class="font-bold text-gray-900 mb-2">坑 #2：以為 Agent 能自動做完所有事</h3>
+                    <p class="text-gray-600 text-sm">Agent 只能縮短流程，最後一定要有守門機制——tests、schema、抽樣覆核。</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 border-l-4 border-amber-400">
+                    <h3 class="font-bold text-gray-900 mb-2">坑 #3：先做平台 / 介面</h3>
+                    <p class="text-gray-600 text-sm">先把 2-3 個高頻工作跑通，介面最後補。順序搞反會浪費很多資源。</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 border-l-4 border-amber-400">
+                    <h3 class="font-bold text-gray-900 mb-2">坑 #4：沒驗證就讓 Agent 動產線</h3>
+                    <p class="text-gray-600 text-sm">沒有「測試 / 校驗 / 抽樣覆核」，本地或雲端都會變成幻覺生產機。</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 border-l-4 border-amber-400 md:col-span-2">
+                    <h3 class="font-bold text-gray-900 mb-2">坑 #5：追求電影級數字人</h3>
+                    <p class="text-gray-600 text-sm">中小企業要的是轉換率與產能，不是電影級寫實。先用模板化短片驗證效果，有需要再升級。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 結語 -->
+    <section class="py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">最後一句話</h2>
+            </div>
+            
+            <div class="card rounded-3xl p-8 md:p-12 text-center">
+                <p class="text-2xl md:text-3xl font-light text-gray-700 leading-relaxed mb-8">
+                    「本地推理環境的真正考驗，<br class="hidden md:block">
+                    不是<span class="font-bold text-gray-900">能不能跑起來</span>，<br class="hidden md:block">
+                    而是<span class="font-bold text-gray-900">跑起來之後能不能一直跑</span>。」
+                </p>
+                
+                <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+                    這需要的不只是硬體，還有流程設計、驗證機制、持續迭代的決心。思銳科技如果能把這三件事打包成服務，而不只是賣主機，那才是真正的差異化。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-gray-100">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                        思銳
+                    </div>
+                    <div>
+                        <div class="font-medium text-gray-900">思銳科技</div>
+                        <div class="text-sm text-gray-500">本地推理環境評估報告</div>
+                    </div>
+                </div>
+                
+                <div class="text-sm text-gray-400 text-center md:text-right">
+                    <div>報告日期：2026 年 1 月</div>
+                    <div>基於第一性原理分析 · 戰略顧問視角</div>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-100 text-center text-xs text-gray-400">
+                本報告內容僅供內部決策參考，不構成任何投資或商業建議。<br>
+                市場數據來源：經濟部 2025 中小企業白皮書、工研院 AI 運用現況調查
+            </div>
+        </div>
+    </footer>
+
+    <!-- 回到頂部按鈕 -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-all z-50">
+        ↑
+    </button>
+
+</body>
+</html>
