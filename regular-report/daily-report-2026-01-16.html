@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 部門每日報告 | 2026/01/16</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            font-size: 20px;
+        }
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+        <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-3xl">🤖</span>
+                <span class="text-sm font-medium bg-white/10 px-3 py-1 rounded-full">Daily Report</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4">AI 部門每日報告</h1>
+            <p class="text-lg md:text-xl text-slate-300 mb-6">推動企業 AI 轉型，建構智慧化基礎設施</p>
+            <div class="flex flex-wrap gap-4 text-sm text-slate-400">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span>報告人：Jambo</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <span>2026/01/16</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Status Legend -->
+    <section class="max-w-5xl mx-auto px-6 -mt-8">
+        <div class="bg-white rounded-2xl shadow-lg shadow-gray-200/50 p-6 md:p-8">
+            <h2 class="text-lg font-semibold text-gray-500 mb-6 flex items-center gap-2">
+                <span>📊</span> 專案概覽
+            </h2>
+
+            <!-- Stage Legend -->
+            <div class="flex flex-wrap gap-3 mb-6 pb-6 border-b border-gray-100">
+                <div class="flex items-center gap-2 text-sm">
+                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                    <span class="text-gray-600"><strong>PVT</strong> Production Verification</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                    <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
+                    <span class="text-gray-600"><strong>DVT</strong> Design Verification</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                    <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                    <span class="text-gray-600"><strong>EVT</strong> Engineering Verification</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Project Card 1: Daily Report Skill -->
+                <div class="bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-xl p-5 border border-emerald-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-2xl">📋</span>
+                        <span class="text-xs font-bold text-emerald-700 bg-emerald-200 px-2 py-1 rounded-full">PVT</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">Daily Report Skill</h3>
+                    <p class="text-xs text-gray-500">自動化報告生成系統</p>
+                </div>
+
+                <!-- Project Card 2: Article Generator -->
+                <div class="bg-gradient-to-br from-indigo-50 to-indigo-100/50 rounded-xl p-5 border border-indigo-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-2xl">🎨</span>
+                        <span class="text-xs font-bold text-indigo-700 bg-indigo-200 px-2 py-1 rounded-full">DVT</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">Article Generator</h3>
+                    <p class="text-xs text-gray-500">智慧配圖文章生成</p>
+                </div>
+
+                <!-- Project Card 3: Claude Code Skills -->
+                <div class="bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-xl p-5 border border-amber-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-2xl">🚀</span>
+                        <span class="text-xs font-bold text-amber-700 bg-amber-200 px-2 py-1 rounded-full">EVT</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">Claude Code Skills</h3>
+                    <p class="text-xs text-gray-500">企業 AI 工作流程擴展</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Details Section -->
+    <section class="max-w-5xl mx-auto px-6 py-12 md:py-16">
+        <h2 class="text-lg font-semibold text-gray-500 mb-8 flex items-center gap-2">
+            <span>📋</span> 專案詳情
+        </h2>
+
+        <div class="space-y-6">
+            <!-- Detail Card 1: Daily Report Skill -->
+            <div class="bg-white rounded-2xl shadow-lg shadow-gray-200/50 p-6 md:p-8 border-l-4 border-emerald-500">
+                <div class="flex flex-col md:flex-row md:items-start gap-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl">
+                            📋
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-3 mb-1">
+                            <h3 class="text-xl font-bold text-gray-900">Daily Report Skill</h3>
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">PVT</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-4">
+                            <span class="flex items-center gap-1">
+                                <span>🎯</span> 預計結案：2026/1/16
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span>💰</span> NT$5,000/Skill
+                            </span>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-emerald-50 rounded-lg p-4">
+                                <h4 class="text-sm font-semibold text-emerald-700 mb-2 flex items-center gap-2">
+                                    <span>✅</span> 已完成
+                                </h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• 建立 SKILL.md 主要指令文件</li>
+                                    <li>• 建立 visual-style.md 視覺規範</li>
+                                    <li>• 建立 writing-style.md 寫作風格</li>
+                                    <li>• 複製 HTML 模板到 assets/</li>
+                                    <li>• 通過 package_skill.py 驗證</li>
+                                </ul>
+                            </div>
+                            <div class="bg-amber-50 rounded-lg p-4">
+                                <h4 class="text-sm font-semibold text-amber-700 mb-2 flex items-center gap-2">
+                                    <span>🔄</span> 進行中
+                                </h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• 生成測試報告驗證功能</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail Card 2: Article Generator -->
+            <div class="bg-white rounded-2xl shadow-lg shadow-gray-200/50 p-6 md:p-8 border-l-4 border-indigo-500">
+                <div class="flex flex-col md:flex-row md:items-start gap-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-2xl">
+                            🎨
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-3 mb-1">
+                            <h3 class="text-xl font-bold text-gray-900">Article Generator</h3>
+                            <span class="text-xs font-bold text-indigo-700 bg-indigo-100 px-3 py-1 rounded-full">DVT</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-4">
+                            <span class="flex items-center gap-1">
+                                <span>🎯</span> 預計結案：2026/Q1
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span>💰</span> NT$10,000/Skill
+                            </span>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-emerald-50 rounded-lg p-4">
+                                <h4 class="text-sm font-semibold text-emerald-700 mb-2 flex items-center gap-2">
+                                    <span>✅</span> 已完成
+                                </h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• Gemini 3 Pro 圖像生成整合</li>
+                                    <li>• 封面圖片生成功能</li>
+                                    <li>• 多種配圖風格支援</li>
+                                </ul>
+                            </div>
+                            <div class="bg-amber-50 rounded-lg p-4">
+                                <h4 class="text-sm font-semibold text-amber-700 mb-2 flex items-center gap-2">
+                                    <span>🔄</span> 進行中
+                                </h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• 優化文章生成提示詞</li>
+                                    <li>• 擴展更多封面風格</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail Card 3: Claude Code Skills -->
+            <div class="bg-white rounded-2xl shadow-lg shadow-gray-200/50 p-6 md:p-8 border-l-4 border-amber-500">
+                <div class="flex flex-col md:flex-row md:items-start gap-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-2xl">
+                            🚀
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-3 mb-1">
+                            <h3 class="text-xl font-bold text-gray-900">Claude Code Skills 生態系</h3>
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">EVT</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-4">
+                            <span class="flex items-center gap-1">
+                                <span>🎯</span> 預計結案：持續開發
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span>💰</span> NT$5,000/每個 Skill
+                            </span>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-emerald-50 rounded-lg p-4">
+                                <h4 class="text-sm font-semibold text-emerald-700 mb-2 flex items-center gap-2">
+                                    <span>✅</span> 已完成
+                                </h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• article-generator skill</li>
+                                    <li>• daily-report skill</li>
+                                </ul>
+                            </div>
+                            <div class="bg-amber-50 rounded-lg p-4">
+                                <h4 class="text-sm font-semibold text-amber-700 mb-2 flex items-center gap-2">
+                                    <span>🔄</span> 進行中
+                                </h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• 規劃更多企業專用 Skills</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Feature Breakdown -->
+                        <div class="bg-gradient-to-r from-slate-50 to-slate-100/50 rounded-xl p-5 border border-slate-200">
+                            <h4 class="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                                <span>⚙️</span> Skill 開發流程
+                            </h4>
+                            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                <div class="bg-white rounded-lg p-3 border border-slate-100">
+                                    <div class="text-xs font-semibold text-slate-400 mb-1">Step 1</div>
+                                    <p class="text-sm text-gray-700">執行 init_skill.py 初始化目錄結構</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 border border-slate-100">
+                                    <div class="text-xs font-semibold text-slate-400 mb-1">Step 2</div>
+                                    <p class="text-sm text-gray-700">撰寫 SKILL.md 與參考文件</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 border border-slate-100">
+                                    <div class="text-xs font-semibold text-slate-400 mb-1">Step 3</div>
+                                    <p class="text-sm text-gray-700">準備 assets 模板或腳本</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 border border-slate-100">
+                                    <div class="text-xs font-semibold text-slate-400 mb-1">Step 4</div>
+                                    <p class="text-sm text-gray-700">執行 package_skill.py 驗證</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 border border-slate-100">
+                                    <div class="text-xs font-semibold text-slate-400 mb-1">Step 5</div>
+                                    <p class="text-sm text-gray-700">測試 /skill-name 指令</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 border-t border-slate-200">
+        <div class="max-w-5xl mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+                <p>© 2026 AI 部門 · Taiwan Perovskite Technology Corporation</p>
+                <p class="flex items-center gap-2">
+                    <span>📅</span> 下次更新：2026/01/17
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
