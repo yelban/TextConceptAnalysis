@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>私有化 AI 生產線導入提案 | 舞雲智網 DigiZerocarbon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'sans': ['Noto Sans TC', 'sans-serif'],
+          },
+          colors: {
+            'primary': '#0F172A',
+            'secondary': '#1E40AF',
+            'accent': '#10B981',
+            'warning': '#F59E0B',
+            'surface': '#F8FAFC',
+            'muted': '#64748B',
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.6s ease-out forwards',
+            'slide-up': 'slideUp 0.6s ease-out forwards',
+            'scale-in': 'scaleIn 0.4s ease-out forwards',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            scaleIn: {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-size: 17px; line-height: 1.8; }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #1E40AF 0%, #10B981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .hero-gradient {
+      background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 50%, #F1F5F9 100%);
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+      backdrop-filter: blur(10px);
+    }
+    
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, #E2E8F0 50%, transparent 100%);
+    }
+    
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease-out;
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .comparison-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .comparison-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+    .comparison-before::before {
+      background: linear-gradient(90deg, #EF4444, #F59E0B);
+    }
+    .comparison-after::before {
+      background: linear-gradient(90deg, #10B981, #06B6D4);
+    }
+    
+    @media (max-width: 768px) {
+      body { font-size: 16px; }
+    }
+  </style>
+</head>
+<body class="font-sans text-primary bg-white antialiased">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">🌱</span>
+        <span class="font-semibold text-lg">舞雲智網</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm text-muted">
+        <a href="#challenge" class="hover:text-primary transition-colors">挑戰</a>
+        <a href="#solution" class="hover:text-primary transition-colors">方案</a>
+        <a href="#roi" class="hover:text-primary transition-colors">效益</a>
+        <a href="#next" class="hover:text-primary transition-colors">下一步</a>
+      </div>
+      <div class="px-4 py-2 bg-secondary text-white text-sm font-medium rounded-full hover:bg-secondary/90 transition-colors cursor-pointer">
+        立即行動
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-gradient min-h-screen flex items-center pt-20">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+      <div class="text-center mb-12 animate-fade-in">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm text-sm text-muted mb-8">
+          <span class="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+          AI 轉型戰略提案 · 2026 Q1
+        </div>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+          當您的客戶數據<br>
+          <span class="gradient-text">成為競爭壁壘</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-muted max-w-3xl mx-auto mb-10">
+          為什麼舞雲智網需要一條<br class="md:hidden">
+          <span class="font-semibold text-primary">「資料永不出網」</span>的私有化 AI 生產線
+        </p>
+      </div>
+      
+      <!-- Hero Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto" style="animation-delay: 0.2s;">
+        <div class="stat-card rounded-2xl p-8 text-center card-hover border border-gray-100">
+          <div class="text-5xl font-bold text-accent mb-2">30-60%</div>
+          <div class="text-muted">研發效率提升</div>
+        </div>
+        <div class="stat-card rounded-2xl p-8 text-center card-hover border border-gray-100">
+          <div class="text-5xl font-bold text-secondary mb-2">1/10</div>
+          <div class="text-muted">影音製作成本</div>
+        </div>
+        <div class="stat-card rounded-2xl p-8 text-center card-hover border border-gray-100">
+          <div class="text-5xl font-bold text-warning mb-2">100%</div>
+          <div class="text-muted">資料主權掌控</div>
+        </div>
+      </div>
+      
+      <!-- Scroll indicator -->
+      <div class="flex justify-center mt-16">
+        <a href="#executive" class="flex flex-col items-center text-muted hover:text-primary transition-colors">
+          <span class="text-sm mb-2">向下捲動</span>
+          <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Executive Summary -->
+  <section id="executive" class="py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-8">
+        <span class="text-3xl">⚡</span>
+        <h2 class="text-3xl font-bold">執行摘要</h2>
+        <span class="px-3 py-1 bg-gray-100 text-sm text-muted rounded-full">30 秒電梯簡報</span>
+      </div>
+      
+      <blockquote class="border-l-4 border-accent pl-6 py-4 bg-accent/5 rounded-r-xl mb-10">
+        <p class="text-lg italic text-gray-700 mb-2">
+          「本地推理環境的真正價值，不在於『模型有多強』，而在於能否把<strong>可驗證的自動化</strong>嵌入既有流程——讓人力從『抄、貼、對、找』這些重複勞動中解放，同時確保敏感資料不離開公司網路。」
+        </p>
+        <cite class="text-sm text-muted">— 思銳科技本地推理環境導入評估報告</cite>
+      </blockquote>
+      
+      <div class="space-y-6 text-lg">
+        <p>
+          <strong class="text-secondary">舞雲智網</strong>作為台灣 ESG 顧問產業的先驅，正面臨三重挑戰：
+        </p>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="p-5 bg-red-50 rounded-xl border border-red-100">
+            <div class="text-2xl mb-2">🚀</div>
+            <div class="font-semibold text-red-800 mb-1">快速開發需求</div>
+            <div class="text-sm text-red-700">碳盤查平台需持續迭代，6 人團隊產能捉襟見肘</div>
+          </div>
+          <div class="p-5 bg-amber-50 rounded-xl border border-amber-100">
+            <div class="text-2xl mb-2">🔄</div>
+            <div class="font-semibold text-amber-800 mb-1">重複諮詢負擔</div>
+            <div class="text-sm text-amber-700">ISO 法規諮詢高度重複，顧問時間被大量消耗</div>
+          </div>
+          <div class="p-5 bg-orange-50 rounded-xl border border-orange-100">
+            <div class="text-2xl mb-2">🔒</div>
+            <div class="font-semibold text-orange-800 mb-1">資料敏感性</div>
+            <div class="text-sm text-orange-700">客戶碳排數據一旦外洩，信任歸零</div>
+          </div>
+        </div>
+        <p class="pt-4">
+          我們的答案是：<strong class="text-secondary">不是買一台主機，而是買一條生產線。</strong>
+        </p>
+        <div class="p-6 bg-gradient-to-r from-secondary/5 to-accent/5 rounded-2xl border border-secondary/10">
+          <p class="mb-4">
+            思銳科技提供的 48GB VRAM 本地推理工作站，整合三大核心模組：<strong>Coding Agent</strong> 加速平台開發、<strong>數字人工廠</strong>批量產出 ESG 教育訓練影片、<strong>RAG 知識庫</strong>讓法規諮詢自動化。
+          </p>
+          <div class="flex flex-wrap gap-4 text-sm">
+            <div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm">
+              <span class="text-accent">✓</span>
+              <span>所有運算在內網完成</span>
+            </div>
+            <div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm">
+              <span class="text-accent">✓</span>
+              <span>資料永不離開控制範圍</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-6 pt-4 text-lg">
+          <div>預估投資回收期：<strong class="text-accent text-2xl">12-18 個月</strong></div>
+          <div>年化總效益：<strong class="text-secondary text-2xl">NT$7,058,000</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-4xl mx-auto"></div>
+
+  <!-- Challenge Section -->
+  <section id="challenge" class="py-24 bg-surface">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="text-4xl mb-4 block">🎯</span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">現況與挑戰</h2>
+        <p class="text-muted text-lg">ESG 顧問的三重困境</p>
+      </div>
+      
+      <!-- Company Profile -->
+      <div class="bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-gray-100 mb-12">
+        <div class="flex flex-col md:flex-row md:items-center gap-6 mb-8">
+          <div class="w-16 h-16 bg-gradient-to-br from-secondary to-accent rounded-2xl flex items-center justify-center text-white text-2xl font-bold">
+            舞雲
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold">台灣舞雲智網 DigiZerocarbon</h3>
+            <p class="text-muted">由前友達光電董事長陳來助創立 · 企業的「第五朵雲」——能源與碳數據雲</p>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="p-5 bg-gray-50 rounded-xl">
+            <div class="text-sm text-muted mb-1">核心業務</div>
+            <div class="font-medium">碳盤查 (ISO 14064)、能源管理 (ISO 50001)、CBAM 合規</div>
+          </div>
+          <div class="p-5 bg-gray-50 rounded-xl">
+            <div class="text-sm text-muted mb-1">團隊規模</div>
+            <div class="font-medium">約 6 人精實團隊</div>
+          </div>
+          <div class="p-5 bg-gray-50 rounded-xl">
+            <div class="text-sm text-muted mb-1">代表客戶</div>
+            <div class="font-medium">台中精機、新呈工業等製造業</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pain Points -->
+      <div class="grid md:grid-cols-2 gap-6 mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-2xl">💻</span>
+            <h4 class="text-xl font-bold">研發產能不足</h4>
+          </div>
+          <p class="text-muted">碳盤查 SaaS 平台需要持續迭代，但工程師改一支程式要先讀三天舊 code，然後祈禱不要改壞其他地方。</p>
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-2xl">🔁</span>
+            <h4 class="text-xl font-bold">重複諮詢消耗</h4>
+          </div>
+          <p class="text-muted">顧問每天回答同樣的 ISO 14064 範疇一二三問題 50 遍，人都快瘋了；主管問「上次跟那個客戶談的條件是什麼」，翻 email 翻到天荒地老。</p>
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">🎬</span>
+            <h4 class="text-xl font-bold">教育訓練成本</h4>
+          </div>
+          <p class="text-muted">想做 ESG 教育訓練影片給客戶，報價一支 15 萬，做完還不確定能不能用。</p>
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-2xl">⚠️</span>
+            <h4 class="text-xl font-bold text-orange-600">資料外洩風險</h4>
+          </div>
+          <p class="text-muted">客戶的碳排數據、供應鏈資訊、能源帳單明細——如果使用雲端 AI，這些資料全部要經過別人的伺服器。</p>
+        </div>
+      </div>
+      
+      <!-- Why Not Cloud -->
+      <div class="bg-gradient-to-br from-orange-50 to-red-50 rounded-3xl p-8 md:p-10 border border-orange-100">
+        <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+          <span>🤔</span>
+          為什麼雲端 AI 不是答案？
+        </h3>
+        <blockquote class="border-l-4 border-orange-400 pl-6 py-2 mb-6">
+          <p class="text-lg italic text-gray-700">
+            「資料主權不是 paranoia，是<strong>基本的風險管理</strong>。本地推理讓你在享受 AI 效率的同時，不用把家門鑰匙交給別人。」
+          </p>
+        </blockquote>
+        <p class="text-gray-700 mb-6">
+          舞雲的客戶是誰？台中精機、新呈工業這類製造業。他們願意把碳排數據、供應鏈成本結構、能源消耗明細交給你，是因為<strong>信任</strong>。這個信任一旦被「資料可能被雲端服務商拿去訓練模型」的疑慮打破，生意就沒了。
+        </p>
+        
+        <!-- Comparison Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full bg-white rounded-xl overflow-hidden">
+            <thead>
+              <tr class="bg-gray-50">
+                <th class="px-6 py-4 text-left font-semibold">面向</th>
+                <th class="px-6 py-4 text-left font-semibold text-accent">✓ 本地推理</th>
+                <th class="px-6 py-4 text-left font-semibold text-muted">⚠ 雲端 API</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr>
+                <td class="px-6 py-4 font-medium">資料傳輸</td>
+                <td class="px-6 py-4 text-accent">完全不出內網</td>
+                <td class="px-6 py-4 text-muted">經過網際網路傳輸</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium">存取紀錄</td>
+                <td class="px-6 py-4 text-accent">完整掌握在自己手上</td>
+                <td class="px-6 py-4 text-muted">依賴供應商提供</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium">模型訓練</td>
+                <td class="px-6 py-4 text-accent">資料不會被用於訓練</td>
+                <td class="px-6 py-4 text-muted">需確認 opt-out 條款</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium">服務中斷</td>
+                <td class="px-6 py-4 text-accent">斷網也能繼續運作</td>
+                <td class="px-6 py-4 text-muted">依賴網路與供應商</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium">法規傳喚</td>
+                <td class="px-6 py-4 text-accent">只需回應本地法規</td>
+                <td class="px-6 py-4 text-muted">可能受境外法規管轄</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Before/After Section -->
+  <section class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="text-4xl mb-4 block">🔄</span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">導入前 vs 導入後</h2>
+        <p class="text-muted text-lg">看得見的轉變</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Before -->
+        <div class="comparison-card comparison-before bg-red-50/50 rounded-3xl p-8 border border-red-100">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-xl">😰</span>
+            <h3 class="text-xl font-bold text-red-800">導入前的日常</h3>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-1">✕</span>
+              <span class="text-gray-700">業務花 2 小時從 PDF 報價單抄數字到 Excel，抄錯一個零就是大災難</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-1">✕</span>
+              <span class="text-gray-700">工程師改一支程式要先讀三天舊 code，然後祈禱不要改壞其他地方</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-1">✕</span>
+              <span class="text-gray-700">客服每天回答同樣的問題 50 遍，人都快瘋了</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-1">✕</span>
+              <span class="text-gray-700">主管問「上次跟那個客戶談的條件是什麼」，翻 email 翻到天荒地老</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-1">✕</span>
+              <span class="text-gray-700">想做教育訓練影片，報價一支 15 萬，做完還不確定能不能用</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- After -->
+        <div class="comparison-card comparison-after bg-accent/5 rounded-3xl p-8 border border-accent/20">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center text-xl">🚀</span>
+            <h3 class="text-xl font-bold text-accent">導入後的轉變</h3>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <span class="text-accent mt-1">✓</span>
+              <span class="text-gray-700">PDF 丟進去，3 秒後欄位自動抽出、金額自動校驗、異常自動標紅</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-accent mt-1">✓</span>
+              <span class="text-gray-700">Agent 自動掃 repo、產出改動方案、跑完測試才敢提交，工程師只需覆核</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-accent mt-1">✓</span>
+              <span class="text-gray-700">常見問題自動生成 60 秒短片，客戶自己看完就懂，工單量砍半</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-accent mt-1">✓</span>
+              <span class="text-gray-700">內網知識庫一問就有，還會附上「這段話出自哪份文件第幾頁」</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-accent mt-1">✓</span>
+              <span class="text-gray-700">腳本寫好丟進流水線，數字人影片批次產出，成本是外包的 1/10</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-4xl mx-auto"></div>
+
+  <!-- Solution Section -->
+  <section id="solution" class="py-24 bg-surface">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="text-4xl mb-4 block">🛠️</span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">核心方案</h2>
+        <p class="text-muted text-lg">三大模組落地應用</p>
+      </div>
+      
+      <div class="bg-gradient-to-r from-secondary/5 to-accent/5 rounded-2xl p-6 mb-12 border border-secondary/10">
+        <p class="text-center text-lg">
+          思銳科技提供的不是一台主機，而是一條<strong class="text-secondary">「具備資安圍籬的自動化生產力」</strong>
+        </p>
+      </div>
+      
+      <!-- Module A: Coding Agent -->
+      <div class="bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-gray-100 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center gap-4 mb-8">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl">
+            A
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold">Coding Agent</h3>
+            <p class="text-muted">讓 6 人團隊擁有 20 人產能</p>
+          </div>
+        </div>
+        
+        <!-- Tech Stack -->
+        <div class="flex flex-wrap gap-3 mb-8">
+          <span class="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">OpenCode</span>
+          <span class="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">GLM-4.7 / MiniMax M2.1</span>
+          <span class="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">Anthropic Skills 技能框架</span>
+        </div>
+        
+        <!-- User Stories -->
+        <div class="space-y-6 mb-8">
+          <div class="bg-gray-50 rounded-2xl p-6">
+            <h4 class="font-bold text-blue-800 mb-3 flex items-center gap-2">
+              <span>📋</span> 場景一：碳盤查平台功能迭代
+            </h4>
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="bg-white p-4 rounded-xl">
+                <div class="text-sm text-red-600 font-medium mb-2">【導入前】</div>
+                <p class="text-sm text-gray-600">工程師接到需求「新增範疇三類別 4 的計算模組」，先花 3 天讀懂現有 codebase 的架構，再花 2 天寫程式，最後花 1 天 debug。一個小功能耗時一週。</p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border-2 border-accent/30">
+                <div class="text-sm text-accent font-medium mb-2">【導入後】</div>
+                <p class="text-sm text-gray-600">Agent 自動掃 repo、產出架構圖、模組責任、關鍵資料流。工程師只需覆核 Agent 的設計方案，確認後 Agent 自動寫程式、跑測試、提交 PR。同樣功能從一週縮短到 <strong>1.5 天</strong>。</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded-2xl p-6">
+            <h4 class="font-bold text-blue-800 mb-3 flex items-center gap-2">
+              <span>🧠</span> 場景二：Skills 傳承垂直領域知識
+            </h4>
+            <p class="text-gray-700 mb-4">
+              舞雲的核心競爭力是什麼？是團隊累積的 ISO 14064 導入經驗、碳盤查計算邏輯、客戶產業特性判斷。這些知識過去只存在資深顧問腦中。
+            </p>
+            <div class="bg-accent/10 p-4 rounded-xl border border-accent/20">
+              <div class="text-sm text-accent font-medium mb-2">【Skills 方案】</div>
+              <p class="text-sm text-gray-700">將「ISO 14064 範疇判定規則」、「排放係數選用邏輯」、「盤查報告產出格式」封裝成 <code class="px-2 py-1 bg-white rounded text-xs">SKILL.md</code> 技能包。新進顧問或 Agent 按需載入，立即具備專業判斷能力。<strong>知識不再只存在老員工腦中，而是成為公司的數位資產。</strong></p>
+            </div>
+          </div>
+          
+          <!-- NEW: AI Transformation Consulting -->
+          <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-200">
+            <h4 class="font-bold text-amber-800 mb-3 flex items-center gap-2">
+              <span>🌟</span> 場景三：輔導客戶企業 AI 轉型導入（新商業模式）
+            </h4>
+            <p class="text-gray-700 mb-4">
+              <strong class="text-amber-700">這是舞雲智網最大的差異化機會。</strong>舞雲的客戶（台中精機、新呈工業等製造業）都面臨同樣的 AI 轉型焦慮：想用 AI 但不知道怎麼開始、擔心資料外洩、沒有專職 AI 團隊。
+            </p>
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+              <div class="bg-white p-4 rounded-xl">
+                <div class="text-sm text-accent font-medium mb-2">【Skills 顧問服務】</div>
+                <p class="text-sm text-gray-600">運用 Anthropic Skills 技能框架，協助客戶企業將其垂直領域知識（製程配方、品管標準、設備維護 SOP）封裝成可重複使用的技能包。</p>
+              </div>
+              <div class="bg-white p-4 rounded-xl">
+                <div class="text-sm text-secondary font-medium mb-2">【商業價值】</div>
+                <p class="text-sm text-gray-600">舞雲從「碳盤查顧問」升級為「AI 轉型顧問」，開創新的收入來源。每家客戶的 Skills 導入專案可收取顧問費 <strong>NT$300,000-500,000</strong>。</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-white text-sm text-amber-700 rounded-full">製程異常判定 Skill</span>
+              <span class="px-3 py-1 bg-white text-sm text-amber-700 rounded-full">設備維護排程 Skill</span>
+              <span class="px-3 py-1 bg-white text-sm text-amber-700 rounded-full">品質檢驗標準 Skill</span>
+              <span class="px-3 py-1 bg-white text-sm text-amber-700 rounded-full">供應商評核 Skill</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Benefits Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="px-4 py-3 text-left font-semibold">效益指標</th>
+                <th class="px-4 py-3 text-right font-semibold text-accent">預估效益</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr>
+                <td class="px-4 py-3">維運類工單處理時間</td>
+                <td class="px-4 py-3 text-right font-bold text-accent">降低 30-60%</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3">程式碼不出網</td>
+                <td class="px-4 py-3 text-right font-bold text-accent">100% 資料主權</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3">新人上手時間</td>
+                <td class="px-4 py-3 text-right font-bold text-accent">縮短 50%</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3">研發產能等效提升</td>
+                <td class="px-4 py-3 text-right font-bold text-accent">+2-3 名工程師</td>
+              </tr>
+              <tr class="bg-amber-50">
+                <td class="px-4 py-3 font-medium text-amber-800">客戶 AI 導入顧問收入（新）</td>
+                <td class="px-4 py-3 text-right font-bold text-amber-600">NT$300,000-500,000/專案</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Module B: Digital Human Factory -->
+      <div class="bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-gray-100 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center gap-4 mb-8">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center text-white text-2xl">
+            B
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold">數字人影音工廠</h3>
+            <p class="text-muted">ESG 教育訓練影片的流水線</p>
+          </div>
+        </div>
+        
+        <!-- Tech Stack -->
+        <div class="flex flex-wrap gap-3 mb-8">
+          <span class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm font-medium">LTX-2 影片生成</span>
+          <span class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm font-medium">XTTS v2 語音合成</span>
+          <span class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm font-medium">Wav2Lip 嘴型同步</span>
+          <span class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm font-medium">ComfyUI 工作流</span>
+        </div>
+        
+        <!-- User Story -->
+        <div class="bg-purple-50/50 rounded-2xl p-6 mb-8">
+          <h4 class="font-bold text-purple-800 mb-3 flex items-center gap-2">
+            <span>🎬</span> 場景：ESG 教育訓練影片系列化產出
+          </h4>
+          <p class="text-gray-700 mb-4">
+            舞雲需要為客戶製作一系列 ESG 教育訓練影片：「什麼是碳盤查」、「範疇一二三怎麼分」、「如何填寫盤查清冊」⋯⋯
+          </p>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded-xl">
+              <div class="text-sm text-red-600 font-medium mb-2">【傳統做法】</div>
+              <p class="text-sm text-gray-600">外包影片製作，一支 60 秒影片報價 15 萬，10 支就是 150 萬。修改一個數據要重新配音、重新剪輯，額外收費。</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border-2 border-purple-300">
+              <div class="text-sm text-purple-600 font-medium mb-2">【流水線做法】</div>
+              <p class="text-sm text-gray-600">腳本寫好丟進 LTX-2 流水線，數字人影片批次產出。同腳本可批次產出不同語言版本（中/英/日），修改數據只需改腳本重跑，<strong>成本是外包的 1/10</strong>。</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Cost Comparison -->
+        <h4 class="font-bold mb-4">與雲端影片生成服務的成本比較</h4>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="px-4 py-3 text-left font-semibold">方案</th>
+                <th class="px-4 py-3 text-center font-semibold">定價模式</th>
+                <th class="px-4 py-3 text-center font-semibold">60 秒影片成本</th>
+                <th class="px-4 py-3 text-center font-semibold">資料安全</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr>
+                <td class="px-4 py-3">OpenAI Sora 2</td>
+                <td class="px-4 py-3 text-center text-sm">$0.10-0.50/秒</td>
+                <td class="px-4 py-3 text-center">NT$180-900</td>
+                <td class="px-4 py-3 text-center text-amber-600">⚠ 雲端處理</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3">Google Veo 3.1</td>
+                <td class="px-4 py-3 text-center text-sm">$0.15-0.40/秒</td>
+                <td class="px-4 py-3 text-center">NT$270-720</td>
+                <td class="px-4 py-3 text-center text-amber-600">⚠ 雲端處理</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3">外包製作</td>
+                <td class="px-4 py-3 text-center text-sm">按件計價</td>
+                <td class="px-4 py-3 text-center">NT$150,000</td>
+                <td class="px-4 py-3 text-center text-amber-600">⚠ 需簽 NDA</td>
+              </tr>
+              <tr class="bg-accent/10">
+                <td class="px-4 py-3 font-bold text-accent">本地 LTX-2</td>
+                <td class="px-4 py-3 text-center text-sm font-medium text-accent">一次性硬體成本</td>
+                <td class="px-4 py-3 text-center font-bold text-accent">~NT$50 (電費)</td>
+                <td class="px-4 py-3 text-center text-accent font-bold">✓ 完全內網</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="mt-6 p-4 bg-purple-50 rounded-xl">
+          <p class="text-gray-700">
+            假設舞雲每年需要製作 30 支教育訓練影片，外包成本 = 30 × NT$150,000 = <strong class="text-red-600">NT$4,500,000</strong>。本地流水線的邊際成本僅為電費，<strong class="text-accent">年節省超過 400 萬元</strong>。
+          </p>
+        </div>
+      </div>
+      
+      <!-- Module C: RAG Knowledge Base -->
+      <div class="bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-gray-100">
+        <div class="flex flex-col md:flex-row md:items-center gap-4 mb-8">
+          <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center text-white text-2xl">
+            C
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold">企業知識庫 (RAG)</h3>
+            <p class="text-muted">法規諮詢自動化</p>
+          </div>
+        </div>
+        
+        <!-- Tech Stack -->
+        <div class="flex flex-wrap gap-3 mb-8">
+          <span class="px-4 py-2 bg-teal-50 text-teal-700 rounded-full text-sm font-medium">Qdrant / FAISS 向量資料庫</span>
+          <span class="px-4 py-2 bg-teal-50 text-teal-700 rounded-full text-sm font-medium">本地 Embedding 模型</span>
+          <span class="px-4 py-2 bg-teal-50 text-teal-700 rounded-full text-sm font-medium">RAG 檢索增強生成</span>
+        </div>
+        
+        <!-- User Story -->
+        <div class="bg-teal-50/50 rounded-2xl p-6 mb-8">
+          <h4 class="font-bold text-teal-800 mb-3 flex items-center gap-2">
+            <span>📚</span> 場景：ISO 14064 / ISO 50001 法規諮詢
+          </h4>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded-xl">
+              <div class="text-sm text-red-600 font-medium mb-2">【導入前】</div>
+              <p class="text-sm text-gray-600">客戶問「我們公司的柴油發電機算範疇一還是範疇二？」顧問翻 ISO 14064-1:2018 文件翻半天，找到答案後還要整理成客戶能懂的說法。同樣的問題下週另一個客戶又問一次。</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border-2 border-teal-300">
+              <div class="text-sm text-teal-600 font-medium mb-2">【導入後】</div>
+              <p class="text-sm text-gray-600">RAG 知識庫一問就有：「根據 ISO 14064-1:2018 第 5.2.2 節，企業自有或控制的固定燃燒源（如柴油發電機）屬於類別 1（範疇一）直接排放。」答案附上<strong>「這段話出自哪份文件第幾頁」</strong>，顧問只需覆核正確性後轉發給客戶。</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Knowledge Base Content -->
+        <h4 class="font-bold mb-4">可納入知識庫的文件類型</h4>
+        <div class="grid md:grid-cols-2 gap-3 mb-8">
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <span class="text-xl">📜</span>
+            <span class="text-sm">ISO 14064-1:2018 / ISO 14067 / ISO 50001 國際標準全文</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <span class="text-xl">📋</span>
+            <span class="text-sm">環境部溫室氣體盤查作業指引</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <span class="text-xl">🌍</span>
+            <span class="text-sm">GHG Protocol 溫室氣體盤查議定書</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <span class="text-xl">📁</span>
+            <span class="text-sm">歷史客戶案例與盤查報告（去識別化）</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <span class="text-xl">📖</span>
+            <span class="text-sm">內部培訓教材與 SOP 文件</span>
+          </div>
+        </div>
+        
+        <!-- Benefits -->
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="p-4 bg-teal-50 rounded-xl text-center">
+            <div class="text-3xl font-bold text-teal-600 mb-1">50-80%</div>
+            <div class="text-sm text-teal-700">查資料時間下降</div>
+          </div>
+          <div class="p-4 bg-teal-50 rounded-xl text-center">
+            <div class="text-3xl font-bold text-teal-600 mb-1">100%</div>
+            <div class="text-sm text-teal-700">敏感法規文件不出網</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI Section -->
+  <section id="roi" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="text-4xl mb-4 block">💰</span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">投資回報分析</h2>
+        <p class="text-muted text-lg">高可靠度的效益計算</p>
+      </div>
+      
+      <!-- Assumptions -->
+      <div class="bg-gray-50 rounded-3xl p-8 mb-12">
+        <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+          <span>📊</span> 情境假設
+        </h3>
+        <div class="grid md:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-xl text-center">
+            <div class="text-2xl font-bold text-primary">200 次</div>
+            <div class="text-sm text-muted">每月法規諮詢</div>
+          </div>
+          <div class="bg-white p-4 rounded-xl text-center">
+            <div class="text-2xl font-bold text-primary">15 個</div>
+            <div class="text-sm text-muted">每月程式迭代任務</div>
+          </div>
+          <div class="bg-white p-4 rounded-xl text-center">
+            <div class="text-2xl font-bold text-primary">30 支</div>
+            <div class="text-sm text-muted">每年教育影片需求</div>
+          </div>
+          <div class="bg-white p-4 rounded-xl text-center border-2 border-amber-200 bg-amber-50">
+            <div class="text-2xl font-bold text-amber-600">5 家</div>
+            <div class="text-sm text-amber-700">每年 Skills 顧問專案</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ROI Calculation -->
+      <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 mb-12">
+        <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+          <span>🧮</span> 效益計算
+        </h3>
+        <div class="space-y-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-blue-50 rounded-xl">
+            <div>
+              <div class="font-semibold text-blue-800">Coding Agent</div>
+              <div class="text-sm text-blue-600">15 任務 × 10hr × 12 月 × $600 × 40% 節省</div>
+            </div>
+            <div class="text-2xl font-bold text-blue-700 mt-2 md:mt-0">NT$432,000</div>
+          </div>
+          <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-teal-50 rounded-xl">
+            <div>
+              <div class="font-semibold text-teal-800">RAG 知識庫</div>
+              <div class="text-sm text-teal-600">200 次 × 0.5hr × 12 月 × $800 × 60% 節省</div>
+            </div>
+            <div class="text-2xl font-bold text-teal-700 mt-2 md:mt-0">NT$576,000</div>
+          </div>
+          <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-purple-50 rounded-xl">
+            <div>
+              <div class="font-semibold text-purple-800">數字人工廠</div>
+              <div class="text-sm text-purple-600">30 支 × $150,000 × 90% 節省</div>
+            </div>
+            <div class="text-2xl font-bold text-purple-700 mt-2 md:mt-0">NT$4,050,000</div>
+          </div>
+          <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-amber-50 rounded-xl border-2 border-amber-200">
+            <div>
+              <div class="font-semibold text-amber-800">Skills 顧問服務（新收入）</div>
+              <div class="text-sm text-amber-600">5 客戶 × $400,000/專案</div>
+            </div>
+            <div class="text-2xl font-bold text-amber-700 mt-2 md:mt-0">NT$2,000,000</div>
+          </div>
+          <div class="flex flex-col md:flex-row md:items-center justify-between p-6 bg-gradient-to-r from-secondary to-accent rounded-xl text-white">
+            <div class="font-bold text-xl">年化總效益</div>
+            <div class="text-4xl font-bold mt-2 md:mt-0">NT$7,058,000</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Investment vs Return -->
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-gray-50 rounded-3xl p-8">
+          <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+            <span>💳</span> 投資成本
+          </h3>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center p-4 bg-white rounded-xl">
+              <span>48GB VRAM 工作站 (RTX Pro 6000)</span>
+              <span class="font-bold">NT$350,000 - 450,000</span>
+            </div>
+            <div class="flex justify-between items-center p-4 bg-white rounded-xl">
+              <span>部署、整合與培訓服務</span>
+              <span class="font-bold">NT$150,000 - 200,000</span>
+            </div>
+            <div class="flex justify-between items-center p-4 bg-white rounded-xl">
+              <span>年度維護與技術支援</span>
+              <span class="font-bold">NT$60,000/年</span>
+            </div>
+            <div class="flex justify-between items-center p-4 bg-primary rounded-xl text-white">
+              <span class="font-semibold">首年總投資</span>
+              <span class="font-bold text-xl">NT$560,000 - 710,000</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-accent/10 to-secondary/10 rounded-3xl p-8 flex flex-col justify-center">
+          <div class="text-center">
+            <div class="text-muted mb-2">投資回收期</div>
+            <div class="text-6xl font-bold gradient-text mb-4">1.5-2 個月</div>
+            <div class="text-muted text-sm mb-6">基於年化效益 NT$7,058,000 計算</div>
+            <div class="p-4 bg-white/80 rounded-xl">
+              <p class="text-sm text-gray-700">
+                <strong>關鍵洞察：</strong>即使僅計算 Coding Agent 與 RAG 知識庫的效益（NT$1,008,000/年），投資回收期仍在 12 個月以內。數字人工廠與 Skills 顧問服務為額外成長動能。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-4xl mx-auto"></div>
+
+  <!-- Next Steps Section -->
+  <section id="next" class="py-24 bg-surface">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="text-4xl mb-4 block">🚀</span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">下一步建議</h2>
+        <p class="text-muted text-lg">90 天落地藍圖</p>
+      </div>
+      
+      <div class="space-y-6">
+        <!-- Phase 1 -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">01</div>
+            <div>
+              <h3 class="text-xl font-bold">第 1-30 天：選定戰場</h3>
+              <p class="text-muted text-sm">不要什麼都想做，先找最痛的那一個</p>
+            </div>
+          </div>
+          <blockquote class="border-l-4 border-blue-400 pl-4 py-2 bg-blue-50 rounded-r-lg mb-6">
+            <p class="italic text-blue-800">「不要什麼都想做，先找最痛的那一個。」</p>
+          </blockquote>
+          <ol class="space-y-3">
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">1</span>
+              <span>盤點公司裡「花最多人力在抄、貼、對、找」的工作</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">2</span>
+              <span>從中選出 1 個最高頻、最痛、資料格式最固定的任務（<strong>建議優先選擇 RAG 知識庫</strong>）</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">3</span>
+              <span>定義「成功長什麼樣」——要有可量化的指標</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">4</span>
+              <span>準備 10-20 個真實案例作為測試資料</span>
+            </li>
+          </ol>
+        </div>
+        
+        <!-- Phase 2 -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">02</div>
+            <div>
+              <h3 class="text-xl font-bold">第 31-60 天：做出 MVP</h3>
+              <p class="text-muted text-sm">先跑通一條線，再想怎麼擴張</p>
+            </div>
+          </div>
+          <ol class="space-y-3">
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">1</span>
+              <span>部署本地推理服務，確認硬體正常</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">2</span>
+              <span>將 ISO 14064/50001 相關文件匯入 RAG 知識庫</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">3</span>
+              <span>建立「輸入 → 處理 → 驗證 → 輸出」四個步驟的檢查機制</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">4</span>
+              <span>用測試資料跑 10 次，記錄成功率與失敗原因</span>
+            </li>
+          </ol>
+        </div>
+        
+        <!-- Phase 3 -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white font-bold">03</div>
+            <div>
+              <h3 class="text-xl font-bold">第 61-90 天：上線與迭代</h3>
+              <p class="text-muted text-sm">讓它真的跑起來，然後收集回饋</p>
+            </div>
+          </div>
+          <ol class="space-y-3">
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-accent/20 text-accent rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">1</span>
+              <span>找 2-3 位顧問做 beta 測試</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-accent/20 text-accent rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">2</span>
+              <span>建立「回報問題 → 修正 → 重測」的迴圈</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-accent/20 text-accent rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">3</span>
+              <span>記錄實際省下的時間 / 減少的錯誤 / 提升的產出</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 bg-accent/20 text-accent rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">4</span>
+              <span>決定下一個要自動化的任務（Coding Agent 或數字人工廠）</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing Section -->
+  <section class="py-24 bg-gradient-to-br from-primary to-secondary text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-8">
+        不是買主機，是買一條生產線
+      </h2>
+      <p class="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+        很多人以為「買大主機就等於擁有 AI 能力」，這跟「買了健身器材就會變壯」的邏輯一樣天真。真正讓 AI 落地的關鍵在於：你有沒有把它變成一條可以重複運轉、可以被驗證對錯的生產線。
+      </p>
+      
+      <div class="grid md:grid-cols-4 gap-4 mb-12">
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+          <div class="text-3xl mb-3">🔒</div>
+          <div class="font-semibold mb-1">資安圍籬</div>
+          <div class="text-sm text-white/70">資料永不離開內網</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+          <div class="text-3xl mb-3">⚡</div>
+          <div class="font-semibold mb-1">自動化生產力</div>
+          <div class="text-sm text-white/70">重複勞動交給機器</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+          <div class="text-3xl mb-3">🧠</div>
+          <div class="font-semibold mb-1">知識資產</div>
+          <div class="text-sm text-white/70">Skills 傳承專業判斷</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border-2 border-amber-400/50">
+          <div class="text-3xl mb-3">🌟</div>
+          <div class="font-semibold mb-1 text-amber-300">新商業模式</div>
+          <div class="text-sm text-white/70">AI 轉型顧問服務</div>
+        </div>
+      </div>
+      
+      <blockquote class="text-xl italic text-white/90 mb-12 max-w-2xl mx-auto">
+        「本地推理環境的真正考驗，不是<strong>能不能跑起來</strong>，而是<strong>跑起來之後能不能一直跑</strong>。」
+      </blockquote>
+      
+      <p class="text-lg text-white/80 mb-8">
+        我們期待與舞雲智網攜手，在 ESG 顧問產業打造第一條<br>
+        <strong class="text-white">「資料永不出網」</strong>的私有化 AI 生產線。
+      </p>
+      
+      <a href="#next" class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary font-semibold rounded-full hover:bg-white/90 transition-colors">
+        <span>啟動 90 天計畫</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 bg-primary text-white/60">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🌱</span>
+          <span class="font-semibold text-white">台灣舞雲智網股份有限公司</span>
+        </div>
+        <div class="text-sm">
+          DigiZerocarbon · AI 轉型戰略提案 · 2026 Q1
+        </div>
+        <div class="text-sm">
+          CONFIDENTIAL
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+    
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
+
