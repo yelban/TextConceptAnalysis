@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claude Cowork 完整指南 | 從聊天機器人到數位員工的革命</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Markmap CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.15.4"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
@@ -1294,258 +1297,27 @@
                     <h2 class="text-3xl md:text-4xl font-bold mb-4">
                         <span class="text-indigo-600">🧠</span> 完整功能架構圖
                     </h2>
-                    <p class="text-slate-600 text-lg mb-8">點擊各節點可展開/收合詳細內容</p>
+                    <p class="text-slate-600 text-lg mb-8">可拖曳平移、滾輪縮放，點擊節點展開/收合</p>
                     
-                    <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-3xl p-6 md:p-10 overflow-x-auto">
-                        <!-- Root Node -->
-                        <div class="mindmap-container">
-                            <div class="flex flex-col items-center">
-                                <!-- Central Node -->
-                                <div class="mindmap-root bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-4 rounded-2xl shadow-lg mb-8 text-center">
-                                    <div class="text-xl md:text-2xl font-bold">Claude Cowork</div>
-                                    <div class="text-purple-200 text-sm mt-1">研究預覽版</div>
-                                </div>
-                                
-                                <!-- Main Branches -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full max-w-6xl">
-                                    
-                                    <!-- Branch 1: 核心定義與定位 -->
-                                    <div class="mindmap-branch" data-branch="definition">
-                                        <div class="branch-header bg-gradient-to-r from-violet-500 to-purple-500 text-white rounded-xl p-4 cursor-pointer shadow-md hover:shadow-lg transition-all" onclick="toggleBranch('definition')">
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-3">
-                                                    <span class="text-2xl">🎯</span>
-                                                    <span class="font-bold">核心定義與定位</span>
-                                                </div>
-                                                <svg class="w-5 h-5 branch-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div class="branch-content hidden mt-3 space-y-2 pl-4 border-l-2 border-violet-200">
-                                            <div class="leaf-node bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-all">
-                                                <span class="text-violet-600 font-medium">代理式架構</span>
-                                                <span class="text-slate-500 text-sm ml-2">(Agentic)</span>
-                                            </div>
-                                            <div class="leaf-node bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-all">
-                                                <span class="text-violet-600 font-medium">重新定義 AI Agent</span>
-                                            </div>
-                                            <div class="leaf-node bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-all">
-                                                <span class="text-violet-600 font-medium">知識工作自動化助理</span>
-                                            </div>
-                                            <div class="leaf-node bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-all">
-                                                <span class="text-violet-600 font-medium">無需終端機的 Claude Code 演進</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Branch 2: 主要功能與技術 -->
-                                    <div class="mindmap-branch" data-branch="features">
-                                        <div class="branch-header bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl p-4 cursor-pointer shadow-md hover:shadow-lg transition-all" onclick="toggleBranch('features')">
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-3">
-                                                    <span class="text-2xl">⚙️</span>
-                                                    <span class="font-bold">主要功能與技術</span>
-                                                </div>
-                                                <svg class="w-5 h-5 branch-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div class="branch-content hidden mt-3 space-y-3 pl-4 border-l-2 border-blue-200">
-                                            <!-- Sub-branch: 自動化操作 -->
-                                            <div class="sub-branch">
-                                                <div class="sub-header bg-blue-50 rounded-lg p-3 cursor-pointer" onclick="toggleSubBranch(this)">
-                                                    <div class="flex items-center justify-between">
-                                                        <span class="font-medium text-blue-700">📂 自動化操作</span>
-                                                        <svg class="w-4 h-4 text-blue-400 sub-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-content hidden mt-2 ml-4 space-y-1">
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 本地文件讀寫與管理</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 瀏覽器自動化（需搭配 Chrome）</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 子代理協作與並行任務</div>
-                                                </div>
-                                            </div>
-                                            <!-- Sub-branch: 產出物類型 -->
-                                            <div class="sub-branch">
-                                                <div class="sub-header bg-blue-50 rounded-lg p-3 cursor-pointer" onclick="toggleSubBranch(this)">
-                                                    <div class="flex items-center justify-between">
-                                                        <span class="font-medium text-blue-700">📄 產出物類型</span>
-                                                        <svg class="w-4 h-4 text-blue-400 sub-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-content hidden mt-2 ml-4 space-y-1">
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• Excel 試算表（含公式）</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• PowerPoint 簡報</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 格式化 Word 文件與報表</div>
-                                                </div>
-                                            </div>
-                                            <!-- Sub-branch: 底層環境 -->
-                                            <div class="sub-branch">
-                                                <div class="sub-header bg-blue-50 rounded-lg p-3 cursor-pointer" onclick="toggleSubBranch(this)">
-                                                    <div class="flex items-center justify-between">
-                                                        <span class="font-medium text-blue-700">🔧 底層環境</span>
-                                                        <svg class="w-4 h-4 text-blue-400 sub-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-content hidden mt-2 ml-4 space-y-1">
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 虛擬機（VM）隔離運行</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 本地文件夾權限控制</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 支援 MCP 連接器</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Branch 3: 使用要求與限制 -->
-                                    <div class="mindmap-branch" data-branch="requirements">
-                                        <div class="branch-header bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl p-4 cursor-pointer shadow-md hover:shadow-lg transition-all" onclick="toggleBranch('requirements')">
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-3">
-                                                    <span class="text-2xl">📋</span>
-                                                    <span class="font-bold">使用要求與限制</span>
-                                                </div>
-                                                <svg class="w-5 h-5 branch-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div class="branch-content hidden mt-3 space-y-3 pl-4 border-l-2 border-amber-200">
-                                            <!-- Sub-branch: 硬體與計畫 -->
-                                            <div class="sub-branch">
-                                                <div class="sub-header bg-amber-50 rounded-lg p-3 cursor-pointer" onclick="toggleSubBranch(this)">
-                                                    <div class="flex items-center justify-between">
-                                                        <span class="font-medium text-amber-700">💻 硬體與計畫</span>
-                                                        <svg class="w-4 h-4 text-amber-400 sub-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-content hidden mt-2 ml-4 space-y-1">
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 僅限 macOS 桌面版 App</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• Claude Pro/Max 訂閱用戶可用</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 需保持網路連線</div>
-                                                </div>
-                                            </div>
-                                            <!-- Sub-branch: 操作限制 -->
-                                            <div class="sub-branch">
-                                                <div class="sub-header bg-amber-50 rounded-lg p-3 cursor-pointer" onclick="toggleSubBranch(this)">
-                                                    <div class="flex items-center justify-between">
-                                                        <span class="font-medium text-amber-700">⚠️ 操作限制</span>
-                                                        <svg class="w-4 h-4 text-amber-400 sub-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-content hidden mt-2 ml-4 space-y-1">
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 無跨會話記憶</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 不支援專案（Projects）</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• App 關閉即終止會話</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 消耗更多使用額度</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Branch 4: 實際應用案例 -->
-                                    <div class="mindmap-branch" data-branch="usecases">
-                                        <div class="branch-header bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl p-4 cursor-pointer shadow-md hover:shadow-lg transition-all" onclick="toggleBranch('usecases')">
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-3">
-                                                    <span class="text-2xl">💼</span>
-                                                    <span class="font-bold">實際應用案例</span>
-                                                </div>
-                                                <svg class="w-5 h-5 branch-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div class="branch-content hidden mt-3 space-y-3 pl-4 border-l-2 border-green-200">
-                                            <!-- Sub-branch: 文件管理 -->
-                                            <div class="sub-branch">
-                                                <div class="sub-header bg-green-50 rounded-lg p-3 cursor-pointer" onclick="toggleSubBranch(this)">
-                                                    <div class="flex items-center justify-between">
-                                                        <span class="font-medium text-green-700">📁 文件管理</span>
-                                                        <svg class="w-4 h-4 text-green-400 sub-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-content hidden mt-2 ml-4 space-y-1">
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 依日期類型自動分類文件</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 批量重命名文件</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 掃描並刪除大體積文件</div>
-                                                </div>
-                                            </div>
-                                            <!-- Sub-branch: 數據分析與研究 -->
-                                            <div class="sub-branch">
-                                                <div class="sub-header bg-green-50 rounded-lg p-3 cursor-pointer" onclick="toggleSubBranch(this)">
-                                                    <div class="flex items-center justify-between">
-                                                        <span class="font-medium text-green-700">📊 數據分析與研究</span>
-                                                        <svg class="w-4 h-4 text-green-400 sub-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-content hidden mt-2 ml-4 space-y-1">
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 小紅書後台數據自動抓取分析</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 股價資訊檢索與深度分析報表</div>
-                                                    <div class="text-sm text-slate-600 bg-white rounded p-2">• 會議記錄提取關鍵點</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Branch 5: 安全性與風險 -->
-                                    <div class="mindmap-branch" data-branch="security">
-                                        <div class="branch-header bg-gradient-to-r from-red-500 to-rose-500 text-white rounded-xl p-4 cursor-pointer shadow-md hover:shadow-lg transition-all" onclick="toggleBranch('security')">
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-3">
-                                                    <span class="text-2xl">🛡️</span>
-                                                    <span class="font-bold">安全性與風險</span>
-                                                </div>
-                                                <svg class="w-5 h-5 branch-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div class="branch-content hidden mt-3 space-y-2 pl-4 border-l-2 border-red-200">
-                                            <div class="leaf-node bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-all">
-                                                <span class="text-red-600 font-medium">破壞性操作（如刪除檔案）需確認</span>
-                                            </div>
-                                            <div class="leaf-node bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-all">
-                                                <span class="text-red-600 font-medium">提示詞注入（Prompt Injections）風險</span>
-                                            </div>
-                                            <div class="leaf-node bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-all">
-                                                <span class="text-green-600 font-medium">✓ 虛擬機環境隔離保障</span>
-                                            </div>
-                                            <div class="leaf-node bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-all">
-                                                <span class="text-green-600 font-medium">✓ 透明度指標（即時顯示推理步驟）</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Control Buttons -->
-                        <div class="flex justify-center gap-4 mt-8">
-                            <button onclick="expandAll()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
-                                展開全部
-                            </button>
-                            <button onclick="collapseAll()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors text-sm font-medium">
-                                收合全部
-                            </button>
-                        </div>
+                    <!-- Markmap Container -->
+                    <div class="bg-gradient-to-br from-slate-50 to-white rounded-3xl shadow-inner overflow-hidden border border-slate-200">
+                        <svg id="markmap" style="width: 100%; height: 650px;"></svg>
                     </div>
+                    
+                    <!-- Control Buttons -->
+                    <div class="flex justify-center gap-4 mt-6">
+                        <button onclick="mm.fit()" class="px-5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium shadow">
+                            重置視圖
+                        </button>
+                        <button onclick="expandAllMarkmap()" class="px-5 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors text-sm font-medium shadow">
+                            展開全部
+                        </button>
+                        <button onclick="collapseAllMarkmap()" class="px-5 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors text-sm font-medium shadow">
+                            收合全部
+                        </button>
+                    </div>
+                    
+                    <p class="text-center text-sm text-slate-500 mt-4">💡 觸控板：雙指捏合縮放、雙指滑動平移 ｜ 滑鼠：滾輪縮放、拖曳平移</p>
                 </section>
                 
                 <!-- Industry Impact Section -->
@@ -1761,70 +1533,156 @@
         </svg>
     </a>
     
-    <!-- Mind Map JavaScript -->
+    <!-- Markmap Mind Map JavaScript -->
     <script>
-        function toggleBranch(branchName) {
-            const branch = document.querySelector(`[data-branch="${branchName}"]`);
-            const content = branch.querySelector('.branch-content');
-            const icon = branch.querySelector('.branch-icon');
+        // Wait for Markmap to load
+        document.addEventListener('DOMContentLoaded', function() {
+            const { Markmap } = window.markmap;
             
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                content.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
+            // Mind map data structure
+            const data = {
+                content: "Claude Cowork 研究預覽版",
+                children: [
+                    {
+                        content: "🎯 核心定義與定位",
+                        children: [
+                            { content: "代理式架構 (Agentic)" },
+                            { content: "重新定義 AI Agent" },
+                            { content: "知識工作自動化助理" },
+                            { content: "無需終端機的 Claude Code" }
+                        ]
+                    },
+                    {
+                        content: "⚙️ 主要功能與技術",
+                        children: [
+                            { 
+                                content: "📂 自動化操作",
+                                children: [
+                                    { content: "本地文件讀寫與管理" },
+                                    { content: "瀏覽器自動化 (Chrome)" },
+                                    { content: "子代理協作與並行任務" }
+                                ]
+                            },
+                            { 
+                                content: "📄 產出物類型",
+                                children: [
+                                    { content: "Excel 試算表（含公式）" },
+                                    { content: "PowerPoint 簡報" },
+                                    { content: "Word 文件與報表" }
+                                ]
+                            },
+                            { 
+                                content: "🔧 底層環境",
+                                children: [
+                                    { content: "VM 隔離運行" },
+                                    { content: "文件夾權限控制" },
+                                    { content: "MCP 連接器支援" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        content: "📋 使用要求與限制",
+                        children: [
+                            { 
+                                content: "💻 硬體與計畫",
+                                children: [
+                                    { content: "僅限 macOS 桌面版" },
+                                    { content: "Pro/Max 訂閱可用" },
+                                    { content: "需保持網路連線" }
+                                ]
+                            },
+                            { 
+                                content: "⚠️ 操作限制",
+                                children: [
+                                    { content: "無跨會話記憶" },
+                                    { content: "不支援 Projects" },
+                                    { content: "消耗較多使用額度" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        content: "💼 實際應用案例",
+                        children: [
+                            { 
+                                content: "📁 文件管理",
+                                children: [
+                                    { content: "自動分類文件" },
+                                    { content: "批量重命名" },
+                                    { content: "清理大體積檔案" }
+                                ]
+                            },
+                            { 
+                                content: "📊 數據分析",
+                                children: [
+                                    { content: "後台數據抓取分析" },
+                                    { content: "股價資訊研究報表" },
+                                    { content: "會議記錄提取" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        content: "🛡️ 安全性與風險",
+                        children: [
+                            { 
+                                content: "⚠️ 風險項目",
+                                children: [
+                                    { content: "破壞性操作需確認" },
+                                    { content: "提示詞注入風險" }
+                                ]
+                            },
+                            { 
+                                content: "✅ 防護措施",
+                                children: [
+                                    { content: "VM 環境隔離" },
+                                    { content: "即時顯示推理步驟" },
+                                    { content: "人類可隨時叫停" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            };
+            
+            // Initialize Markmap
+            const svg = document.getElementById('markmap');
+            window.mm = Markmap.create(svg, {
+                colorFreezeLevel: 2,
+                duration: 300,
+                maxWidth: 250,
+                paddingX: 16,
+                autoFit: true
+            }, data);
+            
+            // Initial fit after render
+            setTimeout(() => window.mm.fit(), 200);
+        });
+        
+        // Helper functions for expand/collapse
+        function expandAllMarkmap() {
+            function expandNode(node) {
+                if (!node.payload) node.payload = {};
+                node.payload.fold = 0;
+                if (node.children) node.children.forEach(expandNode);
             }
+            expandNode(mm.state.data);
+            mm.setData(mm.state.data);
+            setTimeout(() => mm.fit(), 100);
         }
         
-        function toggleSubBranch(element) {
-            const subBranch = element.closest('.sub-branch');
-            const content = subBranch.querySelector('.sub-content');
-            const icon = element.querySelector('.sub-icon');
-            
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                content.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
+        function collapseAllMarkmap() {
+            // 收合第一層分支（只保留根節點展開）
+            const root = mm.state.data;
+            if (root.children) {
+                root.children.forEach(branch => {
+                    if (!branch.payload) branch.payload = {};
+                    branch.payload.fold = 1; // 收合第一層分支
+                });
             }
-        }
-        
-        function expandAll() {
-            // Expand all main branches
-            document.querySelectorAll('.branch-content').forEach(content => {
-                content.classList.remove('hidden');
-            });
-            document.querySelectorAll('.branch-icon').forEach(icon => {
-                icon.style.transform = 'rotate(180deg)';
-            });
-            
-            // Expand all sub-branches
-            document.querySelectorAll('.sub-content').forEach(content => {
-                content.classList.remove('hidden');
-            });
-            document.querySelectorAll('.sub-icon').forEach(icon => {
-                icon.style.transform = 'rotate(180deg)';
-            });
-        }
-        
-        function collapseAll() {
-            // Collapse all main branches
-            document.querySelectorAll('.branch-content').forEach(content => {
-                content.classList.add('hidden');
-            });
-            document.querySelectorAll('.branch-icon').forEach(icon => {
-                icon.style.transform = 'rotate(0deg)';
-            });
-            
-            // Collapse all sub-branches
-            document.querySelectorAll('.sub-content').forEach(content => {
-                content.classList.add('hidden');
-            });
-            document.querySelectorAll('.sub-icon').forEach(icon => {
-                icon.style.transform = 'rotate(0deg)';
-            });
+            mm.setData(mm.state.data);
+            setTimeout(() => mm.fit(), 100);
         }
     </script>
 </body>
