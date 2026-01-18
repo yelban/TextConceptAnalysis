@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小公司財務自動化流程圖 - Claude Code</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", "PingFang TC", sans-serif;
+            background: #f1f5f9;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            padding: 28px 32px;
+            color: white;
+        }
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .header h1 .badge {
+            display: inline-block;
+            padding: 4px 14px;
+            background: #10b981;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+        }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            padding: 20px 32px;
+            background: #e2e8f0;
+            border-bottom: 1px solid #cbd5e1;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 12px 20px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            color: #475569;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .tab:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+        .tab.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+        }
+        .diagram-container {
+            display: none;
+            padding: 32px;
+            background: white;
+            margin: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        .diagram-container.active {
+            display: block;
+        }
+        .diagram-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        .diagram-desc {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .mermaid-wrapper {
+            display: flex;
+            justify-content: center;
+            min-height: 400px;
+        }
+        .mermaid-wrapper svg {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>小公司財務自動化流程圖<span class="badge">Claude Code</span></h1>
+        <p>使用 AI 將每月做帳從 3 天縮短到半天，發票錄入從 2 小時變 2 分鐘</p>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab active" onclick="showDiagram(0)">總體工作流程</button>
+        <button class="tab" onclick="showDiagram(1)">新客戶簽約</button>
+        <button class="tab" onclick="showDiagram(2)">任務安排</button>
+        <button class="tab" onclick="showDiagram(3)">資料保護機制</button>
+    </div>
+    
+    <div id="diagram-0" class="diagram-container active">
+        <div class="diagram-title">總體工作流程</div>
+        <div class="diagram-desc">每週財務工作的整體架構，涵蓋日常作業與月度工作</div>
+        <div class="mermaid-wrapper" id="chart-0"></div>
+    </div>
+
+    <div id="diagram-1" class="diagram-container">
+        <div class="diagram-title">流程1：新客戶簽約</div>
+        <div class="diagram-desc">預估時間 15-20 分鐘，從通知到合約發送的完整流程</div>
+        <div class="mermaid-wrapper" id="chart-1"></div>
+    </div>
+
+    <div id="diagram-2" class="diagram-container">
+        <div class="diagram-title">流程3：任務安排</div>
+        <div class="diagram-desc">預估時間 10 分鐘，AI 分析客戶狀態並批次發送任務郵件</div>
+        <div class="mermaid-wrapper" id="chart-2"></div>
+    </div>
+
+    <div id="diagram-3" class="diagram-container">
+        <div class="diagram-title">資料保護機制</div>
+        <div class="diagram-desc">三道防線：參數驗證 → 金額合理性 → 權限檢查，加上 Git 還原能力</div>
+        <div class="mermaid-wrapper" id="chart-3"></div>
+    </div>
+
+    <script>
+        const charts = [
+            // 0: 總體工作流程
+            `flowchart TB
+    Start([開始工作])
+    Review[查看本週工作概況]
+    Decision{有什麼工作？}
+    
+    NewCustomer[/新客戶/]
+    Payment[/收款/]
+    Task[/任務/]
+    Monthly[/月度工作/]
+    
+    ProcessNew[處理新客戶簽約]
+    ConfirmPayment[確認收款]
+    ArrangeTask[安排任務]
+    
+    ValidateNew[資料驗證]
+    ValidatePayment[資料驗證]
+    ValidateTask[資料驗證]
+    
+    MonthlyNode{月度時間節點}
+    Week1[/第一週/]
+    Week2[/第二週/]
+    MonthEnd[/月末/]
+    
+    Payroll[發薪水]
+    Expense[審核報帳]
+    Report[生成月報]
+    
+    ValidatePayroll[資料驗證]
+    ValidateExpense[資料驗證]
+    ValidateReport[資料驗證]
+    
+    Backup[自動備份]
+    Checklist[每週檢查清單]
+    Done([工作完成])
+    
+    Start --> Review
+    Review --> Decision
+    
+    Decision --> NewCustomer
+    Decision --> Payment
+    Decision --> Task
+    Decision --> Monthly
+    
+    NewCustomer --> ProcessNew --> ValidateNew
+    Payment --> ConfirmPayment --> ValidatePayment
+    Task --> ArrangeTask --> ValidateTask
+    
+    Monthly --> MonthlyNode
+    MonthlyNode --> Week1 --> Payroll --> ValidatePayroll
+    MonthlyNode --> Week2 --> Expense --> ValidateExpense
+    MonthlyNode --> MonthEnd --> Report --> ValidateReport
+    
+    ValidateNew --> Backup
+    ValidatePayment --> Backup
+    ValidateTask --> Backup
+    ValidatePayroll --> Backup
+    ValidateExpense --> Backup
+    ValidateReport --> Backup
+    
+    Backup --> Checklist
+    Checklist --> Done
+    
+    classDef startEnd fill:#4ade80,stroke:#16a34a,color:#fff
+    classDef process fill:#60a5fa,stroke:#2563eb,color:#fff
+    classDef decision fill:#fef3c7,stroke:#f59e0b,color:#92400e
+    classDef validate fill:#c4b5fd,stroke:#7c3aed,color:#fff
+    classDef input fill:#fff,stroke:#94a3b8,color:#475569
+    
+    class Start,Done startEnd
+    class Review,ProcessNew,ConfirmPayment,ArrangeTask,Payroll,Expense,Report,Backup,Checklist process
+    class Decision,MonthlyNode decision
+    class ValidateNew,ValidatePayment,ValidateTask,ValidatePayroll,ValidateExpense,ValidateReport validate
+    class NewCustomer,Payment,Task,Monthly,Week1,Week2,MonthEnd input`,
+
+            // 1: 新客戶簽約
+            `flowchart TB
+    Start([通知新客戶])
+    Input[輸入客戶資訊]
+    CreateFile[Claude Code 創建客戶檔案]
+    GenContract[生成合約和報價函]
+    
+    AIValidate[AI 驗證合約內容]
+    ValidateResult{驗證結果}
+    
+    PassPreview[顯示預覽]
+    ConfirmCheck{確認？}
+    SendContract[發送合約郵件]
+    ModifyInfo[修改資訊]
+    
+    ShowErrors[顯示錯誤清單]
+    ManualFix[手工修改]
+    
+    EmailPreview[郵件預覽]
+    SendFinal{確認發送？}
+    
+    SendRoland[發送並副本負責人]
+    UpdateClaude[更新 Claude.md]
+    GitCommit[Git 自動提交]
+    Log[記錄日誌]
+    Done([完成])
+    Cancel([取消])
+    
+    Start --> Input
+    Input --> CreateFile
+    CreateFile --> GenContract
+    GenContract --> AIValidate
+    AIValidate --> ValidateResult
+    
+    ValidateResult -->|PASS| PassPreview
+    ValidateResult -->|FAIL| ShowErrors
+    
+    PassPreview --> ConfirmCheck
+    ConfirmCheck -->|確認無誤| SendContract
+    ConfirmCheck -->|需要修改| ModifyInfo
+    
+    ShowErrors --> ManualFix
+    
+    SendContract --> EmailPreview
+    ModifyInfo --> EmailPreview
+    ManualFix --> EmailPreview
+    
+    EmailPreview --> SendFinal
+    
+    SendFinal -->|取消| Cancel
+    SendFinal -->|是| SendRoland
+    
+    SendRoland --> UpdateClaude
+    UpdateClaude --> GitCommit
+    GitCommit --> Log
+    Log --> Done
+    
+    classDef startEnd fill:#4ade80,stroke:#16a34a,color:#fff
+    classDef process fill:#60a5fa,stroke:#2563eb,color:#fff
+    classDef decision fill:#fef3c7,stroke:#f59e0b,color:#92400e
+    classDef error fill:#fca5a5,stroke:#dc2626,color:#7f1d1d
+    classDef cancel fill:#94a3b8,stroke:#64748b,color:#fff
+    
+    class Start,Done startEnd
+    class Cancel cancel
+    class Input,CreateFile,GenContract,AIValidate,PassPreview,SendContract,ModifyInfo,EmailPreview,SendRoland,UpdateClaude,GitCommit,Log process
+    class ValidateResult,ConfirmCheck,SendFinal decision
+    class ShowErrors,ManualFix error`,
+
+            // 2: 任務安排
+            `flowchart TB
+    Start([開始安排任務])
+    Analyze[Claude Code 分析客戶狀態]
+    Generate[生成任務建議]
+    Review{審核}
+    
+    Accept[/接受建議/]
+    Adjust[/需要調整/]
+    Add[/增加任務/]
+    
+    ModifyPriority[修改負責人與優先順序]
+    AddNew[添加新任務]
+    
+    Confirm[確認任務清單]
+    Preview[顯示任務郵件預覽]
+    
+    SendCheck{確認發送？}
+    
+    BatchSend[批次發送任務郵件]
+    UpdateTasks[更新 tasks.md]
+    UpdateClaude[更新 Claude.md]
+    GitCommit[Git 自動提交]
+    Done([完成])
+    
+    Start --> Analyze
+    Analyze --> Generate
+    Generate --> Review
+    
+    Review --> Accept
+    Review --> Adjust
+    Review --> Add
+    
+    Accept --> Confirm
+    Adjust --> ModifyPriority --> Confirm
+    Add --> AddNew --> Confirm
+    
+    Confirm --> Preview
+    Preview --> SendCheck
+    
+    SendCheck -->|否| Review
+    SendCheck -->|是| BatchSend
+    
+    BatchSend --> UpdateTasks
+    UpdateTasks --> UpdateClaude
+    UpdateClaude --> GitCommit
+    GitCommit --> Done
+    
+    classDef startEnd fill:#4ade80,stroke:#16a34a,color:#fff
+    classDef process fill:#60a5fa,stroke:#2563eb,color:#fff
+    classDef decision fill:#fef3c7,stroke:#f59e0b,color:#92400e
+    classDef input fill:#fff,stroke:#94a3b8,color:#475569
+    
+    class Start,Done startEnd
+    class Analyze,Generate,ModifyPriority,AddNew,Confirm,Preview,BatchSend,UpdateTasks,UpdateClaude,GitCommit process
+    class Review,SendCheck decision
+    class Accept,Adjust,Add input`,
+
+            // 3: 資料保護機制
+            `flowchart TB
+    Start([任何寫操作])
+    PreCheck[預檢驗證]
+    
+    ParamCheck{參數完整？}
+    AmountCheck{金額合理？}
+    PermCheck{權限許可？}
+    
+    RejectParam[拒絕執行 - 提示缺失參數]
+    RejectAmount[觸發警告 - 需要確認]
+    RejectPerm[拒絕執行 - 需負責人確認]
+    Failed([操作失敗])
+    
+    GitCheckpoint[創建 Git 檢查點]
+    Execute[執行操作]
+    Validate[資料一致性驗證]
+    ValidateCheck{驗證通過？}
+    
+    Rollback[還原到檢查點 - 報告衝突]
+    
+    UpdateSource[更新原始檔]
+    UpdateClaude[更新 Claude.md]
+    ConsistCheck{一致性檢查}
+    
+    StopOp[停止操作 - 報告錯誤]
+    
+    GitCommit[Git 提交]
+    Log[記錄日誌]
+    Backup[觸發備份]
+    Done([完成])
+    
+    Start --> PreCheck
+    PreCheck --> ParamCheck
+    
+    ParamCheck -->|否| RejectParam --> Failed
+    ParamCheck -->|是| AmountCheck
+    
+    AmountCheck -->|否| RejectAmount --> Failed
+    AmountCheck -->|是| PermCheck
+    
+    PermCheck -->|否| RejectPerm --> Failed
+    PermCheck -->|是| GitCheckpoint
+    
+    GitCheckpoint --> Execute
+    Execute --> Validate
+    Validate --> ValidateCheck
+    
+    ValidateCheck -->|否| Rollback --> Failed
+    ValidateCheck -->|是| UpdateSource
+    
+    UpdateSource --> UpdateClaude
+    UpdateClaude --> ConsistCheck
+    
+    ConsistCheck -->|失敗| StopOp --> Failed
+    ConsistCheck -->|通過| GitCommit
+    
+    GitCommit --> Log
+    Log --> Backup
+    Backup --> Done
+    
+    classDef startEnd fill:#f97316,stroke:#c2410c,color:#fff
+    classDef process fill:#60a5fa,stroke:#2563eb,color:#fff
+    classDef decision fill:#fef3c7,stroke:#f59e0b,color:#92400e
+    classDef reject fill:#fca5a5,stroke:#dc2626,color:#7f1d1d
+    classDef success fill:#4ade80,stroke:#16a34a,color:#fff
+    classDef failed fill:#ef4444,stroke:#b91c1c,color:#fff
+    
+    class Start startEnd
+    class Done success
+    class Failed failed
+    class PreCheck,GitCheckpoint,Execute,Validate,UpdateSource,UpdateClaude,GitCommit,Log,Backup process
+    class ParamCheck,AmountCheck,PermCheck,ValidateCheck,ConsistCheck decision
+    class RejectParam,RejectAmount,RejectPerm,Rollback,StopOp reject`
+        ];
+
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            themeVariables: {
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Microsoft JhengHei", "PingFang TC", sans-serif',
+                fontSize: '14px'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        async function renderChart(index) {
+            const container = document.getElementById(`chart-${index}`);
+            if (container.innerHTML.trim() === '') {
+                const { svg } = await mermaid.render(`mermaid-${index}`, charts[index]);
+                container.innerHTML = svg;
+            }
+        }
+
+        async function showDiagram(index) {
+            document.querySelectorAll('.tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.diagram-container').forEach((container, i) => {
+                container.classList.toggle('active', i === index);
+            });
+            await renderChart(index);
+        }
+
+        // 初始渲染第一個圖表
+        document.addEventListener('DOMContentLoaded', () => {
+            renderChart(0);
+        });
+    </script>
+</body>
+</html>
