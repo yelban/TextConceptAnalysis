@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auditable Decision Engine — 可稽核的決策證據鏈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        
+        /* 自定義動畫 */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.5); }
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        .gradient-animated {
+            background-size: 200% 200%;
+            animation: gradient-shift 8s ease infinite;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        /* 網格背景 */
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        
+        /* 玻璃態效果 */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 漸層文字 */
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* 卡片懸停效果 */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* 表格樣式 */
+        .styled-table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .styled-table th,
+        .styled-table td {
+            padding: 16px 20px;
+            text-align: left;
+        }
+        
+        .styled-table thead th {
+            background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .styled-table thead th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+        
+        .styled-table thead th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+        
+        .styled-table tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        .styled-table tbody tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        .styled-table tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 12px;
+        }
+        
+        .styled-table tbody tr:last-child td:last-child {
+            border-radius: 0 0 12px 0;
+        }
+        
+        /* 程式碼區塊 */
+        .code-block {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+        
+        /* 時間軸 */
+        .timeline-line {
+            background: linear-gradient(180deg, #3B82F6 0%, #8B5CF6 50%, #EC4899 100%);
+        }
+        
+        /* 滾動指示器 */
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#3B82F6',
+                            600: '#2563EB',
+                            700: '#1D4ED8',
+                            800: '#1E40AF',
+                            900: '#1E3A8A',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <header class="relative overflow-hidden bg-slate-900">
+        <!-- Hero Image -->
+        <div class="w-full">
+            <img
+                src="cover-image/auditable-decision-engine/cover.png"
+                alt="決策證據鏈 - Auditable Decision Engine"
+                class="w-full h-auto object-cover animate-fade-in-up"
+            >
+        </div>
+
+        <!-- CTA Overlay -->
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent py-12">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <!-- 統計數字 -->
+                    <div class="flex items-center gap-8 text-white">
+                        <div class="text-center">
+                            <div class="text-[28px] font-bold text-blue-400">±4</div>
+                            <div class="text-[14px] text-slate-400">分數偏差</div>
+                        </div>
+                        <div class="text-center border-x border-slate-700 px-8">
+                            <div class="text-[28px] font-bold text-purple-400">5x</div>
+                            <div class="text-[14px] text-slate-400">效率提升</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-[28px] font-bold text-indigo-400">100%</div>
+                            <div class="text-[14px] text-slate-400">可追溯</div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#features" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[16px] font-semibold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-[1.02] transition-all duration-300">
+                            探索核心能力
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                        <a href="#pricing" class="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white text-[16px] font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300">
+                            查看定價方案
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 滾動指示 -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 scroll-indicator">
+            <svg class="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- ==================== PROBLEM STATEMENT ==================== -->
+    <section class="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.3),transparent_50%)]"></div>
+            <div class="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_80%,rgba(139,92,246,0.3),transparent_50%)]"></div>
+        </div>
+        
+        <div class="relative max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-[40px] font-bold mb-6">傳統評審的困境</h2>
+                <p class="text-[22px] text-slate-300 max-w-3xl mx-auto">
+                    當決策無法被追溯、分數無法被解釋，每一次評審都可能成為下一次爭議的起點
+                </p>
+            </div>
+            
+            <!-- Illustration: Before vs After -->
+            <div class="mb-12">
+                <img src="illustrations/auditable-decision-engine/illustration-before-after-comparison.png"
+                     alt="傳統評審 vs AI 引擎對比"
+                     class="w-full max-w-4xl mx-auto rounded-2xl shadow-2xl">
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Before -->
+                <div class="glass-dark rounded-2xl p-8 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <span class="text-[32px]">😰</span>
+                        <h3 class="text-[28px] font-bold text-red-400">傳統人工評審</h3>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 text-[24px]">✗</span>
+                            <span class="text-[20px] text-slate-300">評審間分數偏差 <span class="text-red-400 font-bold">±15-20 分</span></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 text-[24px]">✗</span>
+                            <span class="text-[20px] text-slate-300">評語模糊：「整體感覺還不錯」</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 text-[24px]">✗</span>
+                            <span class="text-[20px] text-slate-300">無法解釋「為何是這個分數」</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 text-[24px]">✗</span>
+                            <span class="text-[20px] text-slate-300">爭議處理耗時 <span class="text-red-400 font-bold">10+ 小時</span></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 text-[24px]">✗</span>
+                            <span class="text-[20px] text-slate-300">結果不可重現、難以稽核</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- After -->
+                <div class="glass-dark rounded-2xl p-8 space-y-6 border border-green-500/30">
+                    <div class="flex items-center gap-3">
+                        <span class="text-[32px]">🎯</span>
+                        <h3 class="text-[28px] font-bold text-green-400">Auditable Decision Engine</h3>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-400 text-[24px]">✓</span>
+                            <span class="text-[20px] text-slate-300">同案 5 輪測試偏差僅 <span class="text-green-400 font-bold">±4 分</span></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-400 text-[24px]">✓</span>
+                            <span class="text-[20px] text-slate-300">每個分數都有證據引用</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-400 text-[24px]">✓</span>
+                            <span class="text-[20px] text-slate-300">說明「為何不是更高 / 更低一級」</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-400 text-[24px]">✓</span>
+                            <span class="text-[20px] text-slate-300">爭議近乎 <span class="text-green-400 font-bold">零</span>，無需額外處理</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-400 text-[24px]">✓</span>
+                            <span class="text-[20px] text-slate-300">完整稽核軌跡，隨時可重現</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CORE FEATURES ==================== -->
+    <section id="features" class="py-24 bg-white relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 text-[20px] font-medium rounded-full mb-4">核心能力</span>
+                <h2 class="text-[40px] font-bold text-slate-900 mb-6">三大市場稀缺能力</h2>
+                <p class="text-[22px] text-slate-600 max-w-3xl mx-auto">
+                    不只是「AI 打分」，而是讓每一個決策都經得起事後任何形式的質疑
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="group bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 border border-blue-100 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-[32px] mb-6 group-hover:scale-110 transition-transform duration-300">
+                        🎚️
+                    </div>
+                    <h3 class="text-[24px] font-bold text-slate-900 mb-4">Boundary-Based Scoring</h3>
+                    <p class="text-[20px] text-slate-600 leading-relaxed mb-6">
+                        強制解釋「為何不是相鄰等級」，讓每個分數都有清晰的邊界判定依據。
+                    </p>
+                    <div class="p-4 bg-white rounded-xl border border-blue-100">
+                        <div class="text-[20px] text-slate-500 mb-2">示例輸出</div>
+                        <div class="text-[20px] text-slate-700 space-y-1">
+                            <div><span class="text-green-600">↑ Level 3：</span>缺乏行業基準比較</div>
+                            <div><span class="text-red-600">↓ Level 1：</span>有具體百分比佐證</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="group bg-gradient-to-br from-purple-50 to-white rounded-2xl p-8 border border-purple-100 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center text-[32px] mb-6 group-hover:scale-110 transition-transform duration-300">
+                        📍
+                    </div>
+                    <h3 class="text-[24px] font-bold text-slate-900 mb-4">Evidence-Anchored Output</h3>
+                    <p class="text-[20px] text-slate-600 leading-relaxed mb-6">
+                        每個分數必附可追溯引用，精確到簡報頁碼、逐字稿段落。
+                    </p>
+                    <div class="p-4 bg-white rounded-xl border border-purple-100">
+                        <div class="text-[20px] text-slate-500 mb-2">示例輸出</div>
+                        <div class="text-[20px] text-slate-700">
+                            <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded text-[20px]">Slide 3</span>
+                            <span class="ml-2">「客戶流失率達 15%」</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="group bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-8 border border-indigo-100 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center text-[32px] mb-6 group-hover:scale-110 transition-transform duration-300">
+                        🔄
+                    </div>
+                    <h3 class="text-[24px] font-bold text-slate-900 mb-4">Consistency Guarantee</h3>
+                    <p class="text-[20px] text-slate-600 leading-relaxed mb-6">
+                        同案 5 輪測試分數偏差僅 ±4 分，遠優於人工的 ±15-20 分。
+                    </p>
+                    <div class="p-4 bg-white rounded-xl border border-indigo-100">
+                        <div class="text-[20px] text-slate-500 mb-2">一致性比較</div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-center">
+                                <div class="text-[24px] font-bold text-red-500">±15-20</div>
+                                <div class="text-[20px] text-slate-500">人工</div>
+                            </div>
+                            <div class="text-[24px] text-slate-300">→</div>
+                            <div class="text-center">
+                                <div class="text-[24px] font-bold text-green-500">±4</div>
+                                <div class="text-[20px] text-slate-500">AI 引擎</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Capability Illustrations -->
+            <div class="mt-16 grid md:grid-cols-3 gap-6">
+                <div class="rounded-2xl overflow-hidden shadow-lg">
+                    <img src="illustrations/auditable-decision-engine/illustration-boundary-scoring.png"
+                         alt="邊界評分機制"
+                         class="w-full h-auto">
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-lg">
+                    <img src="illustrations/auditable-decision-engine/illustration-evidence-anchor.png"
+                         alt="證據錨定系統"
+                         class="w-full h-auto">
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-lg">
+                    <img src="illustrations/auditable-decision-engine/illustration-unfair-advantage.png"
+                         alt="核心競爭優勢"
+                         class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ARCHITECTURE ==================== -->
+    <section class="py-24 bg-slate-50 relative overflow-hidden">
+        <div class="absolute inset-0 grid-bg opacity-50"></div>
+
+        <div class="relative max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-indigo-100 text-indigo-700 text-[20px] font-medium rounded-full mb-4">技術架構</span>
+                <h2 class="text-[40px] font-bold text-slate-900 mb-6">核心平台 + 垂直模組</h2>
+                <p class="text-[22px] text-slate-600 max-w-3xl mx-auto">
+                    統一的稽核引擎，搭配針對不同場景最佳化的評審框架
+                </p>
+            </div>
+
+            <!-- Architecture Illustration -->
+            <div class="mb-12">
+                <img src="illustrations/auditable-decision-engine/illustration-architecture-overview.png"
+                     alt="系統架構總覽"
+                     class="w-full max-w-4xl mx-auto rounded-2xl shadow-2xl">
+            </div>
+
+            <!-- 架構圖 -->
+            <div class="bg-white rounded-3xl shadow-xl p-8 lg:p-12">
+                <!-- 核心平台 -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 text-white mb-8">
+                    <h3 class="text-[24px] font-bold mb-6 text-center">Auditable Decision Engine（核心）</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white/10 rounded-xl p-4">
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="text-[20px] font-semibold">Ingestion Layer</div>
+                                    <div class="text-[20px] text-blue-200">PDF/PPT/Audio</div>
+                                </div>
+                                <div>
+                                    <div class="text-[20px] font-semibold">Evidence Anchor</div>
+                                    <div class="text-[20px] text-blue-200">Citation Index</div>
+                                </div>
+                                <div>
+                                    <div class="text-[20px] font-semibold">Audit Store</div>
+                                    <div class="text-[20px] text-blue-200">Immutable Log</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white/10 rounded-xl p-4">
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="text-[20px] font-semibold">Discrete Scoring</div>
+                                    <div class="text-[20px] text-blue-200">5-Level Engine</div>
+                                </div>
+                                <div>
+                                    <div class="text-[20px] font-semibold">Boundary Rules</div>
+                                    <div class="text-[20px] text-blue-200">Level ±1 Check</div>
+                                </div>
+                                <div>
+                                    <div class="text-[20px] font-semibold">Weight Profile</div>
+                                    <div class="text-[20px] text-blue-200">Source Weights</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 箭頭 -->
+                <div class="flex justify-center mb-8">
+                    <svg class="w-8 h-12 text-slate-300" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 4v16m0 0l-6-6m6 6l6-6"></path>
+                    </svg>
+                </div>
+                
+                <!-- 垂直模組 -->
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 rounded-xl p-6 border-2 border-blue-200 card-hover">
+                        <div class="text-[32px] mb-3">🏆</div>
+                        <h4 class="text-[22px] font-bold text-slate-900 mb-2">Innovation Evaluator</h4>
+                        <p class="text-[20px] text-slate-600 mb-3">Demo Day / 提案競賽</p>
+                        <div class="text-[20px] text-blue-600 font-medium">DAO 框架</div>
+                    </div>
+                    
+                    <div class="bg-purple-50 rounded-xl p-6 border-2 border-purple-200 card-hover">
+                        <div class="text-[32px] mb-3">📋</div>
+                        <h4 class="text-[22px] font-bold text-slate-900 mb-2">Vendor Verifier</h4>
+                        <p class="text-[20px] text-slate-600 mb-3">技術採購評審</p>
+                        <div class="text-[20px] text-purple-600 font-medium">CERD 框架</div>
+                    </div>
+                    
+                    <div class="bg-indigo-50 rounded-xl p-6 border-2 border-indigo-200 card-hover">
+                        <div class="text-[32px] mb-3">👤</div>
+                        <h4 class="text-[22px] font-bold text-slate-900 mb-2">Portfolio Screener</h4>
+                        <p class="text-[20px] text-slate-600 mb-3">人才作品集篩選</p>
+                        <div class="text-[20px] text-indigo-600 font-medium">SERIP 框架</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== VERTICAL MODULES ==================== -->
+    <section class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-purple-100 text-purple-700 text-[20px] font-medium rounded-full mb-4">垂直應用</span>
+                <h2 class="text-[40px] font-bold text-slate-900 mb-6">四大評審場景解決方案</h2>
+                <p class="text-[22px] text-slate-600 max-w-3xl mx-auto">
+                    針對不同決策場景的專屬評審框架，確保每個領域都有最適配的評估維度
+                </p>
+            </div>
+
+            <!-- Four Scenarios Illustration -->
+            <div class="mb-12">
+                <img src="illustrations/auditable-decision-engine/illustration-four-scenarios.png"
+                     alt="四大評審場景"
+                     class="w-full max-w-4xl mx-auto rounded-2xl shadow-2xl">
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Module 1: Innovation Evaluator -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden card-hover">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center text-[28px]">🏆</div>
+                            <div>
+                                <h3 class="text-[24px] font-bold text-white">Innovation Evaluator</h3>
+                                <p class="text-[20px] text-blue-100">企業內部創新競賽 / Demo Day</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-[20px] rounded-full font-medium">DAO 框架</span>
+                            <span class="text-[20px] text-slate-500">務實高管視角</span>
+                        </div>
+                        <div class="text-[20px] text-slate-600">
+                            <strong>核心維度：</strong>問題定義、DAO 方案、量化成果、Demo 驗證、未來擴展
+                        </div>
+                        <div class="text-[20px] text-slate-600">
+                            <strong>硬性降級：</strong>DAO Loop 不完整、無 Before/After 對比
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <span class="text-[20px] text-slate-500">優先序</span>
+                            <span class="text-[20px] font-bold text-blue-600">#1 MVP 首選</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Module 2: Vendor Verifier -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden card-hover">
+                    <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center text-[28px]">📋</div>
+                            <div>
+                                <h3 class="text-[24px] font-bold text-white">Vendor Claim Verifier</h3>
+                                <p class="text-[20px] text-purple-100">技術採購評審</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 text-[20px] rounded-full font-medium">CERD 框架</span>
+                            <span class="text-[20px] text-slate-500">採購委員會視角</span>
+                        </div>
+                        <div class="text-[20px] text-slate-600">
+                            <strong>核心維度：</strong>TCO、安全合規、整合性、可運維、供應商風險
+                        </div>
+                        <div class="text-[20px] text-slate-600">
+                            <strong>硬性降級：</strong>關鍵能力缺證據、資安缺口未揭露
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <span class="text-[20px] text-slate-500">優先序</span>
+                            <span class="text-[20px] font-bold text-purple-600">#2 第二階段</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Module 3: Portfolio Screener -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden card-hover">
+                    <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center text-[28px]">👤</div>
+                            <div>
+                                <h3 class="text-[24px] font-bold text-white">Portfolio Signal Extractor</h3>
+                                <p class="text-[20px] text-indigo-100">人才作品集篩選</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-[20px] rounded-full font-medium">SERIP 框架</span>
+                            <span class="text-[20px] text-slate-500">用人主管 + Bar Raiser 視角</span>
+                        </div>
+                        <div class="text-[20px] text-slate-600">
+                            <strong>核心維度：</strong>成果可驗證、問題拆解、技術品質、影響力、協作
+                        </div>
+                        <div class="text-[20px] text-slate-600">
+                            <strong>硬性降級：</strong>成果聲稱無可驗證產物
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <span class="text-[20px] text-slate-500">優先序</span>
+                            <span class="text-[20px] font-bold text-indigo-600">#3 第二階段</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Module 4: OKR Scanner -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden card-hover">
+                    <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center text-[28px]">📊</div>
+                            <div>
+                                <h3 class="text-[24px] font-bold text-white">OKR Drift & Control Gap Scanner</h3>
+                                <p class="text-[20px] text-emerald-100">年度計畫審查</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-[20px] rounded-full font-medium">AMGA 框架</span>
+                            <span class="text-[20px] text-slate-500">策略辦 / CFO 視角</span>
+                        </div>
+                        <div class="text-[20px] text-slate-600">
+                            <strong>核心維度：</strong>OKR 對齊、指標可量化、里程碑可驗收、資源合理
+                        </div>
+                        <div class="text-[20px] text-slate-600">
+                            <strong>硬性降級：</strong>無量化指標、無驗收標準
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <span class="text-[20px] text-slate-500">優先序</span>
+                            <span class="text-[20px] font-bold text-emerald-600">#4 長期機會</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== OUTPUT SCHEMA ==================== -->
+    <section class="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-30">
+            <div class="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_100%_0%,rgba(59,130,246,0.3),transparent_50%)]"></div>
+        </div>
+        
+        <div class="relative max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-blue-500/20 text-blue-300 text-[20px] font-medium rounded-full mb-4">輸出格式</span>
+                <h2 class="text-[40px] font-bold mb-6">稽核友善的 JSON Schema</h2>
+                <p class="text-[22px] text-slate-300 max-w-3xl mx-auto">
+                    每次評審都產出完整的稽核包，包含版本資訊、證據引用、邊界檢查
+                </p>
+            </div>
+            
+            <div class="code-block rounded-2xl p-6 lg:p-8 overflow-x-auto">
+                <pre class="text-[20px] text-slate-300 leading-relaxed"><code>{
+  <span class="text-blue-400">"job_id"</span>: <span class="text-green-400">"uuid"</span>,
+  <span class="text-blue-400">"policy_version"</span>: <span class="text-green-400">"v7.1.3"</span>,
+  <span class="text-blue-400">"engine_version"</span>: <span class="text-green-400">"1.2.0"</span>,
+  <span class="text-blue-400">"model_version"</span>: <span class="text-green-400">"claude-sonnet-4-20250514"</span>,
+  
+  <span class="text-blue-400">"scores"</span>: {
+    <span class="text-purple-400">"problem_definition"</span>: {
+      <span class="text-blue-400">"level"</span>: <span class="text-yellow-400">2</span>,
+      <span class="text-blue-400">"score"</span>: <span class="text-yellow-400">7</span>,
+      <span class="text-blue-400">"evidence"</span>: [
+        {
+          <span class="text-blue-400">"type"</span>: <span class="text-green-400">"slide"</span>,
+          <span class="text-blue-400">"page"</span>: <span class="text-yellow-400">3</span>,
+          <span class="text-blue-400">"span"</span>: <span class="text-green-400">"客戶流失率達15%"</span>,
+          <span class="text-blue-400">"relevance"</span>: <span class="text-green-400">"痛點有數字佐證"</span>
+        }
+      ],
+      <span class="text-blue-400">"boundary_check"</span>: {
+        <span class="text-blue-400">"why_not_level_3"</span>: <span class="text-green-400">"缺乏與行業基準的比較數據"</span>,
+        <span class="text-blue-400">"why_not_level_1"</span>: <span class="text-green-400">"有具體百分比而非僅定性描述"</span>
+      }
+    }
+  },
+  
+  <span class="text-blue-400">"total_score"</span>: <span class="text-yellow-400">72</span>,
+  <span class="text-blue-400">"audit_metadata"</span>: {
+    <span class="text-blue-400">"prompt_hash"</span>: <span class="text-green-400">"sha256:..."</span>,
+    <span class="text-blue-400">"reproducibility_token"</span>: <span class="text-green-400">"..."</span>
+  }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MARKET & TAM ==================== -->
+    <section class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 text-[20px] font-medium rounded-full mb-4">市場機會</span>
+                <h2 class="text-[40px] font-bold text-slate-900 mb-6">TAM / SAM / SOM 分析</h2>
+            </div>
+
+            <!-- TAM/SAM/SOM Illustration -->
+            <div class="mb-12">
+                <img src="illustrations/auditable-decision-engine/illustration-market-tam-sam-som.png"
+                     alt="TAM/SAM/SOM 市場分層"
+                     class="w-full max-w-3xl mx-auto rounded-2xl shadow-2xl">
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="styled-table w-full bg-white rounded-2xl shadow-lg overflow-hidden text-[20px]">
+                    <thead>
+                        <tr>
+                            <th>層級</th>
+                            <th>定義</th>
+                            <th>估算（年）</th>
+                            <th>依據</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-slate-100">
+                            <td class="font-bold text-blue-600">TAM</td>
+                            <td>全球企業「高風險主觀決策」輔助工具</td>
+                            <td class="font-semibold">$8-12B</td>
+                            <td>含採購決策、人才評估、創新管理、合規審計</td>
+                        </tr>
+                        <tr class="border-b border-slate-100">
+                            <td class="font-bold text-purple-600">SAM</td>
+                            <td>亞太區中大型企業「可稽核評審」需求</td>
+                            <td class="font-semibold">$400-600M</td>
+                            <td>聚焦台灣、日本、東南亞科技製造業</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-indigo-600">SOM</td>
+                            <td>台灣企業內部創新競賽 + 採購評審</td>
+                            <td class="font-semibold">$15-30M</td>
+                            <td>50-100 家目標客戶 × $150-300K/年</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 競爭定位 -->
+            <div class="mt-16 bg-slate-50 rounded-2xl p-8">
+                <h3 class="text-[28px] font-bold text-slate-900 mb-6 text-center">競爭格局定位</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-[22px] font-semibold text-slate-700 mb-4">現有玩家分類</h4>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-white rounded-xl border border-slate-200">
+                                <div class="text-[20px] font-semibold text-slate-700 mb-2">流程管理工具</div>
+                                <div class="text-[20px] text-slate-500">Brightidea、IdeaScale — 評審仍由人執行，平台只管流程</div>
+                            </div>
+                            <div class="p-4 bg-white rounded-xl border border-slate-200">
+                                <div class="text-[20px] font-semibold text-slate-700 mb-2">格式檢查工具</div>
+                                <div class="text-[20px] text-slate-500">PitchAI、Gradescope — 評「格式正確性」而非「決策品質」</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-[22px] font-semibold text-slate-700 mb-4">我們的差異化</h4>
+                        <div class="p-6 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl text-white">
+                            <div class="text-[24px] font-bold mb-3">評審邏輯本身的自動化與可稽核化</div>
+                            <ul class="space-y-2 text-[20px]">
+                                <li class="flex items-center gap-2">
+                                    <span>✓</span> 不只管流程，直接執行評審
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span>✓</span> 不只查格式，評判決策品質
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span>✓</span> 每個結論都可追溯、可重現
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PRICING ==================== -->
+    <section id="pricing" class="py-24 bg-slate-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 text-[20px] font-medium rounded-full mb-4">定價方案</span>
+                <h2 class="text-[40px] font-bold text-slate-900 mb-6">Innovation Evaluator 定價</h2>
+                <p class="text-[22px] text-slate-600 max-w-3xl mx-auto">
+                    你買的不只是一個分數，是「事後沒有人能質疑這個分數是怎麼來的」
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Starter -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden card-hover">
+                    <div class="p-8">
+                        <h3 class="text-[24px] font-bold text-slate-900 mb-2">Starter</h3>
+                        <p class="text-[20px] text-slate-500 mb-6">適合單次活動</p>
+                        <div class="mb-6">
+                            <span class="text-[48px] font-bold text-slate-900">$100</span>
+                            <span class="text-[20px] text-slate-500">/專案</span>
+                        </div>
+                        <ul class="space-y-3 text-[20px] text-slate-600 mb-8">
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> Pay-as-you-go
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> 5 評審席次
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> Basic 稽核報告
+                            </li>
+                            <li class="flex items-center gap-2 text-slate-400">
+                                <span>✗</span> 一致性檢查
+                            </li>
+                            <li class="flex items-center gap-2 text-slate-400">
+                                <span>✗</span> API 存取
+                            </li>
+                        </ul>
+                        <button class="w-full py-4 bg-slate-100 text-slate-700 text-[20px] font-semibold rounded-xl hover:bg-slate-200 transition-colors">
+                            開始使用
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Growth - Featured -->
+                <div class="bg-white rounded-2xl shadow-2xl border-2 border-blue-500 overflow-hidden card-hover relative">
+                    <div class="absolute top-0 left-0 right-0 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-center py-2 text-[20px] font-semibold">
+                        最受歡迎
+                    </div>
+                    <div class="p-8 pt-14">
+                        <h3 class="text-[24px] font-bold text-slate-900 mb-2">Growth</h3>
+                        <p class="text-[20px] text-slate-500 mb-6">適合年度訂閱</p>
+                        <div class="mb-6">
+                            <span class="text-[48px] font-bold text-blue-600">$8K</span>
+                            <span class="text-[20px] text-slate-500">/年</span>
+                        </div>
+                        <ul class="space-y-3 text-[20px] text-slate-600 mb-8">
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> 100 專案/年
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> 20 評審席次
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> Advanced 稽核報告
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> 一致性檢查
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> API 存取
+                            </li>
+                        </ul>
+                        <button class="w-full py-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[20px] font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all">
+                            聯繫我們
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Enterprise -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden card-hover">
+                    <div class="p-8">
+                        <h3 class="text-[24px] font-bold text-slate-900 mb-2">Enterprise</h3>
+                        <p class="text-[20px] text-slate-500 mb-6">適合大型組織</p>
+                        <div class="mb-6">
+                            <span class="text-[48px] font-bold text-slate-900">Custom</span>
+                        </div>
+                        <ul class="space-y-3 text-[20px] text-slate-600 mb-8">
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> 無限專案
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> 無限評審席次
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> Custom 報告模板
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> SSO / Audit Log
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-green-500">✓</span> SaaS 或 On-prem
+                            </li>
+                        </ul>
+                        <button class="w-full py-4 bg-slate-100 text-slate-700 text-[20px] font-semibold rounded-xl hover:bg-slate-200 transition-colors">
+                            預約 Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 價值錨點 -->
+            <div class="mt-12 bg-blue-50 rounded-2xl p-8">
+                <h4 class="text-[24px] font-bold text-slate-900 mb-6 text-center">為什麼這個價格是划算的？</h4>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="text-[32px] font-bold text-red-500 mb-2">$1,000+</div>
+                        <div class="text-[20px] text-slate-600">人工評審成本<br/><span class="text-[20px] text-slate-400">5 評審 × 2hr × $100/hr</span></div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-[32px] font-bold text-red-500 mb-2">$1,500+</div>
+                        <div class="text-[20px] text-slate-600">爭議處理成本<br/><span class="text-[20px] text-slate-400">10hr × $150/hr</span></div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-[32px] font-bold text-green-500 mb-2">$100</div>
+                        <div class="text-[20px] text-slate-600">AI 引擎成本<br/><span class="text-[20px] text-slate-400">零爭議、可稽核</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== GTM STRATEGY ==================== -->
+    <section class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-purple-100 text-purple-700 text-[20px] font-medium rounded-full mb-4">GTM 策略</span>
+                <h2 class="text-[40px] font-bold text-slate-900 mb-6">成交路徑設計</h2>
+            </div>
+
+            <!-- GTM Funnel Illustration -->
+            <div class="mb-12">
+                <img src="illustrations/auditable-decision-engine/illustration-gtm-funnel.png"
+                     alt="GTM 成交漏斗"
+                     class="w-full max-w-3xl mx-auto rounded-2xl shadow-2xl">
+            </div>
+
+            <!-- 三階段路徑 -->
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="relative">
+                    <div class="bg-blue-50 rounded-2xl p-8 h-full">
+                        <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center text-[24px] font-bold mb-6">1</div>
+                        <h3 class="text-[24px] font-bold text-slate-900 mb-3">單場活動</h3>
+                        <p class="text-[20px] text-slate-600 mb-4">「讓這場 Demo Day 公平」</p>
+                        <div class="text-[28px] font-bold text-blue-600 mb-2">$3-8K/場</div>
+                        <div class="text-[20px] text-slate-500">成交週期：2-4 週</div>
+                        <div class="text-[20px] text-slate-500">決策者：活動主辦人</div>
+                    </div>
+                    <div class="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                        <svg class="w-8 h-8 text-slate-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="bg-purple-50 rounded-2xl p-8 h-full">
+                        <div class="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center text-[24px] font-bold mb-6">2</div>
+                        <h3 class="text-[24px] font-bold text-slate-900 mb-3">年度訂閱</h3>
+                        <p class="text-[20px] text-slate-600 mb-4">「讓全年創新活動一致」</p>
+                        <div class="text-[28px] font-bold text-purple-600 mb-2">$15-30K/年</div>
+                        <div class="text-[20px] text-slate-500">成交週期：1-2 月</div>
+                        <div class="text-[20px] text-slate-500">決策者：HR/創新主管</div>
+                    </div>
+                    <div class="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                        <svg class="w-8 h-8 text-slate-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-indigo-50 rounded-2xl p-8 h-full">
+                        <div class="w-12 h-12 bg-indigo-500 text-white rounded-full flex items-center justify-center text-[24px] font-bold mb-6">3</div>
+                        <h3 class="text-[24px] font-bold text-slate-900 mb-3">制度化</h3>
+                        <p class="text-[20px] text-slate-600 mb-4">「讓決策流程可稽核」</p>
+                        <div class="text-[28px] font-bold text-indigo-600 mb-2">$50-100K+/年</div>
+                        <div class="text-[20px] text-slate-500">成交週期：3-6 月</div>
+                        <div class="text-[20px] text-slate-500">決策者：C-Suite/內控</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 銷售話術 -->
+            <div class="bg-slate-900 rounded-2xl p-8 lg:p-12 text-white">
+                <h3 class="text-[28px] font-bold mb-8 text-center">銷售話術框架</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div>
+                            <div class="text-[20px] text-blue-400 font-semibold mb-2">🎯 開場（痛點觸發）</div>
+                            <div class="text-[20px] text-slate-300 italic">
+                                「去年的 Demo Day 評審會議花了多少時間在討論分數差異？評審委員之間的分數落差有多大？」
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-[20px] text-purple-400 font-semibold mb-2">💡 價值主張（一句話）</div>
+                            <div class="text-[20px] text-slate-300 italic">
+                                「我們把評審從『印象辯論』變成『證據對齊』——每一分都能追溯到簡報的哪一頁、逐字稿的哪一句。」
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="text-[20px] text-green-400 font-semibold mb-2">⚡ 差異化（vs 替代方案）</div>
+                            <div class="text-[20px] text-slate-300 italic">
+                                「一般 AI 給你一個分數和一段解釋。我們給你的是：為什麼不是更高一級、為什麼不是更低一級、以及支撐這個判斷的所有證據引用。」
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-[20px] text-yellow-400 font-semibold mb-2">🚀 成交推進</div>
+                            <div class="text-[20px] text-slate-300 italic">
+                                「我們可以用你們過去的 3-5 個專案做免費測試，讓你親眼看到一致性差異。」
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ROADMAP ==================== -->
+    <section class="py-24 bg-slate-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-indigo-100 text-indigo-700 text-[20px] font-medium rounded-full mb-4">產品路線圖</span>
+                <h2 class="text-[40px] font-bold text-slate-900 mb-6">發展時程</h2>
+            </div>
+            
+            <div class="relative">
+                <!-- 時間軸線 -->
+                <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 timeline-line rounded-full"></div>
+                
+                <div class="space-y-12">
+                    <!-- Phase 1 -->
+                    <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                        <div class="lg:text-right mb-6 lg:mb-0">
+                            <div class="inline-block px-4 py-2 bg-blue-100 text-blue-700 text-[20px] font-semibold rounded-full mb-3">2026 Q1</div>
+                            <h3 class="text-[28px] font-bold text-slate-900 mb-3">Phase 1: MVP</h3>
+                            <p class="text-[20px] text-slate-600">Innovation Evaluator 核心功能上線</p>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-lg p-6 lg:ml-12">
+                            <ul class="space-y-3 text-[20px] text-slate-600">
+                                <li class="flex items-center gap-2"><span class="text-green-500">✓</span> API 骨架（FastAPI）</li>
+                                <li class="flex items-center gap-2"><span class="text-green-500">✓</span> PDF/PPT 文字抽取</li>
+                                <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Discrete Scoring Engine</li>
+                                <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Evidence Citation 索引</li>
+                                <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 3 個 Pilot 客戶測試</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 2 -->
+                    <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                        <div class="hidden lg:block"></div>
+                        <div class="lg:order-first lg:text-right">
+                            <div class="bg-white rounded-2xl shadow-lg p-6 lg:mr-12">
+                                <ul class="space-y-3 text-[20px] text-slate-600">
+                                    <li class="flex items-center gap-2 lg:flex-row-reverse"><span class="text-purple-500">○</span> MCP Server 薄層封裝</li>
+                                    <li class="flex items-center gap-2 lg:flex-row-reverse"><span class="text-purple-500">○</span> Vendor Verifier 開發</li>
+                                    <li class="flex items-center gap-2 lg:flex-row-reverse"><span class="text-purple-500">○</span> Portfolio Screener 開發</li>
+                                    <li class="flex items-center gap-2 lg:flex-row-reverse"><span class="text-purple-500">○</span> 多評審一致性檢查</li>
+                                    <li class="flex items-center gap-2 lg:flex-row-reverse"><span class="text-purple-500">○</span> 客戶 Dashboard</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-6 lg:mt-0">
+                            <div class="inline-block px-4 py-2 bg-purple-100 text-purple-700 text-[20px] font-semibold rounded-full mb-3">2026 Q2</div>
+                            <h3 class="text-[28px] font-bold text-slate-900 mb-3">Phase 2: 產品化</h3>
+                            <p class="text-[20px] text-slate-600">橫向擴展至採購與招募場景</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 3 -->
+                    <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                        <div class="lg:text-right mb-6 lg:mb-0">
+                            <div class="inline-block px-4 py-2 bg-indigo-100 text-indigo-700 text-[20px] font-semibold rounded-full mb-3">2026 Q3-Q4</div>
+                            <h3 class="text-[28px] font-bold text-slate-900 mb-3">Phase 3: 企業版</h3>
+                            <p class="text-[20px] text-slate-600">支援私有部署與企業整合</p>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-lg p-6 lg:ml-12">
+                            <ul class="space-y-3 text-[20px] text-slate-600">
+                                <li class="flex items-center gap-2"><span class="text-indigo-500">○</span> Kubernetes Helm Chart</li>
+                                <li class="flex items-center gap-2"><span class="text-indigo-500">○</span> 離線授權機制</li>
+                                <li class="flex items-center gap-2"><span class="text-indigo-500">○</span> 企業 SSO 整合</li>
+                                <li class="flex items-center gap-2"><span class="text-indigo-500">○</span> 模型切換層（私有 LLM）</li>
+                                <li class="flex items-center gap-2"><span class="text-indigo-500">○</span> OKR Scanner 開發</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== RISK MANAGEMENT ==================== -->
+    <section class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-red-100 text-red-700 text-[20px] font-medium rounded-full mb-4">風險管理</span>
+                <h2 class="text-[40px] font-bold text-slate-900 mb-6">風險與緩解策略</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- 市場風險 -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-[24px]">📊</div>
+                        <h3 class="text-[24px] font-bold text-slate-900">市場風險</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 rounded-xl">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[20px] font-semibold text-slate-700">市場太小</span>
+                                <span class="px-2 py-1 bg-red-100 text-red-700 text-[20px] rounded">高機率</span>
+                            </div>
+                            <div class="text-[20px] text-slate-600">
+                                <strong>緩解：</strong>定位為「企業內部提案評審」而非「AI Demo Day」；中期擴展至採購/招募
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[20px] font-semibold text-slate-700">大廠進入</span>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-[20px] rounded">中機率</span>
+                            </div>
+                            <div class="text-[20px] text-slate-600">
+                                <strong>緩解：</strong>快速建立「可稽核決策」品牌 + 案例累積
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 技術風險 -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-[24px]">⚙️</div>
+                        <h3 class="text-[24px] font-bold text-slate-900">技術風險</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 rounded-xl">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[20px] font-semibold text-slate-700">LLM 引用錯誤</span>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-[20px] rounded">中機率</span>
+                            </div>
+                            <div class="text-[20px] text-slate-600">
+                                <strong>緩解：</strong>證據索引用 embedding 相似度二次驗證
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[20px] font-semibold text-slate-700">模型變更行為</span>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-[20px] rounded">中機率</span>
+                            </div>
+                            <div class="text-[20px] text-slate-600">
+                                <strong>緩解：</strong>版本鎖定 + 輸出回歸測試
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 組織風險 -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-[24px]">👥</div>
+                        <h3 class="text-[24px] font-bold text-slate-900">組織風險</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 rounded-xl">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[20px] font-semibold text-slate-700">評審權力阻力</span>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-[20px] rounded">中機率</span>
+                            </div>
+                            <div class="text-[20px] text-slate-600">
+                                <strong>緩解：</strong>定位為「建議分數 + 證據」而非「最終分數」；強調「輔助」而非「取代」
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[20px] font-semibold text-slate-700">單人瓶頸</span>
+                                <span class="px-2 py-1 bg-red-100 text-red-700 text-[20px] rounded">高機率</span>
+                            </div>
+                            <div class="text-[20px] text-slate-600">
+                                <strong>緩解：</strong>先用 No-code 工具做 Landing Page；考慮外包非核心開發
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 商業風險 -->
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-[24px]">💰</div>
+                        <h3 class="text-[24px] font-bold text-slate-900">商業風險</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 rounded-xl">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[20px] font-semibold text-slate-700">定價過低</span>
+                                <span class="px-2 py-1 bg-red-100 text-red-700 text-[20px] rounded">高機率</span>
+                            </div>
+                            <div class="text-[20px] text-slate-600">
+                                <strong>緩解：</strong>強調「稽核價值」而非「打分功能」；定價錨點對標顧問/人工成本
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[20px] font-semibold text-slate-700">競品模仿</span>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-[20px] rounded">中機率</span>
+                            </div>
+                            <div class="text-[20px] text-slate-600">
+                                <strong>緩解：</strong>快速累積案例數據；發展「後驗校準」形成數據飛輪
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== UNFAIR ADVANTAGE ==================== -->
+    <section class="py-24 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.2),transparent_50%)]"></div>
+            <div class="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_right,rgba(139,92,246,0.2),transparent_50%)]"></div>
+        </div>
+        
+        <div class="relative max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-white/10 text-blue-300 text-[20px] font-medium rounded-full mb-4">核心優勢</span>
+                <h2 class="text-[40px] font-bold mb-6">真正的 Unfair Advantage</h2>
+                <p class="text-[24px] text-slate-300 max-w-3xl mx-auto">
+                    不是「AI 打分」，而是<span class="text-blue-400 font-bold">「決策可辯護性」的封裝能力</span>
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                    <div class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center text-[32px] mb-6">🔍</div>
+                    <h3 class="text-[24px] font-bold mb-4">Boundary Trace</h3>
+                    <p class="text-[20px] text-slate-300">任何分數都能回答「為什麼不是更高/更低」</p>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                    <div class="w-16 h-16 bg-purple-500/20 rounded-2xl flex items-center justify-center text-[32px] mb-6">📎</div>
+                    <h3 class="text-[24px] font-bold mb-4">Evidence Anchor</h3>
+                    <p class="text-[20px] text-slate-300">任何結論都能指向原始素材的具體位置</p>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                    <div class="w-16 h-16 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-[32px] mb-6">🔄</div>
+                    <h3 class="text-[24px] font-bold mb-4">Version Reproducibility</h3>
+                    <p class="text-[20px] text-slate-300">同樣輸入 + 同樣版本 = 同樣輸出</p>
+                </div>
+            </div>
+            
+            <!-- 定位轉譯 -->
+            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                <h3 class="text-[28px] font-bold mb-8 text-center">定位語言轉譯</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-4 bg-red-500/10 rounded-xl">
+                            <span class="text-red-400 text-[24px]">✗</span>
+                            <span class="text-[20px] text-slate-300">「AI 自動評分」</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-red-500/10 rounded-xl">
+                            <span class="text-red-400 text-[24px]">✗</span>
+                            <span class="text-[20px] text-slate-300">「節省評審時間」</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-red-500/10 rounded-xl">
+                            <span class="text-red-400 text-[24px]">✗</span>
+                            <span class="text-[20px] text-slate-300">「智慧評審助手」</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-red-500/10 rounded-xl">
+                            <span class="text-red-400 text-[24px]">✗</span>
+                            <span class="text-[20px] text-slate-300">「打分 AI」</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-4 bg-green-500/10 rounded-xl">
+                            <span class="text-green-400 text-[24px]">✓</span>
+                            <span class="text-[20px] text-white font-semibold">「可稽核的決策證據鏈」</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-green-500/10 rounded-xl">
+                            <span class="text-green-400 text-[24px]">✓</span>
+                            <span class="text-[20px] text-white font-semibold">「消除評審爭議」</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-green-500/10 rounded-xl">
+                            <span class="text-green-400 text-[24px]">✓</span>
+                            <span class="text-[20px] text-white font-semibold">「決策可辯護性基礎設施」</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-green-500/10 rounded-xl">
+                            <span class="text-green-400 text-[24px]">✓</span>
+                            <span class="text-[20px] text-white font-semibold">「高風險決策的稽核引擎」</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MILESTONES ==================== -->
+    <section class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 text-[20px] font-medium rounded-full mb-4">里程碑</span>
+                <h2 class="text-[40px] font-bold text-slate-900 mb-6">決策點檢查</h2>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="styled-table w-full bg-white rounded-2xl shadow-lg overflow-hidden text-[20px]">
+                    <thead>
+                        <tr>
+                            <th>里程碑</th>
+                            <th>時間</th>
+                            <th>成功指標</th>
+                            <th>投資決策點</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-slate-100">
+                            <td class="font-bold">M1: MVP 上線</td>
+                            <td>+8 週</td>
+                            <td>API 可用、3 個免費試用</td>
+                            <td class="text-slate-500">—</td>
+                        </tr>
+                        <tr class="border-b border-slate-100">
+                            <td class="font-bold">M2: 首個付費</td>
+                            <td>+12 週</td>
+                            <td>≥1 個付費客戶（任何金額）</td>
+                            <td class="text-blue-600 font-semibold">繼續 vs 轉向</td>
+                        </tr>
+                        <tr class="border-b border-slate-100">
+                            <td class="font-bold">M3: PMF 信號</td>
+                            <td>+20 週</td>
+                            <td>≥3 個付費客戶、NPS ≥40</td>
+                            <td class="text-green-600 font-semibold">加速投資</td>
+                        </tr>
+                        <tr class="border-b border-slate-100">
+                            <td class="font-bold">M4: 擴展啟動</td>
+                            <td>+30 週</td>
+                            <td>Vendor Verifier Pilot</td>
+                            <td class="text-purple-600 font-semibold">第二產品線 Go/No-Go</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold">M5: 規模化</td>
+                            <td>+52 週</td>
+                            <td>ARR ≥$100K、≥10 客戶</td>
+                            <td class="text-indigo-600 font-semibold">募資/擴編決策</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CTA SECTION ==================== -->
+    <section class="py-24 bg-gradient-to-r from-blue-600 to-indigo-600 text-white relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="relative max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-[44px] font-bold mb-6">準備讓決策經得起質疑？</h2>
+            <p class="text-[24px] text-blue-100 mb-10 max-w-2xl mx-auto">
+                這不是一個「AI 評分工具」的生意，而是「高風險決策的可辯護性基礎設施」的生意。
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#" class="inline-flex items-center gap-2 px-10 py-5 bg-white text-blue-600 text-[22px] font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                    免費一致性健檢
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+                <a href="#" class="inline-flex items-center gap-2 px-10 py-5 bg-transparent text-white text-[22px] font-bold rounded-xl border-2 border-white/50 hover:bg-white/10 transition-all duration-300">
+                    預約 Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="py-12 bg-slate-900 text-slate-400">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <div class="text-[24px] font-bold text-white mb-2">Auditable Decision Engine</div>
+                    <div class="text-[20px]">可稽核的決策證據鏈</div>
+                </div>
+                <div class="text-[20px] text-center md:text-right">
+                    <div>© 2026 All Rights Reserved</div>
+                    <div class="text-slate-500">「事後沒有人能質疑決策是怎麼做出來的」</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 滾動動畫腳本 -->
+    <script>
+        // 滾動時觸發動畫
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+        
+        // 為需要動畫的元素添加初始樣式
+        document.querySelectorAll('section > div').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+        
+        // 平滑滾動
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
