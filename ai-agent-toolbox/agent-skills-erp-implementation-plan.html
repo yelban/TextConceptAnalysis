@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563EB">
+    <meta name="color-scheme" content="light">
+    <title>Agent Skills × ERP 智慧層實作方案</title>
+
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'primary': '#2563EB',
+                            'secondary': '#3B82F6',
+                            'accent': '#F97316',
+                            'bg': '#F8FAFC',
+                            'text': '#1E293B',
+                            'muted': '#64748B',
+                            'border': '#E2E8F0',
+                        }
+                    },
+                    fontFamily: {
+                        'mono': ['Fira Code', 'monospace'],
+                        'sans': ['Fira Sans', 'Noto Sans TC', 'sans-serif'],
+                        'tc': ['Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Performance: content-visibility */
+        section {
+            content-visibility: auto;
+            contain-intrinsic-size: auto 600px;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        .code-block {
+            background: #1E293B;
+            color: #E2E8F0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            padding: 1.5rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .scenario-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .scenario-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+        }
+
+        .expert-avatar {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .highlight-orange {
+            background: linear-gradient(180deg, transparent 60%, rgba(249, 115, 22, 0.2) 60%);
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-brand-text font-sans text-xl">
+
+    <!-- Header -->
+    <header class="bg-brand-primary text-white py-16">
+        <div class="max-w-5xl mx-auto px-6">
+            <p class="font-mono text-brand-accent text-base mb-4">AI Agent Toolbox Series</p>
+            <h1 class="font-tc font-bold text-4xl md:text-5xl mb-6 leading-tight">
+                Agent Skills × ERP 智慧層<br>實作方案
+            </h1>
+            <p class="text-blue-100 text-xl max-w-2xl">
+                以聖保羅烘焙花園為案例，規劃 AI Agent 如何作為 ERP 的智慧增強層
+            </p>
+            <div class="mt-8 flex items-center gap-4 text-base">
+                <span class="bg-white/20 px-3 py-1 font-mono">v2.0</span>
+                <span class="text-blue-200">更新：2026-01-28</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 執行摘要 -->
+    <section class="py-16 bg-white border-b border-brand-border">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="font-tc font-bold text-3xl text-brand-primary mb-8">執行摘要</h2>
+
+            <!-- 核心結論表格 -->
+            <div class="overflow-x-auto mb-12">
+                <table class="w-full text-base border-collapse">
+                    <thead>
+                        <tr class="bg-brand-primary text-white">
+                            <th class="text-left p-4 font-mono">問題</th>
+                            <th class="text-left p-4 font-mono">答案</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-brand-border">
+                            <td class="p-4">Agent Skills 能取代 ERP 嗎？</td>
+                            <td class="p-4"><strong class="text-red-600">不能</strong>，核心交易處理仍需 ERP</td>
+                        </tr>
+                        <tr class="border-b border-brand-border bg-slate-50">
+                            <td class="p-4">Agent Skills 能減輕 ERP 痛點嗎？</td>
+                            <td class="p-4"><strong class="text-green-600">可以</strong>，輸入、查詢、例外處理大幅改善</td>
+                        </tr>
+                        <tr class="border-b border-brand-border">
+                            <td class="p-4">聖保羅應該怎麼做？</td>
+                            <td class="p-4"><strong class="text-brand-primary highlight-orange">ERP 為骨，Agent 為肉</strong> — 混合架構</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 核心理念圖 -->
+            <div class="bg-white border-2 border-brand-border">
+                <div class="bg-brand-primary text-white px-6 py-4">
+                    <h3 class="font-tc font-bold text-2xl">核心理念：AI 做人的事，ERP 做機器的事</h3>
+                </div>
+
+                <!-- 傳統 ERP 模式 -->
+                <div class="p-6 border-b-2 border-brand-border">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-red-100 text-red-700 px-3 py-1 font-mono text-base font-semibold">傳統 ERP 模式</span>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 text-base">
+                        <span class="bg-slate-100 px-4 py-2 font-semibold">人</span>
+                        <span class="text-slate-400">→</span>
+                        <div class="text-center">
+                            <span class="bg-red-50 border border-red-200 px-4 py-2 block">學習介面</span>
+                            <span class="text-red-500 text-sm font-semibold">↑ 痛苦</span>
+                        </div>
+                        <span class="text-slate-400">→</span>
+                        <div class="text-center">
+                            <span class="bg-red-50 border border-red-200 px-4 py-2 block">精確輸入</span>
+                            <span class="text-red-500 text-sm font-semibold">↑ 痛苦</span>
+                        </div>
+                        <span class="text-slate-400">→</span>
+                        <span class="bg-slate-200 px-4 py-2">系統處理</span>
+                        <span class="text-slate-400">→</span>
+                        <div class="text-center">
+                            <span class="bg-red-50 border border-red-200 px-4 py-2 block">查報表</span>
+                            <span class="text-red-500 text-sm font-semibold">↑ 痛苦</span>
+                        </div>
+                        <span class="text-slate-400">→</span>
+                        <div class="text-center">
+                            <span class="bg-red-50 border border-red-200 px-4 py-2 block">理解數據</span>
+                            <span class="text-red-500 text-sm font-semibold">↑ 痛苦</span>
+                        </div>
+                        <span class="text-slate-400">→</span>
+                        <span class="bg-slate-100 px-4 py-2 font-semibold">決策</span>
+                    </div>
+                </div>
+
+                <!-- Agent 智慧層模式 -->
+                <div class="p-6 bg-blue-50/50">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-brand-primary text-white px-3 py-1 font-mono text-base font-semibold">Agent 智慧層模式</span>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 text-base">
+                        <span class="bg-slate-100 px-4 py-2 font-semibold">人</span>
+                        <span class="text-slate-400">→</span>
+                        <div class="text-center">
+                            <span class="bg-green-50 border border-green-300 px-4 py-2 block">說人話</span>
+                            <span class="text-green-600 text-sm font-semibold">↑ 自然</span>
+                        </div>
+                        <span class="text-slate-400">→</span>
+                        <div class="text-center">
+                            <span class="bg-brand-primary/10 border border-brand-primary px-4 py-2 block text-brand-primary font-semibold">Agent 轉譯</span>
+                            <span class="text-brand-primary text-sm font-semibold">↑ AI 負責</span>
+                        </div>
+                        <span class="text-slate-400">→</span>
+                        <span class="bg-slate-200 px-4 py-2">ERP 處理</span>
+                        <span class="text-slate-400">→</span>
+                        <div class="text-center">
+                            <span class="bg-brand-primary/10 border border-brand-primary px-4 py-2 block text-brand-primary font-semibold">Agent 解讀</span>
+                            <span class="text-brand-primary text-sm font-semibold">↑ AI 負責</span>
+                        </div>
+                        <span class="text-slate-400">→</span>
+                        <div class="text-center">
+                            <span class="bg-green-50 border border-green-300 px-4 py-2 block">人話回覆</span>
+                            <span class="text-green-600 text-sm font-semibold">↑ 自然</span>
+                        </div>
+                        <span class="text-slate-400">→</span>
+                        <span class="bg-slate-100 px-4 py-2 font-semibold">決策</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 border-2 border-brand-border p-2">
+                <img src="illustrations-erp-implementation/illustration-01-ai-erp-division.png"
+                     alt="AI 做人的事，ERP 做機器的事"
+                     class="w-full"
+                     width="1200"
+                     height="600"
+                     loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- ERP vs Agent -->
+    <section class="py-16">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="font-tc font-bold text-3xl text-brand-primary mb-4">一、ERP vs Agent Skills 的定位</h2>
+            <p class="text-brand-muted mb-8">ERP 不只是「軟體」，而是三件事的組合</p>
+
+            <div class="overflow-x-auto mb-12">
+                <table class="w-full text-base border-collapse">
+                    <thead>
+                        <tr class="bg-brand-primary text-white">
+                            <th class="text-left p-4 font-mono">層面</th>
+                            <th class="text-left p-4 font-mono">ERP 提供的</th>
+                            <th class="text-left p-4 font-mono">Agent Skills 能做的</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-brand-border">
+                            <td class="p-4 font-semibold">資料模型</td>
+                            <td class="p-4">標準化的會計科目、物料主檔、BOM 結構</td>
+                            <td class="p-4"><span class="text-red-600">✗</span> 需要人為設計</td>
+                        </tr>
+                        <tr class="border-b border-brand-border bg-slate-50">
+                            <td class="p-4 font-semibold">業務邏輯</td>
+                            <td class="p-4">MRP 運算、成本分攤、稅務申報</td>
+                            <td class="p-4"><span class="text-yellow-600">△</span> 可實作，但需逐一開發</td>
+                        </tr>
+                        <tr class="border-b border-brand-border">
+                            <td class="p-4 font-semibold">流程控制</td>
+                            <td class="p-4">審批流、權限、稽核軌跡</td>
+                            <td class="p-4"><span class="text-green-600">✓</span> 可透過 Skills 實現</td>
+                        </tr>
+                        <tr class="border-b border-brand-border bg-slate-50">
+                            <td class="p-4 font-semibold">法規合規</td>
+                            <td class="p-4">符合 IFRS、稅務申報格式</td>
+                            <td class="p-4"><span class="text-red-600">✗</span> 需要認證，AI 無法取代</td>
+                        </tr>
+                        <tr class="border-b border-brand-border">
+                            <td class="p-4 font-semibold">生態整合</td>
+                            <td class="p-4">銀行、稅務機關、EDI 標準</td>
+                            <td class="p-4"><span class="text-yellow-600">△</span> 可串接，但需逐一處理</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Agent 優勢 -->
+            <h3 class="font-tc font-bold text-2xl text-brand-text mb-6">Agent Skills 真正的優勢</h3>
+            <p class="text-brand-muted mb-6">Agent Skills 不是要「取代」ERP，而是解決 ERP 的三大痛點：</p>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white border-2 border-brand-border p-6 scenario-card cursor-pointer">
+                    <div class="text-brand-accent font-mono text-base mb-2">痛點 1</div>
+                    <h4 class="font-bold text-xl mb-3">輸入地獄</h4>
+                    <div class="text-base space-y-2">
+                        <p class="text-brand-muted line-through">傳統：15 個欄位精確輸入</p>
+                        <p class="text-brand-primary font-semibold">Agent：拍照 / 語音 / 自然語言</p>
+                    </div>
+                </div>
+                <div class="bg-white border-2 border-brand-border p-6 scenario-card cursor-pointer">
+                    <div class="text-brand-accent font-mono text-base mb-2">痛點 2</div>
+                    <h4 class="font-bold text-xl mb-3">查詢困難</h4>
+                    <div class="text-base space-y-2">
+                        <p class="text-brand-muted line-through">傳統：登入 → 找報表 → 讀數字</p>
+                        <p class="text-brand-primary font-semibold">Agent：問一句話得到答案</p>
+                    </div>
+                </div>
+                <div class="bg-white border-2 border-brand-border p-6 scenario-card cursor-pointer">
+                    <div class="text-brand-accent font-mono text-base mb-2">痛點 3</div>
+                    <h4 class="font-bold text-xl mb-3">例外處理</h4>
+                    <div class="text-base space-y-2">
+                        <p class="text-brand-muted line-through">傳統：遇到非標準就卡住</p>
+                        <p class="text-brand-primary font-semibold">Agent：提供選項、建議方案</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 七大應用場景 -->
+    <section class="py-16 bg-white border-y border-brand-border">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="font-tc font-bold text-3xl text-brand-primary mb-8">二、七大應用場景</h2>
+
+            <div class="border-2 border-brand-border p-2 mb-12">
+                <img src="illustrations-erp-implementation/illustration-02-seven-scenarios.png"
+                     alt="七大應用場景概覽"
+                     class="w-full"
+                     width="1200"
+                     height="600"
+                     loading="lazy">
+            </div>
+
+            <!-- 場景列表 -->
+            <div class="space-y-8">
+                <!-- 場景 1 -->
+                <div class="border-l-4 border-brand-primary pl-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-brand-primary text-white font-mono px-3 py-1 text-base">場景 1</span>
+                        <h3 class="font-tc font-bold text-2xl">採購入庫 — 從「輸入地獄」到「拍照搞定」</h3>
+                    </div>
+
+                    <div class="bg-slate-900 rounded-lg overflow-hidden mb-6">
+                        <div class="px-4 py-2 bg-slate-800 text-slate-400 font-mono text-sm">
+                            Skill: 智慧入庫助手
+                        </div>
+                        <div class="code-block text-base">倉管：[拍照] 送貨單
+
+Agent：我辨識到這是大成的送貨單
+       • 低筋麵粉 25kg × 20 包 = 500kg
+       • 批號：L240115
+       • 效期：2025/01/15
+       • 建議倉位：A-03-02（同批號旁邊）
+
+       要我建立入庫單嗎？
+
+倉管：好，但放 A-03-01
+
+Agent：已修改倉位為 A-03-01
+       入庫單 PO-2026-0115-001 已建立
+       請確認實際數量後點「完成入庫」</div>
+                    </div>
+
+                    <!-- 效益比較 -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-base border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100">
+                                    <th class="text-left p-3 font-mono">指標</th>
+                                    <th class="text-left p-3 font-mono">傳統 ERP</th>
+                                    <th class="text-left p-3 font-mono text-brand-primary">Agent 智慧層</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-brand-border">
+                                    <td class="p-3">每單輸入時間</td>
+                                    <td class="p-3 tabular-nums">3-5 分鐘</td>
+                                    <td class="p-3 tabular-nums text-brand-primary font-semibold">30 秒</td>
+                                </tr>
+                                <tr class="border-b border-brand-border bg-slate-50">
+                                    <td class="p-3">錯誤率</td>
+                                    <td class="p-3 tabular-nums">5-8%</td>
+                                    <td class="p-3 tabular-nums text-brand-primary font-semibold">&lt; 1%</td>
+                                </tr>
+                                <tr class="border-b border-brand-border">
+                                    <td class="p-3">訓練時間</td>
+                                    <td class="p-3 tabular-nums">2 週</td>
+                                    <td class="p-3 tabular-nums text-brand-primary font-semibold">10 分鐘</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 場景 2 -->
+                <div class="border-l-4 border-brand-secondary pl-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-brand-secondary text-white font-mono px-3 py-1 text-base">場景 2</span>
+                        <h3 class="font-tc font-bold text-2xl">庫存查詢 — 從「開電腦查報表」到「問一句話」</h3>
+                    </div>
+
+                    <div class="bg-slate-900 rounded-lg overflow-hidden">
+                        <div class="px-4 py-2 bg-slate-800 text-slate-400 font-mono text-sm">
+                            Skill: 庫存問答助手
+                        </div>
+                        <div class="code-block text-base">採購：低筋麵粉還有多少？夠不夠撐到下週？
+
+Agent：目前低筋麵粉庫存狀況：
+
+       📦 總庫存：2,350 kg
+       ├─ 台北廠：1,200 kg（批號 L240110，效期 01/10）
+       ├─ 嘉義廠：1,150 kg（批號 L240115，效期 01/15）
+
+       📊 過去 7 天平均用量：380 kg/天
+       ⏱️ 預估可用天數：6.2 天
+
+       ⚠️ 下週有中秋備貨，預估用量會增加 40%
+       建議：本週四前補貨 1,000 kg
+
+       要我幫你建立採購申請嗎？</div>
+                    </div>
+                </div>
+
+                <!-- 場景 3-7 摘要 -->
+                <div class="grid md:grid-cols-2 gap-6 mt-8">
+                    <div class="bg-white border border-brand-border p-5 scenario-card cursor-pointer">
+                        <span class="text-brand-accent font-mono text-sm">場景 3</span>
+                        <h4 class="font-bold mt-1 mb-2">訂單處理</h4>
+                        <p class="text-base text-brand-muted">LINE 自動接單，智慧判斷庫存</p>
+                    </div>
+                    <div class="bg-white border border-brand-border p-5 scenario-card cursor-pointer">
+                        <span class="text-brand-accent font-mono text-sm">場景 4</span>
+                        <h4 class="font-bold mt-1 mb-2">生產排程</h4>
+                        <p class="text-base text-brand-muted">AI 建議 + 人決策，自動通知異常</p>
+                    </div>
+                    <div class="bg-white border border-brand-border p-5 scenario-card cursor-pointer">
+                        <span class="text-brand-accent font-mono text-sm">場景 5</span>
+                        <h4 class="font-bold mt-1 mb-2">主管決策</h4>
+                        <p class="text-base text-brand-muted">即時問答取代等報表</p>
+                    </div>
+                    <div class="bg-white border border-brand-border p-5 scenario-card cursor-pointer">
+                        <span class="text-brand-accent font-mono text-sm">場景 6</span>
+                        <h4 class="font-bold mt-1 mb-2">異常警示</h4>
+                        <p class="text-base text-brand-muted">主動通知庫存、應收、品質異常</p>
+                    </div>
+                    <div class="bg-white border border-brand-border p-5 scenario-card cursor-pointer md:col-span-2">
+                        <span class="text-brand-accent font-mono text-sm">場景 7</span>
+                        <h4 class="font-bold mt-1 mb-2">新人訓練</h4>
+                        <p class="text-base text-brand-muted">AI 教練取代老鳥帶，隨時可問</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技術架構 -->
+    <section class="py-16">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="font-tc font-bold text-3xl text-brand-primary mb-8">三、技術架構設計</h2>
+
+            <div class="bg-slate-900 rounded-lg overflow-hidden mb-8">
+                <div class="px-4 py-2 bg-slate-800 text-slate-400 font-mono text-sm">
+                    系統架構圖
+                </div>
+                <div class="code-block text-sm">┌─────────────────────────────────────────────────────────────────┐
+│                        使用者接觸點                              │
+├──────────┬──────────┬──────────┬──────────┬───────────────────────┤
+│ LINE Bot │ 語音助手 │ Web Chat │ 手機 App │ 傳統 ERP (保留)       │
+└────┬─────┴────┬─────┴────┬─────┴────┬─────┴──────────┬────────────┘
+     └──────────┴──────────┴──────────┘                │
+                       │                               │
+                       ▼                               │
+┌─────────────────────────────────────────────────────────────────┐
+│                    Agent Gateway Service                        │
+├─────────────────────────────────────────────────────────────────┤
+│  路由層：意圖辨識 → 分派到對應 Skill                              │
+├─────────────────────────────────────────────────────────────────┤
+│  Skills：                                                        │
+│  ├── smart-receiving      (智慧入庫)                            │
+│  ├── inventory-qa         (庫存問答)                            │
+│  ├── line-order           (LINE 接單)                           │
+│  ├── production-advisor   (生產排程顧問)                         │
+│  ├── executive-dashboard  (主管儀表板)                           │
+│  ├── alert-system         (異常警示)                            │
+│  └── erp-coach            (操作教練)                            │
+└─────────────────────────────────────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    ERP Integration Layer                        │
+│                    鼎新 ERP API / 中間資料庫                      │
+└─────────────────────────────────────────────────────────────────┘</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 專家觀點 -->
+    <section class="py-16 bg-slate-900 text-white">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="font-tc font-bold text-3xl text-brand-accent mb-8">四、最強大腦觀點</h2>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+                <!-- Marc Andreessen -->
+                <div class="bg-slate-800 p-6 border-l-4 border-brand-accent">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="expert-avatar bg-brand-accent text-slate-900 rounded">MA</div>
+                        <div>
+                            <h3 class="font-bold">Marc Andreessen</h3>
+                            <p class="text-slate-400 text-base">a16z 創辦人</p>
+                        </div>
+                    </div>
+                    <blockquote class="text-slate-300 italic text-base mb-4">
+                        "The best enterprise software is invisible. The user shouldn't know they're using software."
+                    </blockquote>
+                    <p class="text-base text-slate-400">
+                        <strong class="text-brand-accent">行動：</strong>讓 Agent 做 ERP 不敢做的事 — 容錯、模糊匹配、常識推理
+                    </p>
+                </div>
+
+                <!-- Paul Graham -->
+                <div class="bg-slate-800 p-6 border-l-4 border-brand-primary">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="expert-avatar bg-brand-primary text-white rounded">PG</div>
+                        <div>
+                            <h3 class="font-bold">Paul Graham</h3>
+                            <p class="text-slate-400 text-base">Y Combinator 創辦人</p>
+                        </div>
+                    </div>
+                    <blockquote class="text-slate-300 italic text-base mb-4">
+                        "Do things that don't scale."
+                    </blockquote>
+                    <p class="text-base text-slate-400">
+                        <strong class="text-brand-primary">行動：</strong>先站在使用者旁邊觀察一週，手動模擬 Agent
+                    </p>
+                </div>
+
+                <!-- Clay Christensen -->
+                <div class="bg-slate-800 p-6 border-l-4 border-green-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="expert-avatar bg-green-500 text-white rounded">CC</div>
+                        <div>
+                            <h3 class="font-bold">Clay Christensen</h3>
+                            <p class="text-slate-400 text-base">破壞式創新理論</p>
+                        </div>
+                    </div>
+                    <blockquote class="text-slate-300 italic text-base mb-4">
+                        "Disruption comes from below, not from above."
+                    </blockquote>
+                    <p class="text-base text-slate-400">
+                        <strong class="text-green-500">行動：</strong>真正機會是讓小烘焙店也能有 80% 的管理能力
+                    </p>
+                </div>
+
+                <!-- Jensen Huang -->
+                <div class="bg-slate-800 p-6 border-l-4 border-yellow-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="expert-avatar bg-yellow-500 text-slate-900 rounded">JH</div>
+                        <div>
+                            <h3 class="font-bold">Jensen Huang</h3>
+                            <p class="text-slate-400 text-base">NVIDIA CEO</p>
+                        </div>
+                    </div>
+                    <blockquote class="text-slate-300 italic text-base mb-4">
+                        "Every factory will have an AI factory inside it."
+                    </blockquote>
+                    <p class="text-base text-slate-400">
+                        <strong class="text-yellow-500">行動：</strong>2027 年開始規劃 Edge AI，工廠即時決策等不了雲端
+                    </p>
+                </div>
+            </div>
+
+            <!-- Edge AI 架構圖 -->
+            <div class="border-2 border-slate-700 p-2">
+                <img src="illustrations-erp-implementation/illustration-03-edge-ai-architecture.png"
+                     alt="Edge AI 混合架構"
+                     class="w-full"
+                     width="1200"
+                     height="600"
+                     loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- 導入路線圖 -->
+    <section class="py-16">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="font-tc font-bold text-3xl text-brand-primary mb-8">五、導入路線圖</h2>
+
+            <div class="space-y-6">
+                <!-- Phase 0 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-24 text-right">
+                        <span class="bg-slate-200 text-slate-600 font-mono px-2 py-1 text-sm">Phase 0</span>
+                    </div>
+                    <div class="flex-1 border-l-2 border-slate-200 pl-6 pb-6">
+                        <h3 class="font-bold text-xl mb-2">使用者觀察期 <span class="text-brand-muted font-normal text-base">導入前 1 個月</span></h3>
+                        <p class="text-brand-muted text-base">跟著倉管、店長走一週，手動模擬 Agent</p>
+                    </div>
+                </div>
+
+                <!-- Phase 1 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-24 text-right">
+                        <span class="bg-brand-primary text-white font-mono px-2 py-1 text-sm">Phase 1</span>
+                    </div>
+                    <div class="flex-1 border-l-2 border-brand-primary pl-6 pb-6">
+                        <h3 class="font-bold text-xl mb-2">Quick Win <span class="text-brand-muted font-normal text-base">2026 Q1，3 個月</span></h3>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 text-base">庫存問答</span>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 text-base">LINE 接單</span>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 text-base">異常警示</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-24 text-right">
+                        <span class="bg-brand-secondary text-white font-mono px-2 py-1 text-sm">Phase 2</span>
+                    </div>
+                    <div class="flex-1 border-l-2 border-brand-secondary pl-6 pb-6">
+                        <h3 class="font-bold text-xl mb-2">效率提升 <span class="text-brand-muted font-normal text-base">2026 Q2-Q3，6 個月</span></h3>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 text-base">智慧入庫</span>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 text-base">操作教練</span>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 text-base">主管儀表板</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-24 text-right">
+                        <span class="bg-brand-accent text-white font-mono px-2 py-1 text-sm">Phase 3</span>
+                    </div>
+                    <div class="flex-1 border-l-2 border-brand-accent pl-6">
+                        <h3 class="font-bold text-xl mb-2">智慧決策 + Edge AI <span class="text-brand-muted font-normal text-base">2027，12 個月</span></h3>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="bg-orange-100 text-orange-700 px-3 py-1 text-base">生產排程顧問</span>
+                            <span class="bg-orange-100 text-orange-700 px-3 py-1 text-base">採購建議</span>
+                            <span class="bg-orange-100 text-orange-700 px-3 py-1 text-base">Edge AI 部署</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 效益總結 -->
+    <section class="py-16 bg-white border-t border-brand-border">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="font-tc font-bold text-3xl text-brand-primary mb-8">六、預期效益總結</h2>
+
+            <div class="border-2 border-brand-border p-2 mb-8">
+                <img src="illustrations-erp-implementation/illustration-04-before-after-comparison.png"
+                     alt="傳統 ERP vs ERP + Agent 智慧層"
+                     class="w-full"
+                     width="1200"
+                     height="600"
+                     loading="lazy">
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-base border-collapse">
+                    <thead>
+                        <tr class="bg-brand-primary text-white">
+                            <th class="text-left p-4 font-mono">面向</th>
+                            <th class="text-left p-4 font-mono">傳統 ERP</th>
+                            <th class="text-left p-4 font-mono">ERP + Agent 智慧層</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-brand-border">
+                            <td class="p-4 font-semibold">輸入效率</td>
+                            <td class="p-4 tabular-nums">每單 3-5 分鐘</td>
+                            <td class="p-4 tabular-nums text-brand-primary font-semibold">每單 30 秒</td>
+                        </tr>
+                        <tr class="border-b border-brand-border bg-slate-50">
+                            <td class="p-4 font-semibold">查詢速度</td>
+                            <td class="p-4 tabular-nums">2-5 分鐘</td>
+                            <td class="p-4 tabular-nums text-brand-primary font-semibold">5 秒</td>
+                        </tr>
+                        <tr class="border-b border-brand-border">
+                            <td class="p-4 font-semibold">錯誤率</td>
+                            <td class="p-4 tabular-nums">5-8%</td>
+                            <td class="p-4 tabular-nums text-brand-primary font-semibold">&lt; 1%</td>
+                        </tr>
+                        <tr class="border-b border-brand-border bg-slate-50">
+                            <td class="p-4 font-semibold">新人上手</td>
+                            <td class="p-4 tabular-nums">2-4 週</td>
+                            <td class="p-4 tabular-nums text-brand-primary font-semibold">2-3 天</td>
+                        </tr>
+                        <tr class="border-b border-brand-border">
+                            <td class="p-4 font-semibold">異常發現</td>
+                            <td class="p-4">被動（看報表）</td>
+                            <td class="p-4 text-brand-primary font-semibold">主動推播</td>
+                        </tr>
+                        <tr class="border-b border-brand-border bg-slate-50">
+                            <td class="p-4 font-semibold">知識傳承</td>
+                            <td class="p-4">在老鳥腦袋裡</td>
+                            <td class="p-4 text-brand-primary font-semibold">系統累積</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-primary text-white py-8">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <p class="font-mono text-base text-blue-200">
+                文件版本：v2.0 | 更新日期：2026-01-28
+            </p>
+            <p class="text-blue-300 text-base mt-2">
+                整合來源：Agent Skills × ERP 智慧層實作方案 + 最強大腦觀點
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
